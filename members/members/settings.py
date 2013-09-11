@@ -67,9 +67,6 @@ STATICFILES_FINDERS = (
 #    'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 
-# Make this unique, and don't share it with anybody.
-SECRET_KEY = '(3^sa8c2@+0a)!lv+5p6^(%m9l41wr8njs4t+4^uxd$dtyzf(s'
-
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
@@ -112,7 +109,7 @@ INSTALLED_APPS = (
 
     'crm',
     'joomla',
-    
+
 )
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
