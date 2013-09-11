@@ -18,8 +18,8 @@ ORGANIZATION_MEMBERSHIP_TYPE_CHOICES = (
 
 class Organization(models.Model):
 	legal_name = models.TextField()
-	display_name = models.CharField()
-	logo = models.ImageField(max_length=255)
+	display_name = models.CharField(max_length=255)
+	logo = models.ImageField(max_length=255, upload_to="logos")
 
 	membership_type = models.CharField(max_length=255, choices=ORGANIZATION_MEMBERSHIP_TYPE_CHOICES)
 	organization_type = models.CharField(max_length=255, choices=ORGANIZATION_TYPE_CHOICES)
