@@ -12,8 +12,12 @@ urlpatterns = patterns('',
     # url(r'^$', 'members.views.home', name='home'),
     # url(r'^members/', include('members.foo.urls')),
 
+    url(r'^accounts/', include('django.contrib.auth.urls')),
+
    	url(r'^admin2/', include(djadmin2.default.urls)),
    	url(r'^admin/', include(admin.site.urls)),
+
+    url(r'^staff/', include('crm.urls_staff')),
 
    	url(r'^$', 'crm.views.index', name='crm_index')
 )

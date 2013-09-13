@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block contents %}
+<div class="row">
+	<div class="large-12 columns">
+		<table>
+			<thead>
+				<tr>
+					<th>Institution's Name</th>
+					<th>Membership Type</th>
+					<th>AC - Member</th>
+					<th>Status</th>
+				</tr>
+			</thead>
+			{% for org in object_list %}
+				<tr>
+					<td>{{ org.display_name }}</td>
+					<td>{{ org.get_membership_type_display }}</td>
+					<td>{{ org.associate_consortium }}</td>
+					<td>{{ org.get_membership_status_display }}</td>
+				</tr>
+			{% endfor %}
+		</table>
+	</div>
+</div>
+{% endblock %}

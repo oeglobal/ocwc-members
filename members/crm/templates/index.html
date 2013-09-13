@@ -1,21 +1,21 @@
 {% extends "base.html" %}
 
 {% block "contents" %}
-	<div class="main">
-		<div class="row">
-			<div class="large-12">
-				<h1>Membership system</h1>
+	<div class="row">
+		<div class="large-12">
+			<h1>Membership system</h1>
 
-				<p>If your organization is already a member of OpenCourseWare Consortium, you should login:</p>
-				<form>{% csrf_token %}
-					
-				</form>
-				<p>Please contact <a href="mailto:memberservices@ocwconsortium.org">memberservices@ocwconsortium.org</a> if you have any problems or questions regarding your account.</p>
-			</div>
-			<div class="large-12">
-				<h1>New members</h1>
-				<a href="/application/" class="button">Apply for membership</a>
-			</div>
+			<p>If your organization is already a member of OpenCourseWare Consortium, you should login:</p>
+			    <form action="/accounts/login/" method="POST">{% csrf_token %}
+				{{ form.as_p }}
+				<input type="submit" class="button" value="Login" />
+					<input type="hidden" name="next" value="{{ next }}" />					
+			</form>
+			<p>Please contact <a href="mailto:memberservices@ocwconsortium.org">memberservices@ocwconsortium.org</a> if you have any problems or questions regarding your account.</p>
+		</div>
+		<div class="large-12">
+			<h1>New members</h1>
+			<a href="/application/" class="button">Apply for membership</a>
 		</div>
 	</div>
 {% endblock %}
