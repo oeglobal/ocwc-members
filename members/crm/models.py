@@ -1,4 +1,7 @@
 from django.db import models
+from django.utils.text import slugify
+
+import reversion
 
 ORGANIZATION_MEMBERSHIP_TYPE_CHOICES = (
 	(5 , 'Institutional Members'),
@@ -54,6 +57,7 @@ ORGANIZATION_ASSOCIATED_CONSORTIUM = (
 class Organization(models.Model):
 	legal_name = models.CharField(max_length=255, blank=True)
 	display_name = models.CharField(max_length=255)
+	slug = models.CharField(max_length=255, default='')
 
 	membership_type = models.IntegerField(max_length=10, choices=ORGANIZATION_MEMBERSHIP_TYPE_CHOICES)
 	# organization_type = models.CharField(max_length=255, choices=ORGANIZATION_TYPE_CHOICES)
@@ -76,6 +80,13 @@ class Organization(models.Model):
 
 	def __unicode__(self):
 		return self.display_name
+
+	def save(self, force_insert=False, force_update=False, using=None):
+		if not self.slug:
+			self.slug = slugify(self.display_name)
+
+		super(Organization, self).save(force_insert=force_insert, force_update=force_update, using=using)
+reversion.register(Organization)
 
 # CONTACT_TYPE_CHOICES = (
 # 	('lead', 'Main contact'),
@@ -100,6 +111,7 @@ class Contact(models.Model):
 
 	first_name = models.CharField(max_length=255, blank=True, default='')
 	last_name = models.CharField(max_length=255, blank=True, default='')
+reversion.register(Contact)
 
 class Address(models.Model):
 	organization = models.ForeignKey(Organization)
@@ -119,4 +131,4 @@ class Address(models.Model):
 
 	latitude = models.FloatField(blank=True, null=True)
 	longitude = models.FloatField(blank=True, null=True)
-
+reversion.register(Address)
