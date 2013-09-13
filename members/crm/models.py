@@ -44,7 +44,6 @@ ORGANIZATION_MEMBERSHIP_STATUS = (
 class Organization(models.Model):
 	legal_name = models.CharField(max_length=255, blank=True)
 	display_name = models.CharField(max_length=255)
-	logo = models.ImageField(max_length=255, upload_to="logos")
 
 	membership_type = models.IntegerField(max_length=10, choices=ORGANIZATION_MEMBERSHIP_TYPE_CHOICES)
 	# organization_type = models.CharField(max_length=255, choices=ORGANIZATION_TYPE_CHOICES)
@@ -53,6 +52,14 @@ class Organization(models.Model):
 
 	main_website = models.TextField(max_length=255, blank=True)
 	ocw_website = models.TextField(max_length=255, blank=True)
+
+	description = models.TextField(blank=True)
+	logo_large = models.ImageField(max_length=255, upload_to="logos/large", blank=True)
+	logo_small = models.ImageField(max_length=255, upload_to="logos/small", blank=True)
+	rss_course_feed = models.CharField(max_length=255, blank=True)
+
+	accreditation_body = models.CharField(max_length=255, blank=True, default='')
+	support_commitment = models.TextField(blank=True, default='')
 
 	def __unicode__(self):
 		return self.display_name
@@ -85,10 +92,16 @@ class Address(models.Model):
 	organization = models.ForeignKey(Organization)
 
 	street_address = models.CharField(max_length=255, blank=True, help_text='Street address with street number')
+	supplemental_address_1 = models.CharField(max_length=255, blank=True)
+	supplemental_address_2 = models.CharField(max_length=255, blank=True)
+	
 	city = models.CharField(max_length=255, blank=True)
 	postal_code = models.CharField(max_length=50, blank=True)
+	postal_code_suffix = models.CharField(max_length=255, blank=True)
 	
-	state_province = models.CharField(max_length=255)
+	state_province = models.CharField(max_length=255, blank=True)
+	state_province_abbr = models.CharField(max_length=255, blank=True)
+
 	country = models.CharField(max_length=255, blank=True)
 
 	latitude = models.FloatField(blank=True, null=True)

@@ -23,7 +23,6 @@ class Command(BaseCommand):
                 defaults = {
                     'legal_name': member.contact.legal_name or '',
                     'membership_status': member.status.id,
-                    'logo': '',
                     'crmid': member.contact.id
                 }
             )
@@ -34,7 +33,8 @@ class Command(BaseCommand):
                         continue
 
                     if civicrmaddress.state_province:
-                        state_province = civicrmaddress.state_province.abbreviation or civicrmaddress.state_province.name or ''
+                        state_province_name = civicrmaddress.state_province.name or ''
+                        state_province_abbr = civicrmaddress.state_province.abbreviation or ''
 
                     if civicrmaddress.country:
                         country = civicrmaddress.country.name
@@ -43,9 +43,15 @@ class Command(BaseCommand):
                         organization = org,
                         street_address = civicrmaddress.street_address,
                         defaults = {
+                            'supplemental_address_1': civicrmaddress.supplemental_address_1 or '',
+                            'supplemental_address_2': civicrmaddress.supplemental_address_2 or '',
+                            'postal_code_suffix': civicrmaddress.postal_code_suffix or '',
                             'city': civicrmaddress.city or '',
                             'postal_code': civicrmaddress.postal_code or '',
-                            'state_province': state_province or '',
+                            
+                            'state_province': state_province_name or '',
+                            'state_province_abbr': state_province_abbr or '',                       
+
                             'country': country or '',
                             'latitude': civicrmaddress.geo_code_1,
                             'longitude': civicrmaddress.geo_code_2,
@@ -56,6 +62,13 @@ class Command(BaseCommand):
                 institution = CivicrmValue1InstitutionInformation.objects.get(entity_id=member.contact.id)
                 org.main_website = institution.main_website
                 org.ocw_website = institution.ocw_website
+                org.description = institution.description or ''
+                org.logo_large = institution.seal_image__large
+                org.logo_small = institution.seal_image__small
+                org.rss_feed = institution.rss_course_feed
+                org.accreditation_body = institution.accreditation_body_53 or ''
+                org.support_commitment = institution.support_commitment_54 or ''
+
                 org.save()
             except CivicrmValue1InstitutionInformation.DoesNotExist:
                 pass
