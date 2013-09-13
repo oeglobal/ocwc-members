@@ -1,4 +1,5 @@
-# Django settings for members project.
+import os, sys
+here = lambda x: os.path.join(os.path.dirname(os.path.abspath(__file__)), x)
 
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
@@ -8,7 +9,7 @@ MANAGERS = ADMINS
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['members.ocwconsortium.org']
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -46,7 +47,7 @@ MEDIA_URL = ''
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/var/www/example.com/static/"
-STATIC_ROOT = ''
+STATIC_ROOT = here('')
 
 # URL prefix for static files.
 # Example: "http://example.com/static/", "http://static.example.com/"

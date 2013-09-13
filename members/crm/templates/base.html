@@ -1,0 +1,38 @@
+{% load staticfiles %}<!DOCTYPE html>
+<!--[if IE 8]> 				 <html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+	<meta charset="utf-8" />
+
+	<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+	<link href='http://fonts.googleapis.com/css?family=Oxygen:400,300' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Metrophobic' rel='stylesheet' type='text/css'>
+
+  	<link href="/theme/lib/stylesheets/app.css" media="screen, projector, print" rel="stylesheet" type="text/css" />
+	<link href="/theme/lib/stylesheets/ocwc.css" media="screen, projector, print" rel="stylesheet" type="text/css" />
+  	<link href="/theme/lib/stylesheets/style.css" media="screen, projector, print" rel="stylesheet" type="text/css" />
+
+  	<link href="{% static 'css/style.css' %}" media="screen, projector, print" rel="stylesheet" type="text/css" />
+  	<script src="/theme/lib/javascripts/plugins/respond.min.js"></script>
+
+</head>
+<body>
+	<div class="row" id="top-nav">
+		<div class="large-2 push-9 columns">
+			<div id="google_translate_element"></div><script type="text/javascript">
+			function googleTranslateElementInit() {
+			  new google.translate.TranslateElement({pageLanguage: 'en', layout: google.translate.TranslateElement.InlineLayout.SIMPLE, multilanguagePage: true}, 'google_translate_element');
+			}
+			</script><script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>        
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="large-4 columns">
+			<a href="/"><img src="/theme/images/logo.png" alt="OpenCourseWare Consortium logo" /></a>
+		</div>
+	</div>
+
+{% block "contents" %}{% endblock %}
+</body>
+</html>
