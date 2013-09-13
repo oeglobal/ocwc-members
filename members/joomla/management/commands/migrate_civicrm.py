@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import csv
+
 from django.core.management.base import BaseCommand
 
 from joomla.models import CivicrmMembership, CivicrmValue1InstitutionInformation, CivicrmRelationship, JosUsers
@@ -10,11 +12,23 @@ class Command(BaseCommand):
     help = "migrates civicrm to new system"
 
     def handle(self, *args, **options):
+
+        csv_file = csv.DictReader(open('sources/members.csv', 'rbU'), delimiter=',',quotechar='"')
+
+        data = {}
+        for line in csv_file:
+            if line.get('CRM-ID'):
+                data[line['CRM-ID']] = line
+
         for member in CivicrmMembership.objects.filter(
                 membership_type__in=(5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17),
                 status__in=[2,3,4,5,6,7]
             ):
-            # print member.contact.display_name
+            
+            try:
+                external_data = data[str(member.contact.id)]
+            except KeyError:
+                external_data = {}
 
             org, is_created = Organization.objects.get_or_create(
                 
@@ -23,7 +37,8 @@ class Command(BaseCommand):
                 defaults = {
                     'legal_name': member.contact.legal_name or '',
                     'membership_status': member.status.id,
-                    'crmid': member.contact.id
+                    'crmid': member.contact.id,
+                    'associate_consortium': external_data.get('AC -Member', '')
                 }
             )
 

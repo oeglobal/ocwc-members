@@ -41,6 +41,16 @@ ORGANIZATION_MEMBERSHIP_STATUS = (
 	(13,'New')
 )
 
+ORGANIZATION_ASSOCIATED_CONSORTIUM = (
+	('CCCOER', 'CCCOER'),
+	('CORE', 'CORE'),
+	('JOCWC', 'JOCWC'),
+	('KOCWC', 'KOCWC'),
+	('TOCWC', 'TOCWC'),
+	('Turkish OCWC', 'Turkish OCWC'),
+	('UNIVERSIA', 'UNIVERSIA')
+)
+
 class Organization(models.Model):
 	legal_name = models.CharField(max_length=255, blank=True)
 	display_name = models.CharField(max_length=255)
@@ -48,7 +58,10 @@ class Organization(models.Model):
 	membership_type = models.IntegerField(max_length=10, choices=ORGANIZATION_MEMBERSHIP_TYPE_CHOICES)
 	# organization_type = models.CharField(max_length=255, choices=ORGANIZATION_TYPE_CHOICES)
 	membership_status = models.IntegerField(max_length=10, choices=ORGANIZATION_MEMBERSHIP_STATUS)
+	associate_consortium = models.CharField(max_length=255, choices=ORGANIZATION_ASSOCIATED_CONSORTIUM, blank=True, default='')
+
 	crmid = models.CharField(max_length=255, blank=True, help_text='Legacy identifier')
+
 
 	main_website = models.TextField(max_length=255, blank=True)
 	ocw_website = models.TextField(max_length=255, blank=True)
