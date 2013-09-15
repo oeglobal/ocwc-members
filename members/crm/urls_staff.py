@@ -1,8 +1,11 @@
 from django.conf.urls import patterns, url
 
-from .views import OrganizationStaffListView
+from .views import StaffIndex, OrganizationStaffView, OrganizationStaffListView, OrganizationStaffDetailView
 
 urlpatterns = patterns('',
-    url(r'^organization/list/$', OrganizationStaffListView.as_view(), name='staff-organization-list'),
-
+	url(r'^$', StaffIndex.as_view(), name='index'),
+    
+    url(r'^organization/view/(?P<pk>\d+)/$', OrganizationStaffDetailView.as_view(), name='organization-view'),
+    url(r'^organization/list/$', OrganizationStaffListView.as_view(), name='organization-list'),
+    
 )

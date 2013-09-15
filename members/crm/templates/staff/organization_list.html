@@ -14,7 +14,7 @@
 			</thead>
 			{% for org in object_list %}
 				<tr>
-					<td>{{ org.display_name }}</td>
+					<td><a href="{% url 'staff:organization-view' org.id %}">{{ org.display_name }}</a></td>
 					<td>{{ org.get_membership_type_display }}</td>
 					<td>{{ org.associate_consortium }}</td>
 					<td>{{ org.get_membership_status_display }}</td>

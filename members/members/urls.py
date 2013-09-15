@@ -17,7 +17,7 @@ urlpatterns = patterns('',
    	url(r'^admin2/', include(djadmin2.default.urls)),
    	url(r'^admin/', include(admin.site.urls)),
 
-    url(r'^staff/', include('crm.urls_staff')),
+    url(r'^staff/', include('crm.urls_staff', namespace='staff', app_name='crm')),
 
    	url(r'^$', 'crm.views.index', name='crm_index')
 )
