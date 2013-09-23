@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.text import slugify
+from django.core.urlresolvers import reverse
 
 import reversion
 
@@ -80,6 +81,9 @@ class Organization(models.Model):
 	def __unicode__(self):
 		return self.display_name
 
+	def get_absolute_staff_url(self):
+		return reverse('staff:organization-view', kwargs={'pk':self.id})
+
 	def save(self, force_insert=False, force_update=False, using=None):
 		if not self.slug:
 			self.slug = slugify(self.display_name)
@@ -94,8 +98,8 @@ reversion.register(Organization)
 # )
 
 CONTACT_TYPE_CHOICES = (
-	(6,	 'Lead Contact for'),
 	(4,	 'Employee of'),
+	(6,	 'Lead Contact for'),
 	(9,	 'Certifier for'),
 	(10, 'Voting Representative'),
 	(11, 'Affiliated with'),

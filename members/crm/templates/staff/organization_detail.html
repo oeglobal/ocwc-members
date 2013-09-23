@@ -27,6 +27,7 @@
 		<p class="org-description">
 			{{ org.description }}
 		</p>
+		<h2 class="contacts">Address</h2>
 		{% with org.address_set.all.0 as address %}
 		<p>
 		   {{ address.street_address }}<br />
