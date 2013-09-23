@@ -66,7 +66,6 @@ class Organization(models.Model):
 
 	crmid = models.CharField(max_length=255, blank=True, help_text='Legacy identifier')
 
-
 	main_website = models.TextField(max_length=255, blank=True)
 	ocw_website = models.TextField(max_length=255, blank=True)
 
@@ -131,4 +130,8 @@ class Address(models.Model):
 
 	latitude = models.FloatField(blank=True, null=True)
 	longitude = models.FloatField(blank=True, null=True)
+
+	def __unicode__(self):
+		return u"%s %s %s" % (self.country, self.city, self.street_address)
+
 reversion.register(Address)

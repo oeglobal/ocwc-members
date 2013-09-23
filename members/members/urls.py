@@ -15,7 +15,9 @@ urlpatterns = patterns('',
     url(r'^accounts/', include('django.contrib.auth.urls')),
 
    	url(r'^admin2/', include(djadmin2.default.urls)),
-   	url(r'^admin/', include(admin.site.urls)),
+   	
+    url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
+    url(r'^admin/', include(admin.site.urls)),
 
     url(r'^staff/', include('crm.urls_staff', namespace='staff', app_name='crm')),
 
