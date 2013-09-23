@@ -1,6 +1,10 @@
-{% extends "base.html" %}
+{% extends "staff/organization_base.html" %}
 
 {% block title %}{{ org.display_name }}{% endblock %}
+{% block breadcrumbs %}
+	{{ block.super }}
+	<li><a href="#">{{ org.display_name }}</a></li>
+{% endblock %}
 
 {% block contents %}
 	<div class="row">
@@ -20,23 +24,30 @@
 			<strong>OCW website:</strong> <a href="{{ org.main_website }}">{{ org.ocw_website }}</a><br />
 			<strong>RSS course feed:</strong> <a href="{{ org.rss_course_feed }}">{{ org.rss_course_feed }}</a>
 		</p>
-		<p>
+		<p class="org-description">
 			{{ org.description }}
 		</p>
+		{% with org.address_set.all.0 as address %}
 		<p>
+		   {{ address.street_address }}<br />
+		   {% if address.supplemental_address_1 %}{{ address.supplemental_address_1 }}<br />{% endif %}
+		   {% if address.supplemental_address_2 %}{{ address.supplemental_address_2 }}<br />{% endif %}
+		   
+		   {{ address.city }}, {{ address.postal_code }} {{ address.postal_code_suffix }}<br />
+		   {{ address.country }}
+		<p>
+		{% endwith %}
 		</div>
-
-
 		<div class="large-6 columns">
-			{% with org.address_set.all.0 as address %}
-			<p>{{ address.street_address }}<br />
-			   {% if address.supplemental_address_1 %}{{ address.supplemental_address_1 }}<br />{% endif %}
-			   {% if address.supplemental_address_2 %}{{ address.supplemental_address_2 }}<br />{% endif %}
-			   
-			   {{ address.city }}, {{ address.postal_code }} {{ address.postal_code_suffix }}<br />
-			   {{ address.country }}
+			<h2 class="contacts">Contacts</h2>
+			{% for contact in org.contact_set.all %}
 			<p>
-			{% endwith %}
+				<strong>{{ contact.get_contact_type_display }}</strong><br />
+				<strong>Name:</strong> {{ contact.first_name }} {{ contact.last_name }}<br />
+				<strong>Email:</strong> {{ contact.email }}
+			</p>
+			{% endfor %}
+
 		</div>
 	</div>
 {% endblock %}

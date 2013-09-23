@@ -41,7 +41,17 @@
 	</div>
 
 <div class="main">
+	{% block breadcrumbs_wrapper %}
+	<div class="row">
+		<div class="large-12 columns">
+			<ul class="breadcrumb">
+			{% block breadcrumbs %}{% endblock %}
+			</ul>
+		</div>
+	</div>
+	{% endblock %}
 	{% block contents %}{% endblock %}
+	}
 </div>
 
 </body>

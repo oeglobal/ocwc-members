@@ -5,3 +5,8 @@
 #top-nav {
 	margin-top: 40px;
 }
+
+.org-description {
+	height: 150px;
+	overflow: scroll;
+}
