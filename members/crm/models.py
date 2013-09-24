@@ -2,6 +2,7 @@ from django.db import models
 from django.utils.text import slugify
 from django.core.urlresolvers import reverse
 
+from django.contrib.auth.models import User
 import reversion
 
 ORGANIZATION_MEMBERSHIP_TYPE_CHOICES = (
@@ -58,7 +59,8 @@ ORGANIZATION_ASSOCIATED_CONSORTIUM = (
 class Organization(models.Model):
 	legal_name = models.CharField(max_length=255, blank=True)
 	display_name = models.CharField(max_length=255)
-	slug = models.CharField(max_length=255, default='')
+	slug = models.CharField(max_length=30, unique=True, default='')
+	user = models.ForeignKey(User, blank=True, null=True)
 
 	membership_type = models.IntegerField(max_length=10, choices=ORGANIZATION_MEMBERSHIP_TYPE_CHOICES)
 	# organization_type = models.CharField(max_length=255, choices=ORGANIZATION_TYPE_CHOICES)
@@ -86,7 +88,10 @@ class Organization(models.Model):
 
 	def save(self, force_insert=False, force_update=False, using=None):
 		if not self.slug:
-			self.slug = slugify(self.display_name)
+			slug = slugify(self.display_name)[:30]
+			if Organization.objects.filter(slug=slug).exists():
+				slug = slug[:29] + '2'
+			self.slug = slug
 
 		super(Organization, self).save(force_insert=force_insert, force_update=force_update, using=using)
 reversion.register(Organization)
