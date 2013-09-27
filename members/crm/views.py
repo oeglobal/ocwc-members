@@ -35,18 +35,30 @@ class OrganizationIndex(OrganizationView, DetailView):
 
 class OrganizationDetailView(OrganizationView, DetailView):
 	model = Organization
-	template_name = "organization_view.html"
+	template_name = "organization_detail.html"
 	context_object_name = "org"
+
+class OrganizationStaffModelForm(forms.ModelForm):
+	class Meta:
+		model = Organization
+		fields = ['membership_type', 'membership_status', 'associate_consortium', 
+				  'display_name', 'legal_name', 'main_website', 'ocw_website', 'description', 
+				  'logo_large', 'logo_small', 'rss_course_feed',]
 
 class OrganizationModelForm(forms.ModelForm):
 	class Meta:
 		model = Organization
-		fields = ['display_name', 'main_website', 'ocw_website', 'description', 'logo_large', 'logo_small', 'rss_course_feed',]
+		fields = ['display_name', 'main_website', 'ocw_website', 'description', 
+				  'logo_large', 'logo_small', 'rss_course_feed',]
 
 class OrganizationEdit(OrganizationView, UpdateView):
 	model = Organization
-	form_class = OrganizationModelForm
 	template_name = 'organization_edit.html'
+
+	def get_form_class(self):
+		if self.request.user.is_staff:
+			return OrganizationStaffModelForm
+		return OrganizationModelForm
 
 class StaffView(LoginRequiredMixin, StaffuserRequiredMixin):
 	pass

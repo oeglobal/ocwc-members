@@ -38,12 +38,12 @@ ORGANIZATION_MEMBERSHIP_STATUS = (
 	(5,	'Pending'),
 	(6,	'Cancelled'),
 	(7,	'Sustaining'),
-	(8,	'Deceased'),
-	(9,	'Testing'),
-	(10,'Committee'),
-	(11,'Committee'),
-	(12,'Suspended'),
-	(13,'New'),
+	# (8,	'Deceased'),
+	# (9,	'Testing'),
+	# (10,'Committee'),
+	# (11,'Committee'),
+	# (12,'Suspended'),
+	# (13,'New'),
 	(99,'Example')
 )
 
@@ -59,7 +59,7 @@ ORGANIZATION_ASSOCIATED_CONSORTIUM = (
 
 class Organization(models.Model):
 	legal_name = models.CharField(max_length=255, blank=True)
-	display_name = models.CharField(max_length=255)
+	display_name = models.CharField(max_length=255, verbose_name="Name of the organization")
 	slug = models.CharField(max_length=30, unique=True, default='')
 	user = models.ForeignKey(User, blank=True, null=True)
 
@@ -71,7 +71,7 @@ class Organization(models.Model):
 	crmid = models.CharField(max_length=255, blank=True, help_text='Legacy identifier')
 
 	main_website = models.TextField(max_length=255, blank=True)
-	ocw_website = models.TextField(max_length=255, blank=True)
+	ocw_website = models.TextField(max_length=255, blank=True, verbose_name="OCW Website")
 
 	description = models.TextField(blank=True)
 	logo_large = models.ImageField(max_length=255, upload_to="logos/large", blank=True)
