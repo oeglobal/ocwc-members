@@ -14,3 +14,8 @@
 textarea, input {
   color: black;
 }
+
+.edit-link {
+	font-size: 18px;
+	color: #6C8DA3;
+}

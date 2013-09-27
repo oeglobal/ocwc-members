@@ -4,5 +4,6 @@ localsettings.py
 sources/
 bin/
 eggs/
+develop-eggs
 parts/
 flush.sh

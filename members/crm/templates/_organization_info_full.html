@@ -1,11 +1,20 @@
 		<div class="large-6 columns">
-		<p>
-			<strong>Type:</strong> {{ org.get_membership_type_display }}<br />
-			<strong>Status:</strong> {{ org.get_membership_status_display }}<br />
-			{% if org.associate_consortium %}
-				<strong>Associate consortium:</strong> {{ org.associate_consortium }}<br />
-			{% endif %}
-		</p>
+		{% if request.user.is_staff %}			
+			<h2>Account information</h2>
+			<p>
+				<strong>Username:</strong> <a href="/admin/auth/user/{{ org.user.id }}/" target="_blank">{{ org.user.username }}</a> (<a href="/admin/auth/user/{{ org.user.id }}/password/" target="_blank">Change password</a>)<br />
+				<strong>Primary e-mail:</strong> {{ org.user.email }}<br />
+				<strong>Last login:</strong> {{ org.user.last_login }}<br/>
+			</p>
+			<p>
+				<strong>Type:</strong> {{ org.get_membership_type_display }}<br />
+				<strong>Status:</strong> {{ org.get_membership_status_display }}<br />
+				{% if org.associate_consortium %}
+					<strong>Associate consortium:</strong> {{ org.associate_consortium }}<br />
+				{% endif %}
+			</p>			
+		{% endif %}				
+		<h2 class="address">General information <a class="edit-link" href="{% url 'crm:organization-edit' org.id %}">Edit</a></h2>		
 		<p>
 			<strong>Main website:</strong> <a href="{{ org.main_website }}">{{ org.main_website }}</a><br />
 			<strong>OCW website:</strong> <a href="{{ org.main_website }}">{{ org.ocw_website }}</a><br />
@@ -14,7 +23,7 @@
 		<p class="org-description">
 			{{ org.description }}
 		</p>
-		<h2 class="contacts">Address</h2>
+		<h2 class="address">Address</h2>
 		{% with org.address_set.all.0 as address %}
 		<p>
 		   {{ address.street_address }}<br />

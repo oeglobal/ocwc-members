@@ -4,7 +4,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.core.urlresolvers import reverse_lazy, reverse
 from django import forms
 
-from django.views.generic import ListView, DetailView, TemplateView, RedirectView, UpdateView
+from vanilla import ListView, DetailView, TemplateView, RedirectView, UpdateView
 from braces.views import LoginRequiredMixin, StaffuserRequiredMixin
 
 from .models import Organization, Contact, Address
@@ -48,9 +48,6 @@ class OrganizationEdit(OrganizationView, UpdateView):
 	form_class = OrganizationModelForm
 	template_name = 'organization_edit.html'
 
-	def get_object(self):
-		return self.request.user.organization_set.latest('id')
-
 class StaffView(LoginRequiredMixin, StaffuserRequiredMixin):
 	pass
 
@@ -67,7 +64,7 @@ class OrganizationStaffView(StaffView):
 class OrganizationStaffListView(OrganizationStaffView, ListView):
 	template_name = 'staff/organization_list.html'
 
-	def queryset(self):
+	def get_queryset(self):
 		return self.model.objects.filter(membership_status__in=(2,3,4,5,7,99)).order_by('display_name')
 
 class OrganizationStaffDetailView(OrganizationStaffView, DetailView):

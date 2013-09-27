@@ -5,7 +5,6 @@
 		{% if org.user == request.user or request.user.is_staff %}
 			<div class="large-12 columns">
 				<h1>{{ org.display_name }}</h1>
-				<a href="{% url 'crm:organization-edit' %}">(Edit)</a>
 			</div>		
 			{% include "_organization_info_full.html" %}
 		{% else %}
