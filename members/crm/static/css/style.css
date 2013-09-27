@@ -10,3 +10,7 @@
 	height: 150px;
 	overflow: scroll;
 }
+
+textarea, input {
+  color: black;
+}

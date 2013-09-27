@@ -10,45 +10,7 @@
 	<div class="row">
 		<div class="large-12 columns">
 			<h1 class="display-name">{{ org.display_name }}</h1>
-		</div>
-		<div class="large-6 columns">
-		<p>
-			<strong>Type:</strong> {{ org.get_membership_type_display }}<br />
-			<strong>Status:</strong> {{ org.get_membership_status_display }}<br />
-			{% if org.associate_consortium %}
-				<strong>Associate consortium:</strong> {{ org.associate_consortium }}<br />
-			{% endif %}
-		</p>
-		<p>
-			<strong>Main website:</strong> <a href="{{ org.main_website }}">{{ org.main_website }}</a><br />
-			<strong>OCW website:</strong> <a href="{{ org.main_website }}">{{ org.ocw_website }}</a><br />
-			<strong>RSS course feed:</strong> <a href="{{ org.rss_course_feed }}">{{ org.rss_course_feed }}</a>
-		</p>
-		<p class="org-description">
-			{{ org.description }}
-		</p>
-		<h2 class="contacts">Address</h2>
-		{% with org.address_set.all.0 as address %}
-		<p>
-		   {{ address.street_address }}<br />
-		   {% if address.supplemental_address_1 %}{{ address.supplemental_address_1 }}<br />{% endif %}
-		   {% if address.supplemental_address_2 %}{{ address.supplemental_address_2 }}<br />{% endif %}
-		   
-		   {{ address.city }}, {{ address.postal_code }} {{ address.postal_code_suffix }}<br />
-		   {{ address.country }}
-		<p>
-		{% endwith %}
-		</div>
-		<div class="large-6 columns">
-			<h2 class="contacts">Contacts</h2>
-			{% for contact in org.contact_set.all %}
-			<p>
-				<strong>{{ contact.get_contact_type_display }}</strong><br />
-				<strong>Name:</strong> {{ contact.first_name }} {{ contact.last_name }}<br />
-				<strong>Email:</strong> {{ contact.email }}
-			</p>
-			{% endfor %}
-
+			{% include "_organization_info_full.html" %}
 		</div>
 	</div>
 {% endblock %}

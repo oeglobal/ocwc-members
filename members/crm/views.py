@@ -1,8 +1,10 @@
 from django.shortcuts import render, redirect
 
 from django.contrib.auth.forms import AuthenticationForm
+from django.core.urlresolvers import reverse_lazy, reverse
+from django import forms
 
-from django.views.generic import ListView, DetailView, TemplateView, RedirectView
+from django.views.generic import ListView, DetailView, TemplateView, RedirectView, UpdateView
 from braces.views import LoginRequiredMixin, StaffuserRequiredMixin
 
 from .models import Organization, Contact, Address
@@ -18,6 +20,36 @@ def index(request):
 		'next': '/'
 	}
 	return render(request, 'index.html', ctx)
+
+
+class OrganizationView(LoginRequiredMixin):
+	pass
+
+class OrganizationIndex(OrganizationView, DetailView):
+	model = Organization
+	template_name = 'overview_index.html'
+	context_object_name = 'org'
+
+	def get_object(self):
+		return self.request.user.organization_set.latest('id')
+
+class OrganizationDetailView(OrganizationView, DetailView):
+	model = Organization
+	template_name = "organization_view.html"
+	context_object_name = "org"
+
+class OrganizationModelForm(forms.ModelForm):
+	class Meta:
+		model = Organization
+		fields = ['display_name', 'main_website', 'ocw_website', 'description', 'logo_large', 'logo_small', 'rss_course_feed',]
+
+class OrganizationEdit(OrganizationView, UpdateView):
+	model = Organization
+	form_class = OrganizationModelForm
+	template_name = 'organization_edit.html'
+
+	def get_object(self):
+		return self.request.user.organization_set.latest('id')
 
 class StaffView(LoginRequiredMixin, StaffuserRequiredMixin):
 	pass
@@ -41,6 +73,3 @@ class OrganizationStaffListView(OrganizationStaffView, ListView):
 class OrganizationStaffDetailView(OrganizationStaffView, DetailView):
 	template_name = 'staff/organization_detail.html'
 	context_object_name = 'org'
-
-	# def queryset(self, kwargs):
-	# 	return self.model.objects.get(pk=kwargs)

@@ -19,6 +19,7 @@ urlpatterns = patterns('',
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^admin/', include(admin.site.urls)),
 
+    url(r'^crm/', include('crm.urls', namespace='crm', app_name='crm')),
     url(r'^staff/', include('crm.urls_staff', namespace='staff', app_name='crm')),
 
    	url(r'^$', 'crm.views.index', name='crm_index')

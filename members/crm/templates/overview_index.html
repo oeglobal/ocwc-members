@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block contents %}
+	<div class="row">
+		<div class="large-12 columns">
+			<h1>{{ org.display_name }}</h1>
+
+			<ul>
+				<li><a href="{% url 'crm:organization-view' org.id %}">View organization information</a></li>
+				<li><a href="{% url 'crm:organization-edit' %}">Update organization information</a></li>
+				{# <li><a href="#">Report course statistics</a></li> #}
+		</div>
+	</div>
+{% endblock %}

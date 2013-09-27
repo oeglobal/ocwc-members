@@ -95,6 +95,10 @@ class Organization(models.Model):
 			self.slug = slug
 
 		super(Organization, self).save(force_insert=force_insert, force_update=force_update, using=using)
+
+	def get_absolute_url(self):
+		return '/crm/member/view/%s/' % self.id
+
 reversion.register(Organization)
 
 # CONTACT_TYPE_CHOICES = (
