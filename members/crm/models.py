@@ -43,7 +43,8 @@ ORGANIZATION_MEMBERSHIP_STATUS = (
 	(10,'Committee'),
 	(11,'Committee'),
 	(12,'Suspended'),
-	(13,'New')
+	(13,'New'),
+	(99,'Example')
 )
 
 ORGANIZATION_ASSOCIATED_CONSORTIUM = (

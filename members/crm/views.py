@@ -36,7 +36,7 @@ class OrganizationStaffListView(OrganizationStaffView, ListView):
 	template_name = 'staff/organization_list.html'
 
 	def queryset(self):
-		return self.model.objects.filter(membership_status__in=(2,3,4,5,7)).order_by('display_name')
+		return self.model.objects.filter(membership_status__in=(2,3,4,5,7,99)).order_by('display_name')
 
 class OrganizationStaffDetailView(OrganizationStaffView, DetailView):
 	template_name = 'staff/organization_detail.html'

@@ -5,6 +5,7 @@ from .models import Organization, Contact, Address
 class OrganizationAdmin(admin.ModelAdmin):
 	list_filter = ('membership_type', 'membership_status')
 	list_display = ('display_name', 'associate_consortium', 'membership_status')
+	search_fields = ('display_name',)
 
 class AddressAdmin(admin.ModelAdmin):
 	list_display = ('organization', 'street_address', 'city', 'country', 'latitude', 'longitude')

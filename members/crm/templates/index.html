@@ -2,15 +2,18 @@
 
 {% block contents %}
 	<div class="row">
-		<div class="large-12">
+		<div class="large-6 columns">
 			<h1>Membership system</h1>
-
-			<p>If your organization is already a member of OpenCourseWare Consortium, you should login:</p>
+			<div class="row">
+				<div class="large-12 columns">
+				<p>Login for existing OCWC Members:</p>
 			    <form action="/accounts/login/" method="POST">{% csrf_token %}
 				{{ form.as_p }}
 				<input type="submit" class="button" value="Login" />
 					<input type="hidden" name="next" value="{{ next }}" />					
-			</form>
+				</form>
+				</div>
+			</div>
 			<p>Please contact <a href="mailto:memberservices@ocwconsortium.org">memberservices@ocwconsortium.org</a> if you have any problems or questions regarding your account.</p>
 		</div>
 		<div class="large-12">

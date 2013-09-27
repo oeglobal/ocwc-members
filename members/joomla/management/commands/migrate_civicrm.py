@@ -12,7 +12,7 @@ class Command(BaseCommand):
     help = "migrates civicrm to new system"
 
     def handle(self, *args, **options):
-
+        self.stdout.write('Migrating CiviCRM database')
         csv_file = csv.DictReader(open('sources/members.csv', 'rbU'), delimiter=',',quotechar='"')
 
         data = {}
@@ -105,4 +105,5 @@ class Command(BaseCommand):
                     first_name = civicontact.first_name or '',
                     last_name = civicontact.last_name or ''
                 )
-                
+        
+        self.stdout.write('Migration complete')
