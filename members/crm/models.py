@@ -57,6 +57,10 @@ ORGANIZATION_ASSOCIATED_CONSORTIUM = (
 	('UNIVERSIA', 'UNIVERSIA')
 )
 
+class ActiveOrganizationManager(models.Manager):
+	def get_query_set(self):
+		return super(ActiveOrganizationManager, self).get_query_set().filter(membership_status__in=(2,3,7))
+
 class Organization(models.Model):
 	legal_name = models.CharField(max_length=255, blank=True)
 	display_name = models.CharField(max_length=255, verbose_name="Name of the organization")
@@ -81,6 +85,9 @@ class Organization(models.Model):
 	accreditation_body = models.CharField(max_length=255, blank=True, default='')
 	support_commitment = models.TextField(blank=True, default='')
 
+	objects = models.Manager()
+	active = ActiveOrganizationManager()
+
 	def __unicode__(self):
 		return self.display_name
 
@@ -98,6 +105,8 @@ class Organization(models.Model):
 
 	def get_absolute_url(self):
 		return '/crm/member/view/%s/' % self.id
+
+
 
 reversion.register(Organization)
 

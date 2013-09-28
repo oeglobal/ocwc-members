@@ -14,6 +14,7 @@ from rest_framework import generics
 from rest_framework.renderers import JSONRenderer, JSONPRenderer, BrowsableAPIRenderer
 
 from .models import Organization, Contact, Address
+from .serializers import OrganizationApiSerializer
 
 def index(request):
 	if request.user.is_staff:
@@ -114,6 +115,41 @@ def address_geo_list_view(request):
 	data = {
 		"type": "FeatureCollection",
 		"features": features_list
+	}
+
+	return Response(data)
+
+@api_view(['GET'])
+def country_list_view(request):
+	"""
+	List available countries for filtering
+	"""
+	data = Address.objects.filter(country__isnull=False, organization__membership_status__in=(2,3,7)) \
+			.order_by('country') \
+			.values_list('country', flat=True) \
+			.distinct()
+
+	return Response(data)
+
+class OrganizationByCountryListViewApi(generics.ListAPIView):
+	serializer_class = OrganizationApiSerializer
+
+	def get_queryset(self):
+		organization_list = Address.objects.filter(
+												country=self.kwargs.get('country'),
+												organization__membership_status__in=(2,3,7)	
+											) \
+											.values_list('organization', flat=True) \
+											.distinct()
+		return Organization.objects.filter(pk__in=organization_list)
+
+@api_view(['GET'])
+def organization_group_by_membership_view(request):
+	data = {
+		'Institutions of Higher Education': OrganizationApiSerializer(Organization.active.filter(membership_type__in=(5,10,11,12,9,17))).data,
+		'Associate Consortia': OrganizationApiSerializer(Organization.active.filter(membership_type__in=(7,14))).data,
+		'Organizational Members': OrganizationApiSerializer(Organization.active.filter(membership_type__in=(6,13))).data,
+		'Corporate Members': OrganizationApiSerializer(Organization.active.filter(membership_type__in=(8,15,16))).data,
 	}
 
 	return Response(data)
