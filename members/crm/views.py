@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django.shortcuts import render, redirect
 
 from django.contrib.auth.forms import AuthenticationForm
@@ -6,6 +7,11 @@ from django import forms
 
 from vanilla import ListView, DetailView, TemplateView, RedirectView, UpdateView
 from braces.views import LoginRequiredMixin, StaffuserRequiredMixin
+
+from rest_framework.response import Response
+from rest_framework.decorators import api_view, renderer_classes
+from rest_framework import generics
+from rest_framework.renderers import JSONRenderer, JSONPRenderer, BrowsableAPIRenderer
 
 from .models import Organization, Contact, Address
 
@@ -60,6 +66,8 @@ class OrganizationEdit(OrganizationView, UpdateView):
 			return OrganizationStaffModelForm
 		return OrganizationModelForm
 
+### Staff specific views
+
 class StaffView(LoginRequiredMixin, StaffuserRequiredMixin):
 	pass
 
@@ -82,3 +90,30 @@ class OrganizationStaffListView(OrganizationStaffView, ListView):
 class OrganizationStaffDetailView(OrganizationStaffView, DetailView):
 	template_name = 'staff/organization_detail.html'
 	context_object_name = 'org'
+
+### API views
+
+@api_view(['GET'])
+@renderer_classes([BrowsableAPIRenderer, JSONRenderer, JSONPRenderer])
+def address_geo_list_view(request):
+	features_list = []
+	for address in Address.objects.filter(latitude__isnull=False, organization__membership_status__in=(2,3,7)).select_related():
+		point = {
+			"type": "Feature",
+			"id": address.organization.id,
+			"properties": {
+				"name": address.organization.display_name
+			},
+			"geometry": {
+				"type": "Point",
+				"coordinates": [address.longitude, address.latitude],
+			}
+		}
+		features_list.append(point)
+
+	data = {
+		"type": "FeatureCollection",
+		"features": features_list
+	}
+
+	return Response(data)
