@@ -141,7 +141,7 @@ class OrganizationByCountryListViewApi(generics.ListAPIView):
 											) \
 											.values_list('organization', flat=True) \
 											.distinct()
-		return Organization.objects.filter(pk__in=organization_list)
+		return Organization.objects.filter(pk__in=organization_list).order_by('display_name')
 
 @api_view(['GET'])
 def organization_group_by_membership_view(request):
