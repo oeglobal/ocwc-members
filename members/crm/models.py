@@ -94,6 +94,9 @@ class Organization(models.Model):
 	def get_absolute_staff_url(self):
 		return reverse('staff:organization-view', kwargs={'pk':self.id})
 
+	def get_absolute_url(self):
+		return reverse('crm:organization-view', kwargs={'pk':self.id})
+
 	def save(self, force_insert=False, force_update=False, using=None):
 		if not self.slug:
 			slug = slugify(self.display_name)[:30]
@@ -102,11 +105,6 @@ class Organization(models.Model):
 			self.slug = slug
 
 		super(Organization, self).save(force_insert=force_insert, force_update=force_update, using=using)
-
-	def get_absolute_url(self):
-		return '/crm/member/view/%s/' % self.id
-
-
 
 reversion.register(Organization)
 
