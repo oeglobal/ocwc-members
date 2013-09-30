@@ -23,8 +23,14 @@
 		<p class="org-description">
 			{{ org.description }}
 		</p>
+		{% if org.logo_large %}
+		<p>
+			<img src="{{ MEDIA_URL }}{{ org.logo_small }}" />
+		</p>
+		{% endif %}
 		<h2 class="address">Address</h2>
 		{% with org.address_set.all.0 as address %}
+		{% if address %}
 		<p>
 		   {{ address.street_address }}<br />
 		   {% if address.supplemental_address_1 %}{{ address.supplemental_address_1 }}<br />{% endif %}
@@ -33,6 +39,7 @@
 		   {{ address.city }}, {{ address.postal_code }} {{ address.postal_code_suffix }}<br />
 		   {{ address.country }}
 		<p>
+		{% endif %}
 		{% endwith %}
 		</div>
 		<div class="large-6 columns">

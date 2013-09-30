@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Organization, Contact, Address
+from .models import Organization, Contact, Address, MembershipApplication, MembershipApplicationComment
 
 class OrganizationAdmin(admin.ModelAdmin):
 	list_filter = ('membership_type', 'membership_status')
@@ -13,6 +13,16 @@ class AddressAdmin(admin.ModelAdmin):
 class ContactAdmin(admin.ModelAdmin):
 	list_display = ('organization', 'contact_type', 'email', 'first_name', 'last_name')
 
+class MembershipApplicationAdmin(admin.ModelAdmin):
+	list_display = ('organization' , 'membership_type', 'legacy_application_id', 'main_website')
+	list_filter = ('app_status',)
+
+class MembershipApplicationCommentAdmin(admin.ModelAdmin):
+	list_display = ('application', 'legacy_comment_id', 'legacy_app_id', 'comment', 'app_status')
+	list_filter = ('app_status',)
+
 admin.site.register(Organization, OrganizationAdmin)
 admin.site.register(Contact, ContactAdmin)
 admin.site.register(Address, AddressAdmin)
+admin.site.register(MembershipApplication, MembershipApplicationAdmin)
+admin.site.register(MembershipApplicationComment, MembershipApplicationCommentAdmin)

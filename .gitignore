@@ -6,4 +6,6 @@ bin/
 eggs/
 develop-eggs
 parts/
+media/
+members/TODO
 flush.sh

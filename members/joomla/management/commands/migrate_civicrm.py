@@ -78,8 +78,10 @@ class Command(BaseCommand):
                 org.main_website = institution.main_website
                 org.ocw_website = institution.ocw_website
                 org.description = institution.description or ''
-                org.logo_large = institution.seal_image__large
-                org.logo_small = institution.seal_image__small
+                if institution.seal_image__large:
+                    org.logo_large = 'logos/'+institution.seal_image__large
+                if institution.seal_image__small:
+                    org.logo_small = 'logos/'+institution.seal_image__small
                 org.rss_feed = institution.rss_course_feed
                 org.accreditation_body = institution.accreditation_body_53 or ''
                 org.support_commitment = institution.support_commitment_54 or ''

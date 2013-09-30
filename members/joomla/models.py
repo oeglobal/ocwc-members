@@ -3214,16 +3214,16 @@ class JosElectionVotes(models.Model):
 #     class Meta:
 #         db_table = u'jos_mailman2'
 
-# class JosMemberAppComments(models.Model):
-#     comment_id = models.IntegerField(primary_key=True)
-#     app_id = models.IntegerField()
-#     comment_user_id = models.IntegerField()
-#     comment = models.TextField()
-#     cdate = models.DateTimeField()
-#     sent_email = models.IntegerField()
-#     app_status = models.CharField(max_length=750, blank=True)
-#     class Meta:
-#         db_table = u'jos_member_app_comments'
+class JosMemberAppComments(models.Model):
+    comment_id = models.IntegerField(primary_key=True)
+    app_id = models.IntegerField()
+    comment_user_id = models.IntegerField()
+    comment = models.TextField()
+    cdate = models.DateTimeField()
+    sent_email = models.IntegerField()
+    app_status = models.CharField(max_length=750, blank=True)
+    class Meta:
+        db_table = u'jos_member_app_comments'
 
 class JosMemberApplications(models.Model):
     app_id = models.IntegerField(primary_key=True)

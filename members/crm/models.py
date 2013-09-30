@@ -18,7 +18,8 @@ ORGANIZATION_MEMBERSHIP_TYPE_CHOICES = (
 	(14, 'Associate Consortium Members - DC'),
 	(15, 'Corporate Members - Premium'),
 	(16, 'Corporate Members - Sustaining'),
-	(17, 'Associate Institutional Members - DC')
+	(17, 'Associate Institutional Members - DC'),
+	(18, 'Nominating Committee')
 )
 
 ORGANIZATION_TYPE_CHOICES = (
@@ -78,8 +79,8 @@ class Organization(models.Model):
 	ocw_website = models.TextField(max_length=255, blank=True, verbose_name="OCW Website")
 
 	description = models.TextField(blank=True)
-	logo_large = models.ImageField(max_length=255, upload_to="logos/large", blank=True)
-	logo_small = models.ImageField(max_length=255, upload_to="logos/small", blank=True)
+	logo_large = models.ImageField(max_length=255, upload_to="logos", blank=True)
+	logo_small = models.ImageField(max_length=255, upload_to="logos", blank=True)
 	rss_course_feed = models.CharField(max_length=255, blank=True)
 
 	accreditation_body = models.CharField(max_length=255, blank=True, default='')
@@ -131,6 +132,7 @@ class Contact(models.Model):
 
 	first_name = models.CharField(max_length=255, blank=True, default='')
 	last_name = models.CharField(max_length=255, blank=True, default='')
+	job_title = models.CharField(max_length=255, blank=True, default='')
 reversion.register(Contact)
 
 class Address(models.Model):
@@ -156,3 +158,73 @@ class Address(models.Model):
 		return u"%s %s %s" % (self.country, self.city, self.street_address)
 
 reversion.register(Address)
+
+APPLICATION_MEMBERSHIP_TYPE = (
+
+)
+
+APPLICATION_STATUS_CHOICES = (
+	('Approved', 'Approved'),
+	('Rejected', 'Rejected'),
+	('Spam', 'Spam'),
+)
+
+class MembershipApplication(models.Model):
+    organization = models.ForeignKey(Organization, blank=True, null=True)
+    membership_type = models.IntegerField(max_length=10, choices=ORGANIZATION_MEMBERSHIP_TYPE_CHOICES)
+
+    legacy_application_id = models.IntegerField(blank=True, null=True)
+    legacy_entity_id = models.IntegerField()
+
+    main_website = models.CharField(max_length=765, blank=True)
+    description = models.TextField(blank=True)
+    ocw_website = models.CharField(max_length=765, blank=True)
+
+    logo_large = models.CharField(max_length=765, blank=True)
+    logo_small = models.CharField(max_length=765, blank=True)
+    institution_country = models.CharField(max_length=255)
+
+    rss_course_feed = models.CharField(max_length=765, blank=True)
+    rss_referral_link = models.CharField(max_length=765, blank=True)
+    rss_course_feed_language = models.CharField(max_length=765, blank=True)
+
+    agreed_to_terms = models.CharField(max_length=765, blank=True)
+    agreed_criteria = models.CharField(max_length=765, blank=True)
+    contract_version = models.CharField(max_length=765, blank=True)
+
+    ocw_software_platform = models.CharField(max_length=765, blank=True)
+    ocw_platform_details = models.TextField(blank=True)
+    ocw_site_hosting = models.CharField(max_length=765, blank=True)
+    ocw_site_approved = models.NullBooleanField(null=True, blank=True)
+    ocw_published_languages = models.CharField(max_length=765, blank=True)
+    ocw_license = models.CharField(max_length=765, blank=True)
+
+    organization_type = models.CharField(max_length=765, blank=True)
+
+    accreditation_body = models.CharField(max_length=765, blank=True, default='')
+    ocw_launch_date = models.DateTimeField(null=True, blank=True)	
+
+    support_commitment = models.TextField(blank=True)
+
+    app_status = models.CharField(choices=APPLICATION_STATUS_CHOICES, max_length=255)
+    created = models.DateTimeField() #auto_now_add=True
+    modified = models.DateTimeField() #auto_now=True
+
+COMMENTS_APP_STATUS_CHOICES = (
+	('Requested More Info', 'Requested More Info'),
+	('Spam', 'Spam'),
+	('Approved', 'Approved')
+)
+
+class MembershipApplicationComment(models.Model):
+	application = models.ForeignKey(MembershipApplication)
+
+	legacy_comment_id = models.IntegerField(blank=True)
+	legacy_app_id = models.IntegerField(blank=True)
+
+	comment = models.TextField(blank=True)
+	sent_email = models.BooleanField(default=False)
+	app_status = models.CharField(max_length=255, blank=True) #, choices=COMMENTS_APP_STATUS_CHOICES, blank=True)
+
+	created = models.DateTimeField() #auto_now_add=True
+	
