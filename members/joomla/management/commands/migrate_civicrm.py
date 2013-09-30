@@ -3,8 +3,8 @@ import csv
 
 from django.core.management.base import BaseCommand
 
-from joomla.models import CivicrmMembership, CivicrmValue1InstitutionInformation, CivicrmRelationship, JosUsers
-from crm.models import Organization, Contact, Address
+from joomla.models import CivicrmMembership, CivicrmValue1InstitutionInformation, CivicrmRelationship, JosUsers, CivicrmCountry
+from crm.models import Organization, Contact, Address, Country
 
 CiviInst = CivicrmValue1InstitutionInformation
 
@@ -12,6 +12,16 @@ class Command(BaseCommand):
     help = "migrates civicrm to new system"
 
     def handle(self, *args, **options):
+        self.stdout.write('Migrating Country database')
+        for civi_country in CivicrmCountry.objects.all():
+            country = Country.objects.create(
+                name = civi_country.name,
+                iso_code = civi_country.iso_code,
+                developing = civi_country.developing
+            )
+
+        del country
+
         self.stdout.write('Migrating CiviCRM database')
         csv_file = csv.DictReader(open('sources/members.csv', 'rbU'), delimiter=',',quotechar='"')
 
@@ -52,7 +62,10 @@ class Command(BaseCommand):
                         state_province_abbr = civicrmaddress.state_province.abbreviation or ''
 
                     if civicrmaddress.country:
-                        country = civicrmaddress.country.name
+                        # country = civicrmaddress.country.name
+                        country = Country.objects.get(name=civicrmaddress.country.name)
+                    else:
+                        country = None
 
                     address, is_created = Address.objects.get_or_create(
                         organization = org,
@@ -67,7 +80,7 @@ class Command(BaseCommand):
                             'state_province': state_province_name or '',
                             'state_province_abbr': state_province_abbr or '',                       
 
-                            'country': country or '',
+                            'country': country,
                             'latitude': civicrmaddress.geo_code_1,
                             'longitude': civicrmaddress.geo_code_2,
                         }

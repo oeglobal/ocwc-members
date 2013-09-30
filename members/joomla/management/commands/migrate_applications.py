@@ -2,7 +2,7 @@
 from django.core.management.base import BaseCommand
 
 from joomla.models import CivicrmValue1InstitutionInformation, CivicrmMembership, JosMemberApplications, CivicrmContact, JosMemberAppComments
-from crm.models import Organization, MembershipApplication, MembershipApplicationComment
+from crm.models import Organization, MembershipApplication, MembershipApplicationComment, Country
 
 CiviInst = CivicrmValue1InstitutionInformation
 
@@ -36,9 +36,9 @@ class Command(BaseCommand):
                 continue
 
             if instinfo.institution_country:
-                country = instinfo.institution_country.name
+                country = Country.objects.get(name=instinfo.institution_country.name)
             else:
-                country = ''
+                country = None
 
             membership_application = MembershipApplication.objects.create(
                     organization = org,
@@ -80,7 +80,6 @@ class Command(BaseCommand):
                     modified = jos_member.mdate
                 )
 
-        print jos_member.app_id, 'count:', JosMemberAppComments.objects.filter(app_id=jos_member.app_id).count() 
         for jos_app_comment in JosMemberAppComments.objects.filter(app_id=jos_member.app_id):
             comment = MembershipApplicationComment.objects.create(
                 application = membership_application,

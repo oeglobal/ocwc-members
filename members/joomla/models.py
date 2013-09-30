@@ -3788,11 +3788,9 @@ class JosUsers(models.Model):
 
 class OcwcStatistics(models.Model):
     id = models.IntegerField(primary_key=True)
-    # crm_org_id = models.IntegerField()
-    # crm_org = models.ForeignKey(CivicrmMembership, db_column='crm_org_id')
     crm_org = models.ForeignKey(CivicrmContact, db_column='crm_org_id')
-    report_month = models.CharField(max_length=6)
-    report_year = models.CharField(max_length=12)
+    report_month = models.CharField(max_length=2L)
+    report_year = models.CharField(max_length=4L)
     site_visits = models.IntegerField()
     orig_courses = models.IntegerField()
     trans_courses = models.IntegerField()
@@ -3801,8 +3799,12 @@ class OcwcStatistics(models.Model):
     report_date = models.DateField()
     last_modified = models.DateTimeField()
     carry_forward = models.IntegerField()
+    oer_resources = models.IntegerField(null=True, blank=True)
+    trans_oer_resources = models.IntegerField(null=True, blank=True)
+    comment = models.TextField(blank=True)
     class Meta:
-        db_table = u'ocwc_statistics'
+        db_table = 'ocwc_statistics'
+
 
 # class WorldLanguages(models.Model):
 #     english_name = models.CharField(max_length=765)

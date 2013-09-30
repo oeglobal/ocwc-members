@@ -5,6 +5,17 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 import reversion
 
+class Country(models.Model):
+    name = models.CharField(max_length=192, unique=True, blank=True)
+    iso_code = models.CharField(max_length=6, unique=True, blank=True)
+    developing = models.BooleanField()
+
+    class Meta:
+    	ordering = ('name',)
+
+    def __unicode__(self):
+    	return self.name
+
 ORGANIZATION_MEMBERSHIP_TYPE_CHOICES = (
 	(5 , 'Institutional Members'),
 	(6 , 'Organizational Members'),
@@ -149,13 +160,13 @@ class Address(models.Model):
 	state_province = models.CharField(max_length=255, blank=True)
 	state_province_abbr = models.CharField(max_length=255, blank=True)
 
-	country = models.CharField(max_length=255, blank=True)
+	country = models.ForeignKey(Country, blank=True, null=True)
 
 	latitude = models.FloatField(blank=True, null=True)
 	longitude = models.FloatField(blank=True, null=True)
 
 	def __unicode__(self):
-		return u"%s %s %s" % (self.country, self.city, self.street_address)
+		return u"%s %s %s" % (self.country.name, self.city, self.street_address)
 
 reversion.register(Address)
 
@@ -173,6 +184,10 @@ class MembershipApplication(models.Model):
     organization = models.ForeignKey(Organization, blank=True, null=True)
     membership_type = models.IntegerField(max_length=10, choices=ORGANIZATION_MEMBERSHIP_TYPE_CHOICES)
 
+    display_name = models.CharField(max_length=255, blank=True, verbose_name="Name of the organization")
+    access_link_key = models.CharField(max_length=255, blank=True)
+    description = models.TextField(blank=True)
+
     legacy_application_id = models.IntegerField(blank=True, null=True)
     legacy_entity_id = models.IntegerField()
 
@@ -182,7 +197,7 @@ class MembershipApplication(models.Model):
 
     logo_large = models.CharField(max_length=765, blank=True)
     logo_small = models.CharField(max_length=765, blank=True)
-    institution_country = models.CharField(max_length=255)
+    institution_country = models.ForeignKey(Country, blank=True, null=True)
 
     rss_course_feed = models.CharField(max_length=765, blank=True)
     rss_referral_link = models.CharField(max_length=765, blank=True)
@@ -227,4 +242,21 @@ class MembershipApplicationComment(models.Model):
 	app_status = models.CharField(max_length=255, blank=True) #, choices=COMMENTS_APP_STATUS_CHOICES, blank=True)
 
 	created = models.DateTimeField() #auto_now_add=True
-	
+
+class ReportedStatistic(models.Model):
+	organization = models.ForeignKey(Organization)
+	report_month = models.CharField(max_length=6)
+	report_year = models.CharField(max_length=12)
+	site_visits = models.IntegerField()
+	orig_courses = models.IntegerField()
+	trans_courses = models.IntegerField()
+	orig_course_lang = models.TextField(blank=True)
+	trans_course_lang = models.TextField(blank=True, null=True)
+
+	oer_resources = models.IntegerField(null=True, blank=True)
+	trans_oer_resources = models.IntegerField(null=True, blank=True)
+	comment = models.TextField(blank=True, null=True)
+
+	report_date = models.DateField()
+	last_modified = models.DateTimeField()
+	carry_forward = models.BooleanField()
