@@ -13,7 +13,7 @@ from rest_framework.decorators import api_view, renderer_classes
 from rest_framework import generics
 from rest_framework.renderers import JSONRenderer, JSONPRenderer, BrowsableAPIRenderer
 
-from .models import Organization, Contact, Address, ReportedStatistic
+from .models import Organization, Contact, Address, ReportedStatistic, Country
 from .serializers import OrganizationApiSerializer
 
 def index(request):
@@ -151,10 +151,11 @@ def country_list_view(request):
 	"""
 	List available countries for filtering
 	"""
-	data = Address.objects.filter(country__isnull=False, organization__membership_status__in=(2,3,7)) \
+	data_list = Address.objects.filter(country__isnull=False, organization__membership_status__in=(2,3,7)) \
 			.order_by('country') \
 			.values_list('country', flat=True) \
 			.distinct()
+	data = Country.objects.filter(pk__in=data_list).order_by('name').values_list('name', flat=True)
 
 	return Response(data)
 
@@ -163,7 +164,7 @@ class OrganizationByCountryListViewApi(generics.ListAPIView):
 
 	def get_queryset(self):
 		organization_list = Address.objects.filter(
-												country=self.kwargs.get('country'),
+												country__name=self.kwargs.get('country'),
 												organization__membership_status__in=(2,3,7)	
 											) \
 											.values_list('organization', flat=True) \
