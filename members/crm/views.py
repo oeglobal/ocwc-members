@@ -5,7 +5,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.core.urlresolvers import reverse_lazy, reverse
 from django import forms
 
-from vanilla import ListView, DetailView, TemplateView, RedirectView, UpdateView
+from vanilla import ListView, DetailView, TemplateView, RedirectView, UpdateView, CreateView
 from braces.views import LoginRequiredMixin, StaffuserRequiredMixin
 
 from rest_framework.response import Response
@@ -13,7 +13,7 @@ from rest_framework.decorators import api_view, renderer_classes
 from rest_framework import generics
 from rest_framework.renderers import JSONRenderer, JSONPRenderer, BrowsableAPIRenderer
 
-from .models import Organization, Contact, Address
+from .models import Organization, Contact, Address, ReportedStatistic
 from .serializers import OrganizationApiSerializer
 
 def index(request):
@@ -66,6 +66,37 @@ class OrganizationEdit(OrganizationView, UpdateView):
 		if self.request.user.is_staff:
 			return OrganizationStaffModelForm
 		return OrganizationModelForm
+
+class ReportedStatisticDetailView(OrganizationView, DetailView):
+	model = ReportedStatistic
+	template_name = 'reported_statistic_view.html'
+	context_object_name = 'statistic_list'
+
+	def get_object(self):
+		org = Organization.objects.get(pk=self.kwargs['pk'])
+		return ReportedStatistic.objects.filter(organization=org).order_by('report_date')
+
+class ReportedStatisticModelForm(forms.ModelForm):
+	def __init__(self):
+
+		super(ReportedStatisticModelForm, self).__init__
+
+	class Meta:
+		model = ReportedStatistic
+		fields = ( 'site_visits', 'orig_courses', 'trans_courses', 'orig_course_lang', 
+				   'trans_course_lang', 'oer_resources', 'trans_oer_resources', 'comment', 'report_date')
+
+class ReportedStatisticEditView(OrganizationView, UpdateView):
+	model = ReportedStatistic
+	template_name = 'reported_statistic_edit.html'
+	context_object_name = 'stat'
+	form_class = ReportedStatisticModelForm
+
+class ReportedStatisticAddView(OrganizationView, CreateView):
+	model = ReportedStatistic
+	template_name = 'reported_statistic_add.html'
+	context_object_name = 'stat'
+	form_class = ReportedStatisticModelForm
 
 ### Staff specific views
 

@@ -248,15 +248,18 @@ class ReportedStatistic(models.Model):
     report_month = models.CharField(max_length=6)
     report_year = models.CharField(max_length=12)
     site_visits = models.IntegerField()
-    orig_courses = models.IntegerField()
-    trans_courses = models.IntegerField()
-    orig_course_lang = models.TextField(blank=True)
-    trans_course_lang = models.TextField(blank=True, null=True)
+    orig_courses = models.IntegerField(verbose_name=u'Original Courses')
+    trans_courses = models.IntegerField(verbose_name=u'Translated Courses')
+    orig_course_lang = models.TextField(blank=True, verbose_name=u'Original Courses Language')
+    trans_course_lang = models.TextField(blank=True, null=True, verbose_name=u'Translated Courses Language')
 
-    oer_resources = models.IntegerField(null=True, blank=True)
-    trans_oer_resources = models.IntegerField(null=True, blank=True)
-    comment = models.TextField(blank=True, null=True)
+    oer_resources = models.IntegerField(null=True, blank=True, verbose_name=u'Number of OER Resources')
+    trans_oer_resources = models.IntegerField(null=True, blank=True, verbose_name=u'Number of Translated OER Resources')
+    comment = models.TextField(blank=True, null=True, verbose_name=u'Comment')
 
     report_date = models.DateField()
     last_modified = models.DateTimeField()
     carry_forward = models.BooleanField()
+
+    def get_absolute_url(self):
+        return reverse('crm:reported-statistics-view', kwargs={'pk':self.organization.id})

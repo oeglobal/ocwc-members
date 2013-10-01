@@ -30,6 +30,7 @@ class ReportedStatisticAdmin(admin.ModelAdmin):
 	list_display = ('organization', 'last_modified', 'site_visits', 'orig_courses', 
 					'trans_courses', 'orig_course_lang', 'trans_course_lang',
 					'oer_resources', 'trans_oer_resources')
+	search_fields = ('organization__display_name',)
 	# list_filter = ('report_year',)
 
 admin.site.register(Organization, OrganizationAdmin)

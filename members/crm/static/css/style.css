@@ -1,5 +1,6 @@
 .main {
 	margin-top: 40px;
+	margin-bottom: 60px;
 }
 
 #top-nav {
@@ -18,4 +19,8 @@ textarea, input {
 .edit-link {
 	font-size: 18px;
 	color: #6C8DA3;
+}
+
+.pull-right {
+	float: right;
 }

@@ -32,6 +32,6 @@ class Command(BaseCommand):
 
 				oer_resources = civi_stat.oer_resources,
 				trans_oer_resources = civi_stat.trans_oer_resources,
-				comment = civi_stat.comment
+				comment = civi_stat.comment or ''
         	)
         self.stdout.write("Completed Statistics migration")
