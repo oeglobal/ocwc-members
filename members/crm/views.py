@@ -77,10 +77,6 @@ class ReportedStatisticDetailView(OrganizationView, DetailView):
 		return ReportedStatistic.objects.filter(organization=org).order_by('report_date')
 
 class ReportedStatisticModelForm(forms.ModelForm):
-	def __init__(self):
-
-		super(ReportedStatisticModelForm, self).__init__
-
 	class Meta:
 		model = ReportedStatistic
 		fields = ( 'site_visits', 'orig_courses', 'trans_courses', 'orig_course_lang', 
