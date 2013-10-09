@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import collections
+
 from django.shortcuts import render, redirect
 
 from django.contrib.auth.forms import AuthenticationForm
@@ -173,11 +175,11 @@ class OrganizationByCountryListViewApi(generics.ListAPIView):
 
 @api_view(['GET'])
 def organization_group_by_membership_view(request):
-	data = {
-		'Institutions of Higher Education': OrganizationApiSerializer(Organization.active.filter(membership_type__in=(5,10,11,12,9,17))).data,
-		'Associate Consortia': OrganizationApiSerializer(Organization.active.filter(membership_type__in=(7,14))).data,
-		'Organizational Members': OrganizationApiSerializer(Organization.active.filter(membership_type__in=(6,13))).data,
-		'Corporate Members': OrganizationApiSerializer(Organization.active.filter(membership_type__in=(8,15,16))).data,
-	}
+	data = collections.OrderedDict([
+		('Institutions of Higher Education', OrganizationApiSerializer(Organization.active.filter(membership_type__in=(5,10,11,12,9,17)), many=True).data),
+		('Associate Consortia', OrganizationApiSerializer(Organization.active.filter(membership_type__in=(7,14)), many=True).data),
+		('Organizational Members', OrganizationApiSerializer(Organization.active.filter(membership_type__in=(6,13)), many=True).data),
+		('Corporate Members', OrganizationApiSerializer(Organization.active.filter(membership_type__in=(8,15,16)), many=True).data),
+	])
 
 	return Response(data)
