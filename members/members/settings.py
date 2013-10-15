@@ -124,7 +124,8 @@ INSTALLED_APPS = (
     'joomla',
 
     'reversion',
-    # 'south',
+    #'south',
+    'gunicorn',
 
     # 'djadmin2',
     # 'djadmin2.themes.djadmin2theme_default',
@@ -164,6 +165,10 @@ LOGGING = {
     }
 }
 
+<<<<<<< HEAD
 CRISPY_TEMPLATE_PACK = 'uni_form'
 
 from localsettings import *
+=======
+from localsettings import *
+>>>>>>> deploy/master
