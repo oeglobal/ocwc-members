@@ -1,5 +1,8 @@
+import uuid
+
 from django.db import models
 from django.utils.text import slugify
+from django.utils.safestring import mark_safe
 from django.core.urlresolvers import reverse
 
 from django.contrib.auth.models import User
@@ -14,6 +17,8 @@ class Country(models.Model):
         ordering = ('name',)
 
     def __unicode__(self):
+        if self.developing:
+            return self.name + " (D)"
         return self.name
 
 ORGANIZATION_MEMBERSHIP_TYPE_CHOICES = (
@@ -177,6 +182,7 @@ APPLICATION_MEMBERSHIP_TYPE = (
 )
 
 APPLICATION_STATUS_CHOICES = (
+    ('Submitted', 'Submitted'),
     ('Approved', 'Approved'),
     ('Rejected', 'Rejected'),
     ('Spam', 'Spam'),
@@ -191,16 +197,37 @@ ORGANIZATION_TYPE_CHOICES = (
     ('commercial', 'Commercial Entity'),
 )
 
+SIMPLIFIED_MEMBERSHIP_TYPE_CHOICES = (
+    ('institutional', 'Institutional Member'),
+    ('associate', 'Associate Consortium Member'),
+    ('organizational', 'Organizational Member'),
+    ('corporate', 'Corporate Member')
+)
+
+CORPORATE_SUPPORT_CHOICES = (
+    ('basic', 'Basic - $1,000 annual membership fee'),
+    ('premium', 'Premium - $5,000 annual membership fee'),
+    ('sustaining', 'Sustaining - $50,000 contribution - lifetime membership') 
+)
+
+IS_ACCREDITED_CHOICES = (
+    (1, 'Yes'),
+    (0, 'No'),
+)
+
 class MembershipApplication(models.Model):
     organization = models.ForeignKey(Organization, blank=True, null=True)
-    membership_type = models.IntegerField(max_length=10, choices=ORGANIZATION_MEMBERSHIP_TYPE_CHOICES)
+    membership_type = models.IntegerField(max_length=10, choices=ORGANIZATION_MEMBERSHIP_TYPE_CHOICES, blank=True, null=True, default=None)
 
     display_name = models.CharField(max_length=255, blank=True, verbose_name="Institution Name")
-    access_link_key = models.CharField(max_length=255, blank=True)
+    
+    edit_link_key = models.CharField(max_length=255, blank=True)
+    view_link_key = models.CharField(max_length=255, blank=True)
+
     description = models.TextField(blank=True)
 
     legacy_application_id = models.IntegerField(blank=True, null=True)
-    legacy_entity_id = models.IntegerField()
+    legacy_entity_id = models.IntegerField(blank=True, null=True)
 
     main_website = models.CharField(max_length=765, blank=True, verbose_name=u'Main Website address')
     ocw_website = models.CharField(max_length=765, blank=True, verbose_name=u'OCW Website address')
@@ -226,15 +253,15 @@ class MembershipApplication(models.Model):
 
     organization_type = models.CharField(max_length=765, blank=True, choices=ORGANIZATION_TYPE_CHOICES)
 
-    is_accredited = models.NullBooleanField(default=None)
+    is_accredited = models.NullBooleanField(default=None, choices=IS_ACCREDITED_CHOICES)
     accreditation_body = models.CharField(max_length=765, blank=True, default='')
     ocw_launch_date = models.DateTimeField(null=True, blank=True)   
 
     support_commitment = models.TextField(blank=True)
 
-    app_status = models.CharField(choices=APPLICATION_STATUS_CHOICES, max_length=255)
-    created = models.DateTimeField() #auto_now_add=True
-    modified = models.DateTimeField() #auto_now=True
+    app_status = models.CharField(choices=APPLICATION_STATUS_CHOICES, max_length=255, blank=True)
+    created = models.DateTimeField(auto_now_add=True)
+    modified = models.DateTimeField(auto_now=True)
 
     #address
     street_address = models.CharField(max_length=255, blank=True, help_text='Street address with a street number')
@@ -252,6 +279,31 @@ class MembershipApplication(models.Model):
     first_name = models.CharField(max_length=255, blank=True, default='')
     last_name = models.CharField(max_length=255, blank=True, default='')
     job_title = models.CharField(max_length=255, blank=True, default='')
+
+    simplified_membership_type = models.CharField(max_length=255, blank=True, choices=SIMPLIFIED_MEMBERSHIP_TYPE_CHOICES)
+    corporate_support_levels = models.CharField(max_length=255, blank=True, choices=CORPORATE_SUPPORT_CHOICES)
+    associate_consortium = models.CharField(max_length=255, choices=ORGANIZATION_ASSOCIATED_CONSORTIUM, blank=True, default='')
+    
+    moa_terms = models.NullBooleanField(null=True)
+    terms_of_use = models.NullBooleanField(null=True)
+    coppa = models.NullBooleanField(null=True)
+
+    def save(self, force_insert=False, force_update=False, using=None):
+        if not self.legacy_application_id:
+            if not self.edit_link_key:
+                self.edit_link_key = uuid.uuid4()
+
+        if not self.view_link_key:
+            self.view_link_key = uuid.uuid4()
+
+        if not self.app_status:
+            self.app_status = 'Submitted'
+
+        super(MembershipApplication, self).save(force_insert=force_insert, force_update=force_update, using=using)
+
+    def get_absolute_url(self):
+        # return reverse('crm:application-view', kwargs={'view_link_key':self.view_link_key})
+        return '/application/view/%s/' % self.view_link_key
 
 
 COMMENTS_APP_STATUS_CHOICES = (

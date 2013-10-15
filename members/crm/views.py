@@ -102,6 +102,14 @@ class MembershipApplicationAddView(CreateView):
 	context_object_name = 'application'
 	form_class = MembershipApplicationModelForm
 
+class MembershipApplicationDetailView(DetailView):
+	model = MembershipApplication
+	template_name = 'membership_application_view.html'
+	context_object_name = 'app'
+
+	# def get_object(self):
+	# 	return MembershipApplication.objects.get(view_link_key=self.kwargs['view_link_key'])
+
 ### Staff specific views
 
 class StaffView(LoginRequiredMixin, StaffuserRequiredMixin):

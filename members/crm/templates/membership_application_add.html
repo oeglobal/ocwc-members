@@ -78,7 +78,8 @@
 			<p>Please complete the online application form to apply for membership into the OpenCourseWare Consortium. <br />Please contact us at <a href="mailto:memberservices@ocwconsortium.org">memberservices@ocwconsortium.org</a> if you have any questions or if you experience any problems with the online application form. </p>
 
 
-			<form method="POST" class="uniForm">
+			<form method="POST" action="" class="uniForm">
+				{{ form|as_crispy_errors }}
 				{% crispy form %}
 			</form>
 		</div>

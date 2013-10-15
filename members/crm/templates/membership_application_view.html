@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block contents %}
+	<div class="row">
+		<div class="large-12 columns">
+			<h3>Membership Application</h3>
+			<h1>{{ app.display_name }}</h1>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="large-8 columns">
+			<h2>Membership</h2>
+			<p>
+				<strong>Type:</strong> {{ app.get_simplified_membership_type_display }}<br />
+				{% if app.simplified_membership_type == 'institutional' %}
+					<strong>Consortia:</strong> {{ app.get_associate_consortium_display }}<br />
+				{% endif %}
+				{% if app.simplified_membership_type == 'corporate' %}
+					<strong>Support level:</strong> {{ app.get_corporate_support_levels_display }}<br />
+				{% endif %}
+			</p>
+			<p>
+				<strong>Submitted on:</strong> {{ app.created|date:"M. j, Y" }}<br />
+				<strong>Last updated on:</strong> {{ app.modified|date:"M. j, Y" }}<br />
+			</p>
+			<h2>Support Commitment</h2>
+			<p>{{ app.support_commitment }}</p>
+
+			<h2>Member Profile</h2>
+			<p>
+				<strong>Name:</strong> {{ app.display_name }}<br />
+				<strong>Description:</strong> {{ app.description }}<br />
+				<strong>Institution type:</strong> {{ app.get_organization_type_display }}<br />
+				<strong>Is accredited:</strong> {{ app.get_is_accredited_display }}<br />
+				<strong>Accreditation body:</strong> {{ app.accreditation_body }}<br />
+			</p>
+			<p>
+				<strong>Main Website:</strong> {{ app.main_website }}<br />
+				<storng>OCW Website:</storng> {{ app.ocw_website }}<br />
+			</p>
+			<h2>Address</h2>
+			<p>
+				{{ app.street_address }}<br />
+				{% if app.supplemental_address_1 %}{{ app.supplemental_address_1 }}<br />{% endif %}
+				{% if app.supplemental_address_2 %}{{ app.supplemental_address_1 }}<br />{% endif %}
+				{{ app.postal_code }} {{ app.city }}<br />
+				{{ app.state_province }}<br />
+				{{ app.country }}<br />
+			</p>
+			<h2>Lead Contact Information</h2>
+			<p>
+				<strong>First name:</strong> {{ app.first_name }}<br />
+				<strong>Last name:</strong> {{ app.last_name }}<br />
+				<strong>Job title:</strong> {{ app.job_title }}<br />
+				<strong>Email:</strong> <a href="mailto:{{ app.email }}">{{ app.email }}</a><br />
+			</p>
+		</div>
+		<div class="large-4 columns">
+		<p>
+			Please contact us at <a href="mailto:memberservices@ocwconsortium.org">memberservices@ocwconsortium.org</a> if you have any questions or if you experience any problems with the online application form.
+		</p>
+		</div>
+	</div>
+{% endblock %}
