@@ -60,12 +60,12 @@ ORGANIZATION_MEMBERSHIP_STATUS = (
 )
 
 ORGANIZATION_ASSOCIATED_CONSORTIUM = (
-    ('CCCOER', 'CCCOER'),
+    ('CCCOER', 'Community College Consortium for Open Educational Resources (CCCOER)'),
     ('CORE', 'CORE'),
-    ('JOCWC', 'JOCWC'),
-    ('KOCWC', 'KOCWC'),
-    ('TOCWC', 'TOCWC'),
-    ('Turkish OCWC', 'Turkish OCWC'),
+    ('JOCWC', 'Japan OCW Consortium'),
+    ('KOCWC', 'Korea OCW Consortium'),
+    ('TOCWC', 'Taiwan OpenCourseWare Consortium'),
+    ('Turkish OCWC', 'Turkish OpenCourseWare Consortium'),
     ('UNIVERSIA', 'UNIVERSIA')
 )
 
@@ -96,6 +96,8 @@ class Organization(models.Model):
 
     accreditation_body = models.CharField(max_length=255, blank=True, default='')
     support_commitment = models.TextField(blank=True, default='')
+
+    ocw_contact = models.ForeignKey(User, null=True, verbose_name=u'Primary contact inside OCW', related_name='ocw_contact_user')
 
     objects = models.Manager()
     active = ActiveOrganizationManager()
@@ -180,20 +182,28 @@ APPLICATION_STATUS_CHOICES = (
     ('Spam', 'Spam'),
 )
 
+ORGANIZATION_TYPE_CHOICES = (
+    ('university', 'Higher Education Institution'),
+    ('npo', 'Non-Profit Organization'),
+    ('ngo', 'Non-Governmental Organization'),
+    ('regionalconsortium', 'Regional Consortium'),
+    ('software', 'Software Development'),
+    ('commercial', 'Commercial Entity'),
+)
+
 class MembershipApplication(models.Model):
     organization = models.ForeignKey(Organization, blank=True, null=True)
     membership_type = models.IntegerField(max_length=10, choices=ORGANIZATION_MEMBERSHIP_TYPE_CHOICES)
 
-    display_name = models.CharField(max_length=255, blank=True, verbose_name="Name of the organization")
+    display_name = models.CharField(max_length=255, blank=True, verbose_name="Institution Name")
     access_link_key = models.CharField(max_length=255, blank=True)
     description = models.TextField(blank=True)
 
     legacy_application_id = models.IntegerField(blank=True, null=True)
     legacy_entity_id = models.IntegerField()
 
-    main_website = models.CharField(max_length=765, blank=True)
-    description = models.TextField(blank=True)
-    ocw_website = models.CharField(max_length=765, blank=True)
+    main_website = models.CharField(max_length=765, blank=True, verbose_name=u'Main Website address')
+    ocw_website = models.CharField(max_length=765, blank=True, verbose_name=u'OCW Website address')
 
     logo_large = models.CharField(max_length=765, blank=True)
     logo_small = models.CharField(max_length=765, blank=True)
@@ -214,8 +224,9 @@ class MembershipApplication(models.Model):
     ocw_published_languages = models.CharField(max_length=765, blank=True)
     ocw_license = models.CharField(max_length=765, blank=True)
 
-    organization_type = models.CharField(max_length=765, blank=True)
+    organization_type = models.CharField(max_length=765, blank=True, choices=ORGANIZATION_TYPE_CHOICES)
 
+    is_accredited = models.NullBooleanField(default=None)
     accreditation_body = models.CharField(max_length=765, blank=True, default='')
     ocw_launch_date = models.DateTimeField(null=True, blank=True)   
 
@@ -224,6 +235,24 @@ class MembershipApplication(models.Model):
     app_status = models.CharField(choices=APPLICATION_STATUS_CHOICES, max_length=255)
     created = models.DateTimeField() #auto_now_add=True
     modified = models.DateTimeField() #auto_now=True
+
+    #address
+    street_address = models.CharField(max_length=255, blank=True, help_text='Street address with a street number')
+    supplemental_address_1 = models.CharField(max_length=255, blank=True, verbose_name=u'Street Address 2')
+    supplemental_address_2 = models.CharField(max_length=255, blank=True, verbose_name=u'Street Address 3')
+    
+    city = models.CharField(max_length=255, blank=True)
+    postal_code = models.CharField(max_length=50, blank=True)    
+    
+    state_province = models.CharField(max_length=255, blank=True, verbose_name=u'State/Province')
+    country = models.ForeignKey(Country, blank=True, null=True, related_name='app_country')    
+
+    email = models.EmailField(max_length=255, blank=True)
+
+    first_name = models.CharField(max_length=255, blank=True, default='')
+    last_name = models.CharField(max_length=255, blank=True, default='')
+    job_title = models.CharField(max_length=255, blank=True, default='')
+
 
 COMMENTS_APP_STATUS_CHOICES = (
     ('Requested More Info', 'Requested More Info'),

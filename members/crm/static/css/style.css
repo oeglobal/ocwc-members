@@ -1,10 +1,10 @@
 .main {
-	margin-top: 40px;
-	margin-bottom: 60px;
+	padding-top: 40px;
+	padding-bottom: 60px;
 }
 
 #top-nav {
-	margin-top: 40px;
+	padding-top: 40px;
 }
 
 .org-description {
@@ -23,4 +23,8 @@ textarea, input {
 
 .pull-right {
 	float: right;
+}
+
+ul, ol, dl {
+	font-size: 0.9em;
 }

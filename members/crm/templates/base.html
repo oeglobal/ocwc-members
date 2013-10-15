@@ -13,8 +13,11 @@
   	<link href="/theme/lib/stylesheets/style.css" media="screen, projector, print" rel="stylesheet" type="text/css" />
 
   	<link href="{% static 'css/style.css' %}" media="screen, projector, print" rel="stylesheet" type="text/css" />
+
+  	<script src="/theme/lib/javascripts/vendor/custom.modernizr.js"></script>
   	<script src="/theme/lib/javascripts/plugins/respond.min.js"></script>
 
+  	{% block extra_head %}{% endblock %}
 </head>
 <body>
 	<div class="row" id="top-nav">
@@ -53,5 +56,10 @@
 	{% block contents %}{% endblock %}
 </div>
 
+	{# // <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script> #}
+	<script type="text/javascript" src="/theme/lib/javascripts/vendor/jquery.js"></script>
+    <script src="/theme/lib/javascripts/foundation/foundation.js"></script>
+
+	{% block extra_foot %}{% endblock %}
 </body>
 </html>

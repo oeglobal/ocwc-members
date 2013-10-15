@@ -2,7 +2,6 @@
 import collections
 
 from django.shortcuts import render, redirect
-
 from django.contrib.auth.forms import AuthenticationForm
 from django.core.urlresolvers import reverse_lazy, reverse
 from django import forms
@@ -15,8 +14,9 @@ from rest_framework.decorators import api_view, renderer_classes
 from rest_framework import generics
 from rest_framework.renderers import JSONRenderer, JSONPRenderer, BrowsableAPIRenderer
 
-from .models import Organization, Contact, Address, ReportedStatistic, Country
+from .models import Organization, Contact, Address, ReportedStatistic, Country, MembershipApplication
 from .serializers import OrganizationApiSerializer
+from .forms import MembershipApplicationModelForm
 
 def index(request):
 	if request.user.is_staff:
@@ -95,6 +95,12 @@ class ReportedStatisticAddView(OrganizationView, CreateView):
 	template_name = 'reported_statistic_add.html'
 	context_object_name = 'stat'
 	form_class = ReportedStatisticModelForm
+
+class MembershipApplicationAddView(CreateView):
+	model = MembershipApplication
+	template_name = 'membership_application_add.html'
+	context_object_name = 'application'
+	form_class = MembershipApplicationModelForm
 
 ### Staff specific views
 

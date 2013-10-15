@@ -124,10 +124,10 @@ INSTALLED_APPS = (
     'joomla',
 
     'reversion',
-    'south',
+    # 'south',
 
-    'djadmin2',
-    'djadmin2.themes.djadmin2theme_default',
+    # 'djadmin2',
+    # 'djadmin2.themes.djadmin2theme_default',
     'rest_framework',
     'floppyforms',
     'crispy_forms',
@@ -163,5 +163,7 @@ LOGGING = {
         },
     }
 }
+
+CRISPY_TEMPLATE_PACK = 'uni_form'
 
 from localsettings import *

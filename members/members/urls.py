@@ -22,6 +22,7 @@ urlpatterns = patterns('',
     url(r'^api/v1/', include('crm.urls_api', namespace='api', app_name='crm')),
     url(r'^crm/', include('crm.urls', namespace='crm', app_name='crm')),
     url(r'^staff/', include('crm.urls_staff', namespace='staff', app_name='crm')),
+    url(r'^application/', include('crm.urls_application', namespace='application')),
 
    	url(r'^$', 'crm.views.index', name='crm_index')
 )
