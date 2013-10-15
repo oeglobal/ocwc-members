@@ -126,7 +126,9 @@ class MembershipApplicationModelForm(forms.ModelForm):
 			del cleaned_data['corporate_support_levels']
 
 		if simplified_membership_type != 'institutional' and associate_consortium:
-			del cleaned_data['associate_consortium']	
+			del cleaned_data['associate_consortium']
+
+		print self._errors
 
 		return cleaned_data
 

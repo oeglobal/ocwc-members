@@ -1,4 +1,5 @@
 import uuid
+import datetime
 
 from django.db import models
 from django.utils.text import slugify
@@ -260,8 +261,8 @@ class MembershipApplication(models.Model):
     support_commitment = models.TextField(blank=True)
 
     app_status = models.CharField(choices=APPLICATION_STATUS_CHOICES, max_length=255, blank=True)
-    created = models.DateTimeField(auto_now_add=True)
-    modified = models.DateTimeField(auto_now=True)
+    created = models.DateTimeField(blank=True, null=True) #(auto_now_add=True)
+    modified = models.DateTimeField(blank=True, null=True) #(auto_now=True)
 
     #address
     street_address = models.CharField(max_length=255, blank=True, help_text='Street address with a street number')
@@ -295,6 +296,11 @@ class MembershipApplication(models.Model):
 
         if not self.view_link_key:
             self.view_link_key = uuid.uuid4()
+
+        if not self.modified:
+            self.modified = datetime.datetime.now()
+        if not self.created:
+            self.created = datetime.datetime.now()
 
         if not self.app_status:
             self.app_status = 'Submitted'
