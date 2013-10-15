@@ -165,10 +165,6 @@ LOGGING = {
     }
 }
 
-<<<<<<< HEAD
 CRISPY_TEMPLATE_PACK = 'uni_form'
 
 from localsettings import *
-=======
-from localsettings import *
->>>>>>> deploy/master
