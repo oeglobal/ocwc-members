@@ -2,6 +2,7 @@
 import csv
 
 from django.core.management.base import BaseCommand
+from django.contrib.auth.models import User
 
 from joomla.models import CivicrmMembership, CivicrmValue1InstitutionInformation, CivicrmRelationship, JosUsers, CivicrmCountry
 from crm.models import Organization, Contact, Address, Country
@@ -20,6 +21,11 @@ class Command(BaseCommand):
                 developing = civi_country.developing
             )
 
+        for iso_code, name in [('AX', u'Åland Islands'), ('CI', u'Côte d’Ivoire')]:
+            c = Country.objects.get(iso_code=iso_code)
+            c.name = name
+            c.save()
+
         del country
 
         self.stdout.write('Migrating CiviCRM database')
@@ -29,6 +35,9 @@ class Command(BaseCommand):
         for line in csv_file:
             if line.get('CRM-ID'):
                 data[line['CRM-ID']] = line
+
+        IL = User.objects.get(username='igorlesko')
+        MM = User.objects.get(username='marcela')
 
         for member in CivicrmMembership.objects.filter(
                 membership_type__in=(5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17),
@@ -40,6 +49,12 @@ class Command(BaseCommand):
             except KeyError:
                 external_data = {}
 
+            ocw_contact = None
+            if external_data.get('MC') == 'IL':
+                ocw_contact = IL
+            elif external_data.get('MC') == 'MM':
+                ocw_contact = MM
+
             org, is_created = Organization.objects.get_or_create(
                 
                 display_name = member.contact.display_name,
@@ -48,7 +63,8 @@ class Command(BaseCommand):
                     'legal_name': member.contact.legal_name or '',
                     'membership_status': member.status.id,
                     'crmid': member.contact.id,
-                    'associate_consortium': external_data.get('AC -Member', '')
+                    'associate_consortium': external_data.get('AC -Member', ''),
+                    'ocw_contact': ocw_contact
                 }
             )
 

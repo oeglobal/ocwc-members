@@ -4,7 +4,7 @@ from .models import Organization, Contact, Address, MembershipApplication, \
 					MembershipApplicationComment, Country, ReportedStatistic
 
 class OrganizationAdmin(admin.ModelAdmin):
-	list_filter = ('membership_type', 'membership_status')
+	list_filter = ('membership_type', 'membership_status', 'ocw_contact')
 	list_display = ('display_name', 'associate_consortium', 'membership_status')
 	search_fields = ('display_name',)
 
