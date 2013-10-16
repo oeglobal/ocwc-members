@@ -207,8 +207,12 @@ SIMPLIFIED_MEMBERSHIP_TYPE_CHOICES = (
 
 CORPORATE_SUPPORT_CHOICES = (
     ('basic', 'Basic - $1,000 annual membership fee'),
-    ('premium', 'Premium - $5,000 annual membership fee'),
-    ('sustaining', 'Sustaining - $50,000 contribution - lifetime membership') 
+    # ('premium', 'Premium - $5,000 annual membership fee'),
+    ('sustaining', 'Sustaining - $30,000 contribution annual membership fee'),
+    ('bronze', 'Bronze - $60,000 contribution annual membership fee'),
+    ('silver', 'Silver - $100,000 contribution annual membership fee'),
+    ('gold', 'Gold - $150,000 contribution annual membership fee'),
+    ('platinum', 'Platinum - $250,000 contribution annual membership fee'),
 )
 
 IS_ACCREDITED_CHOICES = (
