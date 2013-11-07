@@ -15,7 +15,7 @@ from rest_framework import generics
 from rest_framework.renderers import JSONRenderer, JSONPRenderer, BrowsableAPIRenderer
 
 from .models import Organization, Contact, Address, ReportedStatistic, Country, MembershipApplication
-from .serializers import OrganizationApiSerializer
+from .serializers import OrganizationApiSerializer, OrganizationDetailedApiSerializer
 from .forms import MembershipApplicationModelForm
 
 def index(request):
@@ -207,3 +207,7 @@ def organization_group_by_membership_view(request):
 	])
 
 	return Response(data)
+
+class OrganizationViewApi(generics.RetrieveAPIView):
+	queryset = Organization.active.all()
+	serializer_class = OrganizationDetailedApiSerializer

@@ -8,4 +8,10 @@ class OrganizationApiSerializer(serializers.ModelSerializer):
 	membership_status = serializers.CharField(source='get_membership_status_display')
 	class Meta:
 		model = Organization
-		fields = ('name', 'membership_type', 'membership_status', 'associate_consortium')
+		fields = ('id', 'name', 'membership_type', 'membership_status', 'associate_consortium')
+
+class OrganizationDetailedApiSerializer(OrganizationApiSerializer):
+	class Meta:
+		model = Organization
+		fields = ('id', 'name', 'membership_type', 'membership_status', 'associate_consortium', 
+				  'display_name', 'main_website', 'ocw_website', 'description', 'logo_small')
