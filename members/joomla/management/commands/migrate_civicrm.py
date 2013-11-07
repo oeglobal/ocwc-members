@@ -4,10 +4,46 @@ import csv
 from django.core.management.base import BaseCommand
 from django.contrib.auth.models import User
 
-from joomla.models import CivicrmMembership, CivicrmValue1InstitutionInformation, CivicrmRelationship, JosUsers, CivicrmCountry
+from joomla.models import CivicrmMembership, CivicrmValue1InstitutionInformation, CivicrmRelationship, JosUsers, CivicrmCountry, CivicrmAddress
 from crm.models import Organization, Contact, Address, Country
 
-CiviInst = CivicrmValue1InstitutionInformation
+def _civicrmaddress_to_address(civicrmaddress, org):
+    if not (civicrmaddress.street_address or civicrmaddress.supplemental_address_1):
+        return None
+
+    if civicrmaddress.state_province:
+        state_province_name = civicrmaddress.state_province.name or ''
+        state_province_abbr = civicrmaddress.state_province.abbreviation or ''
+    else:
+        state_province_name = ''
+        state_province_abbr = ''
+
+    if civicrmaddress.country:
+        # country = civicrmaddress.country.name
+        country = Country.objects.get(name=civicrmaddress.country.name)
+    else:
+        country = None
+
+    address, is_created = Address.objects.get_or_create(
+        organization = org,
+        street_address = civicrmaddress.street_address or '',
+        defaults = {
+            'supplemental_address_1': civicrmaddress.supplemental_address_1 or '',
+            'supplemental_address_2': civicrmaddress.supplemental_address_2 or '',
+            'postal_code_suffix': civicrmaddress.postal_code_suffix or '',
+            'city': civicrmaddress.city or '',
+            'postal_code': civicrmaddress.postal_code or '',
+            
+            'state_province': state_province_name,
+            'state_province_abbr': state_province_abbr,
+
+            'country': country,
+            'latitude': civicrmaddress.geo_code_1,
+            'longitude': civicrmaddress.geo_code_2,
+        }
+    )
+
+    return address
 
 class Command(BaseCommand):
     help = "migrates civicrm to new system"
@@ -39,11 +75,12 @@ class Command(BaseCommand):
         IL = User.objects.get(username='igorlesko')
         MM = User.objects.get(username='marcela')
 
+        # for member in CivicrmMembership.objects.filter(pk=473):            
         for member in CivicrmMembership.objects.filter(
                 membership_type__in=(5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17),
                 status__in=[2,3,4,5,6,7]
             ):
-            
+
             try:
                 external_data = data[str(member.contact.id)]
             except KeyError:
@@ -68,42 +105,12 @@ class Command(BaseCommand):
                 }
             )
 
-            if member.contact.civicrmaddress_set.exists():
-                for civicrmaddress in member.contact.civicrmaddress_set.all():
-                    if not civicrmaddress.street_address:
-                        continue
-
-                    if civicrmaddress.state_province:
-                        state_province_name = civicrmaddress.state_province.name or ''
-                        state_province_abbr = civicrmaddress.state_province.abbreviation or ''
-
-                    if civicrmaddress.country:
-                        # country = civicrmaddress.country.name
-                        country = Country.objects.get(name=civicrmaddress.country.name)
-                    else:
-                        country = None
-
-                    address, is_created = Address.objects.get_or_create(
-                        organization = org,
-                        street_address = civicrmaddress.street_address,
-                        defaults = {
-                            'supplemental_address_1': civicrmaddress.supplemental_address_1 or '',
-                            'supplemental_address_2': civicrmaddress.supplemental_address_2 or '',
-                            'postal_code_suffix': civicrmaddress.postal_code_suffix or '',
-                            'city': civicrmaddress.city or '',
-                            'postal_code': civicrmaddress.postal_code or '',
-                            
-                            'state_province': state_province_name or '',
-                            'state_province_abbr': state_province_abbr or '',                       
-
-                            'country': country,
-                            'latitude': civicrmaddress.geo_code_1,
-                            'longitude': civicrmaddress.geo_code_2,
-                        }
-                    )
+            address = None
+            for civicrmaddress in member.contact.civicrmaddress_set.all():
+                address = _civicrmaddress_to_address(civicrmaddress, org)
 
             try:
-                institution = CivicrmValue1InstitutionInformation.objects.get(entity_id=member.contact.id)
+                institution = CivicrmValue1InstitutionInformation.objects.select_related('institution_country').get(entity_id=member.contact.id)
                 org.main_website = institution.main_website
                 org.ocw_website = institution.ocw_website
                 org.description = institution.description or ''
@@ -116,6 +123,7 @@ class Command(BaseCommand):
                 org.support_commitment = institution.support_commitment_54 or ''
 
                 org.save()
+
             except CivicrmValue1InstitutionInformation.DoesNotExist:
                 pass
             
@@ -136,5 +144,20 @@ class Command(BaseCommand):
                     first_name = civicontact.first_name or '',
                     last_name = civicontact.last_name or ''
                 )
-        
+
+            #check if contact has address
+            for civicrmaddress in civicontact.civicrmaddress_set.all():
+                address = _civicrmaddress_to_address(civicrmaddress, org)
+
+            if not org.address_set.all().exists() and institution.institution_country:
+            # if not address and institution.institution_country:
+                
+                address, is_created = Address.objects.get_or_create(
+                        organization = org,
+                        street_address = '',
+                        defaults = {
+                            'country': Country.objects.get(iso_code=institution.institution_country.iso_code)
+                        })
+
+
         self.stdout.write('Migration complete')

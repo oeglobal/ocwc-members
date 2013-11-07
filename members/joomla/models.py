@@ -172,8 +172,12 @@ class CivicrmAddress(models.Model):
     geo_code_2 = models.FloatField(null=True, blank=True)
     timezone = models.CharField(max_length=24, blank=True)
     name = models.CharField(max_length=765, blank=True)
+    
     class Meta:
         db_table = u'civicrm_address'
+
+    def __unicode__(self):
+        return "id: %s, contact id: %s" % (self.id, self.contact.id)
 
 # class CivicrmCache(models.Model):
 #     id = models.IntegerField(primary_key=True)

@@ -141,7 +141,17 @@ class OrganizationStaffDetailView(OrganizationStaffView, DetailView):
 @renderer_classes([BrowsableAPIRenderer, JSONRenderer, JSONPRenderer])
 def address_geo_list_view(request):
 	features_list = []
-	for address in Address.objects.filter(latitude__isnull=False, organization__membership_status__in=(2,3,7)).select_related():
+
+	seen_organizations = []
+	for address in Address.objects.filter(latitude__isnull=False, 
+										  organization__membership_status__in=(2,3,7)).select_related():
+
+		org_id = address.organization.id
+		if org_id in seen_organizations:
+			continue
+		else:
+			seen_organizations.append(address.organization.id)
+
 		point = {
 			"type": "Feature",
 			"id": address.organization.id,
