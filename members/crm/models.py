@@ -77,7 +77,7 @@ ORGANIZATION_ASSOCIATED_CONSORTIUM = (
 
 class ActiveOrganizationManager(models.Manager):
     def get_query_set(self):
-        return super(ActiveOrganizationManager, self).get_query_set().filter(membership_status__in=(2,3,7)).order_by('display_name')
+        return super(ActiveOrganizationManager, self).get_query_set().filter(membership_status__in=(2,3,5,7)).order_by('display_name')
 
 class Organization(models.Model):
     legal_name = models.CharField(max_length=255, blank=True)
