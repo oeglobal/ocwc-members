@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block contents %}
+	<div class="row">
+		<div class="large-12 columns">
+			<ul>
+				<li><a href="{% url 'staff:organization-list' %}">Organization list</a></li>
+				<li><a href="{% url 'application:application-list' %}">Application list</a></li>
+			</ul>
+		</div>
+	</div>
+{% endblock %}

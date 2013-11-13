@@ -265,8 +265,8 @@ class MembershipApplication(models.Model):
     support_commitment = models.TextField(blank=True)
 
     app_status = models.CharField(choices=APPLICATION_STATUS_CHOICES, max_length=255, blank=True)
-    created = models.DateTimeField(blank=True, null=True) #(auto_now_add=True)
-    modified = models.DateTimeField(blank=True, null=True) #(auto_now=True)
+    created = models.DateTimeField(blank=True, null=True, auto_now_add=True)
+    modified = models.DateTimeField(blank=True, null=True, auto_now=True)
 
     #address
     street_address = models.CharField(max_length=255, blank=True, help_text='Street address with a street number')

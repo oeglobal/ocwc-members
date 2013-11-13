@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block contents %}
+<div class="row">
+	<div class="large-12 columns">
+		<table>
+			<thead>
+				<tr>
+					<th>Institution name</th>
+					<th>Submitted</th>
+					<th>Updated</th>
+					<th>Status</th>
+				</tr>
+			</thead>
+		{% for app in object_list %}
+			<tr>
+				<td><a href="{{ app.get_absolute_url }}">{% if not app.display_name %}Application #{{ app.id }}{% else %}{{ app.display_name }}{% endif %}</a></td>
+				<td>{{ app.created }}</td>
+				<td>{{ app.modified }}</td>
+				<td>{{ app.get_app_status_display }}</td>
+			</tr>
+		{% endfor %}
+		</table>
+	</div>
+</div>
+{% endblock %}

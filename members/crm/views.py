@@ -110,17 +110,24 @@ class MembershipApplicationDetailView(DetailView):
 	# def get_object(self):
 	# 	return MembershipApplication.objects.get(view_link_key=self.kwargs['view_link_key'])
 
+class MembershipApplicationListView(StaffuserRequiredMixin, ListView):
+	model = MembershipApplication
+	template_name = 'membership_application_list.html'
+
+	def get_queryset(self):
+		return self.model.objects.all().order_by('-id')[:25]
+
 ### Staff specific views
 
 class StaffView(LoginRequiredMixin, StaffuserRequiredMixin):
 	pass
 
-# class StaffIndex(StaffView, TemplateView):
-# 	template_name = 'staff/index.html'
+class StaffIndex(StaffView, TemplateView):
+	template_name = 'staff/index.html'
 
-class StaffIndex(StaffView, RedirectView):
-	permanent = False
-	url = '/staff/organization/list/'
+# class StaffIndex(StaffView, RedirectView):
+# 	permanent = False
+# 	url = '/staff/organization/list/'
 
 class OrganizationStaffView(StaffView):
 	model = Organization
