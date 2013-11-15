@@ -184,7 +184,7 @@ def country_list_view(request):
 	"""
 	List available countries for filtering
 	"""
-	data_list = Address.objects.filter(country__isnull=False, organization__membership_status__in=(2,3,7)) \
+	data_list = Address.objects.filter(country__isnull=False, organization__membership_status__in=(2,3,5,7)) \
 			.order_by('country') \
 			.values_list('country', flat=True) \
 			.distinct()
@@ -198,7 +198,7 @@ class OrganizationByCountryListViewApi(generics.ListAPIView):
 	def get_queryset(self):
 		organization_list = Address.objects.filter(
 												country__name=self.kwargs.get('country'),
-												organization__membership_status__in=(2,3,5,7)	
+												organization__membership_status__in=(2,3,5,7)
 											) \
 											.values_list('organization', flat=True) \
 											.distinct()
