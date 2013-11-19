@@ -3,10 +3,22 @@ from django.contrib import admin
 from .models import Organization, Contact, Address, MembershipApplication, \
 					MembershipApplicationComment, Country, ReportedStatistic
 
+class ContactInline(admin.TabularInline):
+	model = Contact
+	extra = 1
+
+class AddressInline(admin.StackedInline):
+	model = Address
+	extra = 1
+
 class OrganizationAdmin(admin.ModelAdmin):
 	list_filter = ('membership_type', 'membership_status')
 	list_display = ('display_name', 'associate_consortium', 'membership_status')
 	search_fields = ('display_name',)
+	inlines = [
+		ContactInline,
+		AddressInline
+	]
 
 class AddressAdmin(admin.ModelAdmin):
 	list_display = ('organization', 'street_address', 'city', 'country', 'latitude', 'longitude')
