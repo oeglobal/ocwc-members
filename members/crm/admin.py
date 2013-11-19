@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.utils.html import format_html
 
 from .models import Organization, Contact, Address, MembershipApplication, \
 					MembershipApplicationComment, Country, ReportedStatistic
@@ -24,7 +25,12 @@ class AddressAdmin(admin.ModelAdmin):
 	list_display = ('organization', 'street_address', 'city', 'country', 'latitude', 'longitude')
 
 class ContactAdmin(admin.ModelAdmin):
-	list_display = ('organization', 'contact_type', 'email', 'first_name', 'last_name')
+	list_display = ('email', 'first_name', 'last_name', 'organization_link', 'contact_type')
+	search_fields = ('email', 'first_name', 'last_name')
+
+	def organization_link(self, obj):
+		return format_html('<a href="/admin/crm/organization/%s/">%s</a>' % (obj.organization.id, obj.organization))
+	organization_link.allow_tags = True
 
 class MembershipApplicationAdmin(admin.ModelAdmin):
 	list_display = ('id', 'organization' , 'membership_type', 'legacy_application_id', 'main_website')
