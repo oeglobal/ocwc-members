@@ -33,7 +33,7 @@ class ContactAdmin(admin.ModelAdmin):
 	organization_link.allow_tags = True
 
 class MembershipApplicationAdmin(admin.ModelAdmin):
-	list_display = ('id', 'organization' , 'membership_type', 'legacy_application_id', 'main_website')
+	list_display = ('id', 'display_name', 'organization' , 'membership_type', 'legacy_application_id', 'main_website')
 	list_filter = ('app_status',)
 	search_fields = ('display_name', 'description')
 
