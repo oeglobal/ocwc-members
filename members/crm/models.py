@@ -310,6 +310,9 @@ class MembershipApplication(models.Model):
         if not self.app_status:
             self.app_status = 'Submitted'
 
+        if self.app_status == 'Approved' and not self.organization:
+            self.organization = self._create_member()
+
         super(MembershipApplication, self).save(force_insert=force_insert, force_update=force_update, using=using)
 
     def get_absolute_url(self):
@@ -318,6 +321,48 @@ class MembershipApplication(models.Model):
 
     def __unicode__(self):
         return "Application #%s" % self.id
+
+    def _create_member(self):
+        org, is_created = Organization.objects.get_or_create(
+            display_name = self.display_name,
+            membership_type = self.membership_type,
+            defaults = {
+                'membership_status': 5, #pending
+                'associate_consortium': self.associate_consortium,
+                'main_website': self.main_website,
+                'ocw_website':  self.ocw_website,
+                'description':  self.description,
+                'support_commitment': self.support_commitment
+            })
+
+        contact, is_created = Contact.objects.get_or_create(
+            organization = org,
+            contact_type = 6, # Lead contact
+            email = self.email,
+            defaults = {
+                'first_name': self.first_name,
+                'last_name': self.last_name
+            })
+
+        user, is_created = User.objects.get_or_create(
+            username = org.slug,
+            email = contact.email
+        )
+
+        address, is_created = Address.objects.get_or_create(
+            organization = org,
+            street_address = self.street_address,
+            defaults = {
+                'supplemental_address_1': self.supplemental_address_1,
+                'supplemental_address_2': self.supplemental_address_2,
+
+                'city': self.city,
+                'postal_code': self.postal_code,
+                'state_province': self.state_province,
+                'country': self.country
+            })
+
+        return org
 
 
 COMMENTS_APP_STATUS_CHOICES = (
