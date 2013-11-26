@@ -151,7 +151,7 @@ def address_geo_list_view(request):
 
 	seen_organizations = []
 	for address in Address.objects.filter(latitude__isnull=False, 
-										  organization__membership_status__in=(2,3,7)).select_related():
+										  organization__membership_status__in=(2,3,5,7)).select_related():
 
 		org_id = address.organization.id
 		if org_id in seen_organizations:
