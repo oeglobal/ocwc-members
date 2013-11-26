@@ -72,7 +72,8 @@ ORGANIZATION_ASSOCIATED_CONSORTIUM = (
     ('KOCWC', 'Korea OCW Consortium'),
     ('TOCWC', 'Taiwan OpenCourseWare Consortium'),
     ('Turkish OCWC', 'Turkish OpenCourseWare Consortium'),
-    ('UNIVERSIA', 'UNIVERSIA')
+    ('UNIVERSIA', 'UNIVERSIA'),
+    ('FOCW', 'OCW France')
 )
 
 class ActiveOrganizationManager(models.Manager):
@@ -266,7 +267,7 @@ class MembershipApplication(models.Model):
 
     app_status = models.CharField(choices=APPLICATION_STATUS_CHOICES, max_length=255, blank=True)
     created = models.DateTimeField(blank=True, null=True, auto_now_add=True)
-    modified = models.DateTimeField(blank=True, null=True, auto_now=True)
+    modified = models.DateTimeField(blank=True) #, null=True, auto_now=True)
 
     #address
     street_address = models.CharField(max_length=255, blank=True, help_text='Street address with a street number')
@@ -314,6 +315,9 @@ class MembershipApplication(models.Model):
     def get_absolute_url(self):
         # return reverse('crm:application-view', kwargs={'view_link_key':self.view_link_key})
         return '/application/view/%s/' % self.view_link_key
+
+    def __unicode__(self):
+        return "Application #%s" % self.id
 
 
 COMMENTS_APP_STATUS_CHOICES = (
