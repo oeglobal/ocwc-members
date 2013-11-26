@@ -35,6 +35,7 @@ class ContactAdmin(admin.ModelAdmin):
 class MembershipApplicationAdmin(admin.ModelAdmin):
 	list_display = ('id', 'organization' , 'membership_type', 'legacy_application_id', 'main_website')
 	list_filter = ('app_status',)
+	search_fields = ('display_name', 'description')
 
 class MembershipApplicationCommentAdmin(admin.ModelAdmin):
 	list_display = ('application', 'legacy_comment_id', 'legacy_app_id', 'comment', 'app_status')

@@ -14,7 +14,12 @@
 			</thead>
 		{% for app in object_list %}
 			<tr>
-				<td><a href="{{ app.get_absolute_url }}">{% if not app.display_name %}Application #{{ app.id }}{% else %}{{ app.display_name }}{% endif %}</a></td>
+				<td><a href="{{ app.get_absolute_url }}">
+					{% if app.organization %}{{ app.organization }}
+					{% elif app.display_name %}{{ app.display_name }}
+					{% else %}Application #{{ app.id }}
+					{% endif %}
+					</a></td>
 				<td>{{ app.created }}</td>
 				<td>{{ app.modified }}</td>
 				<td>{{ app.get_app_status_display }}</td>
