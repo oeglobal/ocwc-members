@@ -1,0 +1,18 @@
+language: python
+python:
+  - 2.7
+before_script:
+  - psql -c 'create database members;' -U postgres
+install:
+  - sudo apt-get install python-dev libpq-dev libldap2-dev libsasl2-dev
+  - pip install -U setuptools 
+  - python bootstrap.py
+  - bin/buildout
+  - cp members/members/localsettings.py.example members/members/localsettings.py
+  - bin/django syncdb --all --noinput
+  - bin/django migrate --fake --noinput
+script: bin/django test crm
+
+notifications:
+  email:
+    - jure@ocwconsortium.org
