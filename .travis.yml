@@ -12,7 +12,6 @@ install:
   - bin/django syncdb --all --noinput
   - bin/django migrate --fake --noinput
 script: bin/django test crm
-
 notifications:
   email:
     - jure@ocwconsortium.org
