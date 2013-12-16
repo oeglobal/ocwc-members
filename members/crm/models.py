@@ -37,7 +37,8 @@ ORGANIZATION_MEMBERSHIP_TYPE_CHOICES = (
     (15, 'Corporate Members - Premium'),
     (16, 'Corporate Members - Sustaining'),
     (17, 'Associate Institutional Members - DC'),
-    (18, 'Nominating Committee')
+    (18, 'Nominating Committee'),
+    (19, 'Organizational Members - DC - MRC'),
 )
 
 ORGANIZATION_TYPE_CHOICES = (

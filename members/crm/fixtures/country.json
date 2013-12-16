@@ -1,0 +1,2207 @@
+[
+{
+    "pk": 1, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "AF", 
+        "name": "Afghanistan", 
+        "developing": true
+    }
+},
+{
+    "pk": 2, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "AL", 
+        "name": "Albania", 
+        "developing": true
+    }
+},
+{
+    "pk": 3, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "DZ", 
+        "name": "Algeria", 
+        "developing": true
+    }
+},
+{
+    "pk": 4, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "AS", 
+        "name": "American Samoa", 
+        "developing": true
+    }
+},
+{
+    "pk": 5, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "AD", 
+        "name": "Andorra", 
+        "developing": true
+    }
+},
+{
+    "pk": 6, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "AO", 
+        "name": "Angola", 
+        "developing": true
+    }
+},
+{
+    "pk": 7, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "AI", 
+        "name": "Anguilla", 
+        "developing": true
+    }
+},
+{
+    "pk": 8, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "AQ", 
+        "name": "Antarctica", 
+        "developing": true
+    }
+},
+{
+    "pk": 9, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "AG", 
+        "name": "Antigua and Barbuda", 
+        "developing": true
+    }
+},
+{
+    "pk": 10, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "AR", 
+        "name": "Argentina", 
+        "developing": true
+    }
+},
+{
+    "pk": 11, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "AM", 
+        "name": "Armenia", 
+        "developing": true
+    }
+},
+{
+    "pk": 12, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "AW", 
+        "name": "Aruba", 
+        "developing": true
+    }
+},
+{
+    "pk": 13, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "AU", 
+        "name": "Australia", 
+        "developing": false
+    }
+},
+{
+    "pk": 14, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "AT", 
+        "name": "Austria", 
+        "developing": false
+    }
+},
+{
+    "pk": 15, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "AZ", 
+        "name": "Azerbaijan", 
+        "developing": true
+    }
+},
+{
+    "pk": 16, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "BH", 
+        "name": "Bahrain", 
+        "developing": true
+    }
+},
+{
+    "pk": 17, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "BD", 
+        "name": "Bangladesh", 
+        "developing": true
+    }
+},
+{
+    "pk": 18, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "BB", 
+        "name": "Barbados", 
+        "developing": true
+    }
+},
+{
+    "pk": 19, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "BY", 
+        "name": "Belarus", 
+        "developing": true
+    }
+},
+{
+    "pk": 20, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "BE", 
+        "name": "Belgium", 
+        "developing": false
+    }
+},
+{
+    "pk": 21, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "BZ", 
+        "name": "Belize", 
+        "developing": true
+    }
+},
+{
+    "pk": 22, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "BJ", 
+        "name": "Benin", 
+        "developing": true
+    }
+},
+{
+    "pk": 23, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "BM", 
+        "name": "Bermuda", 
+        "developing": true
+    }
+},
+{
+    "pk": 24, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "BT", 
+        "name": "Bhutan", 
+        "developing": true
+    }
+},
+{
+    "pk": 25, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "BO", 
+        "name": "Bolivia", 
+        "developing": true
+    }
+},
+{
+    "pk": 26, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "BA", 
+        "name": "Bosnia and Herzegovina", 
+        "developing": true
+    }
+},
+{
+    "pk": 27, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "BW", 
+        "name": "Botswana", 
+        "developing": true
+    }
+},
+{
+    "pk": 28, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "BV", 
+        "name": "Bouvet Island", 
+        "developing": true
+    }
+},
+{
+    "pk": 29, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "BR", 
+        "name": "Brazil", 
+        "developing": true
+    }
+},
+{
+    "pk": 30, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "IO", 
+        "name": "British Indian Ocean Territory", 
+        "developing": true
+    }
+},
+{
+    "pk": 31, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "VG", 
+        "name": "Virgin Islands, British", 
+        "developing": true
+    }
+},
+{
+    "pk": 32, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "BN", 
+        "name": "Brunei Darussalam", 
+        "developing": true
+    }
+},
+{
+    "pk": 33, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "BG", 
+        "name": "Bulgaria", 
+        "developing": true
+    }
+},
+{
+    "pk": 34, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "BF", 
+        "name": "Burkina Faso", 
+        "developing": true
+    }
+},
+{
+    "pk": 35, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "MM", 
+        "name": "Myanmar", 
+        "developing": true
+    }
+},
+{
+    "pk": 36, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "BI", 
+        "name": "Burundi", 
+        "developing": true
+    }
+},
+{
+    "pk": 37, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "KH", 
+        "name": "Cambodia", 
+        "developing": true
+    }
+},
+{
+    "pk": 38, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "CM", 
+        "name": "Cameroon", 
+        "developing": true
+    }
+},
+{
+    "pk": 39, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "CA", 
+        "name": "Canada", 
+        "developing": false
+    }
+},
+{
+    "pk": 40, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "CV", 
+        "name": "Cape Verde", 
+        "developing": true
+    }
+},
+{
+    "pk": 41, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "KY", 
+        "name": "Cayman Islands", 
+        "developing": true
+    }
+},
+{
+    "pk": 42, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "CF", 
+        "name": "Central African Republic", 
+        "developing": true
+    }
+},
+{
+    "pk": 43, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "TD", 
+        "name": "Chad", 
+        "developing": true
+    }
+},
+{
+    "pk": 44, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "CL", 
+        "name": "Chile", 
+        "developing": true
+    }
+},
+{
+    "pk": 45, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "CN", 
+        "name": "China", 
+        "developing": true
+    }
+},
+{
+    "pk": 46, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "CX", 
+        "name": "Christmas Island", 
+        "developing": true
+    }
+},
+{
+    "pk": 47, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "CC", 
+        "name": "Cocos (Keeling) Islands", 
+        "developing": true
+    }
+},
+{
+    "pk": 48, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "CO", 
+        "name": "Colombia", 
+        "developing": true
+    }
+},
+{
+    "pk": 49, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "KM", 
+        "name": "Comoros", 
+        "developing": true
+    }
+},
+{
+    "pk": 50, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "CD", 
+        "name": "Congo, The Democratic Republic of the", 
+        "developing": true
+    }
+},
+{
+    "pk": 51, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "CG", 
+        "name": "Congo", 
+        "developing": true
+    }
+},
+{
+    "pk": 52, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "CK", 
+        "name": "Cook Islands", 
+        "developing": true
+    }
+},
+{
+    "pk": 53, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "CR", 
+        "name": "Costa Rica", 
+        "developing": true
+    }
+},
+{
+    "pk": 54, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "CI", 
+        "name": "C\u00f4te d\u2019Ivoire", 
+        "developing": true
+    }
+},
+{
+    "pk": 55, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "HR", 
+        "name": "Croatia", 
+        "developing": true
+    }
+},
+{
+    "pk": 56, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "CU", 
+        "name": "Cuba", 
+        "developing": true
+    }
+},
+{
+    "pk": 57, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "CY", 
+        "name": "Cyprus", 
+        "developing": false
+    }
+},
+{
+    "pk": 58, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "CZ", 
+        "name": "Czech Republic", 
+        "developing": false
+    }
+},
+{
+    "pk": 59, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "DK", 
+        "name": "Denmark", 
+        "developing": false
+    }
+},
+{
+    "pk": 60, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "DJ", 
+        "name": "Djibouti", 
+        "developing": true
+    }
+},
+{
+    "pk": 61, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "DM", 
+        "name": "Dominica", 
+        "developing": true
+    }
+},
+{
+    "pk": 62, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "DO", 
+        "name": "Dominican Republic", 
+        "developing": true
+    }
+},
+{
+    "pk": 63, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "TL", 
+        "name": "Timor-Leste", 
+        "developing": true
+    }
+},
+{
+    "pk": 64, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "EC", 
+        "name": "Ecuador", 
+        "developing": true
+    }
+},
+{
+    "pk": 65, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "EG", 
+        "name": "Egypt", 
+        "developing": true
+    }
+},
+{
+    "pk": 66, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "SV", 
+        "name": "El Salvador", 
+        "developing": true
+    }
+},
+{
+    "pk": 67, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "GQ", 
+        "name": "Equatorial Guinea", 
+        "developing": true
+    }
+},
+{
+    "pk": 68, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "ER", 
+        "name": "Eritrea", 
+        "developing": true
+    }
+},
+{
+    "pk": 69, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "EE", 
+        "name": "Estonia", 
+        "developing": false
+    }
+},
+{
+    "pk": 70, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "ET", 
+        "name": "Ethiopia", 
+        "developing": true
+    }
+},
+{
+    "pk": 71, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "FK", 
+        "name": "Falkland Islands (Malvinas)", 
+        "developing": true
+    }
+},
+{
+    "pk": 72, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "FO", 
+        "name": "Faroe Islands", 
+        "developing": true
+    }
+},
+{
+    "pk": 73, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "FJ", 
+        "name": "Fiji", 
+        "developing": true
+    }
+},
+{
+    "pk": 74, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "FI", 
+        "name": "Finland", 
+        "developing": false
+    }
+},
+{
+    "pk": 75, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "FR", 
+        "name": "France", 
+        "developing": false
+    }
+},
+{
+    "pk": 76, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "GF", 
+        "name": "French Guiana", 
+        "developing": true
+    }
+},
+{
+    "pk": 77, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "PF", 
+        "name": "French Polynesia", 
+        "developing": true
+    }
+},
+{
+    "pk": 78, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "TF", 
+        "name": "French Southern Territories", 
+        "developing": true
+    }
+},
+{
+    "pk": 79, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "GA", 
+        "name": "Gabon", 
+        "developing": true
+    }
+},
+{
+    "pk": 80, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "GE", 
+        "name": "Georgia", 
+        "developing": true
+    }
+},
+{
+    "pk": 81, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "DE", 
+        "name": "Germany", 
+        "developing": false
+    }
+},
+{
+    "pk": 82, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "GH", 
+        "name": "Ghana", 
+        "developing": true
+    }
+},
+{
+    "pk": 83, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "GI", 
+        "name": "Gibraltar", 
+        "developing": true
+    }
+},
+{
+    "pk": 84, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "GR", 
+        "name": "Greece", 
+        "developing": false
+    }
+},
+{
+    "pk": 85, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "GL", 
+        "name": "Greenland", 
+        "developing": true
+    }
+},
+{
+    "pk": 86, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "GD", 
+        "name": "Grenada", 
+        "developing": true
+    }
+},
+{
+    "pk": 87, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "GP", 
+        "name": "Guadeloupe", 
+        "developing": true
+    }
+},
+{
+    "pk": 88, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "GU", 
+        "name": "Guam", 
+        "developing": true
+    }
+},
+{
+    "pk": 89, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "GT", 
+        "name": "Guatemala", 
+        "developing": true
+    }
+},
+{
+    "pk": 90, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "GN", 
+        "name": "Guinea", 
+        "developing": true
+    }
+},
+{
+    "pk": 91, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "GW", 
+        "name": "Guinea-Bissau", 
+        "developing": true
+    }
+},
+{
+    "pk": 92, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "GY", 
+        "name": "Guyana", 
+        "developing": true
+    }
+},
+{
+    "pk": 93, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "HT", 
+        "name": "Haiti", 
+        "developing": true
+    }
+},
+{
+    "pk": 94, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "HM", 
+        "name": "Heard Island and McDonald Islands", 
+        "developing": true
+    }
+},
+{
+    "pk": 95, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "VA", 
+        "name": "Holy See (Vatican City State)", 
+        "developing": true
+    }
+},
+{
+    "pk": 96, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "HN", 
+        "name": "Honduras", 
+        "developing": true
+    }
+},
+{
+    "pk": 97, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "HK", 
+        "name": "Hong Kong", 
+        "developing": false
+    }
+},
+{
+    "pk": 98, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "HU", 
+        "name": "Hungary", 
+        "developing": true
+    }
+},
+{
+    "pk": 99, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "IS", 
+        "name": "Iceland", 
+        "developing": false
+    }
+},
+{
+    "pk": 100, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "IN", 
+        "name": "India", 
+        "developing": true
+    }
+},
+{
+    "pk": 101, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "ID", 
+        "name": "Indonesia", 
+        "developing": true
+    }
+},
+{
+    "pk": 102, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "IR", 
+        "name": "Iran, Islamic Republic of", 
+        "developing": true
+    }
+},
+{
+    "pk": 103, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "IQ", 
+        "name": "Iraq", 
+        "developing": true
+    }
+},
+{
+    "pk": 104, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "IE", 
+        "name": "Ireland", 
+        "developing": false
+    }
+},
+{
+    "pk": 105, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "IL", 
+        "name": "Israel", 
+        "developing": false
+    }
+},
+{
+    "pk": 106, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "IT", 
+        "name": "Italy", 
+        "developing": false
+    }
+},
+{
+    "pk": 107, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "JM", 
+        "name": "Jamaica", 
+        "developing": true
+    }
+},
+{
+    "pk": 108, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "JP", 
+        "name": "Japan", 
+        "developing": false
+    }
+},
+{
+    "pk": 109, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "JO", 
+        "name": "Jordan", 
+        "developing": true
+    }
+},
+{
+    "pk": 110, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "KZ", 
+        "name": "Kazakhstan", 
+        "developing": true
+    }
+},
+{
+    "pk": 111, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "KE", 
+        "name": "Kenya", 
+        "developing": true
+    }
+},
+{
+    "pk": 112, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "KI", 
+        "name": "Kiribati", 
+        "developing": true
+    }
+},
+{
+    "pk": 113, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "KP", 
+        "name": "Korea, Democratic People's Republic of", 
+        "developing": true
+    }
+},
+{
+    "pk": 114, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "KR", 
+        "name": "Korea, Republic of", 
+        "developing": false
+    }
+},
+{
+    "pk": 115, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "KW", 
+        "name": "Kuwait", 
+        "developing": true
+    }
+},
+{
+    "pk": 116, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "KG", 
+        "name": "Kyrgyzstan", 
+        "developing": true
+    }
+},
+{
+    "pk": 117, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "LA", 
+        "name": "Lao People's Democratic Republic", 
+        "developing": true
+    }
+},
+{
+    "pk": 118, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "LV", 
+        "name": "Latvia", 
+        "developing": true
+    }
+},
+{
+    "pk": 119, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "LB", 
+        "name": "Lebanon", 
+        "developing": true
+    }
+},
+{
+    "pk": 120, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "LS", 
+        "name": "Lesotho", 
+        "developing": true
+    }
+},
+{
+    "pk": 121, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "LR", 
+        "name": "Liberia", 
+        "developing": true
+    }
+},
+{
+    "pk": 122, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "LY", 
+        "name": "Libyan Arab Jamahiriya", 
+        "developing": true
+    }
+},
+{
+    "pk": 123, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "LI", 
+        "name": "Liechtenstein", 
+        "developing": true
+    }
+},
+{
+    "pk": 124, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "LT", 
+        "name": "Lithuania", 
+        "developing": true
+    }
+},
+{
+    "pk": 125, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "LU", 
+        "name": "Luxembourg", 
+        "developing": false
+    }
+},
+{
+    "pk": 126, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "MO", 
+        "name": "Macao", 
+        "developing": true
+    }
+},
+{
+    "pk": 127, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "MK", 
+        "name": "Macedonia, Republic of", 
+        "developing": true
+    }
+},
+{
+    "pk": 128, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "MG", 
+        "name": "Madagascar", 
+        "developing": true
+    }
+},
+{
+    "pk": 129, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "MW", 
+        "name": "Malawi", 
+        "developing": true
+    }
+},
+{
+    "pk": 130, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "MY", 
+        "name": "Malaysia", 
+        "developing": true
+    }
+},
+{
+    "pk": 131, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "MV", 
+        "name": "Maldives", 
+        "developing": true
+    }
+},
+{
+    "pk": 132, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "ML", 
+        "name": "Mali", 
+        "developing": true
+    }
+},
+{
+    "pk": 133, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "MT", 
+        "name": "Malta", 
+        "developing": false
+    }
+},
+{
+    "pk": 134, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "MH", 
+        "name": "Marshall Islands", 
+        "developing": true
+    }
+},
+{
+    "pk": 135, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "MQ", 
+        "name": "Martinique", 
+        "developing": true
+    }
+},
+{
+    "pk": 136, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "MR", 
+        "name": "Mauritania", 
+        "developing": true
+    }
+},
+{
+    "pk": 137, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "MU", 
+        "name": "Mauritius", 
+        "developing": true
+    }
+},
+{
+    "pk": 138, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "YT", 
+        "name": "Mayotte", 
+        "developing": true
+    }
+},
+{
+    "pk": 139, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "MX", 
+        "name": "Mexico", 
+        "developing": true
+    }
+},
+{
+    "pk": 140, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "FM", 
+        "name": "Micronesia, Federated States of", 
+        "developing": true
+    }
+},
+{
+    "pk": 141, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "MD", 
+        "name": "Moldova, Republic of", 
+        "developing": true
+    }
+},
+{
+    "pk": 142, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "MC", 
+        "name": "Moldova", 
+        "developing": true
+    }
+},
+{
+    "pk": 143, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "MN", 
+        "name": "Mongolia", 
+        "developing": true
+    }
+},
+{
+    "pk": 144, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "MS", 
+        "name": "Montserrat", 
+        "developing": true
+    }
+},
+{
+    "pk": 145, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "MA", 
+        "name": "Morocco", 
+        "developing": true
+    }
+},
+{
+    "pk": 146, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "MZ", 
+        "name": "Mozambique", 
+        "developing": true
+    }
+},
+{
+    "pk": 147, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "NA", 
+        "name": "Namibia", 
+        "developing": true
+    }
+},
+{
+    "pk": 148, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "NR", 
+        "name": "Nauru", 
+        "developing": true
+    }
+},
+{
+    "pk": 149, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "NP", 
+        "name": "Nepal", 
+        "developing": true
+    }
+},
+{
+    "pk": 150, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "AN", 
+        "name": "Netherlands Antilles", 
+        "developing": true
+    }
+},
+{
+    "pk": 151, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "NL", 
+        "name": "Netherlands", 
+        "developing": false
+    }
+},
+{
+    "pk": 152, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "NC", 
+        "name": "New Caledonia", 
+        "developing": true
+    }
+},
+{
+    "pk": 153, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "NZ", 
+        "name": "New Zealand", 
+        "developing": false
+    }
+},
+{
+    "pk": 154, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "NI", 
+        "name": "Nicaragua", 
+        "developing": true
+    }
+},
+{
+    "pk": 155, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "NE", 
+        "name": "Niger", 
+        "developing": true
+    }
+},
+{
+    "pk": 156, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "NG", 
+        "name": "Nigeria", 
+        "developing": true
+    }
+},
+{
+    "pk": 157, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "NU", 
+        "name": "Niue", 
+        "developing": true
+    }
+},
+{
+    "pk": 158, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "NF", 
+        "name": "Norfolk Island", 
+        "developing": true
+    }
+},
+{
+    "pk": 159, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "MP", 
+        "name": "Northern Mariana Islands", 
+        "developing": true
+    }
+},
+{
+    "pk": 160, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "NO", 
+        "name": "Norway", 
+        "developing": false
+    }
+},
+{
+    "pk": 161, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "OM", 
+        "name": "Oman", 
+        "developing": true
+    }
+},
+{
+    "pk": 162, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "PK", 
+        "name": "Pakistan", 
+        "developing": true
+    }
+},
+{
+    "pk": 163, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "PW", 
+        "name": "Palau", 
+        "developing": true
+    }
+},
+{
+    "pk": 164, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "PS", 
+        "name": "Palestinian Territory, Occupied", 
+        "developing": true
+    }
+},
+{
+    "pk": 165, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "PA", 
+        "name": "Panama", 
+        "developing": true
+    }
+},
+{
+    "pk": 166, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "PG", 
+        "name": "Papua New Guinea", 
+        "developing": true
+    }
+},
+{
+    "pk": 167, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "PY", 
+        "name": "Paraguay", 
+        "developing": true
+    }
+},
+{
+    "pk": 168, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "PE", 
+        "name": "Peru", 
+        "developing": true
+    }
+},
+{
+    "pk": 169, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "PH", 
+        "name": "Philippines", 
+        "developing": true
+    }
+},
+{
+    "pk": 170, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "PN", 
+        "name": "Pitcairn", 
+        "developing": true
+    }
+},
+{
+    "pk": 171, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "PL", 
+        "name": "Poland", 
+        "developing": true
+    }
+},
+{
+    "pk": 172, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "PT", 
+        "name": "Portugal", 
+        "developing": false
+    }
+},
+{
+    "pk": 173, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "PR", 
+        "name": "Puerto Rico", 
+        "developing": true
+    }
+},
+{
+    "pk": 174, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "QA", 
+        "name": "Qatar", 
+        "developing": true
+    }
+},
+{
+    "pk": 175, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "RO", 
+        "name": "Romania", 
+        "developing": true
+    }
+},
+{
+    "pk": 176, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "RU", 
+        "name": "Russian Federation", 
+        "developing": true
+    }
+},
+{
+    "pk": 177, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "RW", 
+        "name": "Rwanda", 
+        "developing": true
+    }
+},
+{
+    "pk": 178, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "RE", 
+        "name": "Reunion", 
+        "developing": true
+    }
+},
+{
+    "pk": 179, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "SH", 
+        "name": "Saint Helena", 
+        "developing": true
+    }
+},
+{
+    "pk": 180, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "KN", 
+        "name": "Saint Kitts and Nevis", 
+        "developing": true
+    }
+},
+{
+    "pk": 181, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "LC", 
+        "name": "Saint Lucia", 
+        "developing": true
+    }
+},
+{
+    "pk": 182, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "PM", 
+        "name": "Saint Pierre and Miquelon", 
+        "developing": true
+    }
+},
+{
+    "pk": 183, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "VC", 
+        "name": "Saint Vincent and the Grenadines", 
+        "developing": true
+    }
+},
+{
+    "pk": 184, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "WS", 
+        "name": "Samoa", 
+        "developing": true
+    }
+},
+{
+    "pk": 185, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "SM", 
+        "name": "San Marino", 
+        "developing": true
+    }
+},
+{
+    "pk": 186, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "SA", 
+        "name": "Saudi Arabia", 
+        "developing": true
+    }
+},
+{
+    "pk": 187, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "SN", 
+        "name": "Senegal", 
+        "developing": true
+    }
+},
+{
+    "pk": 188, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "SC", 
+        "name": "Seychelles", 
+        "developing": true
+    }
+},
+{
+    "pk": 189, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "SL", 
+        "name": "Sierra Leone", 
+        "developing": true
+    }
+},
+{
+    "pk": 190, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "SG", 
+        "name": "Singapore", 
+        "developing": false
+    }
+},
+{
+    "pk": 191, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "SK", 
+        "name": "Slovakia", 
+        "developing": false
+    }
+},
+{
+    "pk": 192, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "SI", 
+        "name": "Slovenia", 
+        "developing": false
+    }
+},
+{
+    "pk": 193, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "SB", 
+        "name": "Solomon Islands", 
+        "developing": true
+    }
+},
+{
+    "pk": 194, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "SO", 
+        "name": "Somalia", 
+        "developing": true
+    }
+},
+{
+    "pk": 195, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "ZA", 
+        "name": "South Africa", 
+        "developing": true
+    }
+},
+{
+    "pk": 196, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "GS", 
+        "name": "South Georgia and the South Sandwich Islands", 
+        "developing": true
+    }
+},
+{
+    "pk": 197, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "ES", 
+        "name": "Spain", 
+        "developing": false
+    }
+},
+{
+    "pk": 198, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "LK", 
+        "name": "Sri Lanka", 
+        "developing": true
+    }
+},
+{
+    "pk": 199, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "SD", 
+        "name": "Sudan", 
+        "developing": true
+    }
+},
+{
+    "pk": 200, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "SR", 
+        "name": "Suriname", 
+        "developing": true
+    }
+},
+{
+    "pk": 201, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "SJ", 
+        "name": "Svalbard and Jan Mayen", 
+        "developing": true
+    }
+},
+{
+    "pk": 202, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "SZ", 
+        "name": "Swaziland", 
+        "developing": true
+    }
+},
+{
+    "pk": 203, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "SE", 
+        "name": "Sweden", 
+        "developing": false
+    }
+},
+{
+    "pk": 204, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "CH", 
+        "name": "Switzerland", 
+        "developing": false
+    }
+},
+{
+    "pk": 205, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "SY", 
+        "name": "Syrian Arab Republic", 
+        "developing": true
+    }
+},
+{
+    "pk": 206, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "ST", 
+        "name": "Sao Tome and Principe", 
+        "developing": true
+    }
+},
+{
+    "pk": 207, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "TW", 
+        "name": "Taiwan", 
+        "developing": false
+    }
+},
+{
+    "pk": 208, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "TJ", 
+        "name": "Tajikistan", 
+        "developing": true
+    }
+},
+{
+    "pk": 209, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "TZ", 
+        "name": "Tanzania, United Republic of", 
+        "developing": true
+    }
+},
+{
+    "pk": 210, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "TH", 
+        "name": "Thailand", 
+        "developing": true
+    }
+},
+{
+    "pk": 211, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "BS", 
+        "name": "Bahamas", 
+        "developing": true
+    }
+},
+{
+    "pk": 212, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "GM", 
+        "name": "Gambia", 
+        "developing": true
+    }
+},
+{
+    "pk": 213, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "TG", 
+        "name": "Togo", 
+        "developing": true
+    }
+},
+{
+    "pk": 214, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "TK", 
+        "name": "Tokelau", 
+        "developing": true
+    }
+},
+{
+    "pk": 215, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "TO", 
+        "name": "Tonga", 
+        "developing": true
+    }
+},
+{
+    "pk": 216, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "TT", 
+        "name": "Trinidad and Tobago", 
+        "developing": true
+    }
+},
+{
+    "pk": 217, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "TN", 
+        "name": "Tunisia", 
+        "developing": true
+    }
+},
+{
+    "pk": 218, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "TR", 
+        "name": "Turkey", 
+        "developing": true
+    }
+},
+{
+    "pk": 219, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "TM", 
+        "name": "Turkmenistan", 
+        "developing": true
+    }
+},
+{
+    "pk": 220, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "TC", 
+        "name": "Turks and Caicos Islands", 
+        "developing": true
+    }
+},
+{
+    "pk": 221, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "TV", 
+        "name": "Tuvalu", 
+        "developing": true
+    }
+},
+{
+    "pk": 222, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "UG", 
+        "name": "Uganda", 
+        "developing": true
+    }
+},
+{
+    "pk": 223, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "UA", 
+        "name": "Ukraine", 
+        "developing": true
+    }
+},
+{
+    "pk": 224, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "AE", 
+        "name": "United Arab Emirates", 
+        "developing": true
+    }
+},
+{
+    "pk": 225, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "GB", 
+        "name": "United Kingdom", 
+        "developing": false
+    }
+},
+{
+    "pk": 226, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "UM", 
+        "name": "United States Minor Outlying Islands", 
+        "developing": true
+    }
+},
+{
+    "pk": 227, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "US", 
+        "name": "United States", 
+        "developing": false
+    }
+},
+{
+    "pk": 228, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "UY", 
+        "name": "Uruguay", 
+        "developing": true
+    }
+},
+{
+    "pk": 229, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "UZ", 
+        "name": "Uzbekistan", 
+        "developing": true
+    }
+},
+{
+    "pk": 230, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "VU", 
+        "name": "Vanuatu", 
+        "developing": true
+    }
+},
+{
+    "pk": 231, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "VE", 
+        "name": "Venezuela", 
+        "developing": true
+    }
+},
+{
+    "pk": 232, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "VN", 
+        "name": "Viet Nam", 
+        "developing": true
+    }
+},
+{
+    "pk": 233, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "VI", 
+        "name": "Virgin Islands, U.S.", 
+        "developing": true
+    }
+},
+{
+    "pk": 234, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "WF", 
+        "name": "Wallis and Futuna", 
+        "developing": true
+    }
+},
+{
+    "pk": 235, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "EH", 
+        "name": "Western Sahara", 
+        "developing": true
+    }
+},
+{
+    "pk": 236, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "YE", 
+        "name": "Yemen", 
+        "developing": true
+    }
+},
+{
+    "pk": 237, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "CS", 
+        "name": "Serbia and Montenegro", 
+        "developing": true
+    }
+},
+{
+    "pk": 238, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "ZM", 
+        "name": "Zambia", 
+        "developing": true
+    }
+},
+{
+    "pk": 239, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "ZW", 
+        "name": "Zimbabwe", 
+        "developing": true
+    }
+},
+{
+    "pk": 240, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "AX", 
+        "name": "\u00c5land Islands", 
+        "developing": true
+    }
+},
+{
+    "pk": 241, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "RS", 
+        "name": "Serbia", 
+        "developing": true
+    }
+},
+{
+    "pk": 242, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "ME", 
+        "name": "Montenegro", 
+        "developing": true
+    }
+},
+{
+    "pk": 243, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "JE", 
+        "name": "Jersey", 
+        "developing": true
+    }
+},
+{
+    "pk": 244, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "GG", 
+        "name": "Guernsey", 
+        "developing": true
+    }
+},
+{
+    "pk": 245, 
+    "model": "crm.country", 
+    "fields": {
+        "iso_code": "IM", 
+        "name": "Isle of Man", 
+        "developing": true
+    }
+}
+]

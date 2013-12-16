@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+from pprint import pprint
+
 from django import forms
 from django.utils.safestring import mark_safe
 
@@ -13,7 +16,7 @@ SIMPLIFIED_MEMBERSHIP_TYPE_CHOICES = (
 	('corporate', mark_safe('Corporate Member <i class="icon-question-sign"></i>'))
 )
 
-ORGANIZATION_ASSOCIATED_CONSORTIUM_CHOICES = (('none', '-- None --'),) + ORGANIZATION_ASSOCIATED_CONSORTIUM
+ORGANIZATION_ASSOCIATED_CONSORTIUM_CHOICES = ORGANIZATION_ASSOCIATED_CONSORTIUM
 
 class MembershipApplicationModelForm(forms.ModelForm):
 	simplified_membership_type = forms.ChoiceField(widget=forms.RadioSelect, 
@@ -24,7 +27,8 @@ class MembershipApplicationModelForm(forms.ModelForm):
 													label='Please select financial support level',
 													required=False)
 	associate_consortium = forms.ChoiceField(widget=forms.RadioSelect,
-												choices=ORGANIZATION_ASSOCIATED_CONSORTIUM_CHOICES)
+												choices=ORGANIZATION_ASSOCIATED_CONSORTIUM_CHOICES,
+												required=False)
 
 	is_accredited = forms.ChoiceField(widget=forms.RadioSelect,
 										choices=IS_ACCREDITED_CHOICES,
@@ -118,8 +122,8 @@ class MembershipApplicationModelForm(forms.ModelForm):
 		if simplified_membership_type == 'corporate' and not corporate_support_levels:
 			self._errors['corporate_support_levels'] = self.error_class(['This field is required.'])
 
-		if simplified_membership_type == 'institutional' and not associate_consortium:
-			self._errors['associate_consortium'] = self.error_class(['This field is required.'])
+		# if simplified_membership_type == 'institutional' and not associate_consortium:
+		# 	self._errors['associate_consortium'] = self.error_class(['This field is required.'])
 
 		# remove connected fields that are not active anymore
 		if simplified_membership_type != 'corporate' and corporate_support_levels:
