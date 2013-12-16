@@ -1,6 +1,10 @@
 language: python
 python:
   - 2.7
+postgres:
+  adapter: postgresql
+  database: members
+  username: postgres
 install:
   - sudo apt-get install python-dev libpq-dev libldap2-dev libsasl2-dev
   - pip install -U setuptools 
