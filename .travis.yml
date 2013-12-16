@@ -5,16 +5,14 @@ postgres:
   adapter: postgresql
   database: members
   username: postgres
+before_install:
+  - psql -c 'create database members;' -U postgres
 install:
   - sudo apt-get install python-dev libpq-dev libldap2-dev libsasl2-dev
   - pip install -U setuptools 
   - python bootstrap.py
   - bin/buildout
   - cp members/members/localsettings.py.example members/members/localsettings.py
-  - bin/django syncdb --noinput
-  - bin/django migrate --fake --noinput
-before_script:
-  - psql -c 'create database members;' -U postgres
 script: 
   - bin/django test crm
 notifications:
