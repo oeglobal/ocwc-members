@@ -9,7 +9,7 @@ install:
   - python bootstrap.py
   - bin/buildout
   - cp members/members/localsettings.py.example members/members/localsettings.py
-  - bin/django syncdb --all --noinput
+  - bin/django syncdb --noinput
   - bin/django migrate --fake --noinput
 script: bin/django test crm
 notifications:
