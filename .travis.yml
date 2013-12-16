@@ -4,7 +4,7 @@ python:
 before_script:
   - psql -c 'create database members;' -U postgres
 install:
-  - sudo apt-get install python-dev libpq-dev libldap2-dev libsasl2-dev
+  - sudo apt-get install python-dev libpq-dev libldap2-dev libsasl2-dev psycopg2
   - pip install -U setuptools 
   - python bootstrap.py
   - bin/buildout
