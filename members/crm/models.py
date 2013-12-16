@@ -9,6 +9,7 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 import reversion
 from geopy import geocoders
+from geopy.geocoders.google import GQueryError
 
 class Country(models.Model):
     name = models.CharField(max_length=192, unique=True, blank=True)
@@ -186,7 +187,7 @@ class Address(models.Model):
             address_string = u"%s, %s, %s, %s %s, %s, %s" % (
                              self.street_address, self.supplemental_address_1, self.supplemental_address_2,
                              self.postal_code, self.postal_code_suffix,
-                             self.state_province, self.country)
+                             self.state_province, self.country.name)
 
             place, (lat, lng) = g.geocode(address_string)
             
