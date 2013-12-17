@@ -121,7 +121,7 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
 
     'crm',
-    # 'joomla',
+    'joomla',
 
     'reversion',
     #'south',
