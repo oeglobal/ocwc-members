@@ -225,5 +225,5 @@ class OrganizationRssFeedsApi(generics.ListAPIView):
 	authentication_classes = (SessionAuthentication, BasicAuthentication)
 	permission_classes = (IsAuthenticated,)
 
-	queryset = Organization.objects.all().exclude(rss_course_feed='')
+	queryset = Organization.active.all().exclude(rss_course_feed='')
 	serializer_class = OrganizationRssFeedsApiSerializer
