@@ -19,7 +19,7 @@ SIMPLIFIED_MEMBERSHIP_TYPE_CHOICES = (
 ORGANIZATION_ASSOCIATED_CONSORTIUM_CHOICES = ORGANIZATION_ASSOCIATED_CONSORTIUM
 
 class MembershipApplicationModelForm(forms.ModelForm):
-	simplified_membership_type = forms.ChoiceField(widget=forms.RadioSelect, 
+	simplified_membership_type = forms.ChoiceField(widget=forms.RadioSelect,
 													choices=SIMPLIFIED_MEMBERSHIP_TYPE_CHOICES,
 													label='')
 	corporate_support_levels = forms.ChoiceField(widget=forms.RadioSelect,
@@ -66,11 +66,11 @@ class MembershipApplicationModelForm(forms.ModelForm):
 			Div(
 				HTML('<div class="large-8 columns"><h3>Support Commitment</h3></div>'),
 				Field('support_commitment', required=True),
-			css_class="row"),			
+			css_class="row"),
 			Div(
 				HTML('<div class="large-8 columns"><h3>Member Profile</h3></div>'),
 				Field('display_name', required=True),
-				Field('description', required=True), 
+				Field('description', required=True),
 				Field('organization_type', required=True),
 
 				Field('is_accredited', required=True),

@@ -149,7 +149,7 @@ CONTACT_TYPE_CHOICES = (
 
 class Contact(models.Model):
     organization = models.ForeignKey(Organization)
-    
+
     contact_type = models.IntegerField(max_length=10, choices=CONTACT_TYPE_CHOICES)
     email = models.EmailField(max_length=255)
 
@@ -164,11 +164,11 @@ class Address(models.Model):
     street_address = models.CharField(max_length=255, blank=True, help_text='Street address with street number')
     supplemental_address_1 = models.CharField(max_length=255, blank=True)
     supplemental_address_2 = models.CharField(max_length=255, blank=True)
-    
+
     city = models.CharField(max_length=255, blank=True)
     postal_code = models.CharField(max_length=50, blank=True)
     postal_code_suffix = models.CharField(max_length=255, blank=True)
-    
+
     state_province = models.CharField(max_length=255, blank=True)
     state_province_abbr = models.CharField(max_length=255, blank=True)
 
@@ -190,7 +190,7 @@ class Address(models.Model):
                              self.state_province, self.country.name)
 
             place, (lat, lng) = g.geocode(address_string)
-            
+
             if lat:
                 self.latitude = lat
                 self.longitude = lng
@@ -247,7 +247,7 @@ class MembershipApplication(models.Model):
     membership_type = models.IntegerField(max_length=10, choices=ORGANIZATION_MEMBERSHIP_TYPE_CHOICES, blank=True, null=True, default=None)
 
     display_name = models.CharField(max_length=255, blank=True, verbose_name="Institution Name")
-    
+
     edit_link_key = models.CharField(max_length=255, blank=True)
     view_link_key = models.CharField(max_length=255, blank=True)
 
@@ -282,7 +282,7 @@ class MembershipApplication(models.Model):
 
     is_accredited = models.NullBooleanField(default=None, choices=IS_ACCREDITED_CHOICES)
     accreditation_body = models.CharField(max_length=765, blank=True, default='')
-    ocw_launch_date = models.DateTimeField(null=True, blank=True)   
+    ocw_launch_date = models.DateTimeField(null=True, blank=True)
 
     support_commitment = models.TextField(blank=True)
 
@@ -294,12 +294,12 @@ class MembershipApplication(models.Model):
     street_address = models.CharField(max_length=255, blank=True, help_text='Street address with a street number')
     supplemental_address_1 = models.CharField(max_length=255, blank=True, verbose_name=u'Street Address 2')
     supplemental_address_2 = models.CharField(max_length=255, blank=True, verbose_name=u'Street Address 3')
-    
+
     city = models.CharField(max_length=255, blank=True)
-    postal_code = models.CharField(max_length=50, blank=True)    
-    
+    postal_code = models.CharField(max_length=50, blank=True)
+
     state_province = models.CharField(max_length=255, blank=True, verbose_name=u'State/Province')
-    country = models.ForeignKey(Country, blank=True, null=True, related_name='app_country')    
+    country = models.ForeignKey(Country, blank=True, null=True, related_name='app_country')
 
     email = models.EmailField(max_length=255, blank=True)
 
@@ -310,7 +310,7 @@ class MembershipApplication(models.Model):
     simplified_membership_type = models.CharField(max_length=255, blank=True, choices=SIMPLIFIED_MEMBERSHIP_TYPE_CHOICES)
     corporate_support_levels = models.CharField(max_length=255, blank=True, choices=CORPORATE_SUPPORT_CHOICES)
     associate_consortium = models.CharField(max_length=255, choices=ORGANIZATION_ASSOCIATED_CONSORTIUM, blank=True, default='')
-    
+
     moa_terms = models.NullBooleanField(null=True)
     terms_of_use = models.NullBooleanField(null=True)
     coppa = models.NullBooleanField(null=True)

@@ -40,7 +40,7 @@ class MembershipApplicationTest(TestCase):
                 'save': 'save'
             }
 
-        response = self.client.post(reverse('application:application-add'), data)        
+        response = self.client.post(reverse('application:application-add'), data)
         app_id = MembershipApplication.objects.latest('id')
 
         self.assertRedirects(response, '/application/view/%s/' % app_id.view_link_key )
@@ -53,9 +53,9 @@ class OrganizationApiViewsTest(TestCase):
 
     def testOrganizationRssFeedsApi(self):
         from django.contrib.auth.models import User
-        
+
         # check that unauthorized requests fail
-        response = self.client.get(reverse('api:organization-feeds'))        
+        response = self.client.get(reverse('api:organization-feeds'))
         self.assertEqual(response.status_code, 403)
 
         # create user and check that we get feed

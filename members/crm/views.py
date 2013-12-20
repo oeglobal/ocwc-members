@@ -52,14 +52,14 @@ class OrganizationDetailView(OrganizationView, DetailView):
 class OrganizationStaffModelForm(forms.ModelForm):
 	class Meta:
 		model = Organization
-		fields = ['membership_type', 'membership_status', 'associate_consortium', 
-				  'display_name', 'legal_name', 'main_website', 'ocw_website', 'description', 
+		fields = ['membership_type', 'membership_status', 'associate_consortium',
+				  'display_name', 'legal_name', 'main_website', 'ocw_website', 'description',
 				  'logo_large', 'logo_small', 'rss_course_feed',]
 
 class OrganizationModelForm(forms.ModelForm):
 	class Meta:
 		model = Organization
-		fields = ['display_name', 'main_website', 'ocw_website', 'description', 
+		fields = ['display_name', 'main_website', 'ocw_website', 'description',
 				  'logo_large', 'logo_small', 'rss_course_feed',]
 
 class OrganizationEdit(OrganizationView, UpdateView):
@@ -83,7 +83,7 @@ class ReportedStatisticDetailView(OrganizationView, DetailView):
 class ReportedStatisticModelForm(forms.ModelForm):
 	class Meta:
 		model = ReportedStatistic
-		fields = ( 'site_visits', 'orig_courses', 'trans_courses', 'orig_course_lang', 
+		fields = ( 'site_visits', 'orig_courses', 'trans_courses', 'orig_course_lang',
 				   'trans_course_lang', 'oer_resources', 'trans_oer_resources', 'comment', 'report_date')
 
 class ReportedStatisticEditView(OrganizationView, UpdateView):
@@ -152,7 +152,7 @@ def address_geo_list_view(request):
 	features_list = []
 
 	seen_organizations = []
-	for address in Address.objects.filter(latitude__isnull=False, 
+	for address in Address.objects.filter(latitude__isnull=False,
 										  organization__membership_status__in=(2,3,5,7)).select_related():
 
 		org_id = address.organization.id
