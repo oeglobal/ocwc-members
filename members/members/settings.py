@@ -124,7 +124,7 @@ INSTALLED_APPS = (
     # 'joomla',
 
     'reversion',
-    #'south',
+    'south',
     'gunicorn',
 
     # 'djadmin2',
