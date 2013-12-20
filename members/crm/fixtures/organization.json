@@ -23,7 +23,7 @@
     "fields": {
         "membership_type": 5,
         "legal_name": "",
-        "membership_status": 99,
+        "membership_status": 2,
         "main_website": "http://www.ocwconsortium.org",
         "associate_consortium": "",
         "ocw_contact": null,
