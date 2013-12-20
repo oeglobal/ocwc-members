@@ -44,3 +44,27 @@ class MembershipApplicationTest(TestCase):
         app_id = MembershipApplication.objects.latest('id')
 
         self.assertRedirects(response, '/application/view/%s/' % app_id.view_link_key )
+
+class OrganizationApiViewsTest(TestCase):
+    fixtures = ['country.json', 'organization.json']
+
+    def setUp(self):
+        self.client = Client()
+
+    def testOrganizationRssFeedsApi(self):
+        from django.contrib.auth.models import User
+        
+        # check that unauthorized requests fail
+        response = self.client.get(reverse('api:organization-feeds'))        
+        self.assertEqual(response.status_code, 403)
+
+        # create user and check that we get feed
+        user = User.objects.create_user(username='feed_api_client', email='test@example.com', password='example_pass_123')
+        self.client.login(username='feed_api_client', password='example_pass_123')
+
+        response = self.client.get(reverse('api:organization-feeds'))
+        self.assertContains(response, 'http://www.ocwconsortium.org/feed/')
+
+        # cleanup
+        self.client.logout()
+        user.delete()

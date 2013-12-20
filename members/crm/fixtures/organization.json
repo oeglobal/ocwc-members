@@ -1,0 +1,43 @@
+[
+{
+    "pk": 1, 
+    "model": "auth.user", 
+    "fields": {
+        "username": "tutorial-university", 
+        "first_name": "", 
+        "last_name": "", 
+        "is_active": true, 
+        "is_superuser": false, 
+        "is_staff": false, 
+        "last_login": "2013-11-13T09:39:57.790", 
+        "groups": [], 
+        "user_permissions": [], 
+        "password": "", 
+        "email": "tech@ocwconsortium.org", 
+        "date_joined": "2013-11-07T07:58:27.984"
+    }
+},
+{
+    "pk": 1, 
+    "model": "crm.organization", 
+    "fields": {
+        "membership_type": 5, 
+        "legal_name": "", 
+        "membership_status": 99, 
+        "main_website": "http://www.ocwconsortium.org", 
+        "associate_consortium": "", 
+        "ocw_contact": null, 
+        "accreditation_body": "", 
+        "support_commitment": "", 
+        "logo_small": "", 
+        "ocw_website": "http://www.ocwconsortium.org/ocw/", 
+        "user": 1,
+        "crmid": "5080", 
+        "logo_large": "", 
+        "display_name": "Tutorial University", 
+        "rss_course_feed": "http://www.ocwconsortium.org/feed/",
+        "slug": "tutorial-university", 
+        "description": "This is not a real university. We use it to create tutorials and perform tests (OCWC)"
+    }
+}
+]

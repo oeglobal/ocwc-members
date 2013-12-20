@@ -15,3 +15,9 @@ class OrganizationDetailedApiSerializer(OrganizationApiSerializer):
 		model = Organization
 		fields = ('id', 'name', 'membership_type', 'membership_status', 'associate_consortium', 
 				  'display_name', 'main_website', 'ocw_website', 'description', 'logo_small')
+
+class OrganizationRssFeedsApiSerializer(serializers.ModelSerializer):
+	name = serializers.CharField(source='display_name')
+	class Meta:
+		model = Organization
+		fields = ('id', 'name', 'crmid', 'rss_course_feed')

@@ -13,9 +13,11 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view, renderer_classes
 from rest_framework import generics
 from rest_framework.renderers import JSONRenderer, JSONPRenderer, BrowsableAPIRenderer
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+from rest_framework.permissions import IsAuthenticated
 
 from .models import Organization, Contact, Address, ReportedStatistic, Country, MembershipApplication
-from .serializers import OrganizationApiSerializer, OrganizationDetailedApiSerializer
+from .serializers import OrganizationApiSerializer, OrganizationDetailedApiSerializer, OrganizationRssFeedsApiSerializer
 from .forms import MembershipApplicationModelForm
 
 def index(request):
@@ -218,3 +220,10 @@ def organization_group_by_membership_view(request):
 class OrganizationViewApi(generics.RetrieveAPIView):
 	queryset = Organization.active.all()
 	serializer_class = OrganizationDetailedApiSerializer
+
+class OrganizationRssFeedsApi(generics.ListAPIView):
+	authentication_classes = (SessionAuthentication, BasicAuthentication)
+	permission_classes = (IsAuthenticated,)
+
+	queryset = Organization.objects.all().exclude(rss_course_feed='')
+	serializer_class = OrganizationRssFeedsApiSerializer
