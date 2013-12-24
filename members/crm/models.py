@@ -5,8 +5,9 @@ from django.db import models
 from django.utils.text import slugify
 from django.utils.safestring import mark_safe
 from django.core.urlresolvers import reverse
-
+from django.core.mail import send_mail
 from django.contrib.auth.models import User
+
 import reversion
 from geopy import geocoders
 from geopy.geocoders.google import GQueryError
@@ -334,6 +335,9 @@ class MembershipApplication(models.Model):
         if self.app_status == 'Approved' and not self.organization:
             self.organization = self._create_member()
 
+        if not self.pk:
+            self._send_notification_email()
+
         super(MembershipApplication, self).save(force_insert=force_insert, force_update=force_update, using=using)
 
     def get_absolute_url(self):
@@ -385,6 +389,9 @@ class MembershipApplication(models.Model):
 
         return org
 
+    def _send_notification_email(self):
+        send_mail('New Membership Application: %s' % self.display_name, 'View application: http://members.ocwconsortium.org%s' % self.get_absolute_url(), 
+                    'tech@ocwconsortium.org', ['memberapplications@ocwconsortium.org'])
 
 COMMENTS_APP_STATUS_CHOICES = (
     ('Requested More Info', 'Requested More Info'),

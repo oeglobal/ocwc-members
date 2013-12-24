@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.core.urlresolvers import reverse
+from django.core import mail
 
 from django.test import TransactionTestCase as TestCase
 from django.test import Client
@@ -41,9 +42,16 @@ class MembershipApplicationTest(TestCase):
             }
 
         response = self.client.post(reverse('application:application-add'), data)
-        app_id = MembershipApplication.objects.latest('id')
+        app = MembershipApplication.objects.latest('id')
 
-        self.assertRedirects(response, '/application/view/%s/' % app_id.view_link_key )
+        self.assertRedirects(response, '/application/view/%s/' % app.view_link_key )
+
+        # check that we send notification email
+        self.assertEqual(len(mail.outbox), 1)
+        email = mail.outbox.pop()
+
+        self.assertIn('New Membership Application: %s' % app.display_name, email.subject )
+        self.assertIn(app.get_absolute_url(), email.body )
 
 class OrganizationApiViewsTest(TestCase):
     fixtures = ['country.json', 'organization.json']
