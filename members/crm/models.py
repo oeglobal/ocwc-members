@@ -243,7 +243,7 @@ IS_ACCREDITED_CHOICES = (
 )
 
 class MembershipApplication(models.Model):
-    organization = models.ForeignKey(Organization, blank=True, null=True)
+    organization = models.ForeignKey(Organization, blank=True, null=True, help_text='Should be empty, unless application is approved')
     membership_type = models.IntegerField(max_length=10, choices=ORGANIZATION_MEMBERSHIP_TYPE_CHOICES, blank=True, null=True, default=None)
 
     display_name = models.CharField(max_length=255, blank=True, verbose_name="Institution Name")

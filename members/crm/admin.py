@@ -36,6 +36,25 @@ class MembershipApplicationAdmin(admin.ModelAdmin):
 	list_display = ('id', 'display_name', 'organization' , 'membership_type', 'legacy_application_id', 'main_website')
 	list_filter = ('app_status',)
 	search_fields = ('display_name', 'description')
+	raw_id_fields = ('organization',)
+	fieldsets = (
+		(None, {
+			'fields': ('app_status', 'display_name', 'description', 'organization')
+			}
+		),
+		('General', {
+			'fields': ('organization_type', 'main_website', 'ocw_website', 'institution_country', 
+						'rss_course_feed', 'is_accredited', 'accreditation_body', 'support_commitment')
+		}),
+		('Membership', {
+			'fields': ('membership_type', 'simplified_membership_type', 'corporate_support_levels', 'associate_consortium')
+		}),
+		('Address and Contact', {
+			'fields': ('first_name', 'last_name', 'email', 'job_title',
+						'street_address', 'supplemental_address_1', 'supplemental_address_2', 'city', 'postal_code', 
+						'state_province', 'country', )
+		})
+	)
 
 class MembershipApplicationCommentAdmin(admin.ModelAdmin):
 	list_display = ('application', 'legacy_comment_id', 'legacy_app_id', 'comment', 'app_status')
@@ -56,6 +75,6 @@ admin.site.register(Organization, OrganizationAdmin)
 admin.site.register(Contact, ContactAdmin)
 admin.site.register(Address, AddressAdmin)
 admin.site.register(MembershipApplication, MembershipApplicationAdmin)
-admin.site.register(MembershipApplicationComment, MembershipApplicationCommentAdmin)
+# admin.site.register(MembershipApplicationComment, MembershipApplicationCommentAdmin)
 admin.site.register(Country, CountryAdmin)
 admin.site.register(ReportedStatistic, ReportedStatisticAdmin)
