@@ -23,6 +23,7 @@
 			<p>
 				<strong>Submitted on:</strong> {{ app.created|date:"M. j, Y" }}<br />
 				<strong>Last updated on:</strong> {{ app.modified|date:"M. j, Y" }}<br />
+				<strong>Status:</strong> {{ app.get_app_status_display }}<br />
 			</p>
 			<h2>Support Commitment</h2>
 			<p>{{ app.support_commitment }}</p>

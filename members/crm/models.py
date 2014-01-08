@@ -210,6 +210,7 @@ APPLICATION_STATUS_CHOICES = (
     ('Approved', 'Approved'),
     ('Rejected', 'Rejected'),
     ('Spam', 'Spam'),
+    ('RequestedMoreInfo', 'Requested more information'),
 )
 
 ORGANIZATION_TYPE_CHOICES = (
