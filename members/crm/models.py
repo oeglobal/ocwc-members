@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import uuid
 import datetime
 
@@ -7,6 +8,7 @@ from django.utils.safestring import mark_safe
 from django.core.urlresolvers import reverse
 from django.core.mail import send_mail
 from django.contrib.auth.models import User
+from django.template.loader import render_to_string
 
 import reversion
 from geopy import geocoders
@@ -82,7 +84,7 @@ ORGANIZATION_ASSOCIATED_CONSORTIUM = (
 
 class ActiveOrganizationManager(models.Manager):
     def get_query_set(self):
-        return super(ActiveOrganizationManager, self).get_query_set().filter(membership_status__in=(2,3,5,7)).order_by('display_name')
+        return super(ActiveOrganizationManager, self).get_query_set().filter(membership_status__in=(2,3,5,7,99)).order_by('display_name')
 
 class Organization(models.Model):
     legal_name = models.CharField(max_length=255, blank=True)
@@ -320,10 +322,10 @@ class MembershipApplication(models.Model):
     def save(self, force_insert=False, force_update=False, using=None):
         if not self.legacy_application_id:
             if not self.edit_link_key:
-                self.edit_link_key = uuid.uuid4()
+                self.edit_link_key = uuid.uuid4().get_hex()
 
         if not self.view_link_key:
-            self.view_link_key = uuid.uuid4()
+            self.view_link_key = uuid.uuid4().get_hex()
 
         if not self.modified:
             self.modified = datetime.datetime.now()
@@ -432,3 +434,28 @@ class ReportedStatistic(models.Model):
 
     def get_absolute_url(self):
         return reverse('crm:reported-statistics-view', kwargs={'pk':self.organization.id})
+
+class LoginKey(models.Model):
+    user = models.ForeignKey(User)
+    email = models.EmailField()
+    key = models.CharField(max_length=32)
+
+    used = models.BooleanField(default=False)
+    pub_date = models.DateTimeField(auto_now_add=True)
+
+    def __unicode__(self):
+        return "%s - %s" % (self.user, self.email)
+
+    def save(self, force_insert=False, force_update=False, using=None):
+        if not self.key:
+            self.key = uuid.uuid4().get_hex()
+
+        super(LoginKey, self).save(force_insert=force_insert, force_update=force_update, using=using)
+
+    def send_email(self):
+        body = render_to_string('mail-login/mail_body.txt', {'url': self.get_absolute_url()})
+        send_mail('OCW Member portal login information', body, 
+                    'memberservices@ocwconsortium.org', [self.email])
+
+    def get_absolute_url(self):
+        return '/login/%s/' % self.key

@@ -1,12 +1,15 @@
 # -*- coding: utf-8 -*-
 import collections
+import datetime
 
+
+from django import forms
 from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import AuthenticationForm
 from django.core.urlresolvers import reverse_lazy, reverse
-from django import forms
 
-from vanilla import ListView, DetailView, TemplateView, RedirectView, UpdateView, CreateView
+from vanilla import ListView, DetailView, TemplateView, RedirectView, UpdateView, CreateView, FormView
 from braces.views import LoginRequiredMixin, StaffuserRequiredMixin
 
 from rest_framework.response import Response
@@ -16,22 +19,36 @@ from rest_framework.renderers import JSONRenderer, JSONPRenderer, BrowsableAPIRe
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework.permissions import IsAuthenticated
 
-from .models import Organization, Contact, Address, ReportedStatistic, Country, MembershipApplication
+from .models import Organization, Contact, Address, ReportedStatistic, Country, MembershipApplication, LoginKey
 from .serializers import OrganizationApiSerializer, OrganizationDetailedApiSerializer, OrganizationRssFeedsApiSerializer
-from .forms import MembershipApplicationModelForm
+from .forms import MembershipApplicationModelForm, MemberLoginForm
 
-def index(request):
-	if request.user.is_staff:
-		return redirect('/staff/')
-	elif request.user.is_authenticated():
-		return redirect('/crm/')
+class IndexView(FormView):
+	template_name = 'index.html'
+	form_class = MemberLoginForm
 
-	ctx = {
-		'form': AuthenticationForm,
-		'next': '/'
-	}
-	return render(request, 'index.html', ctx)
+	def form_valid(self, form):
+		get = form.cleaned_data.get
+		org = Organization.objects.get(pk=get('organization'))
+		email = get('email')
 
+		ctx = {
+			'email': email
+		}
+
+		key = LoginKey(user=org.user, email=email)
+		key.save()
+		key.send_email()
+
+		return render(self.request, 'mail-login/mail_sent.html', ctx)
+
+	def dispatch(self, request, *args, **kwargs):
+		if request.user.is_staff:
+			return redirect('/staff/')
+		elif request.user.is_authenticated():
+			return redirect('/crm/')
+
+		return super(IndexView, self).dispatch(request, *args, **kwargs)
 
 class OrganizationView(LoginRequiredMixin):
 	pass
@@ -227,3 +244,19 @@ class OrganizationRssFeedsApi(generics.ListAPIView):
 
 	queryset = Organization.active.all().exclude(rss_course_feed='')
 	serializer_class = OrganizationRssFeedsApiSerializer
+
+### Login via e-mail key
+class LoginKeyCheckView(TemplateView):
+	template_name = 'mail-login/login_failed.html'
+
+	def dispatch(self, request, *args, **kwargs):
+		key = kwargs.pop('key')
+		if LoginKey.objects.filter(key=key).exists():
+			today = datetime.datetime.today()
+			login_key = LoginKey.objects.get(key=key, pub_date__gte=(today - datetime.timedelta(days=7)))
+			
+			login_key.user.backend = 'django.contrib.auth.backends.ModelBackend'
+			login(self.request, login_key.user)
+			return redirect('/crm/')
+
+		return super(LoginKeyCheckView, self).dispatch(request, *args, **kwargs)

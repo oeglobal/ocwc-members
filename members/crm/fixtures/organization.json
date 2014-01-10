@@ -39,5 +39,17 @@
         "slug": "tutorial-university",
         "description": "This is not a real university. We use it to create tutorials and perform tests (OCWC)"
     }
+},
+{
+    "pk": 1, 
+    "model": "crm.contact", 
+    "fields": {
+        "first_name": "John", 
+        "last_name": "Smith", 
+        "contact_type": 6, 
+        "organization": 1, 
+        "email": "tech@ocwconsortium.org", 
+        "job_title": ""
+    }
 }
 ]

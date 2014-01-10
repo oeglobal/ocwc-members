@@ -28,3 +28,7 @@ textarea, input {
 ul, ol, dl {
 	font-size: 0.9em;
 }
+
+.errorlist {
+	color: #b94a48;
+}
