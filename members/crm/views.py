@@ -21,7 +21,7 @@ from rest_framework.permissions import IsAuthenticated
 
 from .models import Organization, Contact, Address, ReportedStatistic, Country, MembershipApplication, LoginKey
 from .serializers import OrganizationApiSerializer, OrganizationDetailedApiSerializer, OrganizationRssFeedsApiSerializer
-from .forms import MembershipApplicationModelForm, MemberLoginForm
+from .forms import MembershipApplicationModelForm, MemberLoginForm, AddressModelForm
 
 class IndexView(FormView):
 	template_name = 'index.html'
@@ -87,6 +87,18 @@ class OrganizationEdit(OrganizationView, UpdateView):
 		if self.request.user.is_staff:
 			return OrganizationStaffModelForm
 		return OrganizationModelForm
+
+class AddressEditView(OrganizationView, UpdateView):
+	model = Address
+	template_name = 'address_edit.html'
+	form_class = AddressModelForm
+
+	def get_queryset(self):
+		queryset = Address.objects.filter(pk=self.kwargs.get('pk'))
+		if self.request.user.is_staff:
+			return queryset
+		
+		return queryset.filter(organization__user=self.request.user)
 
 class ReportedStatisticDetailView(OrganizationView, DetailView):
 	model = ReportedStatistic

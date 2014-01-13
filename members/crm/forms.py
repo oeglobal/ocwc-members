@@ -7,7 +7,7 @@ from django.utils.safestring import mark_safe
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit, Layout, Field, Div, HTML
 
-from .models import MembershipApplication, ORGANIZATION_ASSOCIATED_CONSORTIUM, CORPORATE_SUPPORT_CHOICES, IS_ACCREDITED_CHOICES, Organization
+from .models import MembershipApplication, ORGANIZATION_ASSOCIATED_CONSORTIUM, CORPORATE_SUPPORT_CHOICES, IS_ACCREDITED_CHOICES, Organization, Address
 
 SIMPLIFIED_MEMBERSHIP_TYPE_CHOICES = (
     ('institutional', mark_safe('Institutional Member <i class="icon-question-sign" data-help-text="institutional"></i>')),
@@ -155,3 +155,9 @@ class MemberLoginForm(forms.Form):
             raise forms.ValidationError('E-mail you entered is not associated with selected organization. Please contact members services if you require assistance.', code='invalid-email')
 
         return cleaned_data
+
+class AddressModelForm(forms.ModelForm):
+    class Meta:
+        model = Address
+        fields = ('street_address', 'supplemental_address_1', 'supplemental_address_2',
+                  'city', 'postal_code', 'state_province', 'country')

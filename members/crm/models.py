@@ -191,14 +191,19 @@ class Address(models.Model):
                              self.street_address, self.supplemental_address_1, self.supplemental_address_2,
                              self.postal_code, self.postal_code_suffix,
                              self.state_province, self.country.name)
+            try:
+                place, (lat, lng) = g.geocode(address_string)
 
-            place, (lat, lng) = g.geocode(address_string)
-
-            if lat:
-                self.latitude = lat
-                self.longitude = lng
+                if lat:
+                    self.latitude = lat
+                    self.longitude = lng
+            except ValueError:
+                pass
 
         super(Address, self).save(force_insert=force_insert, force_update=force_update, using=using)
+
+    def get_absolute_url(self):
+        return self.organization.get_absolute_url()
 
 
 reversion.register(Address)
