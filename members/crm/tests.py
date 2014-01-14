@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 from django.core.urlresolvers import reverse
 from django.core import mail
+from django.contrib.auth.models import User
+from django.conf import settings
 
 from django.test import TransactionTestCase as TestCase
-from django.test import Client
+from django.test import Client, LiveServerTestCase
 
 
 class MembershipApplicationTest(TestCase):
@@ -60,7 +62,6 @@ class OrganizationApiViewsTest(TestCase):
         self.client = Client()
 
     def testOrganizationRssFeedsApi(self):
-        from django.contrib.auth.models import User
 
         # check that unauthorized requests fail
         response = self.client.get(reverse('api:organization-feeds'))
@@ -113,3 +114,41 @@ class TestLoginKey(TestCase):
 
         #cleanup
         self.client.logout()        
+
+class BillingLogTest(LiveServerTestCase):
+    fixtures = ['country.json', 'organization.json']
+
+    def setUp(self):
+        self.client = Client()
+        self.user, is_created = User.objects.get_or_create(username='staff_member', 
+                                                          is_staff=True, is_superuser=True, is_active=True)
+        self.user.set_password('test123')
+        self.user.save()
+
+        self.client.login(username=self.user.username, password='test123')
+
+    def testCreateInvoice(self):
+        from crm.models import Organization, BillingLog, Invoice
+        org = Organization.objects.get(display_name='Tutorial University')
+        data = {
+            'log_type': 'create_invoice',
+            'user': User.objects.get(username='tutorial-university').id,
+            'organization': org.id,
+            'amount': 200,
+            'invoice_year': '2013',
+        }
+
+        response = self.client.post(reverse('staff:billinglog-create'), data)
+        self.assertRedirects(response, org.get_absolute_url())
+
+        billing_log = BillingLog.objects.latest('id')
+        invoice = Invoice.objects.latest('id')
+        self.assertEqual(billing_log.invoice, invoice)
+
+        url = '%s%s' % (settings.INVOICES_PHANTOM_JS_HOST, invoice.get_access_key_url())
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, invoice.invoice_number)
+
+        
+

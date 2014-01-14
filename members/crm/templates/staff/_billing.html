@@ -1,0 +1,34 @@
+{% load crispy_forms_tags %}
+<div class="large-12 columns">
+	<h2>Billing information</h2>
+
+	
+	<table>
+	<thead>
+		<tr>
+			<th>Type</th>
+			<th>Date</th>
+			<th>Who</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+	{% for log in object.billinglog_set.all %}
+		<tr>
+			<td>{{ log.get_log_type_display }}</td>
+			<td>{{ log.pub_date }}</td>
+			<td>{{ log.user }}</td>
+			<td><a href="{{ log.invoice.get_pdf_url }}" target="_blank">View Invoice</a></td>
+		</tr>
+	{% endfor %}
+	</tbody>
+	</table>
+
+	<div class="small-6 columns">
+		<form action="{% url 'staff:billinglog-create' %}" method="POST">
+			{% csrf_token %}
+			{% crispy form %}
+		</form>
+	</div>
+	
+</div>

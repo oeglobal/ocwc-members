@@ -1,5 +1,7 @@
 from django.conf.urls import patterns, include, url
 from django.conf import settings
+from django.conf.urls.static import static
+
 from django.contrib import admin
 admin.autodiscover()
 
@@ -26,4 +28,4 @@ if settings.DEBUG:
 		url(r'^theme/lib/(?P<path>.*)$', 'django.views.static.serve', {'document_root': '/home/gandalf/mainsite/wp-content/themes/ocwc-mainsite/lib/'}),
 		url(r'^theme/images/(?P<path>.*)$', 'django.views.static.serve', {'document_root': '/home/gandalf/mainsite/wp-content/themes/ocwc-mainsite/images/'}),
         url(r'^media/logos/(?P<path>.*)$', 'django.views.static.serve', {'document_root': '/home/gandalf/members/media/logos/'}),
-	)
+	) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

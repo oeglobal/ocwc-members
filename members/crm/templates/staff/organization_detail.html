@@ -1,4 +1,9 @@
-{% extends "staff/organization_base.html" %}
+{% extends "staff/organization_base.html" %}{% load staticfiles %}
+
+{% block extra_head %}
+	<link href="{% static 'uni-form/css/uni-form.css' %}" media="screen, projector, print" rel="stylesheet" type="text/css" />
+	<link href="{% static 'uni-form/css/default.uni-form.css' %}" media="screen, projector, print" rel="stylesheet" type="text/css" />
+{% endblock %}
 
 {% block title %}{{ org.display_name }}{% endblock %}
 {% block breadcrumbs %}
@@ -12,5 +17,6 @@
 			<h1 class="display-name">{{ org.display_name }}</h1>
 		</div>
 		{% include "_organization_info_full.html" %}
+		{% include "staff/_billing.html" %}
 	</div>
 {% endblock %}

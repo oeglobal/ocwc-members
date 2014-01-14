@@ -2,7 +2,8 @@ from django.contrib import admin
 from django.utils.html import format_html
 
 from .models import Organization, Contact, Address, MembershipApplication, \
-					MembershipApplicationComment, Country, ReportedStatistic
+					MembershipApplicationComment, Country, ReportedStatistic, Invoice, \
+					BillingLog
 
 class ContactInline(admin.TabularInline):
 	model = Contact
@@ -71,6 +72,12 @@ class ReportedStatisticAdmin(admin.ModelAdmin):
 	search_fields = ('organization__display_name',)
 	# list_filter = ('report_year',)
 
+class InvoiceAdmin(admin.ModelAdmin):
+	list_display = ('invoice_number', 'organization', 'pub_date')
+
+class BillingLogAdmin(admin.ModelAdmin):
+	list_display = ('log_type', 'organization', 'pub_date')
+
 admin.site.register(Organization, OrganizationAdmin)
 admin.site.register(Contact, ContactAdmin)
 admin.site.register(Address, AddressAdmin)
@@ -78,3 +85,5 @@ admin.site.register(MembershipApplication, MembershipApplicationAdmin)
 # admin.site.register(MembershipApplicationComment, MembershipApplicationCommentAdmin)
 admin.site.register(Country, CountryAdmin)
 admin.site.register(ReportedStatistic, ReportedStatisticAdmin)
+admin.site.register(Invoice, InvoiceAdmin)
+admin.site.register(BillingLog, BillingLogAdmin)

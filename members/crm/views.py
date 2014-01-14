@@ -19,9 +19,10 @@ from rest_framework.renderers import JSONRenderer, JSONPRenderer, BrowsableAPIRe
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework.permissions import IsAuthenticated
 
-from .models import Organization, Contact, Address, ReportedStatistic, Country, MembershipApplication, LoginKey
+from .models import Organization, Contact, Address, ReportedStatistic, Country, MembershipApplication, \
+				    LoginKey, Invoice, BillingLog
 from .serializers import OrganizationApiSerializer, OrganizationDetailedApiSerializer, OrganizationRssFeedsApiSerializer
-from .forms import MembershipApplicationModelForm, MemberLoginForm, AddressModelForm
+from .forms import MembershipApplicationModelForm, MemberLoginForm, AddressModelForm, BillingLogForm
 
 class IndexView(FormView):
 	template_name = 'index.html'
@@ -172,6 +173,56 @@ class OrganizationStaffListView(OrganizationStaffView, ListView):
 class OrganizationStaffDetailView(OrganizationStaffView, DetailView):
 	template_name = 'staff/organization_detail.html'
 	context_object_name = 'org'
+
+	def get_context_data(self, **kwargs):
+	    context = super(OrganizationStaffDetailView, self).get_context_data(**kwargs)
+
+	    initial = {
+	    	'organization': self.object.id,
+	    	'user': self.request.user.id,
+	    	'amount': self.object.get_membership_due_amount(),
+	    	'invoice_year': '2013'
+	    }
+	    context['form'] = BillingLogForm(initial=initial)
+	    return context
+
+class InvoiceStaffView(StaffView, DetailView):
+	model = Invoice
+	template_name = 'staff/invoice_detail.html'
+	context_object_name = 'invoice'
+
+class InvoicePhantomJSView(DetailView):
+	model = Invoice
+	template_name = 'staff/invoice_detail.html'
+	context_object_name = 'invoice'
+
+class BillingLogCreateView(StaffView, CreateView):
+	model = BillingLog
+	form = BillingLogForm
+	template_name = 'staff/billinglog_form.html'
+
+	def form_valid(self, form):
+		get = form.cleaned_data.get
+		org = get('organization')
+
+		if get('log_type') == 'create_invoice':
+			invoice = Invoice(
+				organization = org,
+				invoice_number = "%s-%s" % (org.id, get('invoice_year')),
+				invoice_year = get('invoice_year'),
+				amount = get('amount'),
+			)
+			invoice.save()
+			
+			billing_log = form.save(commit=False)
+			billing_log.invoice = invoice
+			billing_log.save()
+
+			invoice.generate_pdf()
+
+		return redirect(reverse('staff:organization-view', kwargs={'pk': org.id}))
+
+
 
 ### API views
 

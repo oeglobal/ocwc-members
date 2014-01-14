@@ -1,5 +1,9 @@
 # -*- coding: utf-8 -*-
+import os
+import sys
 import uuid
+import subprocess
+import tempfile
 import datetime
 
 from django.db import models
@@ -9,10 +13,13 @@ from django.core.urlresolvers import reverse
 from django.core.mail import send_mail
 from django.contrib.auth.models import User
 from django.template.loader import render_to_string
+from django.conf import settings
 
-import reversion
 from geopy import geocoders
 from geopy.geocoders.google import GQueryError
+
+import reversion
+here = lambda x: os.path.join(os.path.dirname(os.path.abspath(__file__)), x)
 
 class Country(models.Model):
     name = models.CharField(max_length=192, unique=True, blank=True)
@@ -132,6 +139,9 @@ class Organization(models.Model):
             self.slug = slug
 
         super(Organization, self).save(force_insert=force_insert, force_update=force_update, using=using)
+
+    def get_membership_due_amount(self):
+        return 200
 
 reversion.register(Organization)
 
@@ -464,3 +474,66 @@ class LoginKey(models.Model):
 
     def get_absolute_url(self):
         return '/login/%s/' % self.key
+
+BILLING_LOG_TYPE_CHOICES = (
+    ('create_invoice', 'Create new invoice'),
+    ('send_invoice', 'Send invoice via email'),
+    ('paid_invoice', 'Invoice was paid')
+)
+
+class BillingLog(models.Model):
+    log_type = models.CharField(max_length=30, choices=BILLING_LOG_TYPE_CHOICES)
+    organization = models.ForeignKey(Organization)
+    pub_date = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(User)
+
+    amount = models.IntegerField(null=True)
+    invoice = models.ForeignKey('Invoice', null=True, blank=True)
+    invoice_year = models.CharField(default='2013', max_length=10)
+    note = models.TextField(blank=True, help_text='Visible to staff members only')
+
+class Invoice(models.Model):
+    organization = models.ForeignKey(Organization)
+    invoice_number = models.CharField(max_length=30, blank=True)
+    invoice_year = models.CharField(default='2013', max_length=10)
+    amount = models.IntegerField()
+    description = models.TextField(blank=True)
+    
+    pdf_filename = models.CharField(max_length=100, blank=True)
+    access_key = models.CharField(max_length=32, blank=True)
+
+    paypal_link = models.TextField(blank=True)
+    pub_date = models.DateTimeField(auto_now_add=True)
+
+    def __unicode__(self):
+        return "Invoice %s (%s)" % (self.invoice_number, self.organization.display_name)
+
+    def get_absolute_url(self):
+        return reverse('staff:invoice-view', kwargs={'pk':self.id})
+
+    def get_access_key_url(self):
+        return reverse('staff:invoice-phantomjs-view', kwargs={'access_key':self.access_key})
+
+    def get_pdf_url(self):
+        return "%s%s" % (settings.INVOICES_URL, self.pdf_filename)
+
+    def save(self, force_insert=False, force_update=False, using=None):
+        if not self.access_key:
+            self.access_key = uuid.uuid4().get_hex()
+
+        super(Invoice, self).save(force_insert=force_insert, force_update=force_update, using=using)
+
+    def generate_pdf(self):
+        url = '%s%s' % (settings.INVOICES_PHANTOM_JS_HOST, self.get_access_key_url())
+        filename = "invoice_%s_%s.pdf" % (self.pk, uuid.uuid4().get_hex())
+        pdf_path = os.path.join(settings.INVOICES_ROOT, filename)
+        
+        subprocess.Popen([here('../../bin/phantomjs'), 
+                          here('phantomjs-scripts/rasterize.js'), 
+                          url,
+                          pdf_path,
+                          'Letter'
+                        ])
+
+        self.pdf_filename = filename
+        self.save()

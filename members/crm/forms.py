@@ -7,7 +7,8 @@ from django.utils.safestring import mark_safe
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit, Layout, Field, Div, HTML
 
-from .models import MembershipApplication, ORGANIZATION_ASSOCIATED_CONSORTIUM, CORPORATE_SUPPORT_CHOICES, IS_ACCREDITED_CHOICES, Organization, Address
+from .models import MembershipApplication, ORGANIZATION_ASSOCIATED_CONSORTIUM, CORPORATE_SUPPORT_CHOICES, IS_ACCREDITED_CHOICES, \
+                    Organization, Address, BillingLog, BILLING_LOG_TYPE_CHOICES
 
 SIMPLIFIED_MEMBERSHIP_TYPE_CHOICES = (
     ('institutional', mark_safe('Institutional Member <i class="icon-question-sign" data-help-text="institutional"></i>')),
@@ -161,3 +162,30 @@ class AddressModelForm(forms.ModelForm):
         model = Address
         fields = ('street_address', 'supplemental_address_1', 'supplemental_address_2',
                   'city', 'postal_code', 'state_province', 'country')
+
+
+class BillingLogForm(forms.ModelForm):
+    log_type = forms.ChoiceField(widget=forms.RadioSelect,
+                                 choices=BILLING_LOG_TYPE_CHOICES,
+                                 label='Action')
+
+    def __init__(self, *args, **kwargs):
+        super(BillingLogForm, self).__init__(*args, **kwargs)
+
+        self.fields['organization'].widget = forms.HiddenInput()
+        self.fields['user'].widget = forms.HiddenInput()
+        self.fields['invoice_year'].widget = forms.HiddenInput()
+
+        self.helper = FormHelper(self)
+
+        self.helper.layout = Layout(
+            Div(
+                Field('log_type'),
+                Field('amount'),
+            css_class="row")
+        )
+        self.helper.layout.append(Submit('submit', 'submit'))
+
+    class Meta:
+        model = BillingLog
+        fields = ('log_type', 'amount', 'organization', 'user', 'invoice_year')

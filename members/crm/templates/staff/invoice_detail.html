@@ -1,0 +1,211 @@
+{% extends "base.html" %}{% load staticfiles %}
+
+{% block headrow %}{% endblock %}
+{% block breadcrumbs_wrapper %}{% endblock %}
+{% block extra_head %}
+<style type="text/css">
+	.spacer { height: 10px; }
+	.underline { text-decoration: underline; }
+	img { width: 250px !important; }
+
+	@media print 
+	{
+    	body { width:640px; }
+
+	  .large-4 {
+	    position: relative;
+	    width: 33.33333%;
+	  }
+
+	  .large-6 {
+	    position: relative;
+	    width: 50%;
+	  }
+
+	  .column,
+	  .columns {
+	    position: relative;
+	    padding-left: 0.9375em;
+	    padding-right: 0.9375em;
+	    float: left;
+	  }
+
+	  table tbody tr td, table tr td {
+	  	line-height: 0.9em;
+	  }
+    }
+</style>
+{% endblock %}
+
+{% block contents %}
+<div class="spacer"></div><div class="spacer"></div>
+<div class="row">
+	<div class="large-4 columns">
+		<img src="/theme/images/logo.png" alt="OpenCourseWare Consortium logo" />
+	</div>
+</div>
+<div class="spacer"></div><div class="spacer"></div>
+<div class="row">
+	<div class="large-6 columns">
+		<p><strong>OpenCourseWare Consortium</strong></br>
+		   PO Box 251</br>
+		   Newton, MA 02464 USA</br>
+		   US Tax ID Number: 01-0908761</br>
+		</p>
+	</div>
+
+	<div class="large-4 columns right">
+		<p>Date: {{ invoice.pub_date|date:"F j, Y" }}</p>
+	</div>
+</div>
+<div class="spacer"></div><div class="spacer"></div>
+<div class="row">
+	<div class="large-4 columns">
+		<p>TO: {{ invoice.organization.display_name }}
+			{% with org.address_set.all.0 as address %}
+				{{ address.street_address }}<br />
+				{% if address.supplemental_address_1 %}{{ address.supplemental_address_1 }}<br />{% endif %}
+				{% if address.supplemental_address_2 %}{{ address.supplemental_address_2 }}<br />{% endif %}
+
+				{{ address.city }}, {{ address.postal_code }} {{ address.postal_code_suffix }}<br />
+				{{ address.country }}
+			{% endwith %}
+		</p>
+	</div>
+	<div class="large-4 columns right">
+		<p>INVOICE #: {{ invoice.invoice_number }}</p>
+	</div>
+</div>
+<div class="spacer"></div><div class="spacer"></div><div class="spacer"></div><div class="spacer"></div>
+<div class="row">
+	<div class="large-10 columns push-1">
+		<table>
+			<thead>
+				<tr>
+					<th>Description</th>
+					<th>Amount due</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>OpenCourseWare Consortium {{ invoice.invoice_year }} Membership</td>
+					<td>US ${{ invoice.amount }}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+<div class="spacer"></div><div class="spacer"></div><div class="spacer"></div><div class="spacer"></div>
+<div class="row">
+	<div class="large-10 columns push-1">
+		<p>Thank you for your support of the OCW Consortium through the prompt payment of this invoice.</p>
+
+		<p>Please note the following: <br />
+		<ul>
+			<li>Payment is due 30 days from invoice date.</li>
+			<li>Payments not received within 3 months of becoming due will result in membership expiration. </li>
+			<li>All Payments should be made in United States Dollars</li>
+			<li>Please remit payment by Check, Wire Transfer, Bank Draft, or PayPal</li>
+		</ul>
+		</p>
+	</div>
+	<div class="spacer"></div><div class="spacer"></div><div class="spacer"></div><div class="spacer"></div>
+	<div class="large-10 columns push-1">
+		<h3>THANK YOU FOR YOUR MEMBERSHIP!</h3>
+	</div>
+</div>
+
+
+<div style="page-break-before:always;"></div>
+
+<div class="row">
+	<div class="large-4 columns">
+		<img src="/theme/images/logo.png" alt="OpenCourseWare Consortium logo" />
+	</div>
+</div>
+<div class="spacer"></div><div class="spacer"></div>
+
+<div class="row">
+	<div class="large-12 columns">
+		<p><strong>Paying by check:</strong></p>
+		<p>Check should be made payable to the OpenCourseWare Consortium. <br />
+		<span class="underline">Please include invoice number on the check</span>, and mail the check along with this invoice to:
+		</p>
+		<p style="margin-left: 10px;">
+			OpenCourseWare Consortium<br />
+			PO Box 251<br />
+			Newton, MA 02464 USA<br />
+			US Tax ID Number: 01-0908761<br />
+		</p>
+	</div>
+	<div class="large-12 columns">
+		<p><strong>Electronic payment:</strong></p>
+		<p>Bank transfer information can be found below.  <span class="underline">Please include invoice number in payment.</span></p>
+		<p>
+		<table>
+			<tr>
+				<td>Company Name</td>
+				<td>OpenCourseWare Consortium</td>
+			</tr>
+			<tr>
+				<td>Address</td>
+				<td>PO Box 251</td>
+			</tr>
+			<tr>
+				<td>City / State / Zip</td>
+				<td>Newton, MA 02464 USA</td>
+			</tr>
+			<tr>
+				<td>IRS Taxpayer ID#</td>
+				<td>01-0908761</td>
+			</tr>
+			<tr>
+				<td>Bank Name</td>
+				<td>TD Bank Harvard Square</td>
+			</tr>
+			<tr>
+				<td>Bank Branch Address</td>
+				<td>1270 Massachusetts Ave<br/>
+					Cambridge, MA 02138
+				</td>
+			</tr>
+			<tr>
+				<td>Name on Account</td>
+				<td>OpenCourseWare Consortium</td>
+			</tr>
+			<tr>
+				<td>Account Number</td>
+				<td>8247649706</td>
+			</tr>
+			<tr>
+				<td>Account Type </td>
+				<td>Checking</td>
+			</tr>
+			<tr>
+				<td>Bank Transit Routing # (ABA)</td>
+				<td>211370545 </td>
+			</tr>
+			<tr>
+				<td>International SWIFT Code</td>
+				<td>NRTHUS33</td>
+			</tr>
+		</table>
+		</p>
+	</div>
+	<div class="large-12 columns">
+		<p><strong>Paypal:</strong></p>
+		<p>Submit payment through PayPal using the following link: <br/>
+			{{ invoice.paypal_link }}<br />
+            <span class="underline">Please include invoice number as added note.</span>
+        </p>
+	</div>
+	<div class="large-12 columns">
+		<p><br />Please don’t hesitate to contact us if you need any further information. <br />
+		Kind regards,<br />
+		<strong>OCWC Member Services</strong><br />
+		<span class="underline">memberservices@ocwconsortium.org</span>
+		</p>
+	</div>
+</div>
+
+{% endblock %}

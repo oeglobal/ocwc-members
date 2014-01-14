@@ -10,11 +10,13 @@
 	<link href='http://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'>
 	<link href='http://fonts.googleapis.com/css?family=Metrophobic' rel='stylesheet' type='text/css'>
 
+	{% block css_head %}
   	<link href="/theme/lib/stylesheets/app.css" media="screen, projector, print" rel="stylesheet" type="text/css" />
 	<link href="/theme/lib/stylesheets/ocwc.css" media="screen, projector, print" rel="stylesheet" type="text/css" />
   	<link href="/theme/lib/stylesheets/style.css" media="screen, projector, print" rel="stylesheet" type="text/css" />
 
-  	<link href="{% static 'css/style.css' %}" media="screen, projector, print" rel="stylesheet" type="text/css" />
+  	<link href="{% static 'css/style.css' %}" media="screen, projector" rel="stylesheet" type="text/css" />
+  	{% endblock %}
 
   	<script src="/theme/lib/javascripts/vendor/custom.modernizr.js"></script>
   	<script src="/theme/lib/javascripts/plugins/respond.min.js"></script>
@@ -22,15 +24,9 @@
   	{% block extra_head %}{% endblock %}
 </head>
 <body>
+	{% block headrow %}
 	<div class="row" id="top-nav">
 		<div class="large-4 push-9 columns">
-			{% comment %}
-			<div id="google_translate_element"></div><script type="text/javascript">
-			function googleTranslateElementInit() {
-			  new google.translate.TranslateElement({pageLanguage: 'en', layout: google.translate.TranslateElement.InlineLayout.SIMPLE, multilanguagePage: true}, 'google_translate_element');
-			}
-			</script><script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-			{% endcomment %}
 			{% if user.is_anonymous %}
 				{# <a href="/">Login</a> #}
 			{% else %}
@@ -46,6 +42,7 @@
 			{% endblock %}
 		</div>
 	</div>
+	{% endblock %}
 
 <div class="main">
 	{% block breadcrumbs_wrapper %}
