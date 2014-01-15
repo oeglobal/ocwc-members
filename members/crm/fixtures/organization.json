@@ -51,5 +51,23 @@
         "email": "tech@ocwconsortium.org", 
         "job_title": ""
     }
+},
+{
+    "pk": 1, 
+    "model": "crm.address", 
+    "fields": {
+        "state_province": "Massachusetts", 
+        "city": "Newton", 
+        "postal_code_suffix": "", 
+        "country": 227, 
+        "longitude": null, 
+        "postal_code": "02464", 
+        "supplemental_address_1": "", 
+        "supplemental_address_2": "", 
+        "latitude": null, 
+        "organization": 1, 
+        "street_address": "PO Box 251", 
+        "state_province_abbr": "MA"
+    }
 }
 ]

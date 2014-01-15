@@ -36,20 +36,23 @@ class Country(models.Model):
 
 ORGANIZATION_MEMBERSHIP_TYPE_CHOICES = (
     (5 , 'Institutional Members'),
-    (6 , 'Organizational Members'),
-    (7 , 'Associate Consortium Members'),
-    (8 , 'Corporate Members - Basic'),
-    (9 , 'Associate Institutional Members'),
     (10, 'Institutional Members - MRC'),
     (11, 'Institutional Members - DC'),
     (12, 'Institutional Members - DC - MRC'),
+
+    (9 , 'Associate Institutional Members'),
+    (17, 'Associate Institutional Members - DC'),
+
+    (6 , 'Organizational Members'),
     (13, 'Organizational Members - DC'),
+
+    (7 , 'Associate Consortium Members'),
     (14, 'Associate Consortium Members - DC'),
+
+    (8 , 'Corporate Members - Basic'),    
     (15, 'Corporate Members - Premium'),
     (16, 'Corporate Members - Sustaining'),
-    (17, 'Associate Institutional Members - DC'),
-    (18, 'Nominating Committee'),
-    (19, 'Organizational Members - DC - MRC'),
+    
 )
 
 ORGANIZATION_TYPE_CHOICES = (
@@ -86,7 +89,8 @@ ORGANIZATION_ASSOCIATED_CONSORTIUM = (
     ('TOCWC', 'Taiwan OpenCourseWare Consortium'),
     ('Turkish OCWC', 'Turkish OpenCourseWare Consortium'),
     ('UNIVERSIA', 'UNIVERSIA'),
-    ('FOCW', 'OCW France')
+    ('FOCW', 'OCW France'),
+    ('OTHER', 'OTHER')
 )
 
 class ActiveOrganizationManager(models.Manager):
@@ -141,7 +145,35 @@ class Organization(models.Model):
         super(Organization, self).save(force_insert=force_insert, force_update=force_update, using=using)
 
     def get_membership_due_amount(self):
-        return 200
+        # Sustaining members
+        if self.membership_status in [7]:
+            return 0    #manually processed
+
+        # (8 , 'Corporate Members - Basic'),    
+        if self.membership_type in [8]:
+            return 1000
+
+        # (5 , 'Institutional Members'),
+        # (6 , 'Organizational Members'),
+        # (11, 'Institutional Members - DC'),
+        # (7 , 'Associate Consortium Members'),
+        # (13, 'Organizational Members - DC'),
+        if self.membership_type in [5,6,11,7,13]:
+            if self.address_set.latest('id').country.developing:
+                return 375
+            else:
+                return 750
+
+        # (10, 'Institutional Members - MRC'),
+        # (12, 'Institutional Members - DC - MRC'),
+        # (9 , 'Associate Institutional Members'),
+        # (17, 'Associate Institutional Members - DC')    
+        # (14, 'Associate Consortium Members - DC'),
+        if self.membership_type in [10, 12, 9, 17, 14]:
+            if self.address_set.latest('id').country.developing:
+                return 525
+            else:
+                return 225        
 
 reversion.register(Organization)
 
@@ -520,6 +552,8 @@ class Invoice(models.Model):
     def save(self, force_insert=False, force_update=False, using=None):
         if not self.access_key:
             self.access_key = uuid.uuid4().get_hex()
+        if not self.paypal_link:
+            self.paypal_link = self._get_paypal_link()
 
         super(Invoice, self).save(force_insert=force_insert, force_update=force_update, using=using)
 
@@ -537,3 +571,17 @@ class Invoice(models.Model):
 
         self.pdf_filename = filename
         self.save()
+
+    def _get_paypal_link(self):
+        if self.amount == 225:
+            return 'https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=SSS6C5TBMRDJ2'
+        if self.amount == 375:
+            return 'https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=Y6DLXHCB5E8JL'
+        if self.amount == 525:
+            return 'https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=HJB7HSG28DC82'
+        if self.amount == 750:               
+            return 'https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=7LXJWSNC3DPMC'
+        if self.amount == 1000:
+            return 'https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=Z8THX5FXTWCFS'
+
+        return ''

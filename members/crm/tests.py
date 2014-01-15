@@ -3,6 +3,7 @@ from django.core.urlresolvers import reverse
 from django.core import mail
 from django.contrib.auth.models import User
 from django.conf import settings
+from django.shortcuts import redirect
 
 from django.test import TransactionTestCase as TestCase
 from django.test import Client, LiveServerTestCase
@@ -139,7 +140,7 @@ class BillingLogTest(LiveServerTestCase):
         }
 
         response = self.client.post(reverse('staff:billinglog-create'), data)
-        self.assertRedirects(response, org.get_absolute_url())
+        self.assertRedirects(response, reverse('staff:organization-view', kwargs={'pk': org.id}))
 
         billing_log = BillingLog.objects.latest('id')
         invoice = Invoice.objects.latest('id')
