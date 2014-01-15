@@ -192,6 +192,7 @@
 		</table>
 		</p>
 	</div>
+	{% if invoice.paypal_link %}
 	<div class="large-12 columns">
 		<p><strong>Paypal:</strong></p>
 		<p>Submit payment through PayPal using the following link: <br/>
@@ -199,6 +200,12 @@
             <span class="underline">Please include invoice number as added note.</span>
         </p>
 	</div>
+	{% else %}
+	<div class="large-12 columns">
+		<p><strong>Paypal:</strong></p>
+		<p>Please contact us to get a PayPal payment link.</p>
+	</div>
+	{% endif %}
 	<div class="large-12 columns">
 		<p><br />Please don’t hesitate to contact us if you need any further information. <br />
 		Kind regards,<br />
