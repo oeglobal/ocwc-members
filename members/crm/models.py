@@ -45,6 +45,7 @@ ORGANIZATION_MEMBERSHIP_TYPE_CHOICES = (
 
     (6 , 'Organizational Members'),
     (13, 'Organizational Members - DC'),
+    (18, 'Organizational Members - MRC'),
 
     (7 , 'Associate Consortium Members'),
     (14, 'Associate Consortium Members - DC'),
@@ -169,6 +170,7 @@ class Organization(models.Model):
         # (9 , 'Associate Institutional Members'),
         # (17, 'Associate Institutional Members - DC')    
         # (14, 'Associate Consortium Members - DC'),
+        # (18, 'Organizational Members - MRC'),
         if self.membership_type in [10, 12, 9, 17, 14]:
             if self.address_set.latest('id').country.developing:
                 return 525
