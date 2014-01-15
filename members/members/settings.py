@@ -2,7 +2,7 @@ import os, sys
 here = lambda x: os.path.join(os.path.dirname(os.path.abspath(__file__)), x)
 
 ADMINS = (
-    # ('Your Name', 'your_email@example.com'),
+    ('Jure Cuhalev', 'jure@ocwconsortium.org'),
 )
 
 MANAGERS = ADMINS
