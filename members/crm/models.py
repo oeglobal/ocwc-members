@@ -239,7 +239,7 @@ class Address(models.Model):
                 if lat:
                     self.latitude = lat
                     self.longitude = lng
-            except ValueError:
+            except:
                 pass
 
         super(Address, self).save(force_insert=force_insert, force_update=force_update, using=using)
