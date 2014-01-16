@@ -8,11 +8,14 @@
 	.underline { text-decoration: underline; }
 	img { width: 250px !important; }
 
-	body {
-	    font-family: 'userSelectedFont';
+	@font-face {
+	    font-family: 'customFont';
 	    font-style: normal;
 	    font-weight: normal;
-	    src: url("/usr/share/fonts/truetype/ttf-dejavu/DejaVuSerif.ttf");
+	    src: url("/usr/share/fonts/dejavu/DejaVuSerif.ttf");
+	}
+	body {
+		font-family: customFont !important;
 	}
 
 	@media print 
