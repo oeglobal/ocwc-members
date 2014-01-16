@@ -541,7 +541,7 @@ class BillingLog(models.Model):
             content = f.read()
 
         message.attach(filename='ocw-invoice-%s.pdf' % self.invoice.invoice_number,
-                       content=pdf_path, 
+                       content=content, 
                        mimetype='application/pdf')
         message.send()
 
