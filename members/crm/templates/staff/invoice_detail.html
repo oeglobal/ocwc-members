@@ -8,6 +8,10 @@
 	.underline { text-decoration: underline; }
 	img { width: 250px !important; }
 
+	body {
+		font-family: sans-serif !important;
+	}
+
 	@media print 
 	{
     	body { width:640px; }
@@ -109,9 +113,17 @@
 		</ul>
 		</p>
 	</div>
-	<div class="spacer"></div><div class="spacer"></div><div class="spacer"></div><div class="spacer"></div>
+	<div class="large-12 columns">
+		<p><br /><br />Please don’t hesitate to contact us if you need any further information. <br />
+		Kind regards,<br />
+		<strong>OCWC Member Services</strong><br />
+		<span class="underline">memberservices@ocwconsortium.org</span>
+		</p>
+	</div>
+	
 	<div class="large-10 columns push-1">
-		<h3>THANK YOU FOR YOUR MEMBERSHIP!</h3>
+		<p>Thank you for your membership!</p>
+		<p><br /><br />Page 1/2</p>
 	</div>
 </div>
 
@@ -164,8 +176,8 @@
 				<td>TD Bank Harvard Square</td>
 			</tr>
 			<tr>
-				<td>Bank Branch Address</td>
-				<td>1270 Massachusetts Ave<br/>
+				<td style="vertical-align: text-top;">Bank Branch Address</td>
+				<td style="vertical-align: text-top; line-height: 1.6em;">1270 Massachusetts Ave<br/>
 					Cambridge, MA 02138
 				</td>
 			</tr>
@@ -207,11 +219,7 @@
 	</div>
 	{% endif %}
 	<div class="large-12 columns">
-		<p><br />Please don’t hesitate to contact us if you need any further information. <br />
-		Kind regards,<br />
-		<strong>OCWC Member Services</strong><br />
-		<span class="underline">memberservices@ocwconsortium.org</span>
-		</p>
+		<p>Page 2/2</p>
 	</div>
 </div>
 
