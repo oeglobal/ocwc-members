@@ -25,7 +25,7 @@
 	</table>
 
 	<div class="small-6 columns">
-		<form action="{% url 'staff:billinglog-create' %}" method="POST">
+		<form action="{% url 'staff:billinglog-create' %}" method="POST" class="billing-form">
 			{% csrf_token %}
 			{% crispy form %}
 		</form>

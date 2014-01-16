@@ -2,8 +2,6 @@
 		{% if request.user.is_staff %}			
 			<h2>Account information</h2>
 			<p>
-				<strong>Username:</strong> <a href="/admin/auth/user/{{ org.user.id }}/" target="_blank">{{ org.user.username }}</a> (<a href="/admin/auth/user/{{ org.user.id }}/password/" target="_blank">Change password</a>)<br />
-				<strong>Primary e-mail:</strong> {{ org.user.email }}<br />
 				<strong>Last login:</strong> {{ org.user.last_login }}<br/>
 			</p>
 			<p>

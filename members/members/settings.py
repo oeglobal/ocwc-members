@@ -163,5 +163,5 @@ LOGGING = {
 }
 
 CRISPY_TEMPLATE_PACK = 'uni_form'
-
+DEFAULT_INVOICE_YEAR = '2014'
 from localsettings import *

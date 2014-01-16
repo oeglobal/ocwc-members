@@ -3,6 +3,8 @@
 {% block extra_head %}
 	<link href="{% static 'uni-form/css/uni-form.css' %}" media="screen, projector, print" rel="stylesheet" type="text/css" />
 	<link href="{% static 'uni-form/css/default.uni-form.css' %}" media="screen, projector, print" rel="stylesheet" type="text/css" />
+
+	{{ block.super }}
 {% endblock %}
 
 {% block title %}{{ org.display_name }}{% endblock %}

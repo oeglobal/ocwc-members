@@ -153,7 +153,8 @@ class MemberLoginForm(forms.Form):
         org = cleaned_data.get('organization')
 
         if org and email and not Organization.active.filter(pk=org, contact__email=email):
-            raise forms.ValidationError('E-mail you entered is not associated with selected organization. Please contact members services if you require assistance.', code='invalid-email')
+            raise forms.ValidationError('E-mail you entered is not associated with selected organization.' + 
+                                        'Please contact members services if you require assistance.', code='invalid-email')
 
         return cleaned_data
 
@@ -175,17 +176,35 @@ class BillingLogForm(forms.ModelForm):
         self.fields['organization'].widget = forms.HiddenInput()
         self.fields['user'].widget = forms.HiddenInput()
         self.fields['invoice_year'].widget = forms.HiddenInput()
+        self.fields['amount'].required = False
+        self.fields['first_name'].required= False
 
         self.helper = FormHelper(self)
 
         self.helper.layout = Layout(
             Div(
                 Field('log_type'),
+            css_class="row"),
+            Div(
                 Field('amount'),
-            css_class="row")
+            css_class="row hide-initial"),
+            Div(
+                HTML("<p>Invoice recepient information (latest invoice will be attached to the e-mail)</p>"),
+                Field('first_name'),
+                Field('email'),
+            css_class="row hide-initial"),
         )
         self.helper.layout.append(Submit('submit', 'submit'))
 
+    def clean(self):
+        cleaned_data = super(BillingLogForm, self).clean()
+
+        if cleaned_data.get('log_type') == 'create_invoice':
+            del(cleaned_data['first_name'])
+            del(cleaned_data['email'])
+        elif cleaned_data.get('log_type') == 'send_invoice':
+            del(cleaned_data['amount'])
+
     class Meta:
         model = BillingLog
-        fields = ('log_type', 'amount', 'organization', 'user', 'invoice_year')
+        fields = ('log_type', 'amount', 'organization', 'first_name', 'user', 'invoice_year', 'email')

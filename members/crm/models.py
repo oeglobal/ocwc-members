@@ -10,7 +10,7 @@ from django.db import models
 from django.utils.text import slugify
 from django.utils.safestring import mark_safe
 from django.core.urlresolvers import reverse
-from django.core.mail import send_mail
+from django.core.mail import send_mail, EmailMessage
 from django.contrib.auth.models import User
 from django.template.loader import render_to_string
 from django.conf import settings
@@ -522,14 +522,34 @@ class BillingLog(models.Model):
     user = models.ForeignKey(User)
 
     amount = models.IntegerField(null=True)
+    first_name = models.CharField(max_length=60, blank=True)
+    email = models.CharField(max_length=120, blank=True)
     invoice = models.ForeignKey('Invoice', null=True, blank=True)
-    invoice_year = models.CharField(default='2013', max_length=10)
+    invoice_year = models.CharField(default=settings.DEFAULT_INVOICE_YEAR, max_length=10)
     note = models.TextField(blank=True, help_text='Visible to staff members only')
+
+    def send_email(self):
+        body = render_to_string('staff/invoice_mail.txt', {'billinglog': self})
+        message = EmailMessage(
+            subject = '2014 OCWC Membership invoice',
+            body = body,
+            from_email = 'memberservices@ocwconsortium.org',
+            to = [self.email]
+        )
+        pdf_path = os.path.join(settings.INVOICES_ROOT, self.invoice.pdf_filename)
+        with open(pdf_path, 'rb') as f:
+            content = f.read()
+
+        message.attach(filename='ocw-invoice-%s.pdf' % self.invoice.invoice_number,
+                       content=pdf_path, 
+                       mimetype='application/pdf')
+        message.send()
+
 
 class Invoice(models.Model):
     organization = models.ForeignKey(Organization)
     invoice_number = models.CharField(max_length=30, blank=True)
-    invoice_year = models.CharField(default='2013', max_length=10)
+    invoice_year = models.CharField(default=settings.DEFAULT_INVOICE_YEAR, max_length=10)
     amount = models.IntegerField()
     description = models.TextField(blank=True)
     

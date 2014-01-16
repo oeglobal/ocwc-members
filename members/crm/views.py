@@ -4,6 +4,7 @@ import datetime
 
 
 from django import forms
+from django.conf import settings
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import AuthenticationForm
@@ -177,11 +178,21 @@ class OrganizationStaffDetailView(OrganizationStaffView, DetailView):
 	def get_context_data(self, **kwargs):
 	    context = super(OrganizationStaffDetailView, self).get_context_data(**kwargs)
 
+	    try:
+	    	lead_contact = self.object.contact_set.filter(contact_type=6).latest('id')
+	    	first_name = lead_contact.first_name
+	    	email = lead_contact.email
+	    except (Contact.DoesNotExist):
+	    	first_name = ''
+	    	email = ''
+
 	    initial = {
 	    	'organization': self.object.id,
 	    	'user': self.request.user.id,
 	    	'amount': self.object.get_membership_due_amount(),
-	    	'invoice_year': '2013'
+	    	'invoice_year': settings.DEFAULT_INVOICE_YEAR,
+	    	'first_name': first_name,
+	    	'email': email,
 	    }
 	    context['form'] = BillingLogForm(initial=initial)
 	    return context
@@ -219,6 +230,13 @@ class BillingLogCreateView(StaffView, CreateView):
 			billing_log.save()
 
 			invoice.generate_pdf()
+
+		elif get('log_type') == 'send_invoice':
+			billing_log = form.save(commit=False)
+			billing_log.invoice = Invoice.objects.filter(organization=org).latest('id')
+			billing_log.save()
+
+			billing_log.send_email()
 
 		return redirect(reverse('staff:organization-view', kwargs={'pk': org.id}))
 

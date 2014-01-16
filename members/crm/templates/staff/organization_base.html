@@ -1,4 +1,14 @@
-{% extends "base.html" %}
+{% extends "base.html" %}{% load staticfiles %}
+
+{% block extra_head %}
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.8/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.8/angular-resource.min.js"></script>
+    
+{% endblock %}
+
+{% block extra_foot %}
+	<script src="{% static 'js/staff-script.js' %}"></script>
+{% endblock %}
 
 {% block breadcrumbs %}
 			<li><a href="/">Home</a></li>
