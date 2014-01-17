@@ -173,9 +173,9 @@ class Organization(models.Model):
         # (18, 'Organizational Members - MRC'),
         if self.membership_type in [10, 12, 9, 17, 14]:
             if self.address_set.latest('id').country.developing:
-                return 525
+                return 225
             else:
-                return 225        
+                return 525
 
 reversion.register(Organization)
 
