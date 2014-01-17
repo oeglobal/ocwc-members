@@ -1,12 +1,12 @@
 Dear {{ billinglog.first_name }},
 
-Your support as Member is invaluable to the OpenCourseWare Consortium, ensuring that the innovative programs that make Open Education so special continue to enrich our growing audiences. Thousands of users enjoy OCWC’s resources thanks to your commitment.
- 
-Your generous investment and partnership will help the OCWC to continue building a lasting legacy of quality open educational resources that enlighten, inspire and enrich the hearts and minds of thousands of learners around the world.
- 
-Please find attached your 2014 OCWC Membership invoice and continue to share your experiences with us. 
- 
-We appreciate your confidence and support and assure you our continuing best efforts.
- 
-With thanks and best wishes,
+Your support as Member is invaluable to the OpenCourseWare Consortium, ensuring that the innovative programs that make Open Education so special continue to enrich our growing audiences. Thousands of users enjoy OCWC’s resources thanks to your commitment. 
+
+Your generous investment and partnership will help the OCWC to continue building a lasting legacy of quality open educational resources that enlighten, inspire and enrich the hearts and minds of thousands of learners around the world. 
+
+Please find attached your 2014 OCWC Membership invoice. 
+
+We appreciate your continuous support. 
+
+With thanks & best wishes, 
 {{ billinglog.user.first_name }} {{ billinglog.user.last_name }}
