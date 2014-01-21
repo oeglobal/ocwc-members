@@ -25,7 +25,7 @@
 	</table>
 
 	<div class="small-6 columns">
-		<form action="{% url 'staff:billinglog-create' %}" method="POST" class="billing-form">
+		<form action="{% url 'staff:billinglog-create' %}" method="POST" class="billing-form" ng-controller="BillingController">
 			{% csrf_token %}
 			{% crispy form %}
 		</form>

@@ -183,16 +183,16 @@ class BillingLogForm(forms.ModelForm):
 
         self.helper.layout = Layout(
             Div(
-                Field('log_type'),
+                Field('log_type', ng_model="logtype"),
             css_class="row"),
             Div(
                 Field('amount'),
-            css_class="row hide-initial"),
+            css_class="row", ng_show="logtype === 'create_invoice'"),
             Div(
                 HTML("<p>Invoice recepient information (latest invoice will be attached to the e-mail)</p>"),
                 Field('first_name'),
                 Field('email'),
-            css_class="row hide-initial"),
+            css_class="row", ng_show="logtype === 'send_invoice'"),
         )
         self.helper.layout.append(Submit('submit', 'submit'))
 
