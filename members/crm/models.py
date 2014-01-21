@@ -123,7 +123,8 @@ class Organization(models.Model):
     accreditation_body = models.CharField(max_length=255, blank=True, default='')
     support_commitment = models.TextField(blank=True, default='')
 
-    ocw_contact = models.ForeignKey(User, null=True, verbose_name=u'Primary contact inside OCW', related_name='ocw_contact_user')
+    ocw_contact = models.ForeignKey(User, null=True, verbose_name=u'Primary contact inside OCW', related_name='ocw_contact_user',
+                                    limit_choices_to={'is_staff': True})
 
     objects = models.Manager()
     active = ActiveOrganizationManager()
@@ -178,6 +179,11 @@ class Organization(models.Model):
             else:
                 return 525
 
+    def get_invoice_status(self):
+        return {
+            'create_invoice': self.billinglog_set.filter(log_type='create_invoice', invoice_year=settings.DEFAULT_INVOICE_YEAR).exists(),
+            'send_invoice': self.billinglog_set.filter(log_type='send_invoice', invoice_year=settings.DEFAULT_INVOICE_YEAR).exists(),
+        }
 reversion.register(Organization)
 
 # CONTACT_TYPE_CHOICES = (

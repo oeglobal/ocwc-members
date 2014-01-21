@@ -242,7 +242,13 @@ class BillingLogCreateView(StaffView, CreateView):
 
 		return redirect(reverse('staff:organization-view', kwargs={'pk': org.id}))
 
+class OrganizationBillingLogListingView(StaffView, ListView):
+	model = Organization
+	template_name = 'staff/billinglog_listing.html'
 
+	def get_queryset(self):
+		username = self.kwargs.pop('username')
+		return self.model.objects.filter(membership_status__in=(2,3,4,5,7,99), ocw_contact__username=username).order_by('display_name')	
 
 ### API views
 

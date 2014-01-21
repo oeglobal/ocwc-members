@@ -1,0 +1,34 @@
+{% extends "staff/organization_base.html" %}
+
+{% block contents %}
+<div class="row">
+	<div class="large-12 columns">
+		<table>
+			<thead>
+				<tr>
+					<th>Institution's Name</th>
+					<th>Membership Type</th>
+					<th>2014 Invoices</th>
+				</tr>
+			</thead>
+			{% for org in object_list %}
+				<tr>
+					<td><a href="{% url 'staff:organization-view' org.id %}">{{ org.display_name }}</a></td>
+					<td>{{ org.get_membership_status_display }}</td>
+					{% with org.get_invoice_status as status %}
+						{% if status.create_invoice and status.send_invoice %}
+							<td>created, sent</td>
+						{% elif status.create_invoice %}
+							<td>created</td>
+						{% elif status.send_invoice %}
+							<td>sent</td>
+						{% else %}
+							<td></td>
+						{% endif %}
+					{% endwith %}
+				</tr>
+			{% endfor %}
+		</table>
+	</div>
+</div>
+{% endblock %}

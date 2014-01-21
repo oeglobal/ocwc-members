@@ -16,7 +16,7 @@
 {% block contents %}
 	<div class="row" ng-app="orgApp">
 		<div class="large-12 columns">
-			<h1 class="display-name">{{ org.display_name }}</h1>
+			<h1 class="display-name">{{ org.display_name }} <a class="edit-link" href="{% url 'admin:crm_organization_change' org.id %}" target="_blank">(Admin Edit)</a></h1>
 		</div>
 		{% include "_organization_info_full.html" %}
 		{% include "staff/_billing.html" %}

@@ -14,13 +14,24 @@ class AddressInline(admin.StackedInline):
 	extra = 1
 
 class OrganizationAdmin(admin.ModelAdmin):
-	list_filter = ('membership_type', 'membership_status')
+	list_filter = ('membership_type', 'membership_status', 'ocw_contact')
 	list_display = ('display_name', 'associate_consortium', 'membership_status')
 	search_fields = ('display_name',)
 	inlines = [
 		ContactInline,
 		AddressInline
 	]
+	fieldsets = (
+		('General', {
+			'fields': ('display_name', 'membership_type', 'membership_status', 'associate_consortium','ocw_contact')
+		}),
+		('Websites', {
+			'fields': ('main_website', 'ocw_website'),
+		}),
+		('Additional', {
+			'fields': ('legal_name', 'user', 'slug', 'crmid', 'description', 'logo_large', 'logo_small', 'accreditation_body', 'support_commitment',) 
+		})
+	)
 
 class AddressAdmin(admin.ModelAdmin):
 	list_display = ('organization', 'street_address', 'city', 'country', 'latitude', 'longitude')
