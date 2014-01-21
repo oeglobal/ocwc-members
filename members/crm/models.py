@@ -5,6 +5,7 @@ import uuid
 import subprocess
 import tempfile
 import datetime
+import time
 
 from django.db import models
 from django.utils.text import slugify
@@ -526,19 +527,32 @@ class BillingLog(models.Model):
     email = models.CharField(max_length=120, blank=True)
     invoice = models.ForeignKey('Invoice', null=True, blank=True)
     invoice_year = models.CharField(default=settings.DEFAULT_INVOICE_YEAR, max_length=10)
+    description = models.TextField(blank=True, default='')
     note = models.TextField(blank=True, help_text='Visible to staff members only')
+
+    @staticmethod
+    def _open_file(path_to_file, attempts=0, timeout=5, sleep_int=5):
+        if attempts < timeout and os.path.exists(path_to_file) and os.path.isfile(path_to_file):
+            f = open(path_to_file, 'rb')
+            return f
+        else:
+            time.sleep(sleep_int)
+            return BillingLog._open_file(path_to_file, attempts + 1)    
 
     def send_email(self):
         body = render_to_string('staff/invoice_mail.txt', {'billinglog': self})
         message = EmailMessage(
-            subject = '2014 OCWC Membership invoice',
+            subject = '%s OCW Consortium Membership invoice' % settings.DEFAULT_INVOICE_YEAR,
             body = body,
             from_email = 'memberservices@ocwconsortium.org',
-            to = [self.email]
+            to = [s.strip() for s in self.email.split(',')],
+            cc = [self.user.email]
         )
         pdf_path = os.path.join(settings.INVOICES_ROOT, self.invoice.pdf_filename)
-        with open(pdf_path, 'rb') as f:
-            content = f.read()
+        
+        f = BillingLog._open_file(pdf_path)
+        content = f.read()
+        f.close()
 
         message.attach(filename='ocw-invoice-%s.pdf' % self.invoice.invoice_number,
                        content=content, 

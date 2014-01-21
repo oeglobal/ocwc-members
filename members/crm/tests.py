@@ -137,6 +137,7 @@ class BillingLogTest(LiveServerTestCase):
             'organization': org.id,
             'amount': 200,
             'invoice_year': '2013',
+            'description': 'Test Description',
         }
 
         response = self.client.post(reverse('staff:billinglog-create'), data)
@@ -151,5 +152,19 @@ class BillingLogTest(LiveServerTestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, invoice.invoice_number)
 
-        
+        data.update({
+            'log_type': 'send_invoice',
+            'first_name': 'John',
+            'last_name': 'Smith',
+            'email': 'email1@ocwconsortium.com, email2@example.com'
+        })
+        response = self.client.post(reverse('staff:billinglog-create'), data)
+        self.assertRedirects(response, reverse('staff:organization-view', kwargs={'pk': org.id}))
 
+        self.assertEqual(len(mail.outbox), 1)
+        email = mail.outbox.pop()
+
+        self.assertIn('2014 OCW Consortium Membership invoice', email.subject )
+        self.assertIn('email1@ocwconsortium.com', email.to)
+        self.assertIn('email2@example.com', email.to)
+        self.assertIn('tech@ocwconsortium.org', email.cc)

@@ -193,6 +193,7 @@ class OrganizationStaffDetailView(OrganizationStaffView, DetailView):
 	    	'invoice_year': settings.DEFAULT_INVOICE_YEAR,
 	    	'first_name': first_name,
 	    	'email': email,
+	    	'description': 'OpenCourseWare Consortium %s Membership' % settings.DEFAULT_INVOICE_YEAR
 	    }
 	    context['form'] = BillingLogForm(initial=initial)
 	    return context
@@ -221,6 +222,7 @@ class BillingLogCreateView(StaffView, CreateView):
 				organization = org,
 				invoice_number = "%s-%s" % (org.id, get('invoice_year')),
 				invoice_year = get('invoice_year'),
+				description = get('description'),
 				amount = get('amount'),
 			)
 			invoice.save()

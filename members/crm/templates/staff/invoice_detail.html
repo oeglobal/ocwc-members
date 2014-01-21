@@ -42,7 +42,6 @@
 {% endblock %}
 
 {% block contents %}
-<div class="spacer"></div><div class="spacer"></div>
 <div class="row">
 	<div class="large-4 columns">
 		<img src="/theme/images/logo.png" alt="OpenCourseWare Consortium logo" />
@@ -87,12 +86,12 @@
 			<thead>
 				<tr>
 					<th>Description</th>
-					<th>Amount due</th>
+					<th>Amount&nbsp;due</th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr>
-					<td>OpenCourseWare Consortium {{ invoice.invoice_year }} Membership</td>
+					<td>{{ invoice.description }}</td>
 					<td>US ${{ invoice.amount }}</td>
 				</tr>
 			</tbody>
