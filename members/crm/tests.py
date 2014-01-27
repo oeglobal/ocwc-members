@@ -167,4 +167,4 @@ class BillingLogTest(LiveServerTestCase):
         self.assertIn('2014 OCW Consortium Membership invoice', email.subject )
         self.assertIn('email1@ocwconsortium.com', email.to)
         self.assertIn('email2@example.com', email.to)
-        self.assertIn('tech@ocwconsortium.org', email.cc)
+        self.assertIn('tech@ocwconsortium.org', email.bcc)

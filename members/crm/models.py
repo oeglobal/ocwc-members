@@ -552,7 +552,7 @@ class BillingLog(models.Model):
             body = body,
             from_email = 'memberservices@ocwconsortium.org',
             to = [s.strip() for s in self.email.split(',')],
-            cc = [self.user.email]
+            bcc = [self.user.email]
         )
         pdf_path = os.path.join(settings.INVOICES_ROOT, self.invoice.pdf_filename)
         

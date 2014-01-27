@@ -1,8 +1,43 @@
 {% load crispy_forms_tags %}
 
-<div class="small-6 columns">
-	<form action="{% url 'staff:billinglog-create' %}" method="POST">
-		{% csrf_token %}
-		{% crispy form %}
-	</form>
+<div class="large-12 columns">
+	<h2>Billing information</h2>
+
+	<table>
+	<thead>
+		<tr>
+			<th>Type</th>
+			<th>Date</th>
+			<th>Who</th>
+			<th colspan="2">Actions</th>
+		</tr>
+	</thead>
+	<tbody>
+	{% for log in object.billinglog_set.all %}
+		<tr>
+			<td>{{ log.get_log_type_display }}</td>
+			<td>{{ log.pub_date }}</td>
+			<td>{{ log.user }}</td>
+			{% if log.log_type == 'create_invoice' %}
+				<td><a href="{{ log.invoice.get_pdf_url }}" target="_blank">View Invoice</a></td>
+			{% else %}
+				<td><a href="{% url 'admin:crm_billinglog_change' log.id %}" target="_blank">View log</a></td>
+			{% endif %}
+			{% if log.log_type == 'create_invoice' %}
+				<td><a href="{% url 'admin:crm_invoice_delete' log.invoice.id %}" target="_blank">Delete</a></td>
+			{% else %}
+			<td><a href="{% url 'admin:crm_billinglog_delete' log.invoice.id %}" target="_blank">Delete</a></td>
+			{% endif %}
+		</tr>
+	{% endfor %}
+	</tbody>
+	</table>
+
+	<div class="small-6 columns">
+		<form action="{% url 'staff:billinglog-create' %}" method="POST" class="billing-form" ng-controller="BillingController">
+			{% csrf_token %}
+			{% crispy form %}
+		</form>
+	</div>
+	
 </div>
