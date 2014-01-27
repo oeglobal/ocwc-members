@@ -4,6 +4,7 @@ import datetime
 
 
 from django import forms
+from django.http import Http404
 from django.conf import settings
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
@@ -23,7 +24,7 @@ from rest_framework.permissions import IsAuthenticated
 from .models import Organization, Contact, Address, ReportedStatistic, Country, MembershipApplication, \
 				    LoginKey, Invoice, BillingLog
 from .serializers import OrganizationApiSerializer, OrganizationDetailedApiSerializer, OrganizationRssFeedsApiSerializer
-from .forms import MembershipApplicationModelForm, MemberLoginForm, AddressModelForm, BillingLogForm
+from .forms import MembershipApplicationModelForm, MemberLoginForm, AddressModelForm, BillingLogForm, ReportedStatisticModelForm
 
 class IndexView(FormView):
 	template_name = 'index.html'
@@ -111,23 +112,25 @@ class ReportedStatisticDetailView(OrganizationView, DetailView):
 		org = Organization.objects.get(pk=self.kwargs['pk'])
 		return ReportedStatistic.objects.filter(organization=org).order_by('report_date')
 
-class ReportedStatisticModelForm(forms.ModelForm):
-	class Meta:
-		model = ReportedStatistic
-		fields = ( 'site_visits', 'orig_courses', 'trans_courses', 'orig_course_lang',
-				   'trans_course_lang', 'oer_resources', 'trans_oer_resources', 'comment', 'report_date')
-
 class ReportedStatisticEditView(OrganizationView, UpdateView):
 	model = ReportedStatistic
 	template_name = 'reported_statistic_edit.html'
 	context_object_name = 'stat'
 	form_class = ReportedStatisticModelForm
 
-class ReportedStatisticAddView(OrganizationView, CreateView):
+class ReportedStatisticAddView(CreateView):
 	model = ReportedStatistic
 	template_name = 'reported_statistic_add.html'
 	context_object_name = 'stat'
 	form_class = ReportedStatisticModelForm
+
+	def get_form(self, data=None, files=None, **kwargs):
+		org = Organization.objects.get(pk=self.kwargs['pk'])
+		if not (self.request.user.is_staff or self.request.user == org.user):
+			raise Http404
+
+		kwargs['organization'] = org
+		return self.get_form_class()(data, files, **kwargs)
 
 class MembershipApplicationAddView(CreateView):
 	model = MembershipApplication

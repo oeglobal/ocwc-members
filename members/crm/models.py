@@ -484,9 +484,9 @@ class ReportedStatistic(models.Model):
     trans_oer_resources = models.IntegerField(null=True, blank=True, verbose_name=u'Number of Translated OER Resources')
     comment = models.TextField(blank=True, null=True, verbose_name=u'Comment')
 
-    report_date = models.DateField()
-    last_modified = models.DateTimeField()
-    carry_forward = models.BooleanField()
+    report_date = models.DateField(verbose_name=u'Reported period')
+    last_modified = models.DateTimeField(auto_now_add=True)
+    carry_forward = models.BooleanField(default=False)
 
     def get_absolute_url(self):
         return reverse('crm:reported-statistics-view', kwargs={'pk':self.organization.id})

@@ -6,8 +6,8 @@
 			<div class="large-12 columns">
 				<h1>{{ statistic_list.0.organization.display_name }}</h1>
 			</div>
-			<h2>Statistics 			<a class="pull-right" href="{% url 'crm:reported-statistics-add' statistic_list.0.organization.id %}">Report new statistic</a>
-</h2>
+			<h2>Statistics</h2> 			
+			<p><a class="button medium" href="{% url 'crm:reported-statistics-add' statistic_list.0.organization.id %}">Report new statistic</a></p>
 			<table>
 				<tr>
 					<th>Date</th>
@@ -32,7 +32,7 @@
 				</tr>
 			{% endfor %}
 			</table>
-			<a href="{% url 'crm:reported-statistics-add' statistic_list.0.organization.id %}">Report new statistic</a>
+			<a href="{% url 'crm:reported-statistics-add' statistic_list.0.organization.id %}" class="button medium">Report new statistic</a>
 		{% else %}
 			<p>Sorry, you don't have permission to access this member data.</p>
 		{% endif %}

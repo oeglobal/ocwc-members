@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 from pprint import pprint
+import datetime
+from dateutil.relativedelta import relativedelta
 
 from django import forms
 from django.utils.safestring import mark_safe
@@ -8,7 +10,7 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit, Layout, Field, Div, HTML
 
 from .models import MembershipApplication, ORGANIZATION_ASSOCIATED_CONSORTIUM, CORPORATE_SUPPORT_CHOICES, IS_ACCREDITED_CHOICES, \
-                    Organization, Address, BillingLog, BILLING_LOG_TYPE_CHOICES
+                    Organization, Address, BillingLog, BILLING_LOG_TYPE_CHOICES, ReportedStatistic
 
 SIMPLIFIED_MEMBERSHIP_TYPE_CHOICES = (
     ('institutional', mark_safe('Institutional Member <i class="icon-question-sign" data-help-text="institutional"></i>')),
@@ -206,6 +208,54 @@ class BillingLogForm(forms.ModelForm):
         elif cleaned_data.get('log_type') == 'send_invoice':
             del(cleaned_data['amount'])
 
+        return cleaned_data
+
     class Meta:
         model = BillingLog
         fields = ('log_type', 'amount', 'organization', 'first_name', 'user', 'invoice_year', 'email', 'description')
+
+class ReportedStatisticModelForm(forms.ModelForm):
+    report_date = forms.ChoiceField(label="Reported period, until:")
+
+    def __init__(self, *args, **kwargs):
+        print kwargs
+        if kwargs.get('instance'):
+            self.organization = kwargs.get('instance').organization
+        else:
+            self.organization = kwargs.pop('organization')
+
+        super(ReportedStatisticModelForm, self).__init__(*args, **kwargs)
+
+        base = datetime.datetime(2014, 3, 1, 0, 0, 0)
+        self.fields['report_date'].choices = [ (i.strftime('%Y-%m-%d'), i.strftime('%B %Y')) \
+                                                for i in [base - relativedelta(months=x*3) for x in range(0, 20)] 
+                                             ]
+        if not kwargs.get('instance'):
+            try:
+                previous_statistic = ReportedStatistic.objects.filter(organization=self.organization).latest('report_date')
+            except ReportedStatistic.DoesNotExist:
+                previous_statistic = None
+
+            if previous_statistic:
+                for item in ['site_visits', 'orig_courses', 'trans_courses', 'orig_course_lang', 'trans_course_lang', 'oer_resources', 'trans_oer_resources']:
+                    self.fields[item].initial = getattr(previous_statistic, item)
+
+    def clean(self):
+        cleaned_data = super(ReportedStatisticModelForm, self).clean()
+        if ReportedStatistic.objects.filter(organization=self.organization, report_date=cleaned_data['report_date']).exists():
+            raise forms.ValidationError('Reported statistic for this interval already exists. Please edit previous entry.')
+
+        return cleaned_data
+
+    def save(self, commit=True):
+        instance = super(ReportedStatisticModelForm, self).save(commit=False)
+        instance.organization = self.organization
+
+        if commit:
+            instance.save()
+        return instance
+
+    class Meta:
+        model = ReportedStatistic
+        fields = ( 'site_visits', 'orig_courses', 'trans_courses', 'orig_course_lang',
+                   'trans_course_lang', 'oer_resources', 'trans_oer_resources', 'comment', 'report_date')
