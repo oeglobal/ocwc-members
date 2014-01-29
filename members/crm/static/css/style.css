@@ -36,3 +36,7 @@ ul, ol, dl {
 form li {
 	list-style: none;
 }
+
+#id_email_body {
+	height: 360px;
+}

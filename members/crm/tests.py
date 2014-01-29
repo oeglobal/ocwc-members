@@ -154,9 +154,9 @@ class BillingLogTest(LiveServerTestCase):
 
         data.update({
             'log_type': 'send_invoice',
-            'first_name': 'John',
-            'last_name': 'Smith',
-            'email': 'email1@ocwconsortium.com, email2@example.com'
+            'email': 'email1@ocwconsortium.com, email2@example.com',
+            'email_subject': '2014 OCW Consortium Membership invoice',
+            'email_body': 'Custom body'
         })
         response = self.client.post(reverse('staff:billinglog-create'), data)
         self.assertRedirects(response, reverse('staff:organization-view', kwargs={'pk': org.id}))
@@ -168,3 +168,4 @@ class BillingLogTest(LiveServerTestCase):
         self.assertIn('email1@ocwconsortium.com', email.to)
         self.assertIn('email2@example.com', email.to)
         self.assertIn('tech@ocwconsortium.org', email.bcc)
+        self.assertIn('Custom body', email.body)

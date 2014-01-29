@@ -179,7 +179,8 @@ class BillingLogForm(forms.ModelForm):
         self.fields['user'].widget = forms.HiddenInput()
         self.fields['invoice_year'].widget = forms.HiddenInput()
         self.fields['amount'].required = False
-        self.fields['first_name'].required= False
+
+        self.fields['email'].widget.label = "Recepient email"
 
         self.helper = FormHelper(self)
 
@@ -193,8 +194,9 @@ class BillingLogForm(forms.ModelForm):
             css_class="row", ng_show="logtype === 'create_invoice'"),
             Div(
                 HTML("<p>Invoice recepient information (latest invoice will be attached to the e-mail)</p>"),
-                Field('first_name'),
                 Field('email'),
+                Field('email_subject'),
+                Field('email_body'),
             css_class="row", ng_show="logtype === 'send_invoice'"),
         )
         self.helper.layout.append(Submit('submit', 'submit'))
@@ -203,8 +205,9 @@ class BillingLogForm(forms.ModelForm):
         cleaned_data = super(BillingLogForm, self).clean()
 
         if cleaned_data.get('log_type') == 'create_invoice':
-            del(cleaned_data['first_name'])
             del(cleaned_data['email'])
+            del(cleaned_data['email_subject'])
+            del(cleaned_data['email_body'])
         elif cleaned_data.get('log_type') == 'send_invoice':
             del(cleaned_data['amount'])
 
@@ -212,7 +215,7 @@ class BillingLogForm(forms.ModelForm):
 
     class Meta:
         model = BillingLog
-        fields = ('log_type', 'amount', 'organization', 'first_name', 'user', 'invoice_year', 'email', 'description')
+        fields = ('log_type', 'amount', 'organization', 'user', 'invoice_year', 'email', 'email_body', 'email_subject', 'description')
 
 class ReportedStatisticModelForm(forms.ModelForm):
     report_date = forms.ChoiceField(label="Reported period, until:")

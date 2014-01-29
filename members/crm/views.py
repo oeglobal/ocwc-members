@@ -10,6 +10,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import AuthenticationForm
 from django.core.urlresolvers import reverse_lazy, reverse
+from django.template.loader import render_to_string
 
 from vanilla import ListView, DetailView, TemplateView, RedirectView, UpdateView, CreateView, FormView
 from braces.views import LoginRequiredMixin, StaffuserRequiredMixin
@@ -22,7 +23,7 @@ from rest_framework.authentication import SessionAuthentication, BasicAuthentica
 from rest_framework.permissions import IsAuthenticated
 
 from .models import Organization, Contact, Address, ReportedStatistic, Country, MembershipApplication, \
-				    LoginKey, Invoice, BillingLog
+					LoginKey, Invoice, BillingLog
 from .serializers import OrganizationApiSerializer, OrganizationDetailedApiSerializer, OrganizationRssFeedsApiSerializer
 from .forms import MembershipApplicationModelForm, MemberLoginForm, AddressModelForm, BillingLogForm, ReportedStatisticModelForm
 
@@ -179,27 +180,33 @@ class OrganizationStaffDetailView(OrganizationStaffView, DetailView):
 	context_object_name = 'org'
 
 	def get_context_data(self, **kwargs):
-	    context = super(OrganizationStaffDetailView, self).get_context_data(**kwargs)
+		context = super(OrganizationStaffDetailView, self).get_context_data(**kwargs)
 
-	    try:
-	    	lead_contact = self.object.contact_set.filter(contact_type=6).latest('id')
-	    	first_name = lead_contact.first_name
-	    	email = lead_contact.email
-	    except (Contact.DoesNotExist):
-	    	first_name = ''
-	    	email = ''
+		try:
+			lead_contact = self.object.contact_set.filter(contact_type=6).latest('id')
+			first_name = lead_contact.first_name
+			email = lead_contact.email
+		except (Contact.DoesNotExist):
+			first_name = ''
+			email = ''
 
-	    initial = {
-	    	'organization': self.object.id,
-	    	'user': self.request.user.id,
-	    	'amount': self.object.get_membership_due_amount(),
-	    	'invoice_year': settings.DEFAULT_INVOICE_YEAR,
-	    	'first_name': first_name,
-	    	'email': email,
-	    	'description': 'OpenCourseWare Consortium %s Membership' % settings.DEFAULT_INVOICE_YEAR
-	    }
-	    context['form'] = BillingLogForm(initial=initial)
-	    return context
+		email_subject = '%s OCW Consortium Membership invoice' % settings.DEFAULT_INVOICE_YEAR
+		print self.request.user.first_name
+		email_body = render_to_string('staff/invoice_mail.txt', { 'first_name': first_name, 'user': self.request.user })
+
+		initial = {
+			'organization': self.object.id,
+			'user': self.request.user.id,
+			'amount': self.object.get_membership_due_amount(),
+			'invoice_year': settings.DEFAULT_INVOICE_YEAR,
+			'first_name': first_name,
+			'email': email,
+			'email_subject': email_subject,
+			'email_body': email_body,
+			'description': 'OpenCourseWare Consortium %s Membership' % settings.DEFAULT_INVOICE_YEAR
+		}
+		context['form'] = BillingLogForm(initial=initial)
+		return context
 
 class InvoiceStaffView(StaffView, DetailView):
 	model = Invoice

@@ -529,12 +529,14 @@ class BillingLog(models.Model):
     user = models.ForeignKey(User)
 
     amount = models.IntegerField(null=True)
-    first_name = models.CharField(max_length=60, blank=True)
-    email = models.CharField(max_length=120, blank=True)
+    email = models.CharField(max_length=120, blank=True, verbose_name="Recepient email")
     invoice = models.ForeignKey('Invoice', null=True, blank=True)
     invoice_year = models.CharField(default=settings.DEFAULT_INVOICE_YEAR, max_length=10)
     description = models.TextField(blank=True, default='')
     note = models.TextField(blank=True, help_text='Visible to staff members only')
+
+    email_subject = models.CharField(max_length=140, blank=True, verbose_name="Subject")
+    email_body = models.TextField(blank=True, verbose_name="Message")
 
     @staticmethod
     def _open_file(path_to_file, attempts=0, timeout=5, sleep_int=5):
@@ -548,8 +550,8 @@ class BillingLog(models.Model):
     def send_email(self):
         body = render_to_string('staff/invoice_mail.txt', {'billinglog': self})
         message = EmailMessage(
-            subject = '%s OCW Consortium Membership invoice' % settings.DEFAULT_INVOICE_YEAR,
-            body = body,
+            subject = self.email_subject,
+            body = self.email_body,
             from_email = 'memberservices@ocwconsortium.org',
             to = [s.strip() for s in self.email.split(',')],
             bcc = [self.user.email]
