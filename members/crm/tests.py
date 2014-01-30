@@ -154,9 +154,9 @@ class BillingLogTest(LiveServerTestCase):
 
         data.update({
             'log_type': 'send_invoice',
-            'email': 'email1@ocwconsortium.com, email2@example.com',
-            'email_subject': '2014 OCW Consortium Membership invoice',
-            'email_body': 'Custom body'
+            'email_invoice': 'email1@ocwconsortium.com, email2@example.com',
+            'email_invoice_subject': 'Custom subject',
+            'email_invoice_body': 'Custom body'
         })
         response = self.client.post(reverse('staff:billinglog-create'), data)
         self.assertRedirects(response, reverse('staff:organization-view', kwargs={'pk': org.id}))
@@ -164,8 +164,48 @@ class BillingLogTest(LiveServerTestCase):
         self.assertEqual(len(mail.outbox), 1)
         email = mail.outbox.pop()
 
-        self.assertIn('2014 OCW Consortium Membership invoice', email.subject )
+        self.assertNotEqual(BillingLog.objects.latest('id'), billing_log)
+
+        billing_log = BillingLog.objects.latest('id')
+        self.assertEqual(billing_log.email, data['email_invoice'])
+        self.assertEqual(billing_log.email_subject, data['email_invoice_subject'])
+        self.assertEqual(billing_log.email_body, data['email_invoice_body'])
+
+        self.assertIn('Custom subject', email.subject )
         self.assertIn('email1@ocwconsortium.com', email.to)
         self.assertIn('email2@example.com', email.to)
         self.assertIn('tech@ocwconsortium.org', email.bcc)
         self.assertIn('Custom body', email.body)
+
+        data.update({
+            'log_type': 'create_paid_invoice'
+        })
+        response = self.client.post(reverse('staff:billinglog-create'), data)
+        self.assertRedirects(response, reverse('staff:organization-view', kwargs={'pk': org.id}))
+
+        billing_log = BillingLog.objects.latest('id')
+        invoice = Invoice.objects.latest('id')
+        self.assertEqual(billing_log.invoice, invoice)
+        url = '%s%s' % (settings.INVOICES_PHANTOM_JS_HOST, invoice.get_access_key_url())
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, invoice.invoice_number)
+
+        data.update({
+            'log_type': 'send_paid_invoice',
+            'email_invoice_paid': 'email1@ocwconsortium.com, email2@example.com',
+            'email_invoice_paid_subject': 'Custom paid subject',
+            'email_invoice_paid_body': 'Custom paid body'
+        })
+
+        response = self.client.post(reverse('staff:billinglog-create'), data)
+        self.assertRedirects(response, reverse('staff:organization-view', kwargs={'pk': org.id}))
+
+        self.assertEqual(len(mail.outbox), 1)
+        email = mail.outbox.pop()
+
+        self.assertIn('Custom paid subject', email.subject )
+        self.assertIn('Custom paid body', email.body)
+        self.assertIn('email1@ocwconsortium.com', email.to)
+        self.assertIn('email2@example.com', email.to)
+        self.assertIn('tech@ocwconsortium.org', email.bcc)

@@ -171,6 +171,14 @@ class BillingLogForm(forms.ModelForm):
     log_type = forms.ChoiceField(widget=forms.RadioSelect,
                                  choices=BILLING_LOG_TYPE_CHOICES,
                                  label='Action')
+    email_invoice = forms.CharField(label="Recepient", required=False)
+    email_invoice_subject = forms.CharField(label="Subject", required=False)
+    email_invoice_body = forms.CharField(widget=forms.Textarea,
+                                            label="Message", required=False)
+    email_invoice_paid = forms.CharField(label="Recepient", required=False)
+    email_invoice_paid_subject = forms.CharField(label="Subject", required=False)
+    email_invoice_paid_body = forms.CharField(widget=forms.Textarea,
+                                            label="Message", required=False)
 
     def __init__(self, *args, **kwargs):
         super(BillingLogForm, self).__init__(*args, **kwargs)
@@ -179,8 +187,6 @@ class BillingLogForm(forms.ModelForm):
         self.fields['user'].widget = forms.HiddenInput()
         self.fields['invoice_year'].widget = forms.HiddenInput()
         self.fields['amount'].required = False
-
-        self.fields['email'].widget.label = "Recepient email"
 
         self.helper = FormHelper(self)
 
@@ -194,34 +200,30 @@ class BillingLogForm(forms.ModelForm):
             css_class="row", ng_show="logtype === 'create_invoice'"),
             Div(
                 HTML("<p>Invoice recepient information (latest invoice will be attached to the e-mail)</p>"),
-                Field('email'),
-                Field('email_subject'),
-                Field('email_body'),
+                Field('email_invoice'),
+                Field('email_invoice_subject'),
+                Field('email_invoice_body'),
             css_class="row", ng_show="logtype === 'send_invoice'"),
+            Div(
+                HTML("<p>Invoice recepient information (latest paid invoice will be attached to the e-mail)</p>"),
+                Field('email_invoice_paid'),
+                Field('email_invoice_paid_subject'),
+                Field('email_invoice_paid_body'),
+                ng_show="logtype === 'send_paid_invoice'",
+            )
         )
         self.helper.layout.append(Submit('submit', 'submit'))
 
-    def clean(self):
-        cleaned_data = super(BillingLogForm, self).clean()
-
-        if cleaned_data.get('log_type') == 'create_invoice':
-            del(cleaned_data['email'])
-            del(cleaned_data['email_subject'])
-            del(cleaned_data['email_body'])
-        elif cleaned_data.get('log_type') == 'send_invoice':
-            del(cleaned_data['amount'])
-
-        return cleaned_data
-
     class Meta:
         model = BillingLog
-        fields = ('log_type', 'amount', 'organization', 'user', 'invoice_year', 'email', 'email_body', 'email_subject', 'description')
+        fields = ('log_type', 'amount', 'organization', 'user', 'invoice_year', 'description',
+                  'email_invoice', 'email_invoice_subject', 'email_invoice_body',
+                  'email_invoice_paid', 'email_invoice_paid_subject', 'email_invoice_paid_body',)
 
 class ReportedStatisticModelForm(forms.ModelForm):
     report_date = forms.ChoiceField(label="Reported period, until:")
 
     def __init__(self, *args, **kwargs):
-        print kwargs
         if kwargs.get('instance'):
             self.organization = kwargs.get('instance').organization
         else:

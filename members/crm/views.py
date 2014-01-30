@@ -190,9 +190,11 @@ class OrganizationStaffDetailView(OrganizationStaffView, DetailView):
 			first_name = ''
 			email = ''
 
-		email_subject = '%s OCW Consortium Membership invoice' % settings.DEFAULT_INVOICE_YEAR
-		print self.request.user.first_name
-		email_body = render_to_string('staff/invoice_mail.txt', { 'first_name': first_name, 'user': self.request.user })
+		email_invoice_subject = '%s OCW Consortium Membership invoice' % settings.DEFAULT_INVOICE_YEAR
+		email_invoice_body = render_to_string('staff/invoice_mail.txt', { 'first_name': first_name, 'user': self.request.user })
+
+		email_invoice_paid_subject = '%s OCW Consortium Membership invoice receipt' % settings.DEFAULT_INVOICE_YEAR
+		email_invoice_paid_body = render_to_string('staff/invoice_paid_mail.txt', { 'first_name': first_name, 'user': self.request.user })
 
 		initial = {
 			'organization': self.object.id,
@@ -200,9 +202,12 @@ class OrganizationStaffDetailView(OrganizationStaffView, DetailView):
 			'amount': self.object.get_membership_due_amount(),
 			'invoice_year': settings.DEFAULT_INVOICE_YEAR,
 			'first_name': first_name,
-			'email': email,
-			'email_subject': email_subject,
-			'email_body': email_body,
+			'email_invoice': email,
+			'email_invoice_subject': email_invoice_subject,
+			'email_invoice_body': email_invoice_body,
+			'email_invoice_paid': email,
+			'email_invoice_paid_subject': email_invoice_paid_subject,
+			'email_invoice_paid_body': email_invoice_paid_body,
 			'description': 'OpenCourseWare Consortium %s Membership' % settings.DEFAULT_INVOICE_YEAR
 		}
 		context['form'] = BillingLogForm(initial=initial)
@@ -220,7 +225,7 @@ class InvoicePhantomJSView(DetailView):
 
 class BillingLogCreateView(StaffView, CreateView):
 	model = BillingLog
-	form = BillingLogForm
+	form_class = BillingLogForm
 	template_name = 'staff/billinglog_form.html'
 
 	def form_valid(self, form):
@@ -229,6 +234,7 @@ class BillingLogCreateView(StaffView, CreateView):
 
 		if get('log_type') == 'create_invoice':
 			invoice = Invoice(
+				invoice_type = 'issued',
 				organization = org,
 				invoice_number = "%s-%s" % (org.id, get('invoice_year')),
 				invoice_year = get('invoice_year'),
@@ -237,18 +243,67 @@ class BillingLogCreateView(StaffView, CreateView):
 			)
 			invoice.save()
 			
-			billing_log = form.save(commit=False)
-			billing_log.invoice = invoice
+			billing_log = BillingLog(
+				log_type='create_invoice',
+				organization=get('organization'),
+				user=get('user'),
+				amount=get('amount'),
+				description=get('description'),
+				invoice_year=get('invoice_year'),
+				invoice = invoice
+			)
 			billing_log.save()
-
 			invoice.generate_pdf()
+		elif get('log_type') == 'create_paid_invoice':
+			last_invoice = Invoice.objects.filter(organization=org, invoice_type='issued').latest('id')
+			invoice = Invoice(
+				invoice_type = 'paid',
+				organization = last_invoice.organization,
+				invoice_number = last_invoice.invoice_number,
+				invoice_year = last_invoice.invoice_year,
+				amount = last_invoice.amount,
+				description = last_invoice.description,
+				pub_date = last_invoice.pub_date,
+			)
+			invoice.save()
 
-		elif get('log_type') == 'send_invoice':
-			billing_log = form.save(commit=False)
-			billing_log.invoice = Invoice.objects.filter(organization=org).latest('id')
+			billing_log = BillingLog(
+				log_type='create_paid_invoice',
+				organization=get('organization'),
+				user=get('user'),
+				amount=last_invoice.amount,
+				description=last_invoice.description,
+				invoice=invoice,
+				invoice_year=last_invoice.invoice_year,
+			)
 			billing_log.save()
-
+			invoice.generate_pdf()
+		elif get('log_type') == 'send_invoice':
+			billing_log = BillingLog(
+				log_type='send_invoice',
+				organization=get('organization'),
+				user=get('user'),
+				email=get('email_invoice', ''),
+				email_subject=get('email_invoice_subject', ''),
+				email_body=get('email_invoice_body', ''),
+				invoice=Invoice.objects.filter(organization=org, invoice_type='issued').latest('id')
+			)
+			billing_log.save()
 			billing_log.send_email()
+
+		elif get('log_type') == 'send_paid_invoice':
+			billing_log = BillingLog(
+				log_type='send_paid_invoice',
+				organization=get('organization'),
+				user=get('user'),
+				email=get('email_invoice_paid', ''),
+				email_subject=get('email_invoice_paid_subject', ''),
+				email_body=get('email_invoice_paid_body', ''),
+				invoice=Invoice.objects.filter(organization=org, invoice_type='paid').latest('id')
+			)
+			billing_log.save()
+			billing_log.send_email()
+
 
 		return redirect(reverse('staff:organization-view', kwargs={'pk': org.id}))
 

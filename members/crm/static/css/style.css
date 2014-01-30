@@ -37,6 +37,6 @@ form li {
 	list-style: none;
 }
 
-#id_email_body {
+#id_email_invoice_body, #id_email_invoice_paid_body {
 	height: 360px;
 }

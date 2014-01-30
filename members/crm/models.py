@@ -519,7 +519,8 @@ class LoginKey(models.Model):
 BILLING_LOG_TYPE_CHOICES = (
     ('create_invoice', 'Create new invoice'),
     ('send_invoice', 'Send invoice via email'),
-    ('paid_invoice', 'Invoice was paid')
+    ('create_paid_invoice', 'Create paid invoice'),
+    ('send_paid_invoice', 'Send paid invoice via email')
 )
 
 class BillingLog(models.Model):
@@ -567,8 +568,13 @@ class BillingLog(models.Model):
                        mimetype='application/pdf')
         message.send()
 
+INVOICE_TYPE_CHOICES = (
+    ('issued', 'Normal issued invoice'),
+    ('paid', 'Invoice with paid watermark')
+)
 
 class Invoice(models.Model):
+    invoice_type = models.CharField(max_length=30, default='issued', choices=INVOICE_TYPE_CHOICES)
     organization = models.ForeignKey(Organization)
     invoice_number = models.CharField(max_length=30, blank=True)
     invoice_year = models.CharField(default=settings.DEFAULT_INVOICE_YEAR, max_length=10)
@@ -579,7 +585,7 @@ class Invoice(models.Model):
     access_key = models.CharField(max_length=32, blank=True)
 
     paypal_link = models.TextField(blank=True)
-    pub_date = models.DateTimeField(auto_now_add=True)
+    pub_date = models.DateTimeField()
 
     def __unicode__(self):
         return "Invoice %s (%s)" % (self.invoice_number, self.organization.display_name)
@@ -594,6 +600,8 @@ class Invoice(models.Model):
         return "%s%s" % (settings.INVOICES_URL, self.pdf_filename)
 
     def save(self, force_insert=False, force_update=False, using=None):
+        if not self.pub_date:
+            self.pub_date = datetime.datetime.now()
         if not self.access_key:
             self.access_key = uuid.uuid4().get_hex()
         if not self.paypal_link:

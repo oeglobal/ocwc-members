@@ -38,6 +38,13 @@
 	  	line-height: 0.9em;
 	  }
     }
+
+	#paid {
+		font-size: 20em;
+		top: 30%;
+		position: absolute;
+		color: rgba(108, 108, 108, 0.1) !important;
+	}    
 </style>
 {% endblock %}
 
@@ -123,11 +130,16 @@
 	
 	<div class="large-10 columns push-1">
 		<p>Thank you for your membership!</p>
+		{% if invoice.invoice_type == 'issued' %}
 		<p>Page 1/2</p>
+		{% endif %}
 	</div>
+	{% if invoice.invoice_type == 'paid' %}
+		<div id="paid">PAID</div>
+	{% endif %}
 </div>
 
-
+{% if invoice.invoice_type == 'issued' %}
 <div style="page-break-before:always;"></div>
 
 <div class="row">
@@ -222,5 +234,6 @@
 		<p>Page 2/2</p>
 	</div>
 </div>
+{% endif %}
 
 {% endblock %}

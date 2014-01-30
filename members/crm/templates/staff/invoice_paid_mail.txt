@@ -1,0 +1,8 @@
+Dear {{ first_name }},
+
+Please find attached receipt of payment for your 2014 OCWC Membership invoice. 
+
+We appreciate your continuous support. 
+
+With thanks & best wishes, 
+{{ user.first_name }} {{ user.last_name }}
