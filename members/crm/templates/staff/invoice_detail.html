@@ -72,12 +72,12 @@
 	<div class="large-4 columns">
 		<p>TO: {{ invoice.organization.display_name }}<br />
 			{% with invoice.organization.address_set.all.0 as address %}
-				{{ address.street_address }}<br />
+				{% if address.street_address %}{{ address.street_address }}<br />{% endif %}
 				{% if address.supplemental_address_1 %}{{ address.supplemental_address_1 }}<br />{% endif %}
 				{% if address.supplemental_address_2 %}{{ address.supplemental_address_2 }}<br />{% endif %}
 
-				{{ address.city }}, {{ address.postal_code }} {{ address.postal_code_suffix }}<br />
-				{{ address.country }}
+				{% if address.city %}{{ address.city }}, {{ address.postal_code }} {{ address.postal_code_suffix }}<br />{% endif %}
+				{% if address.country %}{{ address.country.name }}{% endif %}
 			{% endwith %}
 		</p>
 	</div>
