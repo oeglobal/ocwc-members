@@ -1,0 +1,40 @@
+{% extends "elections/base.html" %}{% load crispy_forms_tags %}{% load staticfiles %}
+
+{% block contents %}
+	<div class="row">
+		<div class="large-8 columns">
+			<h3>Nomination Information</h3>
+			<dd>Nominated by:</dd><dt>{{ candidate.sponsor_first_name }} {{ candidate.sponsor_last_name }} ({{ candidate.sponsor_email }})</dt>
+			<dd>Reason for Nomination:</dd><dt>{{ candidate.reason }}</dt>
+		</div>
+	</div>
+	<div class="row">
+		<div class="large-8 columns">
+			<h3>Status</h3>
+			<dd>Status:</dd><dt>{{ candidate.get_status_display }}</dt>
+			<dd>Vetted:</dd><dt>{{ candidate.get_vetted_display }}</dt>
+			<dd>Seat type:</dd><dt>{{ candidate.get_seat_type }}</dt>
+
+			<dd>Submitted:</dd><dt>{{ candidate.pub_date }}</dt>
+			<dd>Last modified:</dd><dt>{{ candidate.last_modified }}</dt>
+		</div>
+	</div>
+	<div class="row">
+		<div class="large-8 columns">
+			<h3>About the Nominee</h3>
+			
+			<dd>Name:</dd><dt>{{ candidate.candidate_first_name }} {{ candidate.candidate_last_name }}</dt>
+			<dd>Job title:</dd><dt>{{ candidate.candidate_job_title }}</dt>
+			<dd>Organization:</dd><dt>{{ candidate.organization.display_name }}</dt>
+			<dd>E-mail:</dd><dt>{{ candidate.candidate_email }}</dt>
+			<dd>Alternative e-mail:</dd><dt>{{ candidate.email_alternate }}</dt>
+			<dd>Phone number:</dd><dt>{{ candidate.candidate_phone_number }}</dt>
+
+			<dd>Biography:</dd><dt>{{ candidate.biography }}</dt>
+			<dd>Vision:</dd><dt>{{ candidate.vision }}</dt>
+			<dd>Ideas:</dd><dt>{{ candidate.ideas }}</dt>
+			<dd>Expertise:</dd><dt>{{ candidate.expertise }}</dt>
+			<dd>External url:</dd><dt>{{ candidate.external_url }}</dt>
+		</div>
+	</div>
+{% endblock %}

@@ -40,3 +40,16 @@ form li {
 #id_email_invoice_body, #id_email_invoice_paid_body {
 	height: 360px;
 }
+
+dd {
+	font-weight: bold;
+	float: left;
+	clear: left;
+	line-height: 1.5em;
+}
+
+dt {
+	float: left;
+	line-height: 1.5em;
+	padding-left: 0.5em;
+}

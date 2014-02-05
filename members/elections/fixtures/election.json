@@ -1,0 +1,11 @@
+[
+{
+    "pk": 1, 
+    "model": "elections.election", 
+    "fields": {
+        "edit_nominations_key": "5fa4b0f2a82b483387f26f5ab6ff5a25", 
+        "view_nominations_key": "47607c7d2fcc408cbaec4fdcf799bc16", 
+        "title": "2014 Board Elections"
+    }
+}
+]

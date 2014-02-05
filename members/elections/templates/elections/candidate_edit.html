@@ -1,0 +1,35 @@
+{% extends "elections/base.html" %}{% load crispy_forms_tags %}{% load staticfiles %}
+
+{% block extra_head %}
+	<link href="{% static 'uni-form/css/uni-form.css' %}" media="screen, projector, print" rel="stylesheet" type="text/css" />
+	<link href="{% static 'uni-form/css/default.uni-form.css' %}" media="screen, projector, print" rel="stylesheet" type="text/css" />
+
+	<style type="text/css">
+		input[type="email"] {
+			width: 53%;
+		}
+
+		.terms ul, .terms p {
+			width: 100%;
+			margin-left: 1em;
+		}
+		.terms ul li {
+			list-style: disc inside;
+		}
+
+		label[for="id_terms"] {
+			display: inline-block;
+		}		
+	</style>
+{% endblock %}
+
+{% block contents %}
+	<div class="row">
+		<div class="large-8 columns">
+			<form method="POST" action="" class="uniForm">
+				{{ form|as_crispy_errors }}
+				{% crispy form %}
+			</form>
+		</div>
+	</div>
+{% endblock %}

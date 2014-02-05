@@ -21,3 +21,5 @@ CRISPY_FAIL_SILENTLY = not DEBUG
 INVOICES_ROOT = '/tmp'
 INVOICES_URL = '/media/invoices/'
 INVOICES_PHANTOM_JS_HOST = 'http://localhost:8081'
+
+NOMINATION_COMMITTEE_EMAIL = 'tech@ocwconsortium.org'

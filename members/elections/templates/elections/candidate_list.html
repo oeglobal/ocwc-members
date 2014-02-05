@@ -1,0 +1,31 @@
+{% extends "elections/base.html" %}
+
+{% block contents %}
+
+<div class="row">
+	<div class="large-12 columns">
+		<table>
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>Organization</th>
+					<th>Status</th>
+					<th>Details</th>
+				</tr>
+			</thead>
+			<tbody>
+				<h3>Nominees for Board of Directors</h3>
+				{% for candidate in election.0.candidate_set.all %}
+					<tr>
+						<td>{{ candidate.candidate_first_name }} {{ candidate.candidate_last_name }}</td>
+						<td>{{ candidate.organization.display_name }}</td>
+						<td>{{ candidate.get_status_display }}</td>
+						<td><a href="{% url 'elections:candidate-view' key=candidate.view_link_key %}">View details</a>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+</div>
+
+{% endblock %}
