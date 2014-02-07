@@ -123,9 +123,8 @@ INSTALLED_APPS = (
     'reversion',
     'south',
     'gunicorn',
+    'raven.contrib.django.raven_compat',
 
-    # 'djadmin2',
-    # 'djadmin2.themes.djadmin2theme_default',
     'rest_framework',
     'floppyforms',
     'crispy_forms',
@@ -161,6 +160,10 @@ LOGGING = {
             'propagate': True,
         },
     }
+}
+
+RAVEN_CONFIG = {
+    
 }
 
 CRISPY_TEMPLATE_PACK = 'uni_form'
