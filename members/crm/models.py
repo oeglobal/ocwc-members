@@ -138,6 +138,9 @@ class Organization(models.Model):
     def get_absolute_url(self):
         return reverse('crm:organization-view', kwargs={'pk':self.id})
 
+    def get_logo_small_url(self):
+        return 'http://www.ocwconsortium.org/media/%s' % self.logo_small
+
     def save(self, force_insert=False, force_update=False, using=None):
         if not self.slug:
             slug = slugify(self.display_name)[:30]

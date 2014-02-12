@@ -11,10 +11,11 @@ class OrganizationApiSerializer(serializers.ModelSerializer):
 		fields = ('id', 'name', 'membership_type', 'membership_status', 'associate_consortium')
 
 class OrganizationDetailedApiSerializer(OrganizationApiSerializer):
+	logo_small_url = serializers.CharField(source='get_logo_small_url')
 	class Meta:
 		model = Organization
 		fields = ('id', 'name', 'membership_type', 'membership_status', 'associate_consortium',
-				  'display_name', 'main_website', 'ocw_website', 'description', 'logo_small')
+				  'display_name', 'main_website', 'ocw_website', 'description', 'logo_small', 'logo_small_url')
 
 class OrganizationRssFeedsApiSerializer(serializers.ModelSerializer):
 	name = serializers.CharField(source='display_name')
