@@ -1,5 +1,6 @@
 import os, sys
-here = lambda x: os.path.join(os.path.dirname(os.path.abspath(__file__)), x)
+def next_to_root(*additional_paths):
+    return os.path.realpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', *additional_paths))
 
 ADMINS = (
     ('Jure Cuhalev', 'jure@ocwconsortium.org'),
@@ -37,14 +38,14 @@ USE_TZ = False
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/var/www/example.com/media/"
-MEDIA_ROOT = here('../../media/')
+MEDIA_ROOT = next_to_root('/media/')
 MEDIA_URL = '/media/'
 
 # Absolute path to the directory static files should be collected to.
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/var/www/example.com/static/"
-STATIC_ROOT = here('.')
+STATIC_ROOT = next_to_root('/static/')
 
 # URL prefix for static files.
 # Example: "http://example.com/static/", "http://static.example.com/"
@@ -103,7 +104,6 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    here('templates'),
 )
 
 INSTALLED_APPS = (
