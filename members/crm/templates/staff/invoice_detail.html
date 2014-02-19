@@ -92,7 +92,11 @@
 			<thead>
 				<tr>
 					<th>Description</th>
+					{% if invoice.invoice_type == 'issued' %}
 					<th>Amount&nbsp;due</th>
+					{% else %}
+					<th>Amount&nbsp;paid</th>
+					{% endif %}
 				</tr>
 			</thead>
 			<tbody>
@@ -106,7 +110,9 @@
 </div>
 <div class="spacer"></div><div class="spacer"></div><div class="spacer"></div><div class="spacer"></div>
 <div class="row">
+	{% if invoice.invoice_type == 'issued' %}
 	<div class="large-10 columns push-1">
+
 		<p>Thank you for your support of the OCW Consortium through the prompt payment of this invoice.</p>
 
 		<p>Please note the following: <br />
@@ -118,6 +124,9 @@
 		</ul>
 		</p>
 	</div>
+	{% else %}
+	<br /><br /><br /><br /><br /><br /><br /><br /><br />
+	{% endif %}
 	<div class="large-12 columns">
 		<p><br />Please don’t hesitate to contact us if you need any further information.</p>
 		<p>
