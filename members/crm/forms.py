@@ -197,7 +197,7 @@ class BillingLogForm(forms.ModelForm):
             Div(
                 Field('amount'),
                 Field('description'),
-            css_class="row", ng_show="logtype === 'create_invoice'"),
+            css_class="row", ng_show="logtype === 'create_invoice' || logtype === 'create_paid_invoice'"),
             Div(
                 HTML("<p>Invoice recepient information (latest invoice will be attached to the e-mail)</p>"),
                 Field('email_invoice'),

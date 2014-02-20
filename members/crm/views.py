@@ -210,6 +210,17 @@ class OrganizationStaffDetailView(OrganizationStaffView, DetailView):
 			'email_invoice_paid_body': email_invoice_paid_body,
 			'description': 'OpenCourseWare Consortium %s Membership' % settings.DEFAULT_INVOICE_YEAR
 		}
+
+		try:
+			log = self.object.billinglog_set.filter(invoice_year=settings.DEFAULT_INVOICE_YEAR,
+											 log_type='create_invoice').latest('id')
+			initial.update({
+				'amount': log.invoice.amount,
+				'description': log.invoice.description
+			})
+		except BillingLog.DoesNotExist:
+			pass
+
 		context['form'] = BillingLogForm(initial=initial)
 		return context
 
