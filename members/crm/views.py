@@ -101,7 +101,7 @@ class AddressEditView(OrganizationView, UpdateView):
 		queryset = Address.objects.filter(pk=self.kwargs.get('pk'))
 		if self.request.user.is_staff:
 			return queryset
-		
+
 		return queryset.filter(organization__user=self.request.user)
 
 class ReportedStatisticDetailView(OrganizationView, DetailView):
@@ -253,7 +253,7 @@ class BillingLogCreateView(StaffView, CreateView):
 				amount = get('amount'),
 			)
 			invoice.save()
-			
+
 			billing_log = BillingLog(
 				log_type='create_invoice',
 				organization=get('organization'),
@@ -324,7 +324,7 @@ class OrganizationBillingLogListingView(StaffView, ListView):
 
 	def get_queryset(self):
 		username = self.kwargs.pop('username')
-		return self.model.objects.filter(membership_status__in=(2,3,4,5,7,99), ocw_contact__username=username).order_by('display_name')	
+		return self.model.objects.filter(membership_status__in=(2,3,4,5,7,99), ocw_contact__username=username).order_by('display_name')
 
 ### API views
 
@@ -419,7 +419,7 @@ class LoginKeyCheckView(TemplateView):
 		if LoginKey.objects.filter(key=key).exists():
 			today = datetime.datetime.today()
 			login_key = LoginKey.objects.get(key=key, pub_date__gte=(today - datetime.timedelta(days=7)))
-			
+
 			login_key.user.backend = 'django.contrib.auth.backends.ModelBackend'
 			login(self.request, login_key.user)
 			return redirect('/crm/')
