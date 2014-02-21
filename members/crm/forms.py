@@ -210,6 +210,11 @@ class BillingLogForm(forms.ModelForm):
                 Field('email_invoice_paid_subject'),
                 Field('email_invoice_paid_body'),
                 ng_show="logtype === 'send_paid_invoice'",
+            ),
+            Div(
+                HTML("<p>Note will be visible to other staff members</p>"),
+                Field('note'),
+                ng_show="logtype === 'create_note'",
             )
         )
         self.helper.layout.append(Submit('submit', 'submit'))
@@ -218,7 +223,7 @@ class BillingLogForm(forms.ModelForm):
         model = BillingLog
         fields = ('log_type', 'amount', 'organization', 'user', 'invoice_year', 'description',
                   'email_invoice', 'email_invoice_subject', 'email_invoice_body',
-                  'email_invoice_paid', 'email_invoice_paid_subject', 'email_invoice_paid_body',)
+                  'email_invoice_paid', 'email_invoice_paid_subject', 'email_invoice_paid_body', 'note')
 
 class ReportedStatisticModelForm(forms.ModelForm):
     report_date = forms.ChoiceField(label="Reported period, until:")

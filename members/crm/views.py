@@ -314,7 +314,14 @@ class BillingLogCreateView(StaffView, CreateView):
 			)
 			billing_log.save()
 			billing_log.send_email()
-
+		elif get('log_type') == 'create_note':
+			billing_log = BillingLog(
+				log_type='create_note',
+				organization=get('organization'),
+				user=get('user'),
+				note=get('note')
+			)
+			billing_log.save()
 
 		return redirect(reverse('staff:organization-view', kwargs={'pk': org.id}))
 

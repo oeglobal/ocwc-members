@@ -523,7 +523,8 @@ BILLING_LOG_TYPE_CHOICES = (
     ('create_invoice', 'Create new invoice'),
     ('send_invoice', 'Send invoice via email'),
     ('create_paid_invoice', 'Create paid invoice'),
-    ('send_paid_invoice', 'Send paid invoice via email')
+    ('send_paid_invoice', 'Send paid invoice via email'),
+    ('create_note', 'Add a note'),
 )
 
 class BillingLog(models.Model):
@@ -537,7 +538,7 @@ class BillingLog(models.Model):
     invoice = models.ForeignKey('Invoice', null=True, blank=True)
     invoice_year = models.CharField(default=settings.DEFAULT_INVOICE_YEAR, max_length=10)
     description = models.TextField(blank=True, default='')
-    note = models.TextField(blank=True, help_text='Visible to staff members only')
+    note = models.TextField(blank=True)
 
     email_subject = models.CharField(max_length=140, blank=True, verbose_name="Subject")
     email_body = models.TextField(blank=True, verbose_name="Message")

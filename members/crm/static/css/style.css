@@ -53,3 +53,8 @@ dt {
 	line-height: 1.5em;
 	padding-left: 0.5em;
 }
+
+.billinglog-table td {
+	/*max-width: 30%;*/
+	min-width: 120px;
+}

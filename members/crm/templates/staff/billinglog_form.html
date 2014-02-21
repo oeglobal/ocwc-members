@@ -3,13 +3,14 @@
 <div class="large-12 columns">
 	<h2>Billing information</h2>
 
-	<table>
+	<table class="billinglog-table">
 	<thead>
 		<tr>
 			<th>Type</th>
 			<th>Date</th>
 			<th>Who</th>
 			<th colspan="2">Actions</th>
+			<th>Notes</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -26,7 +27,10 @@
 			{% if log.log_type == 'create_invoice' or log.log_type == 'create_paid_invoice' %}
 				<td><a href="{% url 'admin:crm_invoice_delete' log.invoice.id %}" target="_blank">Delete</a></td>
 			{% else %}
-			<td><a href="{% url 'admin:crm_billinglog_delete' log.invoice.id %}" target="_blank">Delete</a></td>
+				<td><a href="{% url 'admin:crm_billinglog_delete' log.id %}" target="_blank">Delete</a></td>
+			{% endif %}
+			{% if log.log_type == 'create_note' %}
+				<td class="note-col">{{ log.note }}</td>
 			{% endif %}
 		</tr>
 	{% endfor %}
