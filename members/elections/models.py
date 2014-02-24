@@ -14,6 +14,10 @@ class Election(models.Model):
     view_nominations_key = models.CharField(max_length=255, blank=True)
     edit_nominations_key = models.CharField(max_length=255, blank=True)
 
+    nominate_until = models.DateTimeField(null=True)
+    vote_from = models.DateTimeField(null=True)
+    vote_until = models.DateTimeField(null=True)
+
     def save(self, force_insert=False, force_update=False, using=None):
         if not self.view_nominations_key:
             self.view_nominations_key = uuid.uuid4().get_hex()

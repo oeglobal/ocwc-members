@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import datetime
 from django.shortcuts import render, redirect
 
 from vanilla import CreateView, UpdateView, DetailView, ListView, FormView
@@ -10,6 +11,13 @@ from crm.models import Organization
 class CandidateAddView(FormView):
     form_class = CandidateAddForm
     template_name = "elections/candidate_add.html"
+
+    def dispatch(self, request, *args, **kwargs):
+        election = Election.objects.latest('id')
+        if election.nominate_until < datetime.datetime.now():
+            return render(self.request, 'elections/election_closed_nominations.html')
+
+        return super(CandidateAddView, self).dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
         org = Organization.objects.get(pk=form.cleaned_data.get('organization'))
