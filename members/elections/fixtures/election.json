@@ -5,7 +5,10 @@
     "fields": {
         "edit_nominations_key": "5fa4b0f2a82b483387f26f5ab6ff5a25", 
         "view_nominations_key": "47607c7d2fcc408cbaec4fdcf799bc16", 
-        "title": "2014 Board Elections"
+        "title": "2014 Board Elections",
+        "vote_from": "2014-03-10T09:00:00",
+        "vote_until": "2015-03-24T09:00:00",
+        "nominate_until": "2015-02-24T09:00:00"
     }
 }
 ]
