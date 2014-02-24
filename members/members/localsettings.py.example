@@ -18,7 +18,7 @@ DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
 CRISPY_FAIL_SILENTLY = not DEBUG
-INVOICES_ROOT = '/home/gandalf/members/media/invoices'
+INVOICES_ROOT = '/tmp'
 INVOICES_URL = '/media/invoices/'
 INVOICES_PHANTOM_JS_HOST = 'http://localhost:8081'
 
