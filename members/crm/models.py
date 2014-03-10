@@ -187,6 +187,33 @@ class Organization(models.Model):
             'create_invoice': self.billinglog_set.filter(log_type='create_invoice', invoice_year=settings.DEFAULT_INVOICE_YEAR).exists(),
             'send_invoice': self.billinglog_set.filter(log_type='send_invoice', invoice_year=settings.DEFAULT_INVOICE_YEAR).exists(),
         }
+
+    def get_consortia_members(self):
+
+        consortia = None
+        if   self.slug == 'cccoer':
+            consortia = 'CCCOER'
+        elif self.slug == 'japan-ocw-consortium':
+            consortia = 'JOCWC'
+        elif self.slug == 'korea-ocw-consortium':
+            consortia = 'KOCWC'
+        elif self.slug == 'taiwan-ocw-consortium':
+            consortia = 'TOCWC'
+        elif self.slug == 'turkish-ocw-consortium':
+            consortia = 'Turkish OCWC'
+        elif self.slug == 'taiwan-ocw-consortium':
+            consortia = 'TOCWC'
+        elif self.slug == 'universia':
+            consortia = 'UNIVERSIA'
+        elif self.slug == 'ocwfrance':
+            consortia = 'FOCW'
+
+        if not consortia:
+            return Organization.objects.none()
+
+        return Organization.objects.filter(associate_consortium=consortia)
+
+
 reversion.register(Organization)
 
 # CONTACT_TYPE_CHOICES = (

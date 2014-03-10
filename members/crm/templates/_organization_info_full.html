@@ -53,3 +53,13 @@
 			<p>To update information on who can access and vote on behalf of your organization, please contact <a href="mailto:memberservices@ocwconsortium.org">member services</a>.</p>
 			{% endif %}
 		</div>
+		<div class="large-6 columns">
+			{% if org.get_consortia_members.count %}
+			<h2>{{ org.get_consortia_members.count }} Consortia Members</h2>
+			<ul>
+				{% for consortia_member in org.get_consortia_members.all %}
+					<li><a href="{{ consortia_member.get_absolute_url }}">{{ consortia_member.display_name }}</a></li>
+				{% endfor %}
+			</ul>
+			{% endif %}
+		</div>
