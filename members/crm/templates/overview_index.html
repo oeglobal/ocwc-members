@@ -10,15 +10,15 @@
 				<li><a href="{% url 'crm:reported-statistics-view' org.id %}">Report course statistics</a></li>
 			</ul>
 		</div>
-		{% comment %}
+
 		<div class="large-12 columns">
 			<h1>Elections</h1>
 			{% if org.can_vote %}
 			<a href="{% url 'elections:vote-add' 1 %}" class="button medium">Vote in 2014 Elections</a>
 			{% else %}
-			<p>Your organization is currently not eligible to vote. Please contact Member Services for details.</p>
+			<p>Your organization is currently not eligible to vote. Please contact <a href="mailto:memberservices@ocwconsortium.org">memberservices@ocwconsortium.org</a> for details.</p>
 			{% endif %}
 		</div>
-		{% endcomment %}
+
 	</div>
 {% endblock %}
