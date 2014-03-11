@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.conf.urls import patterns, url
 
-from .views import CandidateAddView, CandidateEditView, CandidateView, ElectionListView
+from .views import CandidateAddView, CandidateEditView, CandidateView, ElectionListView, VoteView, VoteAddFormView
 from .api import ElectionCandidatesListAPIView
 
 urlpatterns = patterns('',
@@ -14,4 +14,6 @@ urlpatterns = patterns('',
 
 	url(r'^api/candidate/list/(?P<key>[\w|\W]+)/$', ElectionCandidatesListAPIView.as_view(), name='api-candidate-list'),
 
+	url(r'^vote/add/(?P<pk>\d+)/$', VoteAddFormView.as_view(), name='vote-add'),
+	url(r'^vote/(?P<pk>\d+)/$', VoteView.as_view(), name='vote-view'),
 )

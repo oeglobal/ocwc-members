@@ -1,0 +1,17 @@
+{% extends "elections/base.html" %}{% load crispy_forms_tags %}{% load staticfiles %}
+
+{% block extra_head %}
+	<link href="{% static 'uni-form/css/uni-form.css' %}" media="screen, projector, print" rel="stylesheet" type="text/css" />
+	<link href="{% static 'uni-form/css/default.uni-form.css' %}" media="screen, projector, print" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block contents %}
+	<div class="row">
+		<div class="large-12 columns">
+			<form action="" method="POST">
+				{{ form|as_crispy_errors }}
+				{% crispy form %}
+			</form>
+		</div>
+	</div>
+{% endblock %}

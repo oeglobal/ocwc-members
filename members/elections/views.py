@@ -3,7 +3,7 @@ import datetime
 from django.shortcuts import render, redirect
 
 from vanilla import CreateView, UpdateView, DetailView, ListView, FormView
-from .forms import CandidateAddForm, CandidateEditForm
+from .forms import CandidateAddForm, CandidateEditForm, VoteForm
 from .models import Candidate, Election
 
 from crm.models import Organization
@@ -51,3 +51,13 @@ class ElectionListView(ListView):
     model = Election
     template_name = 'elections/candidate_list.html'
     context_object_name = 'election'
+
+class VoteView(DetailView):
+    model = Election
+    template_name = 'elections/vote_view.html'
+    context_object_name = 'election'
+
+class VoteAddFormView(FormView):
+    form_class = VoteForm
+    template_name = "elections/vote_form.html"
+

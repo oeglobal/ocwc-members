@@ -48,7 +48,7 @@ class Candidate(models.Model):
     candidate_job_title = models.CharField(max_length=255, blank=True, default='')
     candidate_email = models.EmailField(max_length=255)
     candidate_phone_number = models.CharField(max_length=255, blank=True, default='')
-    
+
     reason = models.TextField(blank=True)
     # organization = models.CharField(max_length=255)
     organization = models.ForeignKey(Organization)
@@ -94,3 +94,35 @@ class Candidate(models.Model):
                   render_to_string('elections/email_candidate_nominee_body.txt', {'candidate': self}),
                   'tech@ocwconsortium.org', [self.candidate_email]
         )
+
+    def __unicode__(self):
+        return "%s %s (%s)" % (self.candidate_first_name, self.candidate_last_name, self.organization.display_name)
+
+class CandidateBallot(models.Model):
+    organization = models.ForeignKey(Organization)
+    voter_name = models.CharField(max_length=255)
+
+    seat_type = models.CharField(max_length=60, choices=SEAT_TYPE_CHOICES)
+    votes = models.ManyToManyField(Candidate)
+
+    created = models.DateTimeField(auto_now_add=True)
+    modified = models.DateTimeField(auto_now=True)
+
+class Proposition(models.Model):
+    election = models.ForeignKey(Election)
+    title = models.CharField(max_length=255)
+    description = models.TextField(blank=True)
+
+    published = models.BooleanField(default=False)
+
+    created = models.DateTimeField(auto_now_add=True)
+    modified = models.DateTimeField(auto_now=True)
+
+class PropositionBallot(models.Model):
+    organization = models.ForeignKey(Organization)
+    voter_name = models.CharField(max_length=255)
+
+    vote = models.NullBooleanField(null=True)
+
+    created = models.DateTimeField(auto_now_add=True)
+    modified = models.DateTimeField(auto_now=True)

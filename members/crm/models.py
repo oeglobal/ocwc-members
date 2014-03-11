@@ -213,6 +213,12 @@ class Organization(models.Model):
 
         return Organization.objects.filter(associate_consortium=consortia)
 
+    def can_vote(self):
+        if self.membership_status in (2,5,7,99): #exclude grace (3) from voting
+            return True
+        else:
+            return False
+
 
 reversion.register(Organization)
 

@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 from django import forms
+from django.utils.safestring import mark_safe
 
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit, Layout, Field, Div, HTML
 
-from .models import Candidate
+from .models import Candidate, Election, Proposition
 from crm.models import Organization
 
 class CandidateAddForm(forms.Form):
@@ -161,3 +162,53 @@ class CandidateEditForm(forms.ModelForm):
         fields = ['candidate_first_name', 'candidate_last_name', 'candidate_job_title', 'candidate_email',
                   'candidate_phone_number', 'organization', 'email_alternate',
                   'biography', 'vision', 'ideas', 'expertise', 'external_url', 'acceptance']
+
+PROPOSITION_CHOICES = (
+    ('yes', mark_safe('We vote <strong>for</strong> this proposition')),
+    ('no', mark_safe('We vote <strong>against</strong> this proposition')),
+    ('abstain', mark_safe('We abstain')),
+)
+
+class VoteForm(forms.Form):
+    proposition_vote = forms.ChoiceField(widget=forms.RadioSelect,
+                                         label="We vote", choices=PROPOSITION_CHOICES)
+    institutional_candidates = forms.ChoiceField(widget=forms.CheckboxSelectMultiple, label="Select up to 4 Candidates for Board of Directors, Institutional Seats")
+    organizational_candidates = forms.ChoiceField(widget=forms.CheckboxSelectMultiple, label="Select 1 candidate for Board of Directors, Organizational Seat")
+    name = forms.CharField(label="Please enter your First and Last name, to sign your vote on behalf of your organization")
+
+    def __init__(self, *args, **kwargs):
+        super(VoteForm, self).__init__(*args, **kwargs)
+
+        self.election = Election.objects.last()
+
+        self.fields['institutional_candidates'].choices = [ (i.id, unicode(i)) for i in self.election.candidate_set.filter(vetted=True, seat_type='institutional').order_by('candidate_last_name') ]
+        self.fields['organizational_candidates'].choices = [ (i.id, unicode(i)) for i in self.election.candidate_set.filter(vetted=True, seat_type='organizational').order_by('candidate_last_name') ]
+
+        self.helper = FormHelper(self)
+        self.helper.form_show_errors = True
+
+        proposition = Proposition.objects.last()
+
+        self.helper.layout = Layout(
+            Div(
+                HTML('<h2>2014 OpenCoursWare Consortium Elections</h2>'),
+            css_class='row'),
+            Div(
+                HTML("<h2>%s</h2>" % proposition.title),
+                HTML("<p>%s</p>" % proposition.description),
+            css_class='row'),
+            Div(
+                Field('proposition_vote'),
+            css_class='row'),
+            Div(
+                Field('institutional_candidates'),
+            css_class='row'),
+            Div(
+                Field('organizational_candidates'),
+            css_class='row'),
+            Div(
+                Field('name'),
+            css_class='row'),
+        )
+        self.helper.layout.append(Submit('submit', 'Submit'))
+

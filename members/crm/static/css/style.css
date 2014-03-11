@@ -58,3 +58,8 @@ dt {
 	/*max-width: 30%;*/
 	min-width: 120px;
 }
+
+strong {
+	font-weight: bold;
+	font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+}
