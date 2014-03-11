@@ -10,6 +10,7 @@
 				<li><a href="{% url 'crm:reported-statistics-view' org.id %}">Report course statistics</a></li>
 			</ul>
 		</div>
+		{% comment %}
 		<div class="large-12 columns">
 			<h1>Elections</h1>
 			{% if org.can_vote %}
@@ -18,5 +19,6 @@
 			<p>Your organization is currently not eligible to vote. Please contact Member Services for details.</p>
 			{% endif %}
 		</div>
+		{% endcomment %}
 	</div>
 {% endblock %}
