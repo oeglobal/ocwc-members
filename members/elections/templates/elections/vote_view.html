@@ -1,5 +1,37 @@
 {% extends "elections/base.html" %}
 
 {% block contents %}
+	<div class="row">
+		<div class="large-12 columns">
+			<h2>Thank you for voting in {{ election.title }}.</h2>
 
+			<p>You voted:</p>
+			{% if proposition_votes %}
+			<ul>
+				{% for vote in proposition_votes %}
+					<li>{{ vote.proposition.title }}: <strong>{{ vote.get_vote_display }}</strong></li>
+				{% endfor %}
+			</ul>
+			{% endif %}
+
+			{% if candidate_votes %}
+			<ul>
+				{% for vote in candidate_votes %}
+				<li>For Board of Directors, {{ vote.seat_type|title }} Seat: <br />
+					{% for candidate in vote.votes.all %}
+						<strong>{{ candidate.candidate_first_name }} {{ candidate.candidate_last_name }}</strong>{% if not forloop.last %}, {% endif %}
+					{% endfor %}
+				</li>
+				{% endfor %}
+			</ul>
+			{% endif %}
+			
+		</div>
+
+		{% if show_vote_button %}
+			<p>You can cast {{ organization.get_number_of_votes }} votes, so we invite you to vote again, each ballot is one vote: <br />
+				<a href="{% url 'elections:vote-add' 1 %}" class="button medium">Vote in 2014 Elections</a>
+			</p>
+		{% endif %}
+	</div>
 {% endblock %}

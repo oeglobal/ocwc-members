@@ -6,6 +6,7 @@ from django.core.mail import send_mail
 from django.conf import settings
 from django.template.loader import render_to_string
 from django.core.urlresolvers import reverse
+from django.utils.safestring import mark_safe
 
 from crm.models import Organization
 
@@ -119,12 +120,20 @@ class Proposition(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
 
+PROPOSITION_CHOICES = (
+    (True, mark_safe('We vote <strong>for</strong> this proposition')),
+    (False, mark_safe('We vote <strong>against</strong> this proposition')),
+    (None, mark_safe('We abstain')),
+)
+
 class PropositionBallot(models.Model):
     election = models.ForeignKey(Election)
+    proposition = models.ForeignKey(Proposition)
+
     organization = models.ForeignKey(Organization)
     voter_name = models.CharField(max_length=255)
 
-    vote = models.NullBooleanField(null=True)
+    vote = models.NullBooleanField(null=True, choices=PROPOSITION_CHOICES)
 
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)

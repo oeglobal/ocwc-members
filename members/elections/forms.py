@@ -190,10 +190,11 @@ class VoteForm(forms.Form):
 
         self.helper.layout = Layout(
             Div(
-                HTML('<h2>2014 OpenCoursWare Consortium Elections</h2>'),
+                HTML('<h2>2014 OpenCourseWare Consortium Elections</h2>'),
+                HTML('<p>Fields marked with * are mandatory</p>'),
             css_class='row'),
             Div(
-                HTML("<h2>%s</h2>" % proposition.title),
+                HTML("<h4>%s</h4>" % proposition.title),
                 HTML("<p>%s</p>" % proposition.description),
             css_class='row'),
             Div(
@@ -214,10 +215,10 @@ class VoteForm(forms.Form):
     def clean(self):
         cleaned_data = self.cleaned_data
 
-        if len(self.cleaned_data.get('institutional_candidates')) > 4:
+        if self.cleaned_data.get('institutional_candidates') and len(self.cleaned_data.get('institutional_candidates')) > 4:
             self._errors['institutional_candidates'] = self.error_class(['Too many candidates selected.'])
 
-        if len(self.cleaned_data.get('organizational_candidates')) > 1:
+        if self.cleaned_data.get('organizational_candidates') and len(self.cleaned_data.get('organizational_candidates')) > 1:
             self._errors['organizational_candidates'] = self.error_class(['Too many candidates selected.'])
 
         return cleaned_data
