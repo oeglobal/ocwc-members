@@ -99,6 +99,7 @@ class Candidate(models.Model):
         return "%s %s (%s)" % (self.candidate_first_name, self.candidate_last_name, self.organization.display_name)
 
 class CandidateBallot(models.Model):
+    election = models.ForeignKey(Election)
     organization = models.ForeignKey(Organization)
     voter_name = models.CharField(max_length=255)
 
@@ -119,6 +120,7 @@ class Proposition(models.Model):
     modified = models.DateTimeField(auto_now=True)
 
 class PropositionBallot(models.Model):
+    election = models.ForeignKey(Election)
     organization = models.ForeignKey(Organization)
     voter_name = models.CharField(max_length=255)
 

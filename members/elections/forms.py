@@ -172,14 +172,13 @@ PROPOSITION_CHOICES = (
 class VoteForm(forms.Form):
     proposition_vote = forms.ChoiceField(widget=forms.RadioSelect,
                                          label="We vote", choices=PROPOSITION_CHOICES)
-    institutional_candidates = forms.ChoiceField(widget=forms.CheckboxSelectMultiple, label="Select up to 4 Candidates for Board of Directors, Institutional Seats")
-    organizational_candidates = forms.ChoiceField(widget=forms.CheckboxSelectMultiple, label="Select 1 candidate for Board of Directors, Organizational Seat")
+    institutional_candidates = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple, label="Select up to 4 Candidates for Board of Directors, Institutional Seats")
+    organizational_candidates = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple, label="Select 1 candidate for Board of Directors, Organizational Seat")
     name = forms.CharField(label="Please enter your First and Last name, to sign your vote on behalf of your organization")
 
     def __init__(self, *args, **kwargs):
+        self.election = kwargs.pop('election')
         super(VoteForm, self).__init__(*args, **kwargs)
-
-        self.election = Election.objects.last()
 
         self.fields['institutional_candidates'].choices = [ (i.id, unicode(i)) for i in self.election.candidate_set.filter(vetted=True, seat_type='institutional').order_by('candidate_last_name') ]
         self.fields['organizational_candidates'].choices = [ (i.id, unicode(i)) for i in self.election.candidate_set.filter(vetted=True, seat_type='organizational').order_by('candidate_last_name') ]
@@ -212,3 +211,13 @@ class VoteForm(forms.Form):
         )
         self.helper.layout.append(Submit('submit', 'Submit'))
 
+    def clean(self):
+        cleaned_data = self.cleaned_data
+
+        if len(self.cleaned_data.get('institutional_candidates')) > 4:
+            self._errors['institutional_candidates'] = self.error_class(['Too many candidates selected.'])
+
+        if len(self.cleaned_data.get('organizational_candidates')) > 1:
+            self._errors['organizational_candidates'] = self.error_class(['Too many candidates selected.'])
+
+        return cleaned_data
