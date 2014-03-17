@@ -10,4 +10,4 @@ class ElectionCandidatesListAPIView(generics.ListAPIView):
 
 	def get_queryset(self):
 		view_nominations_key = self.kwargs.pop('key')
-		return Election.objects.get(view_nominations_key=view_nominations_key).candidate_set.filter(vetted=True).order_by('candidate_last_name')
+		return Election.objects.get(view_nominations_key=view_nominations_key).candidate_set.filter(vetted=True).order_by('seat_type', 'order')

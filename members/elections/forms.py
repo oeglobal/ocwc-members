@@ -180,8 +180,8 @@ class VoteForm(forms.Form):
         self.election = kwargs.pop('election')
         super(VoteForm, self).__init__(*args, **kwargs)
 
-        self.fields['institutional_candidates'].choices = [ (i.id, unicode(i)) for i in self.election.candidate_set.filter(vetted=True, seat_type='institutional').order_by('candidate_last_name') ]
-        self.fields['organizational_candidates'].choices = [ (i.id, unicode(i)) for i in self.election.candidate_set.filter(vetted=True, seat_type='organizational').order_by('candidate_last_name') ]
+        self.fields['institutional_candidates'].choices = [ (i.id, unicode(i)) for i in self.election.candidate_set.filter(vetted=True, seat_type='institutional').order_by('order') ]
+        self.fields['organizational_candidates'].choices = [ (i.id, unicode(i)) for i in self.election.candidate_set.filter(vetted=True, seat_type='organizational').order_by('order') ]
 
         self.helper = FormHelper(self)
         self.helper.form_show_errors = True

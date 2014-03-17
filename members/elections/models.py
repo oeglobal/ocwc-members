@@ -74,6 +74,8 @@ class Candidate(models.Model):
     pub_date = models.DateTimeField(auto_now_add=True)
     last_modified = models.DateTimeField(auto_now=True)
 
+    order = models.IntegerField(default=0)
+
     def get_absolute_edit_url(self):
         return reverse('elections:candidate-edit', kwargs={'key':self.edit_link_key})
 
