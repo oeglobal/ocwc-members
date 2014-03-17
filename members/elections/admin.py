@@ -4,6 +4,6 @@ from .models import Candidate, Election, CandidateBallot, Proposition, Propositi
 
 admin.site.register(Election)
 admin.site.register(Candidate)
-admin.site.register(CandidateBallot)
+# admin.site.register(CandidateBallot)
 admin.site.register(Proposition)
-admin.site.register(PropositionBallot)
+# admin.site.register(PropositionBallot)
