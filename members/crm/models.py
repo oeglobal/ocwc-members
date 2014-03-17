@@ -648,8 +648,6 @@ class Invoice(models.Model):
         return "%s%s" % (settings.INVOICES_URL, self.pdf_filename)
 
     def save(self, force_insert=False, force_update=False, using=None):
-        if not self.pub_date:
-            self.pub_date = datetime.datetime.now()
         if not self.access_key:
             self.access_key = uuid.uuid4().get_hex()
         if not self.paypal_link:
