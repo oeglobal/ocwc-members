@@ -633,7 +633,7 @@ class Invoice(models.Model):
     access_key = models.CharField(max_length=32, blank=True)
 
     paypal_link = models.TextField(blank=True)
-    pub_date = models.DateTimeField()
+    pub_date = models.DateTimeField(auto_now_add=True)
 
     def __unicode__(self):
         return "Invoice %s (%s)" % (self.invoice_number, self.organization.display_name)

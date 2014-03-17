@@ -274,7 +274,7 @@ class BillingLogCreateView(StaffView, CreateView):
 				invoice_year = last_invoice.invoice_year,
 				amount = last_invoice.amount,
 				description = last_invoice.description,
-				pub_date = last_invoice.pub_date,
+				# pub_date = last_invoice.pub_date,
 			)
 			invoice.save()
 
