@@ -19,7 +19,7 @@ from django.conf import settings
 from geopy import geocoders
 from geopy.geocoders.google import GQueryError
 
-import reversion
+# import reversion
 here = lambda x: os.path.join(os.path.dirname(os.path.abspath(__file__)), x)
 
 class Country(models.Model):
@@ -231,7 +231,7 @@ class Organization(models.Model):
 
         return 1
 
-reversion.register(Organization)
+# reversion.register(Organization)
 
 # CONTACT_TYPE_CHOICES = (
 #   ('lead', 'Main contact'),
@@ -257,7 +257,7 @@ class Contact(models.Model):
     first_name = models.CharField(max_length=255, blank=True, default='')
     last_name = models.CharField(max_length=255, blank=True, default='')
     job_title = models.CharField(max_length=255, blank=True, default='')
-reversion.register(Contact)
+# reversion.register(Contact)
 
 class Address(models.Model):
     organization = models.ForeignKey(Organization)
@@ -304,7 +304,7 @@ class Address(models.Model):
         return self.organization.get_absolute_url()
 
 
-reversion.register(Address)
+# reversion.register(Address)
 
 APPLICATION_MEMBERSHIP_TYPE = (
 
