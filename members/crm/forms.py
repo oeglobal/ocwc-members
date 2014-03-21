@@ -154,7 +154,7 @@ class MemberLoginForm(forms.Form):
         email = cleaned_data.get('email', '').strip()
         org = cleaned_data.get('organization')
 
-        if org and email and not Organization.active.filter(pk=org, contact__email=email):
+        if org and email and not Organization.active.filter(pk=org, contact__email__iexact=email):
             raise forms.ValidationError('E-mail you entered is not associated with selected organization.' + 
                                         'Please contact members services if you require assistance.', code='invalid-email')
 
