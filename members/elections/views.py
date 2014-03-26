@@ -80,6 +80,9 @@ class VoteAddFormView(LoginRequiredMixin, FormView):
     template_name = "elections/vote_form.html"
 
     def dispatch(self, request, *args, **kwargs):
+        if self.request.user.is_anonymous():
+            raise Http404
+
         self.election = Election.objects.get(pk=kwargs.pop('pk'))
         self.organization = Organization.objects.get(user=self.request.user)
 
