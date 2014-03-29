@@ -14,6 +14,6 @@ urlpatterns = patterns('',
 
 	url(r'^api/candidate/list/(?P<key>[\w|\W]+)/$', ElectionCandidatesListAPIView.as_view(), name='api-candidate-list'),
 
-	url(r'^vote/add/(?P<pk>\d+)/$', VoteAddFormView.as_view(), name='vote-add'),
-	url(r'^vote/(?P<pk>\d+)/$', VoteView.as_view(), name='vote-view'),
+	# url(r'^vote/add/(?P<pk>\d+)/$', VoteAddFormView.as_view(), name='vote-add'),
+	# url(r'^vote/(?P<pk>\d+)/$', VoteView.as_view(), name='vote-view'),
 )
