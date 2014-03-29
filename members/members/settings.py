@@ -79,7 +79,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.middleware.transaction.TransactionMiddleware',
-    'reversion.middleware.RevisionMiddleware',
+    # 'reversion.middleware.RevisionMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
@@ -120,7 +120,7 @@ INSTALLED_APPS = (
     'crm',
     # 'joomla',
 
-    'reversion',
+    # 'reversion',
     'south',
     'gunicorn',
     'raven.contrib.django.raven_compat',
