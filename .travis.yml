@@ -14,7 +14,7 @@ install:
   - bin/buildout
   - cp members/members/localsettings.py.example members/members/localsettings.py
 script: 
-  - bin/django test crm elections
+  - bin/django test crm
 notifications:
   email:
     - jure@ocwconsortium.org
