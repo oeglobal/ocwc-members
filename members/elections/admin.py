@@ -11,7 +11,7 @@ class CandidateBallotAdmin(admin.ModelAdmin):
 	search_fields = ('organization__display_name',)
 
 # admin.site.register(Election)
-# admin.site.register(Candidate)
+admin.site.register(Candidate)
 # admin.site.register(CandidateBallot, CandidateBallotAdmin)
 # admin.site.register(Proposition)
 # admin.site.register(PropositionBallot, PropositionBallotAdmin)
