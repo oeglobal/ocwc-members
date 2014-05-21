@@ -4,7 +4,11 @@
 	<div class="row">
 		<div class="large-12 columns">
 			<ul>
-				<li><a href="{% url 'staff:organization-list' %}">Organization list</a></li>
+				<li><a href="{% url 'staff:organization-list' %}">Organization list</a>
+					<ul>
+						<li><a href="{% url 'staff:organization-list-excel' %}">Excel export</a></li>
+					</ul>
+				</li>
 				<li><a href="{% url 'application:application-list' %}">Application list</a></li>
 				<li>Invoices: <a href="{% url 'staff:billinglog-username-listing' 'igorlesko' %}">Igor</a>, <a href="{% url 'staff:billinglog-username-listing' 'marcela' %}">Marcela</a></li>
 			</ul>

@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 import collections
 import datetime
+import xlwt
 
 from django import forms
-from django.http import Http404
+from django.http import Http404, HttpResponse
 from django.conf import settings
 from django.shortcuts import render, redirect
 from django.contrib.auth import login
@@ -348,6 +349,57 @@ class OrganizationBillingLogListingView(StaffView, ListView):
         return self.model.objects.filter(membership_status__in=(2, 3, 4, 5, 7, 99), ocw_contact__username=username).order_by('display_name')
 
 
+class OrganizationExportExcel(StaffView, TemplateView):
+
+    def get(self, request, *args, **kwargs):
+        response = HttpResponse(mimetype='application/ms-excel')
+        response['Content-Disposition'] = 'attachment; filename=members.xls'
+        wb = xlwt.Workbook(encoding='utf-8')
+        ws = wb.add_sheet("Members")
+
+        row_num = 0
+        columns = [
+            (u"ID", 25),
+            (u"Old ID", 25),
+            (u"Name", 150),
+            (u"Lead Contact", 70),
+            (u"Lead Contact Email", 120),
+            (u"Membership status", 70),
+            (u"Edit link", 150)
+        ]
+
+        font_style = xlwt.XFStyle()
+        font_style.font.bold = True
+
+        for col_num in xrange(len(columns)):
+            ws.write(row_num, col_num, columns[col_num][0], font_style)
+            ws.col(col_num).width = columns[col_num][1] * 100
+
+        font_style = xlwt.XFStyle()
+        font_style.alignment.wrap = 1
+
+        for obj in Organization.objects.filter(membership_status__in=(2, 3, 5, 7)).order_by('display_name'):
+            row_num += 1
+
+            contact = obj.contact_set.filter(contact_type=6)[0]
+
+            row = [
+                obj.pk,
+                obj.crmid or '',
+                obj.display_name,
+                u"%s %s" % (contact.first_name, contact.last_name),
+                contact.email,
+                obj.get_membership_status_display(),
+                'http://members.ocwconsortium.org%s' % obj.get_absolute_staff_url()
+            ]
+
+            for col_num in xrange(len(row)):
+                ws.write(row_num, col_num, row[col_num], font_style)
+
+        wb.save(response)
+        return response
+
+
 ### API views
 @api_view(['GET'])
 @renderer_classes([BrowsableAPIRenderer, JSONRenderer, JSONPRenderer])
@@ -449,3 +501,4 @@ class LoginKeyCheckView(TemplateView):
             return redirect('/crm/')
 
         return super(LoginKeyCheckView, self).dispatch(request, *args, **kwargs)
+
