@@ -381,14 +381,20 @@ class OrganizationExportExcel(StaffView, TemplateView):
         for obj in Organization.objects.filter(membership_status__in=(2, 3, 5, 7)).order_by('display_name'):
             row_num += 1
 
-            contact = obj.contact_set.filter(contact_type=6)[0]
+            try:
+                contact = obj.contact_set.filter(contact_type=6)[0]
+                contact_name = u"%s %s" % (contact.first_name, contact.last_name) or ''
+                contact_email = contact.email
+            except IndexError:
+                contact_name = ''
+                contact_email = ''
 
             row = [
                 obj.pk,
                 obj.crmid or '',
                 obj.display_name,
-                u"%s %s" % (contact.first_name, contact.last_name),
-                contact.email,
+                contact_name,
+                contact_email,
                 obj.get_membership_status_display(),
                 'http://members.ocwconsortium.org%s' % obj.get_absolute_staff_url()
             ]
