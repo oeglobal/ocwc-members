@@ -48,7 +48,7 @@ class MembershipApplicationModelForm(forms.ModelForm):
         self.fields['description'].label = "Describe your institution"
         self.fields['support_commitment'].label = ''
         self.fields['accreditation_body'].help_text = 'If your organization is accredited, please provide the name of the accreditation body here.'
-        self.fields['support_commitment'].help_text = 'Please describe your motivation for joining the OE Consortium, including the ways your organization supports or is planning to support the OE movement.'
+        self.fields['support_commitment'].help_text = 'Please describe your motivation for joining the Open Education Consortium, including the ways your organization supports or is planning to support the Open Education movement.'
         self.fields['country'].help_text = mark_safe("Select the country in which the institution is located. This will be used for grouping in the members display area on the website.<br/> (D) indicates that the country is classified as a 'developing economy' according to the <a href='http://www.imf.org/external/pubs/ft/weo/2008/01/weodata/groups.htm' target='_blank'>World Economic Outlook.</a>")
 
         self.helper = FormHelper(self)

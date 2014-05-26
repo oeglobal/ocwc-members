@@ -364,7 +364,7 @@ class MembershipApplication(models.Model):
     legacy_entity_id = models.IntegerField(blank=True, null=True)
 
     main_website = models.CharField(max_length=765, blank=True, verbose_name=u'Main Website address')
-    ocw_website = models.CharField(max_length=765, blank=True, verbose_name=u'OCW Website address')
+    ocw_website = models.CharField(max_length=765, blank=True, verbose_name=u'Open Educational Resources (OER) or OpenCourseWare (OCW) Website')
 
     logo_large = models.CharField(max_length=765, blank=True)
     logo_small = models.CharField(max_length=765, blank=True)
