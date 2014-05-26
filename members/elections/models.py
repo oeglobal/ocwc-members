@@ -89,13 +89,13 @@ class Candidate(models.Model):
     def email_board(self):
         send_mail(u"{candidate.candidate_first_name} {candidate.candidate_last_name} was nominated for OCWC board".format(candidate=self),
                   render_to_string('elections/email_candidate_board_body.txt', {'candidate': self}),
-                  'tech@ocwconsortium.org', [settings.NOMINATION_COMMITTEE_EMAIL]
+                  'tech@oeconsortium.org', [settings.NOMINATION_COMMITTEE_EMAIL]
         )
 
     def email_candidate(self):
         send_mail(u"You have been nominated to serve on the OCWC Board of Directors",
                   render_to_string('elections/email_candidate_nominee_body.txt', {'candidate': self}),
-                  'tech@ocwconsortium.org', [self.candidate_email]
+                  'tech@oeconsortium.org', [self.candidate_email]
         )
 
     def __unicode__(self):

@@ -73,7 +73,7 @@ class OrganizationApiViewsTest(TestCase):
         self.client.login(username='feed_api_client', password='example_pass_123')
 
         response = self.client.get(reverse('api:organization-feeds'))
-        self.assertContains(response, 'http://www.ocwconsortium.org/feed/')
+        self.assertContains(response, 'http://www.oeconsortium.org/feed/')
 
         # cleanup
         self.client.logout()
@@ -92,12 +92,12 @@ class TestLoginKey(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'E-mail you entered is not associated with selected organization')
 
-        response = self.client.post('', {'email': 'tech@ocwconsortium.org', 'organization': 1})
+        response = self.client.post('', {'email': 'tech@oeconsortium.org', 'organization': 1})
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'E-mail sent')
 
         login_key = LoginKey.objects.latest('id')
-        self.assertEqual(login_key.email, 'tech@ocwconsortium.org')
+        self.assertEqual(login_key.email, 'tech@oeconsortium.org')
 
         self.assertEqual(len(mail.outbox), 1)
         email = mail.outbox.pop()
@@ -174,7 +174,7 @@ class BillingLogTest(LiveServerTestCase):
         self.assertIn('Custom subject', email.subject )
         self.assertIn('email1@ocwconsortium.com', email.to)
         self.assertIn('email2@example.com', email.to)
-        self.assertIn('tech@ocwconsortium.org', email.bcc)
+        self.assertIn('tech@oeconsortium.org', email.bcc)
         self.assertIn('Custom body', email.body)
 
         data.update({
@@ -208,4 +208,4 @@ class BillingLogTest(LiveServerTestCase):
         self.assertIn('Custom paid body', email.body)
         self.assertIn('email1@ocwconsortium.com', email.to)
         self.assertIn('email2@example.com', email.to)
-        self.assertIn('tech@ocwconsortium.org', email.bcc)
+        self.assertIn('tech@oeconsortium.org', email.bcc)

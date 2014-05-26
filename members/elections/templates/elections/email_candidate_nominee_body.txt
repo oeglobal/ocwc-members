@@ -2,7 +2,7 @@ Dear {{ candidate.candidate_first_name }},
 
 {{ candidate.sponsor_first_name }} {{ candidate.sponsor_last_name }} has nominated you as a candidate for the Board of Directors of the OCW Consortium. 
 
-Please confirm that you accept this nomination by visiting http://members.ocwconsortium.org{% url 'elections:candidate-edit' candidate.edit_link_key %}
+Please confirm that you accept this nomination by visiting http://members.oeconsortium.org{% url 'elections:candidate-edit' candidate.edit_link_key %}
 
 Please provide the missing data or make corrections to existing data on that form.  You will also need to read and agree to the responsibilities of board members.
 

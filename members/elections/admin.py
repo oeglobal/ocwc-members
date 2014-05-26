@@ -13,5 +13,5 @@ class CandidateBallotAdmin(admin.ModelAdmin):
 # admin.site.register(Election)
 admin.site.register(Candidate)
 # admin.site.register(CandidateBallot, CandidateBallotAdmin)
-# admin.site.register(Proposition)
+admin.site.register(Proposition)
 # admin.site.register(PropositionBallot, PropositionBallotAdmin)

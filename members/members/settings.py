@@ -3,7 +3,7 @@ def next_to_root(*additional_paths):
     return os.path.realpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', *additional_paths))
 
 ADMINS = (
-    ('Jure Cuhalev', 'jure@ocwconsortium.org'),
+    ('Jure Cuhalev', 'jure@oeconsortium.org'),
 )
 
 MANAGERS = ADMINS
@@ -11,7 +11,7 @@ TESTING = sys.argv[1:2] == ['test']
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
-ALLOWED_HOSTS = ['members.ocwconsortium.org']
+ALLOWED_HOSTS = ['members.ocwonsortium.org', 'members.oeconsortium.org']
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name

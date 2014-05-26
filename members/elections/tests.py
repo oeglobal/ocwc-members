@@ -102,7 +102,7 @@ class NominationFormTest(TestCase):
         )
 
         # log us in
-        self.client.post('', {'email': 'tech@ocwconsortium.org', 'organization': 1})
+        self.client.post('', {'email': 'tech@oeconsortium.org', 'organization': 1})
         login_key = LoginKey.objects.latest('id')
         mail.outbox.pop()
         self.client.get(login_key.get_absolute_url())

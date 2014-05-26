@@ -62,7 +62,7 @@ class CandidateAddForm(forms.Form):
                             <li>Likewise, it is anticipated that Board members will serve as liaisons with various standing committees and work groups, and will represent the Consortium from time to time at various meetings and/or events.</li>
                         </ul>
                     <p>I AM AWARE THAT BOARD MEMBERS EXPEND CONSIDERABLE NON-REIMBURSED TIME AND MONEY IN THE FULFILLMENT OF THEIR DUTIES.  I ATTEST THAT I HAVE THE CONSENT OF THE NOMINEE IN THIS MATTER. I ALSO ATTEST THAT THE NOMINEE IS QUALIFIED AND ABLE TO SERVE IF ELECTED.</p>
-                    <p><a href="http://www.ocwconsortium.org/wp-content/uploads/2014/02/Bylaws_OpenCourseWare_Consortium_Incorporated_-_April-20-2012.doc" target="_blank">(See OCWC By-Laws Article III for qualification and responsibilities of Board Members).</a></p>
+                    <p><a href="http://www.oeconsortium.org/wp-content/uploads/2014/02/Bylaws_OpenCourseWare_Consortium_Incorporated_-_April-20-2012.doc" target="_blank">(See OCWC By-Laws Article III for qualification and responsibilities of Board Members).</a></p>
                     '''
                 ),
             css_class='row terms'),
@@ -139,7 +139,7 @@ class CandidateEditForm(forms.ModelForm):
                             <li>Likewise, it is anticipated that Board members will serve as liaisons with various standing committees and work groups, and will represent the Consortium from time to time at various meetings and/or events.</li>
                         </ul>
                     <p>I AM AWARE THAT BOARD MEMBERS EXPEND CONSIDERABLE NON-REIMBURSED TIME AND MONEY IN THE FULFILLMENT OF THEIR DUTIES.  I ATTEST THAT I AM QUALIFIED AND ABLE TO SERVE IF ELECTED.</p>
-                    <p><a href="http://www.ocwconsortium.org/wp-content/uploads/2014/02/Bylaws_OpenCourseWare_Consortium_Incorporated_-_April-20-2012.doc" target="_blank">(See OCWC By-Laws Article III for qualification and responsibilities of Board Members).</a></p>
+                    <p><a href="http://www.oeconsortium.org/wp-content/uploads/2014/02/Bylaws_OpenCourseWare_Consortium_Incorporated_-_April-20-2012.doc" target="_blank">(See OCWC By-Laws Article III for qualification and responsibilities of Board Members).</a></p>
                     '''
                 ),
             css_class='row terms'),

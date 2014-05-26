@@ -13,7 +13,7 @@
         "groups": [],
         "user_permissions": [],
         "password": "",
-        "email": "tech@ocwconsortium.org",
+        "email": "tech@oeconsortium.org",
         "date_joined": "2013-11-07T07:58:27.984"
     }
 },
@@ -31,7 +31,7 @@
         "groups": [],
         "user_permissions": [],
         "password": "",
-        "email": "tech@ocwconsortium.org",
+        "email": "tech@oeconsortium.org",
         "date_joined": "2013-11-07T07:58:27.984"
     }
 },
@@ -49,7 +49,7 @@
         "groups": [],
         "user_permissions": [],
         "password": "",
-        "email": "tech@ocwconsortium.org",
+        "email": "tech@oeconsortium.org",
         "date_joined": "2013-11-07T07:58:27.984"
     }
 },
@@ -60,18 +60,18 @@
         "membership_type": 5,
         "legal_name": "",
         "membership_status": 2,
-        "main_website": "http://www.ocwconsortium.org",
+        "main_website": "http://www.oeconsortium.org",
         "associate_consortium": "",
         "ocw_contact": null,
         "accreditation_body": "",
         "support_commitment": "",
         "logo_small": "",
-        "ocw_website": "http://www.ocwconsortium.org/ocw/",
+        "ocw_website": "http://www.oeconsortium.org/ocw/",
         "user": 1,
         "crmid": "5080",
         "logo_large": "",
         "display_name": "Tutorial University",
-        "rss_course_feed": "http://www.ocwconsortium.org/feed/",
+        "rss_course_feed": "http://www.oeconsortium.org/feed/",
         "slug": "tutorial-university",
         "description": "This is not a real university. We use it to create tutorials and perform tests (OCWC)"
     }
@@ -83,18 +83,18 @@
         "membership_type": 5,
         "legal_name": "",
         "membership_status": 2,
-        "main_website": "http://www.ocwconsortium.org",
+        "main_website": "http://www.oeconsortium.org",
         "associate_consortium": "",
         "ocw_contact": null,
         "accreditation_body": "",
         "support_commitment": "",
         "logo_small": "",
-        "ocw_website": "http://www.ocwconsortium.org/ocw/",
+        "ocw_website": "http://www.oeconsortium.org/ocw/",
         "user": 2,
         "crmid": "5080",
         "logo_large": "",
         "display_name": "Second Tutorial University",
-        "rss_course_feed": "http://www.ocwconsortium.org/feed/",
+        "rss_course_feed": "http://www.oeconsortium.org/feed/",
         "slug": "tutorial-university-2",
         "description": "This is not a real university. We use it to create tutorials and perform tests (OCWC)"
     }
@@ -106,18 +106,18 @@
         "membership_type": 5,
         "legal_name": "",
         "membership_status": 2,
-        "main_website": "http://www.ocwconsortium.org",
+        "main_website": "http://www.oeconsortium.org",
         "associate_consortium": "",
         "ocw_contact": null,
         "accreditation_body": "",
         "support_commitment": "",
         "logo_small": "",
-        "ocw_website": "http://www.ocwconsortium.org/ocw/",
+        "ocw_website": "http://www.oeconsortium.org/ocw/",
         "user": 3,
         "crmid": "5080",
         "logo_large": "",
         "display_name": "Third Tutorial University",
-        "rss_course_feed": "http://www.ocwconsortium.org/feed/",
+        "rss_course_feed": "http://www.oeconsortium.org/feed/",
         "slug": "tutorial-university-3",
         "description": "This is not a real university. We use it to create tutorials and perform tests (OCWC)"
     }
@@ -130,7 +130,7 @@
         "last_name": "Smith", 
         "contact_type": 6, 
         "organization": 1, 
-        "email": "tech@ocwconsortium.org", 
+        "email": "tech@oeconsortium.org", 
         "job_title": ""
     }
 },

@@ -24,7 +24,7 @@ class Command(BaseCommand):
 					if org != contact.organization.id:
 						org = contact.organization.id
 						print contact.organization.display_name
-						print "http://members.ocwconsortium.org/admin/crm/organization/%s/ \n" % contact.organization.id
+						print "http://members.oeconsortium.org/admin/crm/organization/%s/ \n" % contact.organization.id
 
 						print contact.first_name, contact.last_name
 

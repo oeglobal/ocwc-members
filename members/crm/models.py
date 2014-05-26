@@ -139,7 +139,7 @@ class Organization(models.Model):
         return reverse('crm:organization-view', kwargs={'pk':self.id})
 
     def get_logo_small_url(self):
-        return 'http://www.ocwconsortium.org/media/%s' % self.logo_small
+        return 'http://www.oeconsortium.org/media/%s' % self.logo_small
 
     def save(self, force_insert=False, force_update=False, using=None):
         if not self.slug:
@@ -496,8 +496,8 @@ class MembershipApplication(models.Model):
         return org
 
     def _send_notification_email(self):
-        send_mail('New Membership Application: %s' % self.display_name, 'View application: http://members.ocwconsortium.org%s' % self.get_absolute_url(), 
-                    'tech@ocwconsortium.org', ['memberapplications@ocwconsortium.org'])
+        send_mail('New Membership Application: %s' % self.display_name, 'View application: http://members.oeconsortium.org%s' % self.get_absolute_url(), 
+                    'tech@oeconsortium.org', ['memberapplications@oeconsortium.org'])
 
 COMMENTS_APP_STATUS_CHOICES = (
     ('Requested More Info', 'Requested More Info'),
@@ -558,7 +558,7 @@ class LoginKey(models.Model):
     def send_email(self):
         body = render_to_string('mail-login/mail_body.txt', {'url': self.get_absolute_url()})
         send_mail('OCW Member portal login information', body, 
-                    'memberservices@ocwconsortium.org', [self.email])
+                    'memberservices@oeconsortium.org', [self.email])
 
     def get_absolute_url(self):
         return '/login/%s/' % self.key
@@ -601,7 +601,7 @@ class BillingLog(models.Model):
         message = EmailMessage(
             subject = self.email_subject,
             body = self.email_body,
-            from_email = 'memberservices@ocwconsortium.org',
+            from_email = 'memberservices@oeconsortium.org',
             to = [s.strip() for s in self.email.split(',')],
             bcc = [self.user.email]
         )
