@@ -165,7 +165,7 @@ class MembershipApplicationListView(StaffuserRequiredMixin, ListView):
     template_name = 'membership_application_list.html'
 
     def get_queryset(self):
-        return self.model.objects.all().order_by('-id')[:25]
+        return self.model.objects.filter(app_status__in=('Submitted', 'RequestedMoreInfo')).order_by('-id')
 
 
 ### Staff specific views
