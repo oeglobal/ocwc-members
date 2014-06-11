@@ -2,7 +2,7 @@
 
 {% block contents %}
 	<div class="row">
-		<div class="large-12 columns">
+		<div class="small-12 columns">
 			<h1>{{ org.display_name }}</h1>
 
 			<ul>
@@ -11,10 +11,17 @@
 			</ul>
 		</div>
 
+
+		<div class="small-12 columns">
+			<h2>Membership</h2>
+			<p><a href="http://www.oeconsortium.org/members/member-mark/" target="_blank" class="button">Implement new Member Mark</a></p>
+		</div>
+
+		{% comment %}
 		<div class="large-12 columns">
 			<h1>Elections</h1>
 			<p>Voting period in 2014 elections has ended.</p>
-			{% comment %}
+			
 			{% if org.can_vote %}
 			<p>We invite your <a href="http://www.oeconsortium.org/about-ocw/membership/elections/" target="_blank">review the biography of candidates</a>.</p>
 			<p>
@@ -23,8 +30,8 @@
 			{% else %}
 			<p>Your organization is currently not eligible to vote. Please contact <a href="mailto:memberservices@oeconsortium.org">memberservices@oeconsortium.org</a> for details.</p>
 			{% endif %}
-			{% endcomment %}
 		</div>
+		{% endcomment %}
 
 	</div>
 {% endblock %}
