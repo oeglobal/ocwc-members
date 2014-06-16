@@ -406,6 +406,18 @@ class OrganizationExportExcel(StaffView, TemplateView):
         return response
 
 
+class OrganizationStaffNoContactListView(StaffView, ListView):
+    model = Organization
+    template_name = 'staff/organization_nocontact.html'
+
+    def get_queryset(self):
+        orgs = []
+        for org in self.model.objects.filter(membership_status__in=(2, 3, 4, 5, 7, 99)):
+            if not org.contact_set.filter(bouncing=False).exists():
+                orgs.append(org.id)
+        return self.model.objects.filter(pk__in=orgs).order_by('display_name')
+
+
 ### API views
 @api_view(['GET'])
 @renderer_classes([BrowsableAPIRenderer, JSONRenderer, JSONPRenderer])

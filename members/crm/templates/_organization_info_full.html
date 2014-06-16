@@ -47,6 +47,7 @@
 				<strong>{{ contact.get_contact_type_display }}</strong><br />
 				<strong>Name:</strong> {{ contact.first_name }} {{ contact.last_name }}<br />
 				<strong>Email:</strong> {{ contact.email }}
+				{% if contact.bouncing %}<span class="warning">(bounces!)</span>{% endif %}
 			</p>
 			{% endfor %}
 			{% if not user.is_staff %}

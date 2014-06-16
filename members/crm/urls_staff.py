@@ -2,7 +2,7 @@ from django.conf.urls import patterns, url
 
 from .views import StaffIndex, OrganizationStaffListView, OrganizationStaffDetailView, \
     InvoiceStaffView, InvoicePhantomJSView, BillingLogCreateView, OrganizationBillingLogListingView, \
-    OrganizationExportExcel
+    OrganizationExportExcel, OrganizationStaffNoContactListView
 
 urlpatterns = patterns('',
     url(r'^$', StaffIndex.as_view(), name='index'),
@@ -16,5 +16,6 @@ urlpatterns = patterns('',
 
     url(r'^organization/view/(?P<pk>\d+)/$', OrganizationStaffDetailView.as_view(), name='organization-view'),
     url(r'^organization/list/excel/$', OrganizationExportExcel.as_view(), name='organization-list-excel'),
+    url(r'^organization/list/nocontact/$', OrganizationStaffNoContactListView.as_view(), name='organization-list-nocontact'),
     url(r'^organization/list/$', OrganizationStaffListView.as_view(), name='organization-list'),
 )

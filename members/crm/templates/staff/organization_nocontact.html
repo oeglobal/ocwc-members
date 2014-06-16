@@ -10,7 +10,6 @@
 					<th>Membership Type</th>
 					<th>AC - Member</th>
 					<th>Status</th>
-					<th>Invalid contacts</th>
 				</tr>
 			</thead>
 			{% for org in object_list %}
@@ -19,9 +18,6 @@
 					<td>{{ org.get_membership_type_display }}</td>
 					<td>{{ org.associate_consortium }}</td>
 					<td>{{ org.get_membership_status_display }}</td>
-					{% if org.get_bouncing_contacts %}
-						<td class="warning">{{ org.get_bouncing_contacts.count }}</td>
-					{% endif %}
 				</tr>
 			{% endfor %}
 		</table>

@@ -173,7 +173,7 @@ class Organization(models.Model):
         # (10, 'Institutional Members - MRC'),
         # (12, 'Institutional Members - DC - MRC'),
         # (9 , 'Associate Institutional Members'),
-        # (17, 'Associate Institutional Members - DC')    
+        # (17, 'Associate Institutional Members - DC')
         # (14, 'Associate Consortium Members - DC'),
         # (18, 'Organizational Members - MRC'),
         if self.membership_type in [10, 12, 9, 17, 14]:
@@ -191,7 +191,7 @@ class Organization(models.Model):
     def get_consortia_members(self):
 
         consortia = None
-        if   self.slug == 'cccoer':
+        if self.slug == 'cccoer':
             consortia = 'CCCOER'
         elif self.slug == 'japan-ocw-consortium':
             consortia = 'JOCWC'
@@ -214,13 +214,13 @@ class Organization(models.Model):
         return Organization.objects.filter(associate_consortium=consortia)
 
     def can_vote(self):
-        if self.membership_status in (2,5,7,99): #exclude grace (3) from voting
+        if self.membership_status in (2, 5, 7, 99):  # exclude grace (3) from voting
             return True
         else:
             return False
 
     def get_number_of_votes(self):
-        if   len(self.get_consortia_members()) > 30:
+        if len(self.get_consortia_members()) > 30:
             return 5
         elif len(self.get_consortia_members()) > 20:
             return 4
@@ -230,6 +230,9 @@ class Organization(models.Model):
             return 2
 
         return 1
+
+    def get_bouncing_contacts(self):
+        return self.contact_set.filter(bouncing=True)
 
 # reversion.register(Organization)
 
@@ -257,6 +260,8 @@ class Contact(models.Model):
     first_name = models.CharField(max_length=255, blank=True, default='')
     last_name = models.CharField(max_length=255, blank=True, default='')
     job_title = models.CharField(max_length=255, blank=True, default='')
+
+    bouncing = models.BooleanField(default=False)
 # reversion.register(Contact)
 
 class Address(models.Model):

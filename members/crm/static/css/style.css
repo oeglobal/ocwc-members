@@ -63,3 +63,7 @@ strong {
 	font-weight: bold;
 	font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
 }
+
+.warning {
+	color: #FF4642;
+}
