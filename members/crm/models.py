@@ -312,6 +312,7 @@ APPLICATION_MEMBERSHIP_TYPE = (
 
 APPLICATION_STATUS_CHOICES = (
     ('Submitted', 'Submitted'),
+    ('Committee', 'Sent to Committee'),
     ('Approved', 'Approved'),
     ('Rejected', 'Rejected'),
     ('Spam', 'Spam'),
