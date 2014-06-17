@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 import requests
 import json
+import arrow
 from optparse import make_option
+from pprint import pprint
 
 from django.core.management.base import BaseCommand
 from django.conf import settings
@@ -33,6 +35,21 @@ class Command(BaseCommand):
                 contact.save()
 
                 self.stdout.write(u"Marking {contact.email} as bouncing - {contact.first_name} {contact.last_name} from {contact.organization.display_name}".format(contact=contact))
+
+        r = requests.get("https://api.mailgun.net/v2/oeconsortium.org/events",
+                        auth=('api', settings.MAILGUN_APIKEY),
+                        params={'begin': arrow.now().replace(weeks=-1).strftime('%a, %d %b %Y %H:%M:%S +0000'),
+                                'end': arrow.now().strftime('%a, %d %b %Y %H:%M:%S +0000'),
+                                'event': 'failed'
+                                })
+        data = json.loads(r.content)
+        for bounce in data['items']:
+            if bounce.get('severity') == 'permanent':
+                for contact in Contact.objects.filter(email__iexact=bounce.get('recipient'), bouncing=False):
+                    contact.bouncing = True
+                    contact.save()
+
+                    self.stdout.write(u"Marking {contact.email} as bouncing - {contact.first_name} {contact.last_name} from {contact.organization.display_name}".format(contact=contact))
 
     def update_list(self):
         offset = 0
