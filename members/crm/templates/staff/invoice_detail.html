@@ -54,7 +54,7 @@
 		<img src="/theme/images/logo.png" alt="OE Consortium logo" />
 	</div>
 </div>
-<div class="spacer"></div><div class="spacer"></div>
+
 <div class="row">
 	<div class="large-6 columns">
 		<p><strong>The Open Education Consortium</strong></br>
@@ -67,9 +67,9 @@
 		<p>Date: {{ invoice.pub_date|date:"F j, Y" }}</p>
 	</div>
 </div>
-<div class="spacer"></div><div class="spacer"></div>
+<div class="spacer"></div>
 <div class="row">
-	<div class="large-4 columns">
+	<div class="large-6 columns">
 		<p>TO: {{ invoice.organization.display_name }}<br />
 			{% with invoice.organization.address_set.all.0 as address %}
 				{% if address.street_address %}{{ address.street_address }}<br />{% endif %}
@@ -203,7 +203,7 @@
 			</tr>
 			<tr>
 				<td>Name on Account</td>
-				<td>OpenCourseWare Consortium</td>
+				<td>Open Education Consortium</td>
 			</tr>
 			<tr>
 				<td>Account Number</td>
