@@ -235,8 +235,8 @@ class Organization(models.Model):
         return self.contact_set.filter(bouncing=True)
 
     def get_simplified_membership(self):
-        text = ORGANIZATION_MEMBERSHIP_TYPE_CHOICES[self.membership_type][1]
-        text = text.replace('- MRC', '').replace('- DC', '')
+        text = self.get_membership_type_display()
+        text = text.replace('- MRC', '').replace('- DC', '').strip()
         return text
 
 # reversion.register(Organization)
