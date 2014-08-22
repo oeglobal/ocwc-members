@@ -234,6 +234,11 @@ class Organization(models.Model):
     def get_bouncing_contacts(self):
         return self.contact_set.filter(bouncing=True)
 
+    def get_simplified_membership(self):
+        text = ORGANIZATION_MEMBERSHIP_TYPE_CHOICES[self.membership_type]
+        text = text.replace('- MRC', '').replace('- DC', '')
+        return text
+
 # reversion.register(Organization)
 
 # CONTACT_TYPE_CHOICES = (
