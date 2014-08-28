@@ -365,13 +365,15 @@ class OrganizationExportExcel(StaffView, TemplateView):
             (u"Lead Contact", 70),
             (u"Lead Contact Email", 120),
             (u"Membership status", 70),
-            (u"Edit link", 150)
+            (u"Edit link", 150),
+            (u"Country", 50),
+            (u"City", 50),
         ]
 
         font_style = xlwt.XFStyle()
         font_style.font.bold = True
 
-        for col_num in xrange(len(columns)):
+        for col_num in range(len(columns)):
             ws.write(row_num, col_num, columns[col_num][0], font_style)
             ws.col(col_num).width = columns[col_num][1] * 100
 
@@ -396,10 +398,12 @@ class OrganizationExportExcel(StaffView, TemplateView):
                 contact_name,
                 contact_email,
                 obj.get_membership_status_display(),
-                'http://members.oeconsortium.org%s' % obj.get_absolute_staff_url()
+                'http://members.oeconsortium.org%s' % obj.get_absolute_staff_url(),
+                obj.address_set.first().country.name,
+                obj.address_set.first().city,
             ]
 
-            for col_num in xrange(len(row)):
+            for col_num in range(len(row)):
                 ws.write(row_num, col_num, row[col_num], font_style)
 
         wb.save(response)
