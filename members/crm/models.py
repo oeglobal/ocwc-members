@@ -491,6 +491,9 @@ class MembershipApplication(models.Model):
             email = contact.email
         )
 
+        org.user = user
+        org.save()
+
         address, is_created = Address.objects.get_or_create(
             organization = org,
             street_address = self.street_address,

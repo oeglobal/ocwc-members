@@ -1,8 +1,9 @@
 from django.contrib import admin
 from django.utils.html import format_html
+from django import forms
 
 from .models import Organization, Contact, Address, MembershipApplication, \
-					MembershipApplicationComment, Country, ReportedStatistic, Invoice, \
+					Country, ReportedStatistic, Invoice, \
 					BillingLog
 
 class ContactInline(admin.TabularInline):
@@ -44,6 +45,23 @@ class ContactAdmin(admin.ModelAdmin):
 		return format_html('<a href="/admin/crm/organization/%s/">%s</a>' % (obj.organization.id, obj.organization))
 	organization_link.allow_tags = True
 
+class MembershipApplicationForm(forms.ModelForm):
+	class Meta:
+		model = MembershipApplication
+
+	def __init__(self, *args, **kwargs):
+		super(MembershipApplicationForm, self).__init__(*args, **kwargs)
+
+	def clean_membership_type(self):
+		app_status = self.cleaned_data.get('app_status')
+		membership_type = self.cleaned_data.get('membership_type')
+
+		if app_status == 'Approved':
+			if not membership_type:
+				raise forms.ValidationError('Please set Membership Type')
+
+		return membership_type
+
 class MembershipApplicationAdmin(admin.ModelAdmin):
 	list_display = ('id', 'display_name', 'organization' , 'membership_type', 'legacy_application_id', 'main_website')
 	list_filter = ('app_status',)
@@ -51,7 +69,7 @@ class MembershipApplicationAdmin(admin.ModelAdmin):
 	raw_id_fields = ('organization',)
 	fieldsets = (
 		(None, {
-			'fields': ('app_status', 'display_name', 'description', 'organization')
+			'fields': ('app_status', 'display_name', 'description', 'membership_type', 'organization')
 			}
 		),
 		('General', {
@@ -59,7 +77,7 @@ class MembershipApplicationAdmin(admin.ModelAdmin):
 						'rss_course_feed', 'is_accredited', 'accreditation_body', 'support_commitment')
 		}),
 		('Membership', {
-			'fields': ('membership_type', 'simplified_membership_type', 'corporate_support_levels', 'associate_consortium')
+			'fields': ('simplified_membership_type', 'corporate_support_levels', 'associate_consortium')
 		}),
 		('Address and Contact', {
 			'fields': ('first_name', 'last_name', 'email', 'job_title',
@@ -67,6 +85,7 @@ class MembershipApplicationAdmin(admin.ModelAdmin):
 						'state_province', 'country', )
 		})
 	)
+	form = MembershipApplicationForm
 
 class MembershipApplicationCommentAdmin(admin.ModelAdmin):
 	list_display = ('application', 'legacy_comment_id', 'legacy_app_id', 'comment', 'app_status')

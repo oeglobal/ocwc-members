@@ -16,7 +16,7 @@ class MembershipApplicationTest(TestCase):
         self.client = Client()
 
     def testFormSubmission(self):
-        from crm.models import MembershipApplication
+        from crm.models import MembershipApplication, Organization
 
         data = {'simplified_membership_type': 'institutional',
                 'moa_terms': 'on',
@@ -55,6 +55,16 @@ class MembershipApplicationTest(TestCase):
 
         self.assertIn('New Membership Application: %s' % app.display_name, email.subject )
         self.assertIn(app.get_absolute_url(), email.body )
+
+        # we can approve it
+        app.membership_type = 6
+        app.app_status = 'Approved'
+        app.save()
+
+        org = Organization.objects.latest('id')
+
+        self.assertNotEqual(org.user, None)
+        self.assertEqual(org.user.id, User.objects.latest('id').id)
 
 class OrganizationApiViewsTest(TestCase):
     fixtures = ['country.json', 'organization.json']
