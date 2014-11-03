@@ -4,7 +4,7 @@ from django import forms
 
 from .models import Organization, Contact, Address, MembershipApplication, \
 					Country, ReportedStatistic, Invoice, \
-					BillingLog
+					BillingLog, LoginKey
 
 class ContactInline(admin.TabularInline):
 	model = Contact
@@ -117,3 +117,4 @@ admin.site.register(Country, CountryAdmin)
 admin.site.register(ReportedStatistic, ReportedStatisticAdmin)
 admin.site.register(Invoice, InvoiceAdmin)
 admin.site.register(BillingLog, BillingLogAdmin)
+admin.site.register(LoginKey)
