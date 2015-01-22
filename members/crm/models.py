@@ -220,14 +220,14 @@ class Organization(models.Model):
             return False
 
     def get_number_of_votes(self):
-        if len(self.get_consortia_members()) > 30:
-            return 5
-        elif len(self.get_consortia_members()) > 20:
-            return 4
-        elif len(self.get_consortia_members()) > 10:
-            return 3
-        elif len(self.get_consortia_members()) > 1:
-            return 2
+        # if len(self.get_consortia_members()) > 30:
+        #     return 5
+        # elif len(self.get_consortia_members()) > 20:
+        #     return 4
+        # elif len(self.get_consortia_members()) > 10:
+        #     return 3
+        # elif len(self.get_consortia_members()) > 1:
+        #     return 2
 
         return 1
 
