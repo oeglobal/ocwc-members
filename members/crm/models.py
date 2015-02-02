@@ -683,7 +683,7 @@ class Invoice(models.Model):
         #                   'Letter'
         #                 ]
 
-        subprocess.Popen([here('../../bin/phantomjs2'), 
+        subprocess.Popen([here('../../bin/phantomjs'), 
                           here('phantomjs-scripts/rasterize.js'), 
                           url,
                           pdf_path,
