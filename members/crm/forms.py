@@ -197,6 +197,7 @@ class BillingLogForm(forms.ModelForm):
             Div(
                 Field('amount'),
                 Field('description'),
+                Field('created_date'),
             css_class="row", ng_show="logtype === 'create_invoice' || logtype === 'create_paid_invoice'"),
             Div(
                 HTML("<p>Invoice recepient information (latest invoice will be attached to the e-mail)</p>"),
@@ -223,7 +224,7 @@ class BillingLogForm(forms.ModelForm):
         model = BillingLog
         fields = ('log_type', 'amount', 'organization', 'user', 'invoice_year', 'description',
                   'email_invoice', 'email_invoice_subject', 'email_invoice_body',
-                  'email_invoice_paid', 'email_invoice_paid_subject', 'email_invoice_paid_body', 'note')
+                  'email_invoice_paid', 'email_invoice_paid_subject', 'email_invoice_paid_body', 'note', 'created_date')
 
 class ReportedStatisticModelForm(forms.ModelForm):
     report_date = forms.ChoiceField(label="Reported period, until:")

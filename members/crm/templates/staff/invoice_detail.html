@@ -133,7 +133,11 @@
 <div class="row" style="margin-top: 20px; margin-bottom: 20px;">
 	<div class="large-6 columns">
 		<p>Invoice No.: {{ invoice.invoice_number }} <br />
+			{% if invoice.created_date %}
+			Date: {{ invoice.created_date|date:"F j, Y" }}
+			{% else %}
 			Date: {{ invoice.pub_date|date:"F j, Y" }}
+			{% endif %}
 		</p>
 	</div>
 </div>

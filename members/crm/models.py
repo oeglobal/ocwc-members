@@ -590,6 +590,7 @@ class BillingLog(models.Model):
     organization = models.ForeignKey(Organization)
     pub_date = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(User)
+    created_date = models.DateField(null=True, verbose_name='Created Date (year-month-day)')
 
     amount = models.IntegerField(null=True)
     email = models.CharField(max_length=120, blank=True, verbose_name="Recepient email")
@@ -611,7 +612,6 @@ class BillingLog(models.Model):
             return BillingLog._open_file(path_to_file, attempts + 1)    
 
     def send_email(self):
-        body = render_to_string('staff/invoice_mail.txt', {'billinglog': self})
         message = EmailMessage(
             subject = self.email_subject,
             body = self.email_body,
@@ -645,6 +645,8 @@ class Invoice(models.Model):
     
     pdf_filename = models.CharField(max_length=100, blank=True)
     access_key = models.CharField(max_length=32, blank=True)
+
+    created_date = models.DateField(null=True, verbose_name='Created Date (year-month-day)')
 
     paypal_link = models.TextField(blank=True)
     pub_date = models.DateTimeField(auto_now_add=True)
