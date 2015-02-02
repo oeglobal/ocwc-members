@@ -19,6 +19,9 @@ class Election(models.Model):
     vote_from = models.DateTimeField(null=True)
     vote_until = models.DateTimeField(null=True)
 
+    class Meta:
+        get_latest_by = 'pk'
+
     def save(self, force_insert=False, force_update=False, using=None):
         if not self.view_nominations_key:
             self.view_nominations_key = uuid.uuid4().get_hex()

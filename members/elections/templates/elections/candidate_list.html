@@ -15,7 +15,7 @@
 			</thead>
 			<tbody>
 				<h3>Nominees for Board of Directors</h3>
-				{% for candidate in election.0.candidate_set.all %}
+				{% for candidate in election.latest.candidate_set.all %}
 					<tr>
 						<td>{{ candidate.candidate_first_name }} {{ candidate.candidate_last_name }}</td>
 						<td>{{ candidate.organization.display_name }}</td>
