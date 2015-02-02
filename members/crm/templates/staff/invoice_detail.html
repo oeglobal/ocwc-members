@@ -14,6 +14,24 @@
 
 	@media print 
 	{
+		a {
+			text-decoration: none !important;
+			font-weight: normal !important;
+		}
+
+		a[href]:after {
+			content: "" !important;
+		}
+
+		.row-logo {
+			text-align: center;
+		}
+
+		.logo {
+			float: none;
+			margin-bottom: 10px;
+		}
+
     	body { width:640px; }
 
 	  .large-4 {
@@ -34,8 +52,40 @@
 	    float: left;
 	  }
 
+	  table {
+	  	width: 100%;
+	  	border-collapse: collapse;
+	  }
+
 	  table tbody tr td, table tr td {
 	  	line-height: 0.9em;
+
+		font-family: 'Ubuntu' !important;
+		font-size: 11px !important;
+	  }
+
+	  td, th {
+	  	border: 1px solid black;
+	  }
+
+	  .description {
+	  	width: 70%;
+	  	text-transform: uppercase;
+	  	text-align: center;
+
+		font-family: 'Ubuntu' !important;
+		font-size: 11px !important;
+
+	  }
+
+	  .amount {
+	  	width: 30%;
+	  	text-transform: uppercase;
+	  	text-align: center;
+
+		font-family: 'Ubuntu' !important;
+		font-size: 11px !important;
+
 	  }
     }
 
@@ -45,32 +95,61 @@
 		position: absolute;
 		color: rgba(108, 108, 108, 0.1) !important;
 	}    
+
+	.ubuntu10 {
+		font-family: 'Ubuntu' !important;
+		font-weight: 200 !important;
+		font-size: 10px !important;
+	}
+
+	.arial10, .arial10 * {
+		font-family: 'Arial' !important;
+		font-size: 12px !important;
+	}
+
+	p {
+		font-family: 'Ubuntu' !important;
+		font-size: 11px !important;
+	}
+
+	p.note, ul.note li {
+		font-family: 'Ubuntu' !important;
+		font-size: 11px !important;
+
+		color: #900 !important;
+	}
 </style>
 {% endblock %}
 
 {% block contents %}
-<div class="row">
-	<div class="large-4 columns">
-		<img src="/theme/images/logo.png" alt="OE Consortium logo" />
+<div class="row row-logo ubuntu10">
+	<img src="/theme/images/logo.png" alt="OE Consortium logo" class="logo" /><br />
+	Email: <a class="ubuntu10" href="mailto:memberservices@oeconsortium.org" style="padding-right: 20px;">memberservices@oeconsortium.org</a>
+	Website: <a class="ubuntu10" href="http://www.oeconsortium.org">www.oeconsortium.org</a>
+</div>
+
+<div class="spacer"></div>
+
+<div class="row" style="margin-top: 20px; margin-bottom: 20px;">
+	<div class="large-6 columns">
+		<p>Invoice No.: {{ invoice.invoice_number }} <br />
+			Date: {{ invoice.pub_date|date:"F j, Y" }}
+		</p>
 	</div>
 </div>
 
 <div class="row">
-	<div class="large-6 columns">
-		<p><strong>The Open Education Consortium</strong></br>
-		   PO Box 251</br>
-		   Newton, MA 02464 USA</br>
-		   US Tax ID Number: 01-0908761</br>
+	<div class="large-4 columns">
+		<p><strong>Billing address:</strong><br />
+		   <strong>The Open Education Consortium</strong><br />
+		   PO Box 251<br />
+		   Newton, MA 02464 USA<br />
+		   US Tax ID Number: 01-0908761
 		</p>
 	</div>
-	<div class="large-4 columns right">
-		<p>Date: {{ invoice.pub_date|date:"F j, Y" }}</p>
-	</div>
-</div>
-<div class="spacer"></div>
-<div class="row">
 	<div class="large-6 columns">
-		<p>TO: {{ invoice.organization.display_name }}<br />
+		<p><strong>Billed to:</strong><br />
+			<strong>{{ invoice.organization.display_name }}</strong><br />
 			{% with invoice.organization.address_set.all.0 as address %}
 				{% if address.street_address %}{{ address.street_address }}<br />{% endif %}
 				{% if address.supplemental_address_1 %}{{ address.supplemental_address_1 }}<br />{% endif %}
@@ -81,42 +160,40 @@
 			{% endwith %}
 		</p>
 	</div>
-	<div class="large-4 columns right">
-		<p>INVOICE #: {{ invoice.invoice_number }}</p>
-	</div>
 </div>
+
 <div class="spacer"></div>
 <div class="row">
 	<div class="large-10 columns push-1">
 		<table>
 			<thead>
 				<tr>
-					<th>Description</th>
+					<th class="description">Description</th>
 					{% if invoice.invoice_type == 'issued' %}
-					<th>Amount&nbsp;due</th>
+					<th class="amount">Amount&nbsp;due</th>
 					{% else %}
-					<th>Amount&nbsp;paid</th>
+					<th class="amount">Amount&nbsp;paid</th>
 					{% endif %}
 				</tr>
 			</thead>
 			<tbody>
 				<tr>
 					<td>{{ invoice.description }}</td>
-					<td>US ${{ invoice.amount }}</td>
+					<td style="text-align: center;">US ${{ invoice.amount }}</td>
 				</tr>
 			</tbody>
 		</table>
 	</div>
 </div>
-<div class="spacer"></div><div class="spacer"></div><div class="spacer"></div><div class="spacer"></div>
+<div class="spacer"></div><div class="spacer"></div>
 <div class="row">
 	{% if invoice.invoice_type == 'issued' %}
 	<div class="large-10 columns push-1">
 
 		<p>Thank you for your support of the OE Consortium through the prompt payment of this invoice.</p>
 
-		<p>Please note the following: <br />
-		<ul>
+		<p class="note">Please note the following: <br />
+		<ul class="note">
 			<li>Payment is due 30 days from invoice date.</li>
 			<li>Payments not received within 3 months of becoming due will result in membership expiration. </li>
 			<li>All Payments should be made in United States Dollars</li>

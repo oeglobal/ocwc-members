@@ -674,7 +674,14 @@ class Invoice(models.Model):
         filename = "invoice_%s_%s.pdf" % (self.pk, uuid.uuid4().get_hex())
         pdf_path = os.path.join(settings.INVOICES_ROOT, filename)
         
-        subprocess.Popen([here('../../bin/phantomjs'), 
+        # print [here('../../bin/phantomjs'), 
+        #                   here('phantomjs-scripts/rasterize.js'), 
+        #                   url,
+        #                   pdf_path,
+        #                   'Letter'
+        #                 ]
+
+        subprocess.Popen([here('../../bin/phantomjs2'), 
                           here('phantomjs-scripts/rasterize.js'), 
                           url,
                           pdf_path,
