@@ -148,6 +148,7 @@ class BillingLogTest(LiveServerTestCase):
             'amount': 200,
             'invoice_year': '2013',
             'description': 'Test Description',
+            'created_date': '2013-10-30'
         }
 
         response = self.client.post(reverse('staff:billinglog-create'), data)
