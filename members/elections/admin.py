@@ -10,8 +10,8 @@ class CandidateBallotAdmin(admin.ModelAdmin):
 	list_display = ('organization', 'seat_type')
 	search_fields = ('organization__display_name',)
 
-# admin.site.register(Election)
+admin.site.register(Election)
 admin.site.register(Candidate)
-# admin.site.register(CandidateBallot, CandidateBallotAdmin)
+admin.site.register(CandidateBallot, CandidateBallotAdmin)
 admin.site.register(Proposition)
-# admin.site.register(PropositionBallot, PropositionBallotAdmin)
+admin.site.register(PropositionBallot, PropositionBallotAdmin)

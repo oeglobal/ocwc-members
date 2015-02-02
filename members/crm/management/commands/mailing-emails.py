@@ -9,7 +9,8 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         address_list = []
 
-        for contact in Contact.objects.filter(contact_type__in=(6, 9, 10), organization__membership_status__in=(2, 3, 5, 7), bouncing=False):
+        # for contact in Contact.objects.filter(contact_type__in=(6, 9, 10), organization__membership_status__in=(2, 3, 5, 7), bouncing=False):
+        for contact in Contact.objects.filter(contact_type__in=(4, 6, 9, 10), organization__membership_status__in=(6,), bouncing=False):
             if contact.email and contact.email not in address_list:
                 address_list.append(contact.email)
 
