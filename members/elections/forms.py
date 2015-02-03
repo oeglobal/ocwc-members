@@ -55,14 +55,14 @@ class CandidateAddForm(forms.Form):
             Div(HTML('''<h3>Terms and Conditions</h3>
                         <h4>General responsibilities of Board Members</h4>
                         <ul>
-                            <li>The Board of Directors is charged with setting the strategic direction of the OCW Consortium.  Board members make high level decisions concerning the mission, outputs, finances and services of the Consortium.  Board members are expected to act in the best interest of the organization and its members in all deliberations. </li>
+                            <li>The Board of Directors is charged with setting the strategic direction of the Open Education Consortium.  Board members make high level decisions concerning the mission, outputs, finances and services of the Consortium.  Board members are expected to act in the best interest of the organization and its members in all deliberations. </li>
                             <li>To fulfill its charge, the Board will hold four in meetings a year, two of which will be in person and two online. It is important that board members make every attempt to fully participate in all meetings.  While substitutions are permitted if necessary, the substitute will not be allowed to vote on the Board member's behalf.</li>
-                            <li>The Board member's institution is expected to cover the cost of the Board member's travel to meetings and time that is given to the OCW Consortium.  The OCWC does have some funds for defraying some, but not all, expenses of Board members traveling to these meetings which can be requested for members coming from under resourced institutions, or other exceptional circumstances.</li>
+                            <li>The Board member's institution is expected to cover the cost of the Board member's travel to meetings and time that is given to the Open Education Consortium.  The OEC does have some funds for defraying some, but not all, expenses of Board members traveling to these meetings which can be requested for members coming from under resourced institutions, or other exceptional circumstances.</li>
                             <li>The Board, or its sub-committees, may decide to conduct some business by conference call between in-person meetings. While the frequency and amount of time required for these calls will depend on the nature of the business being conducted, one might anticipate that the Board itself would not normally meet by phone more than once a month.</li>
                             <li>Likewise, it is anticipated that Board members will serve as liaisons with various standing committees and work groups, and will represent the Consortium from time to time at various meetings and/or events.</li>
                         </ul>
-                    <p>I AM AWARE THAT BOARD MEMBERS EXPEND CONSIDERABLE NON-REIMBURSED TIME AND MONEY IN THE FULFILLMENT OF THEIR DUTIES.  I ATTEST THAT I HAVE THE CONSENT OF THE NOMINEE IN THIS MATTER. I ALSO ATTEST THAT THE NOMINEE IS QUALIFIED AND ABLE TO SERVE IF ELECTED.</p>
-                    <p><a href="http://www.oeconsortium.org/wp-content/uploads/2014/02/Bylaws_OpenCourseWare_Consortium_Incorporated_-_April-20-2012.doc" target="_blank">(See OCWC By-Laws Article III for qualification and responsibilities of Board Members).</a></p>
+                    <p>I AM AWARE THAT BOARD MEMBERS EXPEND CONSIDERABLE NON-REIMBURSED TIME AND MONEY IN THE FULFILLMENT OF THEIR DUTIES. I ATTEST THAT I HAVE THE CONSENT OF THE NOMINEE IN THIS MATTER. I ALSO ATTEST THAT THE NOMINEE IS QUALIFIED AND ABLE TO SERVE IF ELECTED.</p>
+                    <p><a href="http://www.oeconsortium.org/wp-content/uploads/2015/02/Bylaws_OpenCourseWare_Consortium_Incorporated_-_April242014.pdf" target="_blank">(See Open Education Consortium By-Laws Article III for qualification and responsibilities of Board Members).</a></p>
                     '''
                 ),
             css_class='row terms'),
@@ -100,7 +100,7 @@ class CandidateEditForm(forms.ModelForm):
         self.fields['organization'].label = 'Institution you represent'
 
         self.fields['biography'].label = 'Candidate Biography <br /><br />Please provide a brief summary of your experience and qualifications <br />This will be displayed on the ballot.'
-        self.fields['vision'].label = 'Candidate Vision and Goals <br /><br />Please provide a brief list of what you hope to accomplish for the OCWC if you are elected to the board of directors.  This will be displayed on the ballot.'
+        self.fields['vision'].label = 'Candidate Vision and Goals <br /><br />Please provide a brief list of what you hope to accomplish for the Open Education Consortium if you are elected to the board of directors.  This will be displayed on the ballot.'
 
         self.fields['ideas'].label = 'Ideas for OpenCoursware Consortium <br /><br />Please provide a brief description of your ideas for OpenCoursware Consortium in general.'
         self.fields['expertise'].label = 'Your expertise and skills <br /><br />Please provide a brief description of expertise and skills (e.g. technical knowledge, financial knowledge, influence in public policy).'
@@ -109,7 +109,7 @@ class CandidateEditForm(forms.ModelForm):
         self.helper.layout = Layout(
             Div(
                 HTML('<h2>Update Your Candidacy for Board of Directors</h2>'),
-                HTML('<p>You have been nominated as a candidate for the OCW Consortium Board of Directors by {instance.sponsor_first_name} {instance.sponsor_last_name}. <br /> Please review this page and complete any missing information to accept your nomination.</p>'.format(instance=instance)),
+                HTML('<p>You have been nominated as a candidate for the Open Education Consortium Consortium Board of Directors by {instance.sponsor_first_name} {instance.sponsor_last_name}. <br /> Please review this page and complete any missing information to accept your nomination.</p>'.format(instance=instance)),
             css_class='row'),
             Div(
                 HTML('<h3>Personal Profile Information</h3>'),
@@ -132,14 +132,14 @@ class CandidateEditForm(forms.ModelForm):
             Div(HTML('''<h3>Terms and Conditions</h3>
                         <h4>General responsibilities of Board Members</h4>
                         <ul>
-                            <li>The Board of Directors is charged with setting the strategic direction of the OCW Consortium.  Board members make high level decisions concerning the mission, outputs, finances and services of the Consortium.  Board members are expected to act in the best interest of the organization and its members in all deliberations. </li>
+                            <li>The Board of Directors is charged with setting the strategic direction of the Open Education Consortium.  Board members make high level decisions concerning the mission, outputs, finances and services of the Consortium.  Board members are expected to act in the best interest of the organization and its members in all deliberations. </li>
                             <li>To fulfill its charge, the Board will hold four in meetings a year, two of which will be in person and two online. It is important that board members make every attempt to fully participate in all meetings.  While substitutions are permitted if necessary, the substitute will not be allowed to vote on the Board member's behalf.</li>
-                            <li>The Board member's institution is expected to cover the cost of the Board member's travel to meetings and time that is given to the OCW Consortium.  The OCWC does have some funds for defraying some, but not all, expenses of Board members traveling to these meetings which can be requested for members coming from under resourced institutions, or other exceptional circumstances.</li>
+                            <li>The Board member's institution is expected to cover the cost of the Board member's travel to meetings and time that is given to the Open Education Consortium.  The Open Education Consortium does have some funds for defraying some, but not all, expenses of Board members traveling to these meetings which can be requested for members coming from under resourced institutions, or other exceptional circumstances.</li>
                             <li>The Board, or its sub-committees, may decide to conduct some business by conference call between in-person meetings. While the frequency and amount of time required for these calls will depend on the nature of the business being conducted, one might anticipate that the Board itself would not normally meet by phone more than once a month.</li>
                             <li>Likewise, it is anticipated that Board members will serve as liaisons with various standing committees and work groups, and will represent the Consortium from time to time at various meetings and/or events.</li>
                         </ul>
                     <p>I AM AWARE THAT BOARD MEMBERS EXPEND CONSIDERABLE NON-REIMBURSED TIME AND MONEY IN THE FULFILLMENT OF THEIR DUTIES.  I ATTEST THAT I AM QUALIFIED AND ABLE TO SERVE IF ELECTED.</p>
-                    <p><a href="http://www.oeconsortium.org/wp-content/uploads/2014/02/Bylaws_OpenCourseWare_Consortium_Incorporated_-_April-20-2012.doc" target="_blank">(See OCWC By-Laws Article III for qualification and responsibilities of Board Members).</a></p>
+                    <p><a href="http://www.oeconsortium.org/wp-content/uploads/2015/02/Bylaws_OpenCourseWare_Consortium_Incorporated_-_April242014.pdf" target="_blank">(See Open Education Consortium By-Laws Article III for qualification and responsibilities of Board Members).</a></p>
                     '''
                 ),
             css_class='row terms'),

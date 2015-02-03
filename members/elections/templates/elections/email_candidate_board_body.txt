@@ -1,4 +1,4 @@
-{{ candidate.sponsor_first_name }} {{ candidate.sponsor_last_name }} has nominated {{ candidate.candidate_first_name }} {{ candidate.candidate_last_name }} as a candidate for the board of directors for the OCWC. 
+{{ candidate.sponsor_first_name }} {{ candidate.sponsor_last_name }} has nominated {{ candidate.candidate_first_name }} {{ candidate.candidate_last_name }} as a candidate for the board of directors for the OEC. 
 
 You can view this nomination at 
 http://members.oeconsortium.org{% url 'elections:candidate-view' key=candidate.view_link_key %}
