@@ -26,6 +26,11 @@
 {% block contents %}
 	<div class="row">
 		<div class="large-8 columns">
+			{% if form.initial.acceptance %}
+			<div class="alert-box">
+				We have received your Candidacy for Board of Directors. You can further revise it below.
+			</div>
+			{% endif %}
 			<form method="POST" action="" class="uniForm">
 				{{ form|as_crispy_errors }}
 				{% crispy form %}
