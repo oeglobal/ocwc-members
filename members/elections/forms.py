@@ -102,7 +102,7 @@ class CandidateEditForm(forms.ModelForm):
         self.fields['biography'].label = 'Candidate Biography <br /><br />Please provide a brief summary of your experience and qualifications <br />This will be displayed on the ballot.'
         self.fields['vision'].label = 'Candidate Vision and Goals <br /><br />Please provide a brief list of what you hope to accomplish for the Open Education Consortium if you are elected to the board of directors.  This will be displayed on the ballot.'
 
-        self.fields['ideas'].label = 'Ideas for OpenCoursware Consortium <br /><br />Please provide a brief description of your ideas for OpenCoursware Consortium in general.'
+        self.fields['ideas'].label = 'Ideas for Open Education Consortium <br /><br />Please provide a brief description of your ideas for Open Education Consortium in general.'
         self.fields['expertise'].label = 'Your expertise and skills <br /><br />Please provide a brief description of expertise and skills (e.g. technical knowledge, financial knowledge, influence in public policy).'
         self.fields['external_url'].label = 'External Link <br /><br />You may optionally share a link to an external page such as a CV, blog or social networking profile page.  Please include the "http://" portion.'
 
