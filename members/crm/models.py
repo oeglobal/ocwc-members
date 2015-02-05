@@ -596,6 +596,7 @@ class BillingLog(models.Model):
     email = models.CharField(max_length=120, blank=True, verbose_name="Recepient email")
     invoice = models.ForeignKey('Invoice', null=True, blank=True)
     invoice_year = models.CharField(default=settings.DEFAULT_INVOICE_YEAR, max_length=10)
+    invoice_number = models.CharField(max_length=60, null=True, blank=True)
     description = models.TextField(blank=True, default='')
     note = models.TextField(blank=True)
 
@@ -625,7 +626,7 @@ class BillingLog(models.Model):
         content = f.read()
         f.close()
 
-        message.attach(filename='ocw-invoice-%s.pdf' % self.invoice.invoice_number,
+        message.attach(filename='oec-invoice-%s.pdf' % self.invoice.invoice_number,
                        content=content, 
                        mimetype='application/pdf')
         message.send()

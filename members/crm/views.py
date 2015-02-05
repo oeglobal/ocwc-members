@@ -213,7 +213,7 @@ class OrganizationStaffDetailView(OrganizationStaffView, DetailView):
             'organization': self.object.id,
             'user': self.request.user.id,
             'amount': self.object.get_membership_due_amount(),
-            'invoice_year': settings.DEFAULT_INVOICE_YEAR,
+            'invoice_number': "%s-%s" % (self.object.id, settings.DEFAULT_INVOICE_YEAR),
             'first_name': first_name,
             'created_date': datetime.datetime.now(),
             'email_invoice': email,
@@ -264,7 +264,7 @@ class BillingLogCreateView(StaffView, CreateView):
             invoice = Invoice(
                 invoice_type='issued',
                 organization=org,
-                invoice_number="%s-%s" % (org.id, get('invoice_year')),
+                invoice_number=get('invoice_number'),
                 invoice_year=get('invoice_year'),
                 description=get('description'),
                 amount=get('amount'),
@@ -288,7 +288,7 @@ class BillingLogCreateView(StaffView, CreateView):
             invoice = Invoice(
                 invoice_type='paid',
                 organization=org,
-                invoice_number="%s-%s" % (org.id, get('invoice_year')),
+                invoice_number=get('invoice_number'),
                 invoice_year=get('invoice_year'),
                 amount=get('amount'),
                 description=get('description'),
