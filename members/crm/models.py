@@ -239,6 +239,14 @@ class Organization(models.Model):
         text = text.replace('- MRC', '').replace('- DC', '').strip()
         return text
 
+    def get_billing_address(self):
+        try:
+            address = self.address_set.filter(address_type='billing')[0]
+        except IndexError:
+            address = self.address_set.filter(address_type='primary')[0]
+
+        return address
+
 # reversion.register(Organization)
 
 # CONTACT_TYPE_CHOICES = (
@@ -269,8 +277,14 @@ class Contact(models.Model):
     bouncing = models.BooleanField(default=False)
 # reversion.register(Contact)
 
+ADDRESS_TYPE = (
+    ('primary', 'Primary Address'),
+    ('billing', 'Billing Address')
+)
+
 class Address(models.Model):
     organization = models.ForeignKey(Organization)
+    address_type = models.CharField(max_length=25, choices=ADDRESS_TYPE, default='primary')
 
     street_address = models.CharField(max_length=255, blank=True, help_text='Street address with street number')
     supplemental_address_1 = models.CharField(max_length=255, blank=True)

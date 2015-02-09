@@ -26,9 +26,8 @@
 			<img src="{{ MEDIA_URL }}{{ org.logo_small }}" />
 		</p>
 		{% endif %}
-		{% with org.address_set.all.0 as address %}
-		{% if address %}
-		<h2 class="address">Address <a class="edit-link" href="{% url 'crm:address-edit' address.id %}">Edit</a></h2>
+		{% for address in org.address_set.all %}
+		<h2 class="address">{{ address.get_address_type_display }} <a class="edit-link" href="{% url 'crm:address-edit' address.id %}">Edit</a></h2>
 		<p>
 		   {{ address.street_address }}<br />
 		   {% if address.supplemental_address_1 %}{{ address.supplemental_address_1 }}<br />{% endif %}
@@ -37,8 +36,10 @@
 		   {{ address.city }}, {{ address.postal_code }} {{ address.postal_code_suffix }}<br />
 		   {{ address.country }}
 		<p>
+		{% endfor %}
+		{% if request.user.is_staff %}
+			<a href="/admin/crm/address/add/?organization={{ org.id }}" class="button buton-primary" target="_blank">Add Address</a>
 		{% endif %}
-		{% endwith %}
 		</div>
 		<div class="large-6 columns">
 			<h2 class="contacts">Contacts</h2>

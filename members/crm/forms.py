@@ -164,7 +164,7 @@ class AddressModelForm(forms.ModelForm):
     class Meta:
         model = Address
         fields = ('street_address', 'supplemental_address_1', 'supplemental_address_2',
-                  'city', 'postal_code', 'state_province', 'country')
+                  'city', 'postal_code', 'state_province', 'country', 'address_type')
 
 
 class BillingLogForm(forms.ModelForm):
