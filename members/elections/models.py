@@ -29,6 +29,8 @@ class Election(models.Model):
             self.edit_nominations_key = uuid.uuid4().get_hex()
         super(Election, self).save(force_insert=force_insert, force_update=force_update, using=using)
 
+    def __unicode__(self):
+        return self.title
 
 CANDIDATE_STATUS_CHOICES = (
     ('nominated', 'Nominated'),
