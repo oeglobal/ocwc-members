@@ -127,6 +127,9 @@ class Proposition(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
 
+    def __unicode__(self):
+        return self.title
+
 PROPOSITION_CHOICES = (
     (True, mark_safe('We vote <strong>for</strong> this proposition')),
     (False, mark_safe('We vote <strong>against</strong> this proposition')),
