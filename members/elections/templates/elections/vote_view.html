@@ -7,15 +7,9 @@
 
 			<p>You voted:</p>
 			{% if proposition_votes %}
-				<p>Votes by:</p>
 				<ul>
 				{% for vote in proposition_votes %}
-					<li>{{ vote.voter_name }}</li>
-				{% endfor %}
-				</ul>
-				<ul>
-				{% for vote in proposition_votes %}
-					<li>{{ vote.proposition.title }}: <strong>{{ vote.get_vote_display }}</strong></li>
+					<li><em>{{ vote.voter_name }}</em> voted in {{ vote.proposition.title }}: <br /><strong>{{ vote.get_vote_display }}</strong></li>
 				{% endfor %}
 				</ul>
 			{% endif %}

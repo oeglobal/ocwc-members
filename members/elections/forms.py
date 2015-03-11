@@ -170,7 +170,9 @@ PROPOSITION_CHOICES = (
 )
 
 class VoteForm(forms.Form):
-    proposition_vote = forms.ChoiceField(widget=forms.RadioSelect,
+    proposition_vote1 = forms.ChoiceField(widget=forms.RadioSelect,
+                                         label="We vote", choices=PROPOSITION_CHOICES)
+    proposition_vote2 = forms.ChoiceField(widget=forms.RadioSelect,
                                          label="We vote", choices=PROPOSITION_CHOICES)
     institutional_candidates = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple, label="Select up to 4 Candidates for Board of Directors, Institutional Seats")
     organizational_candidates = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple, label="Select 1 candidate for Board of Directors, Organizational Seat")
@@ -186,7 +188,8 @@ class VoteForm(forms.Form):
         self.helper = FormHelper(self)
         self.helper.form_show_errors = True
 
-        proposition = Proposition.objects.last()
+        proposition1 = self.election.proposition_set.filter(published=True)[0]
+        proposition2 = self.election.proposition_set.filter(published=True)[1]
 
         self.helper.layout = Layout(
             Div(
@@ -194,11 +197,18 @@ class VoteForm(forms.Form):
                 HTML('<p>Fields marked with * are mandatory</p>'),
             css_class='row'),
             Div(
-                HTML("<h4>%s</h4>" % proposition.title),
-                HTML("<p>%s</p>" % proposition.description),
+                HTML("<h4>%s</h4>" % proposition1.title),
+                HTML("<p>%s</p>" % proposition1.description),
             css_class='row'),
             Div(
-                Field('proposition_vote'),
+                Field('proposition_vote1'),
+            css_class='row'),
+            Div(
+                HTML("<h4>%s</h4>" % proposition2.title),
+                HTML("<p>%s</p>" % proposition2.description),
+            css_class='row'),
+            Div(
+                Field('proposition_vote2'),
             css_class='row'),
             Div(
                 Field('institutional_candidates'),

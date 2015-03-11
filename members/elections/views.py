@@ -100,9 +100,10 @@ class VoteAddFormView(LoginRequiredMixin, FormView):
 
     def form_valid(self, form):
         cleaned_data = form.cleaned_data
-        proposition = Proposition.objects.last()
 
-        proposition_vote = cleaned_data.get('proposition_vote')
+        # Proposition 1
+        proposition = self.election.proposition_set.filter(published=True)[0]
+        proposition_vote = cleaned_data.get('proposition_vote1')
         if proposition_vote == 'yes':
             vote = True
         elif proposition_vote == 'no':
@@ -110,13 +111,32 @@ class VoteAddFormView(LoginRequiredMixin, FormView):
         else:
             vote = None
 
-        proposition_ballot = PropositionBallot.objects.create(
+        PropositionBallot.objects.create(
             proposition = proposition,
             election = self.election,
             organization = self.organization,
             vote = vote,
             voter_name = cleaned_data.get('name')
         )
+
+        #Proposition 2
+        proposition = self.election.proposition_set.filter(published=True)[1]
+        proposition_vote = cleaned_data.get('proposition_vote2')
+        if proposition_vote == 'yes':
+            vote = True
+        elif proposition_vote == 'no':
+            vote = False
+        else:
+            vote = None
+
+        PropositionBallot.objects.create(
+            proposition = proposition,
+            election = self.election,
+            organization = self.organization,
+            vote = vote,
+            voter_name = cleaned_data.get('name')
+        )
+
 
         institutional_ballot = CandidateBallot.objects.create(
             election = self.election,
