@@ -7,4 +7,4 @@ class CandidatePublicSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Candidate
 		fields = ('candidate_first_name', 'candidate_last_name', 'candidate_job_title', 
-				  'biography', 'vision', 'ideas', 'expertise', 'external_url', 'seat_type', 'organization')
+				  'biography', 'vision', 'ideas', 'expertise', 'external_url', 'seat_type', 'organization', 'reason')
