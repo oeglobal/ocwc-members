@@ -5,10 +5,12 @@ from .models import Candidate, Election, CandidateBallot, Proposition, Propositi
 class PropositionBallotAdmin(admin.ModelAdmin):
 	list_display = ('organization',)
 	search_fields = ('organization__display_name',)
+	list_filter = ('election',)
 
 class CandidateBallotAdmin(admin.ModelAdmin):
 	list_display = ('organization', 'seat_type')
 	search_fields = ('organization__display_name',)
+	list_filter = ('election',)
 
 admin.site.register(Election)
 admin.site.register(Candidate)
