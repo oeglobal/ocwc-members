@@ -53,6 +53,8 @@ class Command(BaseCommand):
 
     def update_list(self):
         offset = 0
+
+        emails = []
         while True:
             r = requests.get("https://api.mailgun.net/v2/lists/members-list@oeconsortium.org/members",
                             auth=('api', settings.MAILGUN_APIKEY),
@@ -64,11 +66,24 @@ class Command(BaseCommand):
                 break
 
             for mailing_member in data['items']:
-                if Contact.objects.filter(email__iexact=mailing_member.get('address'), bouncing=True).exists():
+                email = mailing_member.get('address').lower()
+                if email not in emails:
+                    emails.append(email)
+                if Contact.objects.filter(email__iexact=email, bouncing=True).exists():
                     r = requests.delete("https://api.mailgun.net/v2/lists/members-list@oeconsortium.org/members/" +
                                         mailing_member.get('address'),
                                         auth=('api', settings.MAILGUN_APIKEY))
                     d = json.loads(r.content)
-                    print d.get('member').get('address'), d.get('message')
+                    print "Deleting:", d.get('member').get('address'), d.get('message')
 
             offset += 100
+
+        self.stdout.write('New emails:')
+        for contact in Contact.objects.filter(contact_type__in=(6, 9, 10), organization__membership_status__in=(2, 3, 5, 7), bouncing=False):
+            email = contact.email.lower()
+            if email not in emails:
+                r = requests.post("https://api.mailgun.net/v2/lists/members-list@oeconsortium.org/members",
+                                    params={'address': email},
+                                    auth=('api', settings.MAILGUN_APIKEY))
+                d = json.loads(r.content)
+                print "Added:", email, d
