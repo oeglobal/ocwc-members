@@ -303,7 +303,10 @@ class Address(models.Model):
     longitude = models.FloatField(blank=True, null=True)
 
     def __unicode__(self):
-        return u"%s %s %s" % (self.country.name, self.city, self.street_address)
+        if self.country:
+            return u"%s %s %s" % (self.country.name, self.city, self.street_address)
+        else:
+            return u"%s %s" % (self.city, self.street_address)
 
     def save(self, force_insert=False, force_update=False, using=None):
         if not (self.latitude and self.longitude):
