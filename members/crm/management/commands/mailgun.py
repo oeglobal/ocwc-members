@@ -87,3 +87,14 @@ class Command(BaseCommand):
                                     auth=('api', settings.MAILGUN_APIKEY))
                 d = json.loads(r.content)
                 print "Added:", email, d
+
+        for email in emails:
+            if not Contact.objects.filter(email__iexact=email).exists():
+                if email.endswith('@oeconsortium.org'):
+                    continue
+
+                r = requests.delete("https://api.mailgun.net/v2/lists/members-list@oeconsortium.org/members/" +
+                                    email,
+                                    auth=('api', settings.MAILGUN_APIKEY))
+                d = json.loads(r.content)
+                print "Deleting removed member email:", email, d.get('message')

@@ -367,6 +367,7 @@ class OrganizationExportExcel(StaffView, TemplateView):
             (u"ID", 25),
             (u"Old ID", 25),
             (u"Name", 150),
+            (u"Consortium", 150),
             (u"Lead Contact", 70),
             (u"Lead Contact Email", 120),
             (u"Membership status", 70),
@@ -400,6 +401,7 @@ class OrganizationExportExcel(StaffView, TemplateView):
                 obj.pk,
                 obj.crmid or '',
                 obj.display_name,
+                obj.associate_consortium or '',
                 contact_name,
                 contact_email,
                 obj.get_membership_status_display(),
@@ -411,9 +413,48 @@ class OrganizationExportExcel(StaffView, TemplateView):
             for col_num in range(len(row)):
                 ws.write(row_num, col_num, row[col_num], font_style)
 
+        ws = wb.add_sheet("Contacts")
+        row_num = 0
+        columns = [
+            (u"Org ID", 25),
+            (u"Contact ID", 25),
+            (u"Organization", 150),
+            (u"Consortium", 70),
+            (u"Contact type", 120),
+            (u"Name", 120),
+            (u"Email", 70),
+            (u"Email bouncing", 50),
+        ]
+
+        font_style = xlwt.XFStyle()
+        font_style.font.bold = True
+
+        for col_num in range(len(columns)):
+            ws.write(row_num, col_num, columns[col_num][0], font_style)
+            ws.col(col_num).width = columns[col_num][1] * 100
+
+        font_style = xlwt.XFStyle()
+        font_style.alignment.wrap = 1
+
+        for obj in Contact.objects.filter(organization__membership_status__in=(2, 3, 5, 7)).order_by('organization'):
+            row_num += 1
+
+            row = [
+                obj.organization.id,
+                obj.id,
+                obj.organization.display_name,
+                obj.organization.associate_consortium or '',
+                obj.get_contact_type_display(),
+                u"{0} {1}".format(obj.first_name, obj.last_name),
+                obj.email or '',
+                obj.bouncing or ''
+            ]
+
+            for col_num in range(len(row)):
+                ws.write(row_num, col_num, row[col_num], font_style)
+
         wb.save(response)
         return response
-
 
 class OrganizationStaffNoContactListView(StaffView, ListView):
     model = Organization
