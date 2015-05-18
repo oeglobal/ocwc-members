@@ -11,14 +11,14 @@ class Command(BaseCommand):
         proposition = Proposition.objects.get(pk=2)
         self.stdout.write(election.title)
 
-        self.stdout.write('---')
-        self.stdout.write('Name change ballot')
-        self.stdout.write('Ballots received: %s' % PropositionBallot.objects.filter(proposition=proposition).count())
-        self.stdout.write('\tVoted for: %s' % PropositionBallot.objects.filter(proposition=proposition, vote=True).count())
-        self.stdout.write('\tVoted against: %s' % PropositionBallot.objects.filter(proposition=proposition, vote=False).count())
-        self.stdout.write('\tAbstained: %s' % PropositionBallot.objects.filter(proposition=proposition, vote=None).count())
-
-        self.stdout.write('---')
+        for proposition in election.proposition_set.all():
+            self.stdout.write('---')
+            self.stdout.write(proposition.title)
+            self.stdout.write('Ballots received: %s' % PropositionBallot.objects.filter(proposition=proposition).count())
+            self.stdout.write('\tVoted for: %s' % PropositionBallot.objects.filter(proposition=proposition, vote=True).count())
+            self.stdout.write('\tVoted against: %s' % PropositionBallot.objects.filter(proposition=proposition, vote=False).count())
+            self.stdout.write('\tAbstained: %s' % PropositionBallot.objects.filter(proposition=proposition, vote=None).count())
+            self.stdout.write('---')
 
         names = []
         for candidate in Candidate.objects.filter(vetted=True, seat_type='institutional', election=election):
@@ -42,5 +42,5 @@ class Command(BaseCommand):
 
         self.stdout.write('---')
         self.stdout.write('Members that voted:')
-        for ballot in PropositionBallot.objects.filter(election=election).order_by('organization__display_name'):
+        for ballot in PropositionBallot.objects.filter(proposition=proposition).order_by('organization__display_name'):
             self.stdout.write('%s, %s' % (ballot.organization.display_name, ballot.voter_name))
