@@ -24,6 +24,7 @@ class Command(BaseCommand):
             self.get_bounces()
         if options.get('update_list'):
             self.update_list()
+            self.update_list('sustaining-list', (7,))
 
     def get_bounces(self):
         r = requests.get('https://api.mailgun.net/v2/oeconsortium.org/bounces',
@@ -51,12 +52,12 @@ class Command(BaseCommand):
 
                     self.stdout.write(u"Marking {contact.email} as bouncing - {contact.first_name} {contact.last_name} from {contact.organization.display_name}".format(contact=contact))
 
-    def update_list(self):
+    def update_list(self, list_name='members-list', membership_status=(2, 3, 5, 7)):
         offset = 0
 
         emails = []
         while True:
-            r = requests.get("https://api.mailgun.net/v2/lists/members-list@oeconsortium.org/members",
+            r = requests.get("https://api.mailgun.net/v2/lists/{0}@oeconsortium.org/members".format(list_name),
                             auth=('api', settings.MAILGUN_APIKEY),
                             data={'skip': offset})
 
@@ -70,31 +71,31 @@ class Command(BaseCommand):
                 if email not in emails:
                     emails.append(email)
                 if Contact.objects.filter(email__iexact=email, bouncing=True).exists():
-                    r = requests.delete("https://api.mailgun.net/v2/lists/members-list@oeconsortium.org/members/" +
+                    r = requests.delete("https://api.mailgun.net/v2/lists/{0}@oeconsortium.org/members/".format(list_name) +
                                         mailing_member.get('address'),
                                         auth=('api', settings.MAILGUN_APIKEY))
                     d = json.loads(r.content)
-                    print "Deleting:", d.get('member').get('address'), d.get('message')
+                    print("Deleting:", d.get('member').get('address'), d.get('message'))
 
             offset += 100
 
         self.stdout.write('New emails:')
-        for contact in Contact.objects.filter(contact_type__in=(6, 9, 10), organization__membership_status__in=(2, 3, 5, 7), bouncing=False):
+        for contact in Contact.objects.filter(contact_type__in=(6, 9, 10), organization__membership_status__in=membership_status, bouncing=False):
             email = contact.email.lower()
             if email not in emails:
-                r = requests.post("https://api.mailgun.net/v2/lists/members-list@oeconsortium.org/members",
+                r = requests.post("https://api.mailgun.net/v2/lists/{0}@oeconsortium.org/members".format(list_name),
                                     params={'address': email},
                                     auth=('api', settings.MAILGUN_APIKEY))
                 d = json.loads(r.content)
-                print "Added:", email, d
+                print("Added:", email, d)
 
         for email in emails:
             if not Contact.objects.filter(email__iexact=email).exists():
                 if email.endswith('@oeconsortium.org'):
                     continue
 
-                r = requests.delete("https://api.mailgun.net/v2/lists/members-list@oeconsortium.org/members/" +
+                r = requests.delete("https://api.mailgun.net/v2/lists/{0}@oeconsortium.org/members/".format(list_name) +
                                     email,
                                     auth=('api', settings.MAILGUN_APIKEY))
                 d = json.loads(r.content)
-                print "Deleting removed member email:", email, d.get('message')
+                print("Deleting removed member email:", email, d.get('message'))
