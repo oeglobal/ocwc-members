@@ -25,6 +25,7 @@ class Command(BaseCommand):
         if options.get('update_list'):
             self.update_list()
             self.update_list('sustaining-list', (7,))
+            self.update_list('leadcontacts-list', contact_type=(6,))
 
     def get_bounces(self):
         r = requests.get('https://api.mailgun.net/v2/oeconsortium.org/bounces',
@@ -52,7 +53,7 @@ class Command(BaseCommand):
 
                     self.stdout.write(u"Marking {contact.email} as bouncing - {contact.first_name} {contact.last_name} from {contact.organization.display_name}".format(contact=contact))
 
-    def update_list(self, list_name='members-list', membership_status=(2, 3, 5, 7)):
+    def update_list(self, list_name='members-list', membership_status=(2, 3, 5, 7), contact_type=(6, 9, 10)):
         offset = 0
 
         emails = []
@@ -80,7 +81,10 @@ class Command(BaseCommand):
             offset += 100
 
         self.stdout.write('New emails:')
-        for contact in Contact.objects.filter(contact_type__in=(6, 9, 10), organization__membership_status__in=membership_status, bouncing=False):
+        for contact in Contact.objects.filter(
+                            contact_type__in=contact_type, 
+                            organization__membership_status__in=membership_status, 
+                            bouncing=False):
             email = contact.email.lower()
             if email not in emails:
                 r = requests.post("https://api.mailgun.net/v2/lists/{0}@oeconsortium.org/members".format(list_name),
