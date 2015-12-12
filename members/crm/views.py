@@ -117,9 +117,21 @@ class ReportedStatisticDetailView(OrganizationView, DetailView):
     template_name = 'reported_statistic_view.html'
     context_object_name = 'statistic_list'
 
-    def get_object(self):
-        org = Organization.objects.get(pk=self.kwargs['pk'])
-        return ReportedStatistic.objects.filter(organization=org).order_by('report_date')
+    def get_object(self, *args, **kwargs):
+        self.org = Organization.objects.get(pk=self.kwargs['pk'])
+
+        if (self.request.user == self.org.user) or self.request.user.is_staff:
+            queryset = ReportedStatistic.objects.filter(organization=self.org).order_by('report_date')
+
+            return queryset
+
+        raise Http404
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(ReportedStatisticDetailView, self).get_context_data(**kwargs)
+        context['org'] = self.org
+
+        return context
 
 
 class ReportedStatisticEditView(OrganizationView, UpdateView):

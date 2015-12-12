@@ -2,39 +2,35 @@
 
 {% block contents %}
 	<div class="row">
-		{% if statistic_list.0.organization.user == request.user or request.user.is_staff %}
-			<div class="large-12 columns">
-				<h1>{{ statistic_list.0.organization.display_name }}</h1>
-			</div>
-			<h2>Statistics</h2> 			
-			<p><a class="button medium" href="{% url 'crm:reported-statistics-add' statistic_list.0.organization.id %}">Report new statistic</a></p>
-			<table>
-				<tr>
-					<th>Date</th>
-					<th>Original courses</th>
-					<th>O. course language</th>
-					<th>Translated courses</th>
-					<th>T. courses language</th>
-					<th>OER resources</th>
-					<th>T. OER resources</th>
-					<th>Comment</th>
-				</tr>
-			{% for stat in statistic_list %}
-				<tr>
-					<td><a href="{% url 'crm:reported-statistics-edit' stat.id %}">{{ stat.report_date }}</td>
-					<td>{{ stat.orig_courses }}</td>
-					<td>{{ stat.trans_courses }}</td>
-					<td>{{ stat.orig_course_lang }}</td>
-					<td>{{ stat.trans_course_lang }}</td>
-					<td>{{ stat.oer_resources }}</td>
-					<td>{{ stat.trans_oer_resources }}</td>
-					<td>{{ stat.comment }}</td>
-				</tr>
-			{% endfor %}
-			</table>
-			<a href="{% url 'crm:reported-statistics-add' statistic_list.0.organization.id %}" class="button medium">Report new statistic</a>
-		{% else %}
-			<p>Sorry, you don't have permission to access this member data.</p>
-		{% endif %}
+		<div class="large-12 columns">
+			<h1>{{ org.display_name }}</h1>
+		</div>
+		<h2>Statistics</h2>
+		<p><a class="button medium" href="{% url 'crm:reported-statistics-add' org.id %}">Report new statistic</a></p>
+		<table>
+			<tr>
+				<th>Date</th>
+				<th>Original courses</th>
+				<th>O. course language</th>
+				<th>Translated courses</th>
+				<th>T. courses language</th>
+				<th>OER resources</th>
+				<th>T. OER resources</th>
+				<th>Comment</th>
+			</tr>
+		{% for stat in statistic_list %}
+			<tr>
+				<td><a href="{% url 'crm:reported-statistics-edit' stat.id %}">{{ stat.report_date }}</td>
+				<td>{{ stat.orig_courses }}</td>
+				<td>{{ stat.trans_courses }}</td>
+				<td>{{ stat.orig_course_lang }}</td>
+				<td>{{ stat.trans_course_lang }}</td>
+				<td>{{ stat.oer_resources }}</td>
+				<td>{{ stat.trans_oer_resources }}</td>
+				<td>{{ stat.comment }}</td>
+			</tr>
+		{% endfor %}
+		</table>
+		<a href="{% url 'crm:reported-statistics-add' org.id %}" class="button medium">Report new statistic</a>
 	</div>
 {% endblock %}
