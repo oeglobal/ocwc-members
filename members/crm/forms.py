@@ -155,7 +155,7 @@ class MemberLoginForm(forms.Form):
         org = cleaned_data.get('organization')
 
         if org and email and not Organization.active.filter(pk=org, contact__email__iexact=email):
-            raise forms.ValidationError('E-mail you entered is not associated with selected organization.' + 
+            raise forms.ValidationError('E-mail you entered is not associated with selected organization.' +
                                         'Please contact members services if you require assistance.', code='invalid-email')
 
         return cleaned_data
@@ -225,7 +225,7 @@ class BillingLogForm(forms.ModelForm):
         model = BillingLog
         fields = ('log_type', 'amount', 'organization', 'user', 'invoice_year', 'description',
                   'email_invoice', 'email_invoice_subject', 'email_invoice_body',
-                  'email_invoice_paid', 'email_invoice_paid_subject', 'email_invoice_paid_body', 
+                  'email_invoice_paid', 'email_invoice_paid_subject', 'email_invoice_paid_body',
                   'note', 'created_date', 'invoice_number')
 
 class ReportedStatisticModelForm(forms.ModelForm):
@@ -239,9 +239,9 @@ class ReportedStatisticModelForm(forms.ModelForm):
 
         super(ReportedStatisticModelForm, self).__init__(*args, **kwargs)
 
-        base = datetime.datetime(2014, 3, 1, 0, 0, 0)
+        base = datetime.datetime(2016, 3, 1, 0, 0, 0)
         self.fields['report_date'].choices = [ (i.strftime('%Y-%m-%d'), i.strftime('%B %Y')) \
-                                                for i in [base - relativedelta(months=x*3) for x in range(0, 20)] 
+                                                for i in [base - relativedelta(months=x*3) for x in range(0, 20)]
                                              ]
         if not kwargs.get('instance'):
             try:
