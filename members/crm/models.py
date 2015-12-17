@@ -6,8 +6,9 @@ import subprocess
 import tempfile
 import datetime
 import time
+import random
 
-from django.db import models
+from django.db import models, IntegrityError
 from django.utils.text import slugify
 from django.utils.safestring import mark_safe
 from django.core.urlresolvers import reverse
@@ -51,10 +52,10 @@ ORGANIZATION_MEMBERSHIP_TYPE_CHOICES = (
     (7 , 'Associate Consortium Members'),
     (14, 'Associate Consortium Members - DC'),
 
-    (8 , 'Corporate Members - Basic'),    
+    (8 , 'Corporate Members - Basic'),
     (15, 'Corporate Members - Premium'),
     (16, 'Corporate Members - Sustaining'),
-    
+
 )
 
 ORGANIZATION_TYPE_CHOICES = (
@@ -155,7 +156,7 @@ class Organization(models.Model):
         if self.membership_status in [7]:
             return 0    #manually processed
 
-        # (8 , 'Corporate Members - Basic'),    
+        # (8 , 'Corporate Members - Basic'),
         if self.membership_type in [8]:
             return 1000
 
@@ -503,10 +504,16 @@ class MembershipApplication(models.Model):
                 'last_name': self.last_name
             })
 
-        user, is_created = User.objects.get_or_create(
-            username = org.slug,
-            email = contact.email
-        )
+        try:
+            user, is_created = User.objects.get_or_create(
+                username = org.slug,
+                email = contact.email
+            )
+        except IntegrityError:
+            user, is_created = User.objects.get_or_create(
+                username = "{}-{}".format(org.slug,  int(round(random.random() * 10, 0))),
+                email = contact.email
+            )
 
         org.user = user
         org.save()
@@ -527,7 +534,7 @@ class MembershipApplication(models.Model):
         return org
 
     def _send_notification_email(self):
-        send_mail('New Membership Application: %s' % self.display_name, 'View application: http://members.oeconsortium.org%s' % self.get_absolute_url(), 
+        send_mail('New Membership Application: %s' % self.display_name, 'View application: http://members.oeconsortium.org%s' % self.get_absolute_url(),
                     'tech@oeconsortium.org', ['memberapplications@oeconsortium.org'])
 
 COMMENTS_APP_STATUS_CHOICES = (
@@ -588,7 +595,7 @@ class LoginKey(models.Model):
 
     def send_email(self):
         body = render_to_string('mail-login/mail_body.txt', {'url': self.get_absolute_url()})
-        send_mail('OCW Member portal login information', body, 
+        send_mail('OCW Member portal login information', body,
                     'memberservices@oeconsortium.org', [self.email])
 
     def get_absolute_url(self):
@@ -627,7 +634,7 @@ class BillingLog(models.Model):
             return f
         else:
             time.sleep(sleep_int)
-            return BillingLog._open_file(path_to_file, attempts + 1)    
+            return BillingLog._open_file(path_to_file, attempts + 1)
 
     def send_email(self):
         message = EmailMessage(
@@ -638,13 +645,13 @@ class BillingLog(models.Model):
             bcc = [self.user.email]
         )
         pdf_path = os.path.join(settings.INVOICES_ROOT, self.invoice.pdf_filename)
-        
+
         f = BillingLog._open_file(pdf_path)
         content = f.read()
         f.close()
 
         message.attach(filename='oec-invoice-%s.pdf' % self.invoice.invoice_number,
-                       content=content, 
+                       content=content,
                        mimetype='application/pdf')
         message.send()
 
@@ -660,7 +667,7 @@ class Invoice(models.Model):
     invoice_year = models.CharField(default=settings.DEFAULT_INVOICE_YEAR, max_length=10)
     amount = models.IntegerField()
     description = models.TextField(blank=True)
-    
+
     pdf_filename = models.CharField(max_length=100, blank=True)
     access_key = models.CharField(max_length=32, blank=True)
 
@@ -693,16 +700,16 @@ class Invoice(models.Model):
         url = '%s%s' % (settings.INVOICES_PHANTOM_JS_HOST, self.get_access_key_url())
         filename = "invoice_%s_%s.pdf" % (self.pk, uuid.uuid4().get_hex())
         pdf_path = os.path.join(settings.INVOICES_ROOT, filename)
-        
-        # print [here('../../bin/phantomjs'), 
-        #                   here('phantomjs-scripts/rasterize.js'), 
+
+        # print [here('../../bin/phantomjs'),
+        #                   here('phantomjs-scripts/rasterize.js'),
         #                   url,
         #                   pdf_path,
         #                   'Letter'
         #                 ]
 
-        subprocess.Popen([here('../../bin/phantomjs'), 
-                          here('phantomjs-scripts/rasterize.js'), 
+        subprocess.Popen([here('../../bin/phantomjs'),
+                          here('phantomjs-scripts/rasterize.js'),
                           url,
                           pdf_path,
                           'Letter'
@@ -718,7 +725,7 @@ class Invoice(models.Model):
             return 'https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=Y6DLXHCB5E8JL'
         if self.amount == 525:
             return 'https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=HJB7HSG28DC82'
-        if self.amount == 750:               
+        if self.amount == 750:
             return 'https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=7LXJWSNC3DPMC'
         if self.amount == 1000:
             return 'https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=Z8THX5FXTWCFS'
