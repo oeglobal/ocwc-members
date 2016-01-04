@@ -309,7 +309,7 @@
 	<div class="large-12 columns">
 		<p><strong>Paypal:</strong></p>
 		<p>Submit payment through PayPal using the following link: <br/>
-			<a href="{{ invoice.paypal_link }}">{{ invoice.paypal_link }}</a><br />
+			<a href="{{ invoice.paypal_link|safe }}">{{ invoice.paypal_link|safe }}</a><br /><br />
             <span class="underline">Please include invoice number as added note.</span>
         </p>
 	</div>
