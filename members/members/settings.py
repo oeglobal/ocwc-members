@@ -163,11 +163,11 @@ LOGGING = {
 }
 
 RAVEN_CONFIG = {
-    
+
 }
 
 LOGIN_URL = '/admin/'
 
 CRISPY_TEMPLATE_PACK = 'uni_form'
-DEFAULT_INVOICE_YEAR = '2015'
+DEFAULT_INVOICE_YEAR = '2016'
 from localsettings import *
