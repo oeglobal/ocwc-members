@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from __future__ import print_function
 from django.core.management.base import BaseCommand
 
 from crm.models import Organization
@@ -20,4 +21,7 @@ class Command(BaseCommand):
 
                 developing = org.address_set.latest('id').country.developing
                 country = org.address_set.latest('id').country.name
-                print "%s\t%s\t%s\t%s\t%s\t%s\t%s" % (org.display_name, contact.first_name, contact.last_name, contact.email, application_year, developing, country)
+                continent = org.address_set.latest('id').country.continent.name
+                membership_type = org.get_membership_type_display()
+                line = "%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s" % (org.display_name, contact.first_name, contact.last_name, contact.email, application_year, developing, country, continent, membership_type)
+                print(line.encode('utf-8'))

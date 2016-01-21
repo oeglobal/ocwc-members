@@ -132,6 +132,8 @@ class Organization(models.Model):
     ocw_contact = models.ForeignKey(User, null=True, verbose_name=u'Primary contact inside OCW', related_name='ocw_contact_user',
                                     limit_choices_to={'is_staff': True})
 
+    created = models.DateTimeField(blank=True, null=True, auto_now_add=True)
+
     objects = models.Manager()
     active = ActiveOrganizationManager()
 
