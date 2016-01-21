@@ -4,7 +4,7 @@ from django import forms
 
 from .models import Organization, Contact, Address, MembershipApplication, \
 					Country, ReportedStatistic, Invoice, \
-					BillingLog, LoginKey
+					BillingLog, LoginKey, Continent
 
 class ContactInline(admin.TabularInline):
 	model = Contact
@@ -30,7 +30,7 @@ class OrganizationAdmin(admin.ModelAdmin):
 			'fields': ('main_website', 'ocw_website'),
 		}),
 		('Additional', {
-			'fields': ('legal_name', 'user', 'slug', 'crmid', 'description', 'logo_large', 'logo_small', 'accreditation_body', 'support_commitment',) 
+			'fields': ('legal_name', 'user', 'slug', 'crmid', 'description', 'logo_large', 'logo_small', 'accreditation_body', 'support_commitment',)
 		})
 	)
 
@@ -73,7 +73,7 @@ class MembershipApplicationAdmin(admin.ModelAdmin):
 			}
 		),
 		('General', {
-			'fields': ('organization_type', 'main_website', 'ocw_website', 'institution_country', 
+			'fields': ('organization_type', 'main_website', 'ocw_website', 'institution_country',
 						'rss_course_feed', 'is_accredited', 'accreditation_body', 'support_commitment')
 		}),
 		('Membership', {
@@ -81,7 +81,7 @@ class MembershipApplicationAdmin(admin.ModelAdmin):
 		}),
 		('Address and Contact', {
 			'fields': ('first_name', 'last_name', 'email', 'job_title',
-						'street_address', 'supplemental_address_1', 'supplemental_address_2', 'city', 'postal_code', 
+						'street_address', 'supplemental_address_1', 'supplemental_address_2', 'city', 'postal_code',
 						'state_province', 'country', )
 		})
 	)
@@ -114,6 +114,7 @@ admin.site.register(Address, AddressAdmin)
 admin.site.register(MembershipApplication, MembershipApplicationAdmin)
 # admin.site.register(MembershipApplicationComment, MembershipApplicationCommentAdmin)
 admin.site.register(Country, CountryAdmin)
+admin.site.register(Continent)
 admin.site.register(ReportedStatistic, ReportedStatisticAdmin)
 admin.site.register(Invoice, InvoiceAdmin)
 admin.site.register(BillingLog, BillingLogAdmin)
