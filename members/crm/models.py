@@ -10,7 +10,6 @@ import random
 
 from django.db import models, IntegrityError
 from django.utils.text import slugify
-from django.utils.safestring import mark_safe
 from django.core.urlresolvers import reverse
 from django.core.mail import send_mail, EmailMessage
 from django.contrib.auth.models import User
@@ -18,15 +17,21 @@ from django.template.loader import render_to_string
 from django.conf import settings
 
 from geopy import geocoders
-from geopy.geocoders.google import GQueryError
 
 # import reversion
 here = lambda x: os.path.join(os.path.dirname(os.path.abspath(__file__)), x)
+
+class Continent(models.Model):
+    name = models.CharField(max_length=192, unique=True, blank=True)
+
+    def __unicode__(self):
+        return self.name
 
 class Country(models.Model):
     name = models.CharField(max_length=192, unique=True, blank=True)
     iso_code = models.CharField(max_length=6, unique=True, blank=True)
     developing = models.BooleanField()
+    continent = models.ForeignKey(Continent, null=True, blank=True)
 
     class Meta:
         ordering = ('name',)
