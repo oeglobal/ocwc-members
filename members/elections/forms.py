@@ -5,7 +5,7 @@ from django.utils.safestring import mark_safe
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit, Layout, Field, Div, HTML
 
-from .models import Candidate, Election, Proposition
+from .models import Candidate
 from crm.models import Organization
 
 class CandidateAddForm(forms.Form):
