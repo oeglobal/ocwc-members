@@ -19,7 +19,7 @@ class Command(BaseCommand):
 				print email, '\n'
 				org = None
 				for contact in Contact.objects.filter(email=email):
-					
+
 
 					if org != contact.organization.id:
 						org = contact.organization.id
