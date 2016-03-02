@@ -188,8 +188,9 @@ class VoteForm(forms.Form):
         self.helper = FormHelper(self)
         self.helper.form_show_errors = True
 
-        proposition1 = self.election.proposition_set.filter(published=True)[0]
-        proposition2 = self.election.proposition_set.filter(published=True)[1]
+        propositions = self.election.proposition_set.filter(published=True).order_by('title')
+        proposition1 = propositions[0]
+        proposition2 = propositions[1]
 
         self.helper.layout = Layout(
             Div(
