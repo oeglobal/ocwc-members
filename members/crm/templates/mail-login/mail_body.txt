@@ -1,4 +1,4 @@
-To login to your OCW Member account, please click on the following link:
+To login to your OEC Member account, please click on the following link:
 
 http://members.oeconsortium.org{{ url }}
 

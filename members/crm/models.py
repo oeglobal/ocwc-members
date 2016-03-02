@@ -602,7 +602,7 @@ class LoginKey(models.Model):
 
     def send_email(self):
         body = render_to_string('mail-login/mail_body.txt', {'url': self.get_absolute_url()})
-        send_mail('OCW Member portal login information', body,
+        send_mail('OEC Member portal login information', body,
                     'memberservices@oeconsortium.org', [self.email])
 
     def get_absolute_url(self):
