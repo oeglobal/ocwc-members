@@ -66,7 +66,7 @@ class VoteView(LoginRequiredMixin, DetailView):
 
         org = Organization.objects.get(user=self.request.user)
 
-        context['proposition_votes'] = PropositionBallot.objects.filter(organization=org, election=context['election']).order_by('name')
+        context['proposition_votes'] = PropositionBallot.objects.filter(organization=org, election=context['election']).order_by('proposition__title')
         context['candidate_votes'] = CandidateBallot.objects.filter(organization=org, election=context['election'])
 
         if self.object.propositionballot_set.filter(organization=org).count() < org.get_number_of_votes():

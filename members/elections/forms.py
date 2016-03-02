@@ -174,7 +174,7 @@ class VoteForm(forms.Form):
                                          label="We vote", choices=PROPOSITION_CHOICES)
     proposition_vote2 = forms.ChoiceField(widget=forms.RadioSelect,
                                          label="We vote", choices=PROPOSITION_CHOICES)
-    institutional_candidates = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple, label="Select up to 5 Candidates for Board of Directors, Institutional Seats")
+    institutional_candidates = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple, label="Select up to 4 Candidates for Board of Directors, Institutional Seats")
     organizational_candidates = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple, label="Select 1 candidate for Board of Directors, Organizational Seat")
     name = forms.CharField(label="Please enter your First and Last name, to sign your vote on behalf of your organization")
 
@@ -225,7 +225,7 @@ class VoteForm(forms.Form):
     def clean(self):
         cleaned_data = self.cleaned_data
 
-        if self.cleaned_data.get('institutional_candidates') and len(self.cleaned_data.get('institutional_candidates')) > 5:
+        if self.cleaned_data.get('institutional_candidates') and len(self.cleaned_data.get('institutional_candidates')) > 4:
             self._errors['institutional_candidates'] = self.error_class(['Too many candidates selected.'])
 
         if self.cleaned_data.get('organizational_candidates') and len(self.cleaned_data.get('organizational_candidates')) > 1:
