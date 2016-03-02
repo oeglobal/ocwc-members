@@ -194,7 +194,7 @@ class VoteForm(forms.Form):
 
         self.helper.layout = Layout(
             Div(
-                HTML('<h2>2015 Open Education Consortium Elections</h2>'),
+                HTML('<h2>2016 Open Education Consortium Elections</h2>'),
                 HTML('<p>Fields marked with * are mandatory</p>'),
             css_class='row'),
             Div(
