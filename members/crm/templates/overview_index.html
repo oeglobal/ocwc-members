@@ -20,18 +20,18 @@
 		{# {% comment %} #}
 		<div class="large-12 columns">
 			<h1>Elections</h1>
-			<p>Voting period in 2015 elections has ended.</p>
-			
-			{% comment %}
+			{# <p>Voting period in 2015 elections has ended.</p> #}
+
+
 			{% if org.can_vote %}
 			<p>We invite your <a href="http://www.oeconsortium.org/about-oec/membership/elections/" target="_blank">review the biography of candidates</a>.</p>
 			<p>
-				<a href="{% url 'elections:vote-add' 2 %}" class="button medium">Vote in 2015 Elections</a>
+				<a href="{% url 'elections:vote-add' 3 %}" class="button medium">Vote in 2016 Elections</a>
 			</p>
 			{% else %}
 			<p>Your organization is currently not eligible to vote. Please contact <a href="mailto:memberservices@oeconsortium.org">memberservices@oeconsortium.org</a> for details.</p>
 			{% endif %}
-			{% endcomment %}
+
 		</div>
 		{# {% endcomment %} #}
 
