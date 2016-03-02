@@ -65,7 +65,7 @@ class VoteView(LoginRequiredMixin, DetailView):
         context = super(VoteView, self).get_context_data(**kwargs)
 
         org = Organization.objects.get(user=self.request.user)
-        
+
         context['proposition_votes'] = PropositionBallot.objects.filter(organization=org, election=context['election'])
         context['candidate_votes'] = CandidateBallot.objects.filter(organization=org, election=context['election'])
 
@@ -102,7 +102,7 @@ class VoteAddFormView(LoginRequiredMixin, FormView):
         cleaned_data = form.cleaned_data
 
         # Proposition 1
-        proposition = self.election.proposition_set.filter(published=True)[0]
+        proposition = self.election.proposition_set.filter(published=True)[1]
         proposition_vote = cleaned_data.get('proposition_vote1')
         if proposition_vote == 'yes':
             vote = True
@@ -120,7 +120,7 @@ class VoteAddFormView(LoginRequiredMixin, FormView):
         )
 
         #Proposition 2
-        proposition = self.election.proposition_set.filter(published=True)[1]
+        proposition = self.election.proposition_set.filter(published=True)[0]
         proposition_vote = cleaned_data.get('proposition_vote2')
         if proposition_vote == 'yes':
             vote = True
