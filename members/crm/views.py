@@ -573,8 +573,8 @@ class LoginKeyCheckView(TemplateView):
 
     def dispatch(self, request, *args, **kwargs):
         key = kwargs.pop('key')
-        if LoginKey.objects.filter(key=key).exists():
-            today = datetime.datetime.today()
+        today = datetime.datetime.today()
+        if LoginKey.objects.filter(key=key, pub_date__gte=(today - datetime.timedelta(days=7))).exists():
             login_key = LoginKey.objects.get(key=key, pub_date__gte=(today - datetime.timedelta(days=7)))
 
             login_key.user.backend = 'django.contrib.auth.backends.ModelBackend'
