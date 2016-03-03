@@ -232,8 +232,9 @@ class ReportedStatisticModelForm(forms.ModelForm):
     report_date = forms.ChoiceField(label="Reported period, until:")
 
     def __init__(self, *args, **kwargs):
-        if kwargs.get('instance'):
-            self.organization = kwargs.get('instance').organization
+        self.obj = kwargs.get('instance', None)
+        if self.obj:
+            self.organization = self.obj.organization
         else:
             self.organization = kwargs.pop('organization')
 
@@ -243,7 +244,7 @@ class ReportedStatisticModelForm(forms.ModelForm):
         self.fields['report_date'].choices = [ (i.strftime('%Y-%m-%d'), i.strftime('%B %Y')) \
                                                 for i in [base - relativedelta(months=x*3) for x in range(0, 20)]
                                              ]
-        if not kwargs.get('instance'):
+        if not self.obj:
             try:
                 previous_statistic = ReportedStatistic.objects.filter(organization=self.organization).latest('report_date')
             except ReportedStatistic.DoesNotExist:
@@ -255,7 +256,8 @@ class ReportedStatisticModelForm(forms.ModelForm):
 
     def clean(self):
         cleaned_data = super(ReportedStatisticModelForm, self).clean()
-        if ReportedStatistic.objects.filter(organization=self.organization, report_date=cleaned_data['report_date']).exists():
+
+        if not self.obj and ReportedStatistic.objects.filter(organization=self.organization, report_date=cleaned_data['report_date']).exists():
             raise forms.ValidationError('Reported statistic for this interval already exists. Please edit previous entry.')
 
         return cleaned_data
