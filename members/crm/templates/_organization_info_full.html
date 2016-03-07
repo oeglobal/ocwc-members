@@ -1,5 +1,5 @@
 		<div class="large-6 columns">
-		{% if request.user.is_staff %}			
+		{% if request.user.is_staff %}
 			<h2>Account information</h2>
 			<p>
 				<strong>Last login:</strong> {{ org.user.last_login }}<br/>
@@ -10,9 +10,9 @@
 				{% if org.associate_consortium %}
 					<strong>Associate consortium:</strong> {{ org.associate_consortium }}<br />
 				{% endif %}
-			</p>			
-		{% endif %}				
-		<h2 class="address">General information <a class="edit-link" href="{% url 'crm:organization-edit' org.id %}">Edit</a></h2>		
+			</p>
+		{% endif %}
+		<h2 class="address">General information <a class="edit-link" href="{% url 'crm:organization-edit' org.id %}">Edit</a></h2>
 		<p>
 			<strong>Main website:</strong> <a href="{{ org.main_website }}">{{ org.main_website }}</a><br />
 			<strong>OCW website:</strong> <a href="{{ org.ocw_website }}">{{ org.ocw_website }}</a><br />
@@ -21,7 +21,7 @@
 		<p class="org-description">
 			{{ org.description }}
 		</p>
-		{% if org.logo_large %}
+		{% if org.logo_small %}
 		<p>
 			<img src="{{ MEDIA_URL }}{{ org.logo_small }}" />
 		</p>
@@ -32,7 +32,7 @@
 		   {{ address.street_address }}<br />
 		   {% if address.supplemental_address_1 %}{{ address.supplemental_address_1 }}<br />{% endif %}
 		   {% if address.supplemental_address_2 %}{{ address.supplemental_address_2 }}<br />{% endif %}
-		   
+
 		   {{ address.city }}, {{ address.postal_code }} {{ address.postal_code_suffix }}<br />
 		   {{ address.country }}
 		<p>

@@ -3,8 +3,8 @@
 {% block contents %}
 	<div class="row">
 		<div class="large-6 columns">
-			<form action="" method="POST">
-				{% csrf_token %}	
+			<form action="" method="POST" enctype='multipart/form-data'>
+				{% csrf_token %}
 				{{ form.as_p }}
 				<input type="submit" class="button" value="Submit">
 			</form>
