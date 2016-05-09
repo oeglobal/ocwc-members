@@ -7,8 +7,7 @@ class Command(BaseCommand):
     help = "displays election results in the console"
 
     def handle(self, *args, **options):
-        election = Election.objects.get(pk=2)
-        proposition = Proposition.objects.get(pk=2)
+        election = Election.objects.get(pk=3)
         self.stdout.write(election.title)
 
         for proposition in election.proposition_set.all():
@@ -22,7 +21,7 @@ class Command(BaseCommand):
 
         names = []
         for candidate in Candidate.objects.filter(vetted=True, seat_type='institutional', election=election):
-             names.append('Votes: %s, %s %s' % (candidate.candidateballot_set.count(), candidate.candidate_first_name, candidate.candidate_last_name))
+             names.append('Votes: %02d, %s %s' % (candidate.candidateballot_set.count(), candidate.candidate_first_name, candidate.candidate_last_name))
 
         names.sort(reverse=True)
         self.stdout.write('Institutional board seat')
@@ -32,7 +31,7 @@ class Command(BaseCommand):
         self.stdout.write('---')
         names = []
         for candidate in Candidate.objects.filter(vetted=True, seat_type='organizational', election=election):
-             names.append('Votes: %s, %s %s' % (candidate.candidateballot_set.count(), candidate.candidate_first_name, candidate.candidate_last_name))
+             names.append('Votes: %02d, %s %s' % (candidate.candidateballot_set.count(), candidate.candidate_first_name, candidate.candidate_last_name))
 
         names.sort(reverse=True)
         self.stdout.write('Organizational board seat')
@@ -41,6 +40,6 @@ class Command(BaseCommand):
 
 
         self.stdout.write('---')
-        self.stdout.write('Members that voted:')
+        self.stdout.write('Members that voted: ({})'.format(PropositionBallot.objects.filter(proposition=proposition).count()))
         for ballot in PropositionBallot.objects.filter(proposition=proposition).order_by('organization__display_name'):
             self.stdout.write('%s, %s' % (ballot.organization.display_name, ballot.voter_name))
