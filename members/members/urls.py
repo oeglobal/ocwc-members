@@ -9,7 +9,7 @@ from crm.views import IndexView, LoginKeyCheckView
 
 urlpatterns = patterns('',
     url(r'^accounts/', include('django.contrib.auth.urls')),
-   	
+
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^admin/', include(admin.site.urls)),
 
@@ -20,6 +20,7 @@ urlpatterns = patterns('',
 
     url(r'^login/(?P<key>[\w|\W]+)/$', LoginKeyCheckView.as_view(), name='login-key-check'),
 
+    url(r'^conferences/', include('conferences.urls', namespace='conferences', app_name='conferences')),
     url(r'^elections/', include('elections.urls', namespace='elections', app_name='elections')),
 
    	url(r'^$', IndexView.as_view(), name='crm_index'),

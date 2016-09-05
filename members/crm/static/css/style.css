@@ -67,3 +67,13 @@ strong {
 .warning {
 	color: #FF4642;
 }
+
+ul.messages {
+	margin-left: 0;
+}
+
+li.success {
+    background-color: lightgreen;
+    padding: 10px;
+    list-style: none;
+}

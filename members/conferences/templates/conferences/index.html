@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}Conference Registrations{% endblock %}
+
+{% block contents %}
+	<div class="row">
+		<div class="small-12 columns">
+			<h1>Conference Registrations - OE Global 2017</h1>
+
+			<table class="table">
+				<thead>
+					<tr>
+						<th>Name</th>
+						<th>Organization</th>
+						<th>Payment Type</th>
+						<th>Payment Status</th>
+						<th>Invoice</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for registration in registration_list %}
+						<tr>
+							<td>{{ registration.name }}</td>
+							<td>{{ registration.organization }}</td>
+							<td>{{ registration.payment_type }}</td>
+							<td>{{ registration.payment_status }}</td>
+							<td>
+								<a href="{% url 'conferences:invoice_download' registration.id %}">Download invoice</a>
+								<a href="{% url 'conferences:invoice_preview' registration.id registration.access_key %}">Preview</a>
+							</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+
+			<form method="POST" target=".">
+				{% csrf_token %}
+				<input type="submit" name="Sync" value="Sync">
+			</form>
+		</div>
+	</div>
+{% endblock %}

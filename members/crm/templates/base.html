@@ -5,7 +5,7 @@
 	<meta charset="utf-8" />
 	<title>{% block title %}The Open Education Consortium Members portal{% endblock %}</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	
+
 	<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
 	<link href='http://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'>
 	<link href='http://fonts.googleapis.com/css?family=Metrophobic' rel='stylesheet' type='text/css'>
@@ -24,6 +24,14 @@
   	{% block extra_head %}{% endblock %}
 </head>
 <body>
+	{% if messages %}
+	<ul class="messages">
+	    {% for message in messages %}
+	    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+	    {% endfor %}
+	</ul>
+	{% endif %}
+
 	{% block headrow %}
 	<div class="row" id="top-nav">
 		<div class="large-4 push-9 columns">
