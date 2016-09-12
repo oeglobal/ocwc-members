@@ -49,6 +49,12 @@ def sync_conference(conf_id=1):
                                             'name': "{} {}".format(entry.get('1.3'), entry.get('1.6')),
                                             'email': entry.get('2'),
                                             'organization': entry.get('6'),
+                                            'billing_address': entry.get('34'),
+                                            'dinner_guest': entry.get('16'),
                                         },
                                     )
+
         pprint(entry)
+        if is_created and registration.payment_type == 'wire':
+            registration.email_invoice()
+

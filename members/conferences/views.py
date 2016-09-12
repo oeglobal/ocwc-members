@@ -36,8 +36,6 @@ class InvoicePDF(StaffuserRequiredMixin, TemplateView):
         url = '%s%s' % (settings.INVOICES_PHANTOM_JS_HOST, registration.get_access_key_url())
 
         pdf = '/tmp/oeglobal_invoice_{}.pdf'.format(uuid.uuid4().get_hex())
-
-        print(pdf)
         popen_instance = subprocess.Popen([here('../../bin/phantomjs'),
                           here('../crm/phantomjs-scripts/rasterize.js'),
                           url,
@@ -63,5 +61,13 @@ class InvoicePreview(TemplateView):
                             access_key=self.kwargs.get('access_key')
                         )
         ctx['invoice'] = registration
-        ctx['item'] = registration.ticket_type.split('|')[0]
+
+        ctx['ticket_type'] = registration.ticket_type.split('|')[0]
+        ctx['ticket_price'] = registration.ticket_type.split('|')[1]
+
+        dinner_ticket = registration.dinner_guest.split('|')[0]
+        if dinner_ticket == 'Yes':
+            ctx['dinner_ticket'] = True
+            ctx['dinner_price'] = registration.dinner_guest.split('|')[1]
+
         return ctx

@@ -124,7 +124,7 @@
 {% block contents %}
 <div class="row row-logo ubuntu10">
 	<img src="/theme/images/logo.png" alt="OE Consortium logo" class="logo" /><br />
-	Email: <a class="ubuntu10" href="mailto:memberservices@oeconsortium.org" style="padding-right: 20px;">memberservices@oeconsortium.org</a>
+	Email: <a class="ubuntu10" href="mailto:conference@oeconsortium.org" style="padding-right: 20px;">conference@oeconsortium.org</a>
 	Website: <a class="ubuntu10" href="http://www.oeconsortium.org">www.oeconsortium.org</a>
 </div>
 
@@ -155,6 +155,8 @@
 		<p><strong>Billed to:</strong><br />
 			{{ invoice.name }}<br />
 			<strong>{{ invoice.organization }}</strong><br />
+			<br />
+			{{ invoice.billing_address|linebreaksbr }}
 		</p>
 	</div>
 </div>
@@ -175,14 +177,31 @@
 			</thead>
 			<tbody>
 				<tr>
-					<td>{{ item }}</td>
-					<td style="text-align: center;">US ${{ invoice.total_amount }}</td>
+					<td>
+						Open Education Global Conference 2016 Registration Fee
+						<br /><br />
+						Participant: {{ invoice.name }}
+						<br /><br />
+						{{ ticket_type }}
+					</td>
+					<td style="text-align: center;">US ${{ ticket_price }}</td>
+				</tr>
+
+				{% if dinner_ticket %}
+				<tr>
+					<td>Conference Dinner Guest</td>
+					<td style="text-align: center;">US ${{ dinner_price }}</td>
+				</tr>
+				{% endif %}
+				<tr>
+					<td style="text-align:right;">Total:</td>
+					<td style="text-align: center;"><strong>US ${{ invoice.total_amount }}</strong></td>
 				</tr>
 			</tbody>
 		</table>
 	</div>
 </div>
-<div class="spacer"></div><div class="spacer"></div>
+<div class="spacer"></div>
 <div class="row">
 	{% if invoice.invoice_type == 'issued' %}
 	<div class="large-10 columns push-1">
@@ -199,14 +218,17 @@
 		</p>
 	</div>
 	{% else %}
-	<br /><br /><br /><br /><br /><br /><br />
+	<br /><br /><br /><br />
 	{% endif %}
 	<div class="large-12 columns">
-		<p><br />Please don’t hesitate to contact us if you need any further information.</p>
+		<p> Please include invoice number or your name as added note (beneficiary reference).
+			<br /><br />
+			Please don’t hesitate to contact us at <span class="underline">conference@oeconsortium.org</span> if you need any further information.
+		</p>
 		<p>
 		Kind regards,<br />
-		<strong>Open Education Consortium</strong><br />
-		<span class="underline">conference@oeconsortium.org</span>
+		<strong>Open Education Global Conference 2017 Planning Team  </strong><br />
+
 		</p>
 	</div>
 
