@@ -11,7 +11,11 @@ from django.http import HttpResponse
 from vanilla import TemplateView
 from braces.views import StaffuserRequiredMixin
 
+from rest_framework.views import APIView
+from rest_framework.response import Response
+
 from .models import ConferenceRegistration
+from .utils import sync_conference
 
 here = lambda x: os.path.join(os.path.dirname(os.path.abspath(__file__)), x)
 
@@ -71,3 +75,9 @@ class InvoicePreview(TemplateView):
             ctx['dinner_price'] = registration.dinner_guest.split('|')[1]
 
         return ctx
+
+class PingInvoices(APIView):
+    def get(self, request, format=None):
+        sync_conference()
+
+        return Response('OK')
