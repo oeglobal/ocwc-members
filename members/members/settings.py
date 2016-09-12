@@ -3,7 +3,7 @@ def next_to_root(*additional_paths):
     return os.path.realpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', *additional_paths))
 
 ADMINS = (
-    ('Jure Cuhalev', 'jure@oeconsortium.org'),
+    # ('Jure Cuhalev', 'jure@oeconsortium.org'),
 )
 
 MANAGERS = ADMINS
