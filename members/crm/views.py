@@ -553,6 +553,10 @@ def organization_group_by_membership_view(request):
 
     return Response(data)
 
+@api_view(['GET'])
+def organization_group_by_consortium_view(request, consortium):
+    data = OrganizationApiSerializer(Organization.active.filter(associate_consortium=consortium), many=True).data
+    return Response(data)
 
 class OrganizationViewApi(generics.RetrieveAPIView):
     queryset = Organization.active.all()
