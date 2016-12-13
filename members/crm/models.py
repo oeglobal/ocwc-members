@@ -320,9 +320,9 @@ class Address(models.Model):
         if self.country:
             g = geocoders.GoogleV3()
 
-            address_string = u"%s, %s, %s, %s %s, %s, %s" % (
+            address_string = u"%s, %s, %s, %s %s %s, %s, %s" % (
                              self.street_address, self.supplemental_address_1, self.supplemental_address_2,
-                             self.postal_code, self.postal_code_suffix,
+                             self.postal_code, self.postal_code_suffix, self.city,
                              self.state_province, self.country.name)
             try:
                 place, (lat, lng) = g.geocode(address_string)
