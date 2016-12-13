@@ -317,7 +317,7 @@ class Address(models.Model):
             return u"%s %s" % (self.city, self.street_address)
 
     def save(self, force_insert=False, force_update=False, using=None):
-        if not (self.latitude and self.longitude and self.country):
+        if self.country:
             g = geocoders.GoogleV3()
 
             address_string = u"%s, %s, %s, %s %s, %s, %s" % (
