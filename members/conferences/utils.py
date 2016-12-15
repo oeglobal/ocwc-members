@@ -46,7 +46,7 @@ def sync_conference(conf_id=1):
                                             'source_url': entry.get('source_url'),
                                             'entry_created': arrow.get(entry.get('date_created').replace(' ', 'T')).datetime,
 
-                                            'name': "{} {}".format(entry.get('1.3'), entry.get('1.6')),
+                                            'name': u"{} {}".format(entry.get('1.3'), entry.get('1.6')),
                                             'email': entry.get('2'),
                                             'organization': entry.get('6'),
                                             'billing_address': entry.get('34'),
@@ -54,7 +54,6 @@ def sync_conference(conf_id=1):
                                         },
                                     )
 
-        pprint(entry)
         if is_created and registration.payment_type == 'wire':
             registration.email_invoice()
 
