@@ -28,7 +28,7 @@ urlpatterns = patterns('',
 
 if settings.DEBUG:
 	urlpatterns += patterns('',
-		url(r'^theme/lib/(?P<path>.*)$', 'django.views.static.serve', {'document_root': '/home/gandalf/mainsite/wp-content/themes/ocwc-mainsite/lib/'}),
-		url(r'^theme/images/(?P<path>.*)$', 'django.views.static.serve', {'document_root': '/home/gandalf/mainsite/wp-content/themes/ocwc-mainsite/images/'}),
-        url(r'^media/logos/(?P<path>.*)$', 'django.views.static.serve', {'document_root': '/home/gandalf/members/media/logos/'}),
+		url(r'^theme/lib/(?P<path>.*)$', 'django.views.static.serve', {'document_root': '/Users/gandalf/hacking/mainsite/wp-content/themes/ocwc-mainsite/lib/'}),
+		url(r'^theme/images/(?P<path>.*)$', 'django.views.static.serve', {'document_root': '/Users/gandalf/hacking/mainsite/wp-content/themes/ocwc-mainsite/images/'}),
+        url(r'^media/logos/(?P<path>.*)$', 'django.views.static.serve', {'document_root': '/Users/gandalf/ocwc-members/media/logos/'}),
 	) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
