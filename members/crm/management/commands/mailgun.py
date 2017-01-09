@@ -53,7 +53,7 @@ class Command(BaseCommand):
 
                     self.stdout.write(u"Marking {contact.email} as bouncing - {contact.first_name} {contact.last_name} from {contact.organization.display_name}".format(contact=contact))
 
-    def update_list(self, list_name='members-list', membership_status=(2, 3, 5, 7), contact_type=(6, 9, 10)):
+    def update_list(self, list_name='members-list', membership_status=(2, 3, 5, 7, 99), contact_type=(6, 9, 10)):
         offset = 0
 
         emails = []
@@ -92,6 +92,17 @@ class Command(BaseCommand):
                                     auth=('api', settings.MAILGUN_APIKEY))
                 d = json.loads(r.content)
                 print("Added:", email, d)
+
+        # remove emails from people that are in canceled organizations
+        for contact in Contact.objects.filter(contact_type__in=contact_type) \
+                                      .exclude(organization__membership_status__in=membership_status):
+            email = contact.email.lower()
+            if email in emails and not Contact.objects.filter(organization__membership_status__in=membership_status, email__iexact=email).count():
+                r = requests.delete("https://api.mailgun.net/v2/lists/{0}@oeconsortium.org/members/".format(list_name) +
+                                    email,
+                                    auth=('api', settings.MAILGUN_APIKEY))
+                d = json.loads(r.content)
+                print("Deleting canceled membership contact:", d.get('member', {}).get('address'), d.get('message'))
 
         for email in emails:
             if not Contact.objects.filter(email__iexact=email).exists():
