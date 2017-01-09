@@ -92,7 +92,8 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.static",
     "django.core.context_processors.tz",
     "django.core.context_processors.request",
-    "django.contrib.messages.context_processors.messages"
+    "django.contrib.messages.context_processors.messages",
+    "crm.context_processors.invoice_years",
 )
 
 ROOT_URLCONF = 'members.urls'
@@ -170,5 +171,8 @@ RAVEN_CONFIG = {
 LOGIN_URL = '/admin/'
 
 CRISPY_TEMPLATE_PACK = 'uni_form'
+
+PREVIOUS_INVOICE_YEAR = '2016'
 DEFAULT_INVOICE_YEAR = '2017'
+
 from localsettings import *

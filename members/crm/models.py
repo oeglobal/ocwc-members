@@ -196,6 +196,12 @@ class Organization(models.Model):
             'send_invoice': self.billinglog_set.filter(log_type='send_invoice', invoice_year=settings.DEFAULT_INVOICE_YEAR).exists(),
         }
 
+    def get_last_year_invoice_status(self):
+        return {
+            'create_invoice': self.billinglog_set.filter(log_type='create_invoice', invoice_year=settings.PREVIOUS_INVOICE_YEAR).exists(),
+            'send_invoice': self.billinglog_set.filter(log_type='send_invoice', invoice_year=settings.PREVIOUS_INVOICE_YEAR).exists(),
+        }
+
     def get_consortia_members(self):
 
         consortia = None
