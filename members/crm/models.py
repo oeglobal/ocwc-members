@@ -325,7 +325,6 @@ class Address(models.Model):
                              self.postal_code, self.postal_code_suffix, self.city,
                              self.state_province, self.country.name.replace(', Republic of', ''))
             address_string = address_string.replace(', ,', ', ')
-            # print(address_string)
             try:
                 place, (lat, lng) = g.geocode(address_string)
 
