@@ -28,6 +28,10 @@
 								<a href="{% url 'conferences:invoice_download' registration.id %}">Download invoice</a>
 								{# <a href="{% url 'conferences:invoice_preview' registration.id registration.access_key %}">Preview</a> #}
 							</td>
+							<td>
+								<a href="{% url 'conferences:invoice_download' registration.id %}?paid=1">Paid invoice</a>
+								{# <a href="{% url 'conferences:invoice_preview' registration.id registration.access_key %}">Preview</a> #}
+							</td>
 						</tr>
 					{% endfor %}
 				</tbody>

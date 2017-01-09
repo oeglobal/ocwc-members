@@ -37,7 +37,11 @@ class InvoicePDF(StaffuserRequiredMixin, TemplateView):
         registration = ConferenceRegistration.objects.get(
                             pk=self.kwargs.get('pk'))
 
-        url = '%s%s' % (settings.INVOICES_PHANTOM_JS_HOST, registration.get_access_key_url())
+        paid_queryparam = ''
+        if request.GET.get('paid'):
+            paid_queryparam = '?paid=1'
+
+        url = '{}{}{}'.format(settings.INVOICES_PHANTOM_JS_HOST, registration.get_access_key_url(), paid_queryparam)
 
         pdf = '/tmp/oeglobal_invoice_{}.pdf'.format(uuid.uuid4().get_hex())
         popen_instance = subprocess.Popen([here('../../bin/phantomjs'),
@@ -73,6 +77,9 @@ class InvoicePreview(TemplateView):
         if dinner_ticket == 'Yes':
             ctx['dinner_ticket'] = True
             ctx['dinner_price'] = registration.dinner_guest.split('|')[1]
+
+        if self.request.GET.get('paid'):
+            ctx['paid'] = True
 
         return ctx
 
