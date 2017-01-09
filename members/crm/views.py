@@ -216,10 +216,10 @@ class OrganizationStaffDetailView(OrganizationStaffView, DetailView):
             email = ''
 
         email_invoice_subject = '%s OE Consortium Membership invoice' % settings.DEFAULT_INVOICE_YEAR
-        email_invoice_body = render_to_string('staff/invoice_mail.txt', {'first_name': first_name, 'user': self.request.user})
+        email_invoice_body = render_to_string('staff/invoice_mail.txt', {'first_name': first_name, 'user': self.request.user, 'CURRENT_INVOICE_YEAR': settings.DEFAULT_INVOICE_YEAR})
 
         email_invoice_paid_subject = '%s OE Consortium Membership payment receipt' % settings.DEFAULT_INVOICE_YEAR
-        email_invoice_paid_body = render_to_string('staff/invoice_paid_mail.txt', {'first_name': first_name, 'user': self.request.user})
+        email_invoice_paid_body = render_to_string('staff/invoice_paid_mail.txt', {'first_name': first_name, 'user': self.request.user, 'CURRENT_INVOICE_YEAR': settings.DEFAULT_INVOICE_YEAR})
 
         initial = {
             'organization': self.object.id,

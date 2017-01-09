@@ -1,6 +1,6 @@
 Dear {{ first_name }},
 
-Please find attached receipt of payment for your 2015 OEC Membership invoice.
+Please find attached receipt of payment for your {{ CURRENT_INVOICE_YEAR }} OEC Membership invoice.
 
 We appreciate your continuous support. 
 
