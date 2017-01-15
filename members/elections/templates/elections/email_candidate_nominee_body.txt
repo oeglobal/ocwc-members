@@ -2,10 +2,10 @@ Dear {{ candidate.candidate_first_name }},
 
 {{ candidate.sponsor_first_name }} {{ candidate.sponsor_last_name }} has nominated you as a candidate for the Board of Directors of The Open Education Consortium. 
 
-Please confirm that you accept this nomination by visiting http://members.oeconsortium.org{% url 'elections:candidate-edit' candidate.edit_link_key %}
+Please confirm that you accept this nomination by visiting https://members.oeconsortium.org{% url 'elections:candidate-edit' candidate.edit_link_key %}
 
 Please provide the missing data or make corrections to existing data on that form.  You will also need to read and agree to the responsibilities of board members.
 
-Candidate profiles will be publicly available on the Open Education Consortium's website beginning in March.  Providing information for your profile will allow other members to get to know you and your vision for the Consortium.  Please make sure to enter a short bio and your vision statement.  You can do this via the link above.
+Candidate profiles will be publicly available on the Open Education Consortium's website in second half of January.  Providing information for your profile will allow other members to get to know you and your vision for the Consortium.  Please make sure to enter a short bio and your vision statement.  You can do this via the link above.
 
 On behalf of the nominating committee.
