@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import os
 import uuid
-import subprocess
+import subprocess2
 
 from django.shortcuts import redirect
 from django.contrib import messages
@@ -37,17 +37,21 @@ class InvoicePDF(StaffuserRequiredMixin, TemplateView):
         registration = ConferenceRegistration.objects.get(
                             pk=self.kwargs.get('pk'))
 
-        url = '%s%s' % (settings.INVOICES_PHANTOM_JS_HOST, registration.get_access_key_url())
+        paid_queryparam = ''
+        if request.GET.get('paid'):
+            paid_queryparam = '?paid=1'
+
+        url = '{}{}{}'.format(settings.INVOICES_PHANTOM_JS_HOST, registration.get_access_key_url(), paid_queryparam)
 
         pdf = '/tmp/oeglobal_invoice_{}.pdf'.format(uuid.uuid4().get_hex())
-        popen_instance = subprocess.Popen([here('../../bin/phantomjs'),
+        popen_instance = subprocess2.Popen([here('../../bin/phantomjs'),
                           here('../crm/phantomjs-scripts/rasterize.js'),
                           url,
                           pdf,
                           'Letter'
                         ])
 
-        subprocess.Popen.wait(popen_instance)
+        subprocess2.Popen.waitOrTerminate(popen_instance, timeoutSeconds=30)
 
         with open(pdf, 'r') as pdf_file:
             response = HttpResponse(pdf_file.read(), mimetype='application/pdf')
@@ -73,6 +77,9 @@ class InvoicePreview(TemplateView):
         if dinner_ticket == 'Yes':
             ctx['dinner_ticket'] = True
             ctx['dinner_price'] = registration.dinner_guest.split('|')[1]
+
+        if self.request.GET.get('paid'):
+            ctx['paid'] = True
 
         return ctx
 

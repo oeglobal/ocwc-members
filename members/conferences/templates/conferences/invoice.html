@@ -170,7 +170,7 @@
 			<thead>
 				<tr>
 					<th class="description">Description</th>
-					{% if invoice.invoice_type != 'issued' %}
+					{% if not paid %}
 					<th class="amount">Amount&nbsp;due</th>
 					{% else %}
 					<th class="amount">Amount&nbsp;paid</th>
@@ -237,110 +237,112 @@
 
 	<div class="large-10 columns push-1">
 		<p>We're looking forward to meeting you at the Conference!</p>
-		{% if invoice.invoice_type == 'issued' %}
+		{% if not paid %}
 		<p>Page 1/2</p>
 		{% endif %}
 	</div>
-	{% if invoice.invoice_type == 'paid' %}
+	{% if paid %}
 		<div id="paid">PAID</div>
 	{% endif %}
 </div>
 
-{% if invoice.invoice_type != 'issued' %}
-<div style="page-break-before:always;"></div>
+{% if not paid %}
+	{% if invoice.invoice_type != 'issued' %}
+	<div style="page-break-before:always;"></div>
 
-<div class="row">
-	<div class="large-4 columns">
-		<img src="/theme/images/logo.png" alt="OE Consortium logo" />
+	<div class="row">
+		<div class="large-4 columns">
+			<img src="/theme/images/logo.png" alt="OE Consortium logo" />
+		</div>
 	</div>
-</div>
-<div class="spacer"></div>
+	<div class="spacer"></div>
 
-<div class="row">
-	<div class="large-12 columns">
-		<p><strong>Paying by check:</strong></p>
-		<p>Check should be made payable to the Open Education Consortium. <br />
-		<span class="underline">Please include invoice number on the check</span>, and mail the check along with this invoice to:
-		</p>
-		<p style="margin-left: 10px;">
-			Open Education Consortium<br />
-		   	60 Thoreau St, Suite 238<br />
-		   	Concord, MA 01742<br />
-			US Tax ID Number: 01-0908761<br />
-		</p>
-	</div>
-	<div class="large-12 columns">
-		<p><strong>Electronic payment:</strong></p>
-		<p>Bank transfer information can be found below.  <span class="underline">Please include invoice number in payment.</span></p>
-		<p>
-		<table>
-			<tr>
-				<td>Company Name</td>
-				<td>Open Education Consortium</td>
-			</tr>
-			<tr>
-				<td>Address</td>
-				<td>60 Thoreau St, Suite 238</td>
-			</tr>
-			<tr>
-				<td>City / State / Zip</td>
-				<td>Concord, MA 01742, USA</td>
-			</tr>
-			<tr>
-				<td>IRS Taxpayer ID#</td>
-				<td>01-0908761</td>
-			</tr>
-			<tr>
-				<td>Bank Name</td>
-				<td>TD Bank Harvard Square</td>
-			</tr>
-			<tr>
-				<td style="vertical-align: text-top;">Bank Branch Address</td>
-				<td style="vertical-align: text-top; line-height: 1.6em;">1270 Massachusetts Ave<br/>
-					Cambridge, MA 02138
-				</td>
-			</tr>
-			<tr>
-				<td>Name on Account</td>
-				<td>Open Education Consortium</td>
-			</tr>
-			<tr>
-				<td>Account Number</td>
-				<td>8247649706</td>
-			</tr>
-			<tr>
-				<td>Account Type </td>
-				<td>Checking</td>
-			</tr>
-			<tr>
-				<td>Bank Transit Routing # (ABA)</td>
-				<td>211370545 </td>
-			</tr>
-			<tr>
-				<td>International SWIFT Code</td>
-				<td>NRTHUS33</td>
-			</tr>
-		</table>
-		</p>
-	</div>
-	{% if invoice.paypal_link %}
-	<div class="large-12 columns">
-		<p><strong>Paypal:</strong></p>
-		<p>Submit payment through PayPal using the following link: <br/>
-			<a href="{{ invoice.paypal_link|safe }}">{{ invoice.paypal_link|safe }}</a><br /><br />
-            <span class="underline">Please include invoice number as added note.</span>
-        </p>
-	</div>
-	{% else %}
-	<div class="large-12 columns">
-		<p><strong>Paypal:</strong></p>
-		<p>Please contact us to get a PayPal payment link.</p>
+	<div class="row">
+		<div class="large-12 columns">
+			<p><strong>Paying by check:</strong></p>
+			<p>Check should be made payable to the Open Education Consortium. <br />
+			<span class="underline">Please include invoice number on the check</span>, and mail the check along with this invoice to:
+			</p>
+			<p style="margin-left: 10px;">
+				Open Education Consortium<br />
+			   	60 Thoreau St, Suite 238<br />
+			   	Concord, MA 01742<br />
+				US Tax ID Number: 01-0908761<br />
+			</p>
+		</div>
+		<div class="large-12 columns">
+			<p><strong>Electronic payment:</strong></p>
+			<p>Bank transfer information can be found below.  <span class="underline">Please include invoice number in payment.</span></p>
+			<p>
+			<table>
+				<tr>
+					<td>Company Name</td>
+					<td>Open Education Consortium</td>
+				</tr>
+				<tr>
+					<td>Address</td>
+					<td>60 Thoreau St, Suite 238</td>
+				</tr>
+				<tr>
+					<td>City / State / Zip</td>
+					<td>Concord, MA 01742, USA</td>
+				</tr>
+				<tr>
+					<td>IRS Taxpayer ID#</td>
+					<td>01-0908761</td>
+				</tr>
+				<tr>
+					<td>Bank Name</td>
+					<td>TD Bank Harvard Square</td>
+				</tr>
+				<tr>
+					<td style="vertical-align: text-top;">Bank Branch Address</td>
+					<td style="vertical-align: text-top; line-height: 1.6em;">1270 Massachusetts Ave<br/>
+						Cambridge, MA 02138
+					</td>
+				</tr>
+				<tr>
+					<td>Name on Account</td>
+					<td>Open Education Consortium</td>
+				</tr>
+				<tr>
+					<td>Account Number</td>
+					<td>8247649706</td>
+				</tr>
+				<tr>
+					<td>Account Type </td>
+					<td>Checking</td>
+				</tr>
+				<tr>
+					<td>Bank Transit Routing # (ABA)</td>
+					<td>211370545 </td>
+				</tr>
+				<tr>
+					<td>International SWIFT Code</td>
+					<td>NRTHUS33</td>
+				</tr>
+			</table>
+			</p>
+		</div>
+		{% if invoice.paypal_link %}
+		<div class="large-12 columns">
+			<p><strong>Paypal:</strong></p>
+			<p>Submit payment through PayPal using the following link: <br/>
+				<a href="{{ invoice.paypal_link|safe }}">{{ invoice.paypal_link|safe }}</a><br /><br />
+	            <span class="underline">Please include invoice number as added note.</span>
+	        </p>
+		</div>
+		{% else %}
+		<div class="large-12 columns">
+			<p><strong>Paypal:</strong></p>
+			<p>Please contact us to get a PayPal payment link.</p>
+		</div>
+		{% endif %}
+		<div class="large-12 columns">
+			<p>Page 2/2</p>
+		</div>
 	</div>
 	{% endif %}
-	<div class="large-12 columns">
-		<p>Page 2/2</p>
-	</div>
-</div>
 {% endif %}
 
 {% endblock %}
