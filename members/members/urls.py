@@ -3,9 +3,9 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 from django.contrib import admin
-admin.autodiscover()
-
 from crm.views import IndexView, LoginKeyCheckView
+
+admin.autodiscover()
 
 urlpatterns = patterns('',
     url(r'^accounts/', include('django.contrib.auth.urls')),
@@ -23,12 +23,12 @@ urlpatterns = patterns('',
     url(r'^conferences/', include('conferences.urls', namespace='conferences', app_name='conferences')),
     url(r'^elections/', include('elections.urls', namespace='elections', app_name='elections')),
 
-   	url(r'^$', IndexView.as_view(), name='crm_index'),
+    url(r'^$', IndexView.as_view(), name='crm_index'),
 )
 
 if settings.DEBUG:
-	urlpatterns += patterns('',
-		url(r'^theme/lib/(?P<path>.*)$', 'django.views.static.serve', {'document_root': '/home/gandalf/mainsite/wp-content/themes/ocwc-mainsite/lib/'}),
-		url(r'^theme/images/(?P<path>.*)$', 'django.views.static.serve', {'document_root': '/home/gandalf/mainsite/wp-content/themes/ocwc-mainsite/images/'}),
-        url(r'^media/logos/(?P<path>.*)$', 'django.views.static.serve', {'document_root': '/home/gandalf/members/media/logos/'}),
-	) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += patterns('',
+        url(r'^theme/lib/(?P<path>.*)$', 'django.views.static.serve', {'document_root': '/Users/gandalf/hacking/mainsite/wp-content/themes/ocwc-mainsite/lib/'}),
+        url(r'^theme/images/(?P<path>.*)$', 'django.views.static.serve', {'document_root': '/Users/gandalf/hacking/mainsite/wp-content/themes/ocwc-mainsite/images/'}),
+        url(r'^media/logos/(?P<path>.*)$', 'django.views.static.serve', {'document_root': '/Users/gandalf/hacking/members/media/logos/'}),
+    ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

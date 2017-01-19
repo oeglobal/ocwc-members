@@ -8,6 +8,7 @@ from crispy_forms.layout import Submit, Layout, Field, Div, HTML
 from .models import Candidate
 from crm.models import Organization
 
+
 class CandidateAddForm(forms.Form):
     candidate_first_name = forms.CharField(label='First name')
     candidate_last_name = forms.CharField(label='Last name')
@@ -16,7 +17,7 @@ class CandidateAddForm(forms.Form):
     candidate_phone_number = forms.CharField(label='Phone number', required=False)
 
     reason = forms.CharField(widget=forms.Textarea, label='Reason for nomination',
-                            help_text='This may be used in consideration by the Nominating Committee but will not be displayed on the ballot. Candidates will be contacted to provide their own profile information for the ballot.')
+                             help_text='This may be used in consideration by the Nominating Committee but will not be displayed on the ballot. Candidates will be contacted to provide their own profile information for the ballot.')
     organization = forms.ChoiceField(label='Member Institution this candidate represents')
 
     sponsor_first_name = forms.CharField(label='First name')
@@ -35,7 +36,7 @@ class CandidateAddForm(forms.Form):
         self.helper.layout = Layout(
             Div(
                 HTML('<h2>Nominate a Candidate for Board of Directors</h2>'),
-            css_class='row'),
+                css_class='row'),
             Div(
                 HTML('<h3>Nominee Information</h3>'),
                 Field('candidate_first_name'),
@@ -45,13 +46,13 @@ class CandidateAddForm(forms.Form):
                 Field('candidate_phone_number'),
                 Field('reason'),
                 Field('organization'),
-            css_class='row'),
+                css_class='row'),
             Div(
                 HTML('<h3>Submitter Information</h3>'),
                 Field('sponsor_first_name'),
                 Field('sponsor_last_name'),
                 Field('sponsor_email'),
-            css_class='row'),
+                css_class='row'),
             Div(HTML('''<h3>Terms and Conditions</h3>
                         <h4>General responsibilities of Board Members</h4>
                         <ul>
@@ -63,19 +64,19 @@ class CandidateAddForm(forms.Form):
                         </ul>
                     <p>I AM AWARE THAT BOARD MEMBERS EXPEND CONSIDERABLE NON-REIMBURSED TIME AND MONEY IN THE FULFILLMENT OF THEIR DUTIES. I ATTEST THAT I HAVE THE CONSENT OF THE NOMINEE IN THIS MATTER. I ALSO ATTEST THAT THE NOMINEE IS QUALIFIED AND ABLE TO SERVE IF ELECTED.</p>
                     <p><a href="http://www.oeconsortium.org/wp-content/uploads/2016/01/Bylaws_Open-Education_Consortium_Incorporated_-_April-24-2015-1.pdf" target="_blank">(See Open Education Consortium By-Laws Article III for qualification and responsibilities of Board Members).</a></p>
-                    '''
-                ),
-            css_class='row terms'),
+                    '''),
+                css_class='row terms'),
             Div(
                 Field('terms'),
-            css_class='row')
+                css_class='row')
         )
         self.helper.layout.append(Submit('Submit', 'submit'))
 
-ACCEPTANCE_CHOICES =(
+ACCEPTANCE_CHOICES = (
     (1, 'I ACCEPT this nomination'),
     (0, 'I DECLINE this nomination')
 )
+
 
 class CandidateEditForm(forms.ModelForm):
     acceptance = forms.BooleanField(widget=forms.RadioSelect(
@@ -84,7 +85,7 @@ class CandidateEditForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         instance = kwargs.get('instance')
         if instance.status == 'accepted':
-            kwargs['initial'] = {'acceptance': ACCEPTANCE_CHOICES[0][0] }
+            kwargs['initial'] = {'acceptance': ACCEPTANCE_CHOICES[0][0]}
 
         super(CandidateEditForm, self).__init__(*args, **kwargs)
 
@@ -110,7 +111,7 @@ class CandidateEditForm(forms.ModelForm):
             Div(
                 HTML('<h2>Update Your Candidacy for Board of Directors</h2>'),
                 HTML('<p>You have been nominated as a candidate for the Open Education Consortium Consortium Board of Directors by {instance.sponsor_first_name} {instance.sponsor_last_name}. <br /> Please review this page and complete any missing information to accept your nomination.</p>'.format(instance=instance)),
-            css_class='row'),
+                css_class='row'),
             Div(
                 HTML('<h3>Personal Profile Information</h3>'),
                 Field('candidate_first_name'),
@@ -120,7 +121,7 @@ class CandidateEditForm(forms.ModelForm):
                 Field('email_alternate'),
                 Field('candidate_phone_number'),
                 Field('organization'),
-            css_class='row'),
+                css_class='row'),
             Div(
                 HTML('<h3>Nominee Information</h3>'),
                 Field('biography'),
@@ -128,7 +129,7 @@ class CandidateEditForm(forms.ModelForm):
                 Field('ideas'),
                 Field('expertise'),
                 Field('external_url'),
-            css_class='row'),
+                css_class='row'),
             Div(HTML('''<h3>Terms and Conditions</h3>
                         <h4>General responsibilities of Board Members</h4>
                         <ul>
@@ -140,12 +141,11 @@ class CandidateEditForm(forms.ModelForm):
                         </ul>
                     <p>I AM AWARE THAT BOARD MEMBERS EXPEND CONSIDERABLE NON-REIMBURSED TIME AND MONEY IN THE FULFILLMENT OF THEIR DUTIES.  I ATTEST THAT I AM QUALIFIED AND ABLE TO SERVE IF ELECTED.</p>
                     <p><a href="http://www.oeconsortium.org/wp-content/uploads/2016/01/Bylaws_Open-Education_Consortium_Incorporated_-_April-24-2015-1.pdf" target="_blank">(See Open Education Consortium By-Laws Article III for qualification and responsibilities of Board Members).</a></p>
-                    '''
-                ),
-            css_class='row terms'),
+                    '''),
+                css_class='row terms'),
             Div(
                 Field('acceptance'),
-            css_class='row')
+                css_class='row')
         )
 
         self.helper.layout.append(Submit('submit', 'Update my Candidacy for Board of Directors'))
@@ -169,11 +169,15 @@ PROPOSITION_CHOICES = (
     ('abstain', mark_safe('We abstain')),
 )
 
+
 class VoteForm(forms.Form):
-    proposition_vote1 = forms.ChoiceField(widget=forms.RadioSelect,
-                                         label="We vote", choices=PROPOSITION_CHOICES)
-    proposition_vote2 = forms.ChoiceField(widget=forms.RadioSelect,
-                                         label="We vote", choices=PROPOSITION_CHOICES)
+    proposition_vote1 = forms.ChoiceField(widget=forms.RadioSelect, label="We vote", choices=PROPOSITION_CHOICES)
+    proposition_vote2 = forms.ChoiceField(widget=forms.RadioSelect, label="We vote", choices=PROPOSITION_CHOICES)
+    proposition_vote3 = forms.ChoiceField(widget=forms.RadioSelect, label="We vote", choices=PROPOSITION_CHOICES)
+    proposition_vote4 = forms.ChoiceField(widget=forms.RadioSelect, label="We vote", choices=PROPOSITION_CHOICES)
+    proposition_vote5 = forms.ChoiceField(widget=forms.RadioSelect, label="We vote", choices=PROPOSITION_CHOICES)
+    proposition_vote6 = forms.ChoiceField(widget=forms.RadioSelect, label="We vote", choices=PROPOSITION_CHOICES)
+
     institutional_candidates = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple, label="Select up to 4 Candidates for Board of Directors, Institutional Seats")
     organizational_candidates = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple, label="Select 1 candidate for Board of Directors, Organizational Seat")
     name = forms.CharField(label="Please enter your First and Last name, to sign your vote on behalf of your organization")
@@ -182,8 +186,8 @@ class VoteForm(forms.Form):
         self.election = kwargs.pop('election')
         super(VoteForm, self).__init__(*args, **kwargs)
 
-        self.fields['institutional_candidates'].choices = [ (i.id, unicode(i)) for i in self.election.candidate_set.filter(vetted=True, seat_type='institutional').order_by('order') ]
-        self.fields['organizational_candidates'].choices = [ (i.id, unicode(i)) for i in self.election.candidate_set.filter(vetted=True, seat_type='organizational').order_by('order') ]
+        self.fields['institutional_candidates'].choices = [(i.id, unicode(i)) for i in self.election.candidate_set.filter(vetted=True, seat_type='institutional').order_by('order')]
+        self.fields['organizational_candidates'].choices = [(i.id, unicode(i)) for i in self.election.candidate_set.filter(vetted=True, seat_type='organizational').order_by('order')]
 
         self.helper = FormHelper(self)
         self.helper.form_show_errors = True
@@ -191,35 +195,82 @@ class VoteForm(forms.Form):
         propositions = self.election.proposition_set.filter(published=True).order_by('title')
         proposition1 = propositions[0]
         proposition2 = propositions[1]
+        proposition3 = propositions[2]
+        proposition4 = propositions[3]
+        proposition5 = propositions[4]
+        proposition6 = propositions[5]
 
         self.helper.layout = Layout(
             Div(
-                HTML('<h2>2016 Open Education Consortium Elections</h2>'),
+                HTML('<h2>2017 Open Education Consortium Elections</h2>'),
+                css_class='row'),
+            Div(
+                HTML('<div class="large-8 columns">Please see the background information on the Proposed bylaws changes for an explanation of these proposed changes, and then vote on each issue below. <br /></br ><a target="_blank" style="font-weight: bold;" href="https://docs.google.com/document/d/1Hszn22Iu5GTtEalvRDpVNDOTYOfoO6DA8vFhYP-kWyo/edit">Click here for background information</a>.<br /><br /></div>'),
+                css_class='row'
+            ),
+
+            Div(
                 HTML('<p>Fields marked with * are mandatory</p>'),
-            css_class='row'),
+                css_class='row'
+            ),
+
             Div(
                 HTML("<h4>%s</h4>" % proposition1.title),
                 HTML("<p>%s</p>" % proposition1.description),
-            css_class='row'),
+                css_class='row'),
             Div(
                 Field('proposition_vote1'),
-            css_class='row'),
+                css_class='row'),
+
             Div(
                 HTML("<h4>%s</h4>" % proposition2.title),
                 HTML("<p>%s</p>" % proposition2.description),
-            css_class='row'),
+                css_class='row'),
             Div(
                 Field('proposition_vote2'),
-            css_class='row'),
+                css_class='row'),
+
+            Div(
+                HTML("<h4>%s</h4>" % proposition3.title),
+                HTML("<p>%s</p>" % proposition3.description),
+                css_class='row'),
+            Div(
+                Field('proposition_vote3'),
+                css_class='row'),
+
+            Div(
+                HTML("<h4>%s</h4>" % proposition4.title),
+                HTML("<p>%s</p>" % proposition4.description),
+                css_class='row'),
+            Div(
+                Field('proposition_vote4'),
+                css_class='row'),
+
+            Div(
+                HTML("<h4>%s</h4>" % proposition5.title),
+                HTML("<p>%s</p>" % proposition5.description),
+                css_class='row'),
+            Div(
+                Field('proposition_vote5'),
+                css_class='row'),
+
+            Div(
+                HTML("<h4>%s</h4>" % proposition6.title),
+                HTML("<p>%s</p>" % proposition6.description),
+                css_class='row'),
+            Div(
+                Field('proposition_vote6'),
+                css_class='row'),
+
             Div(
                 Field('institutional_candidates'),
-            css_class='row'),
+                css_class='row'),
             Div(
                 Field('organizational_candidates'),
-            css_class='row'),
+                css_class='row'),
             Div(
                 Field('name'),
-            css_class='row'),
+                css_class='row'),
         )
         self.helper.layout.append(Submit('submit', 'Submit'))
 
