@@ -263,6 +263,10 @@ class VoteForm(forms.Form):
                 css_class='row'),
 
             Div(
+                HTML('<p>Please <a href="http://www.oeconsortium.org/about-oec/membership/elections-2017/" target="_blank">see election page for profiles of candidates</p>'),
+                css_class="row"),
+
+            Div(
                 Field('institutional_candidates'),
                 css_class='row'),
             Div(
