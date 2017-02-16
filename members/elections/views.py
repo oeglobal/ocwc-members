@@ -137,6 +137,14 @@ class VoteAddFormView(LoginRequiredMixin, FormView):
         else:
             vote = None
 
+        PropositionBallot.objects.create(
+            proposition=proposition,
+            election=self.election,
+            organization=self.organization,
+            vote=vote,
+            voter_name=cleaned_data.get('name')
+        )
+
         # Proposition 3
         proposition = propositions[2]
         proposition_vote = cleaned_data.get('proposition_vote3')
@@ -146,6 +154,14 @@ class VoteAddFormView(LoginRequiredMixin, FormView):
             vote = False
         else:
             vote = None
+
+        PropositionBallot.objects.create(
+            proposition=proposition,
+            election=self.election,
+            organization=self.organization,
+            vote=vote,
+            voter_name=cleaned_data.get('name')
+        )
 
         # Proposition 4
         proposition = propositions[3]
@@ -157,6 +173,14 @@ class VoteAddFormView(LoginRequiredMixin, FormView):
         else:
             vote = None
 
+        PropositionBallot.objects.create(
+            proposition=proposition,
+            election=self.election,
+            organization=self.organization,
+            vote=vote,
+            voter_name=cleaned_data.get('name')
+        )
+
         # Proposition 5
         proposition = propositions[4]
         proposition_vote = cleaned_data.get('proposition_vote5')
@@ -166,6 +190,14 @@ class VoteAddFormView(LoginRequiredMixin, FormView):
             vote = False
         else:
             vote = None
+
+        PropositionBallot.objects.create(
+            proposition=proposition,
+            election=self.election,
+            organization=self.organization,
+            vote=vote,
+            voter_name=cleaned_data.get('name')
+        )
 
         # Proposition 6
         proposition = propositions[5]
