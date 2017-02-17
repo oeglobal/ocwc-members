@@ -171,15 +171,15 @@ PROPOSITION_CHOICES = (
 
 
 class VoteForm(forms.Form):
-    proposition_vote1 = forms.ChoiceField(widget=forms.RadioSelect, label="We vote", choices=PROPOSITION_CHOICES)
-    proposition_vote2 = forms.ChoiceField(widget=forms.RadioSelect, label="We vote", choices=PROPOSITION_CHOICES)
-    proposition_vote3 = forms.ChoiceField(widget=forms.RadioSelect, label="We vote", choices=PROPOSITION_CHOICES)
-    proposition_vote4 = forms.ChoiceField(widget=forms.RadioSelect, label="We vote", choices=PROPOSITION_CHOICES)
-    proposition_vote5 = forms.ChoiceField(widget=forms.RadioSelect, label="We vote", choices=PROPOSITION_CHOICES)
-    proposition_vote6 = forms.ChoiceField(widget=forms.RadioSelect, label="We vote", choices=PROPOSITION_CHOICES)
+    # proposition_vote1 = forms.ChoiceField(widget=forms.RadioSelect, label="We vote", choices=PROPOSITION_CHOICES)
+    # proposition_vote2 = forms.ChoiceField(widget=forms.RadioSelect, label="We vote", choices=PROPOSITION_CHOICES)
+    # proposition_vote3 = forms.ChoiceField(widget=forms.RadioSelect, label="We vote", choices=PROPOSITION_CHOICES)
+    # proposition_vote4 = forms.ChoiceField(widget=forms.RadioSelect, label="We vote", choices=PROPOSITION_CHOICES)
+    # proposition_vote5 = forms.ChoiceField(widget=forms.RadioSelect, label="We vote", choices=PROPOSITION_CHOICES)
+    # proposition_vote6 = forms.ChoiceField(widget=forms.RadioSelect, label="We vote", choices=PROPOSITION_CHOICES)
 
     institutional_candidates = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple, label="Select up to 4 Candidates for Board of Directors, Institutional Seats")
-    organizational_candidates = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple, label="Select 1 candidate for Board of Directors, Organizational Seat")
+    # organizational_candidates = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple, label="Select 1 candidate for Board of Directors, Organizational Seat")
     name = forms.CharField(label="Please enter your First and Last name, to sign your vote on behalf of your organization")
 
     def __init__(self, *args, **kwargs):
@@ -187,91 +187,91 @@ class VoteForm(forms.Form):
         super(VoteForm, self).__init__(*args, **kwargs)
 
         self.fields['institutional_candidates'].choices = [(i.id, unicode(i)) for i in self.election.candidate_set.filter(vetted=True, seat_type='institutional').order_by('order')]
-        self.fields['organizational_candidates'].choices = [(i.id, unicode(i)) for i in self.election.candidate_set.filter(vetted=True, seat_type='organizational').order_by('order')]
+        # self.fields['organizational_candidates'].choices = [(i.id, unicode(i)) for i in self.election.candidate_set.filter(vetted=True, seat_type='organizational').order_by('order')]
 
         self.helper = FormHelper(self)
         self.helper.form_show_errors = True
 
         propositions = self.election.proposition_set.filter(published=True).order_by('title')
-        proposition1 = propositions[0]
-        proposition2 = propositions[1]
-        proposition3 = propositions[2]
-        proposition4 = propositions[3]
-        proposition5 = propositions[4]
-        proposition6 = propositions[5]
+        # proposition1 = propositions[0]
+        # proposition2 = propositions[1]
+        # proposition3 = propositions[2]
+        # proposition4 = propositions[3]
+        # proposition5 = propositions[4]
+        # proposition6 = propositions[5]
 
         self.helper.layout = Layout(
             Div(
                 HTML('<h2>2017 Open Education Consortium Elections</h2>'),
                 css_class='row'),
-            Div(
-                HTML('<div class="large-8 columns">Please see the background information on the Proposed bylaws changes for an explanation of these proposed changes, and then vote on each issue below. <br /></br ><a target="_blank" style="font-weight: bold;" href="https://docs.google.com/document/d/1Hszn22Iu5GTtEalvRDpVNDOTYOfoO6DA8vFhYP-kWyo/edit">Click here for background information</a>.<br /><br /></div>'),
-                css_class='row'
-            ),
+            # Div(
+            #     HTML('<div class="large-8 columns">Please see the background information on the Proposed bylaws changes for an explanation of these proposed changes, and then vote on each issue below. <br /></br ><a target="_blank" style="font-weight: bold;" href="https://docs.google.com/document/d/1Hszn22Iu5GTtEalvRDpVNDOTYOfoO6DA8vFhYP-kWyo/edit">Click here for background information</a>.<br /><br /></div>'),
+            #     css_class='row'
+            # ),
 
             Div(
                 HTML('<p>Fields marked with * are mandatory</p>'),
                 css_class='row'
             ),
 
-            Div(
-                HTML("<h4>%s</h4>" % proposition1.title),
-                HTML("<p>%s</p>" % proposition1.description),
-                css_class='row'),
-            Div(
-                Field('proposition_vote1'),
-                css_class='row'),
+            # Div(
+            #     HTML("<h4>%s</h4>" % proposition1.title),
+            #     HTML("<p>%s</p>" % proposition1.description),
+            #     css_class='row'),
+            # Div(
+            #     Field('proposition_vote1'),
+            #     css_class='row'),
+            #
+            # Div(
+            #     HTML("<h4>%s</h4>" % proposition2.title),
+            #     HTML("<p>%s</p>" % proposition2.description),
+            #     css_class='row'),
+            # Div(
+            #     Field('proposition_vote2'),
+            #     css_class='row'),
+            #
+            # Div(
+            #     HTML("<h4>%s</h4>" % proposition3.title),
+            #     HTML("<p>%s</p>" % proposition3.description),
+            #     css_class='row'),
+            # Div(
+            #     Field('proposition_vote3'),
+            #     css_class='row'),
+            #
+            # Div(
+            #     HTML("<h4>%s</h4>" % proposition4.title),
+            #     HTML("<p>%s</p>" % proposition4.description),
+            #     css_class='row'),
+            # Div(
+            #     Field('proposition_vote4'),
+            #     css_class='row'),
+            #
+            # Div(
+            #     HTML("<h4>%s</h4>" % proposition5.title),
+            #     HTML("<p>%s</p>" % proposition5.description),
+            #     css_class='row'),
+            # Div(
+            #     Field('proposition_vote5'),
+            #     css_class='row'),
+            #
+            # Div(
+            #     HTML("<h4>%s</h4>" % proposition6.title),
+            #     HTML("<p>%s</p>" % proposition6.description),
+            #     css_class='row'),
+            # Div(
+            #     Field('proposition_vote6'),
+            #     css_class='row'),
 
             Div(
-                HTML("<h4>%s</h4>" % proposition2.title),
-                HTML("<p>%s</p>" % proposition2.description),
-                css_class='row'),
-            Div(
-                Field('proposition_vote2'),
-                css_class='row'),
-
-            Div(
-                HTML("<h4>%s</h4>" % proposition3.title),
-                HTML("<p>%s</p>" % proposition3.description),
-                css_class='row'),
-            Div(
-                Field('proposition_vote3'),
-                css_class='row'),
-
-            Div(
-                HTML("<h4>%s</h4>" % proposition4.title),
-                HTML("<p>%s</p>" % proposition4.description),
-                css_class='row'),
-            Div(
-                Field('proposition_vote4'),
-                css_class='row'),
-
-            Div(
-                HTML("<h4>%s</h4>" % proposition5.title),
-                HTML("<p>%s</p>" % proposition5.description),
-                css_class='row'),
-            Div(
-                Field('proposition_vote5'),
-                css_class='row'),
-
-            Div(
-                HTML("<h4>%s</h4>" % proposition6.title),
-                HTML("<p>%s</p>" % proposition6.description),
-                css_class='row'),
-            Div(
-                Field('proposition_vote6'),
-                css_class='row'),
-
-            Div(
-                HTML('<p>Please <a href="http://www.oeconsortium.org/about-oec/membership/elections-2017/" target="_blank">see election page for profiles of candidates</p>'),
+                HTML('<p>Please <a href="http://www.oeconsortium.org/about-oec/membership/elections-2017/" target="_blank">see election page for profiles of candidates</a></p>'),
                 css_class="row"),
 
             Div(
                 Field('institutional_candidates'),
                 css_class='row'),
-            Div(
-                Field('organizational_candidates'),
-                css_class='row'),
+            # Div(
+            #     Field('organizational_candidates'),
+            #     css_class='row'),
             Div(
                 Field('name'),
                 css_class='row'),
@@ -284,7 +284,7 @@ class VoteForm(forms.Form):
         if self.cleaned_data.get('institutional_candidates') and len(self.cleaned_data.get('institutional_candidates')) > 4:
             self._errors['institutional_candidates'] = self.error_class(['Too many candidates selected.'])
 
-        if self.cleaned_data.get('organizational_candidates') and len(self.cleaned_data.get('organizational_candidates')) > 1:
-            self._errors['organizational_candidates'] = self.error_class(['Too many candidates selected.'])
+        # if self.cleaned_data.get('organizational_candidates') and len(self.cleaned_data.get('organizational_candidates')) > 1:
+        #     self._errors['organizational_candidates'] = self.error_class(['Too many candidates selected.'])
 
         return cleaned_data

@@ -95,7 +95,7 @@ class VoteAddFormView(LoginRequiredMixin, FormView):
         if not self.organization.can_vote():
             raise Http404
 
-        if self.election.propositionballot_set.filter(organization=self.organization).count() >= self.organization.get_number_of_votes():
+        if self.election.candidateballot_set.filter(seat_type='institutional', organization=self.organization).count():
             return redirect(reverse('elections:vote-view', kwargs={'pk': self.election.id}))
 
         return super(VoteAddFormView, self).dispatch(request, *args, **kwargs)
@@ -108,114 +108,114 @@ class VoteAddFormView(LoginRequiredMixin, FormView):
         cleaned_data = form.cleaned_data
 
         propositions = self.election.proposition_set.filter(published=True).order_by('title')
+        if propositions:
+            # Proposition 1
+            proposition = propositions[0]
+            proposition_vote = cleaned_data.get('proposition_vote1')
+            if proposition_vote == 'yes':
+                vote = True
+            elif proposition_vote == 'no':
+                vote = False
+            else:
+                vote = None
 
-        # Proposition 1
-        proposition = propositions[0]
-        proposition_vote = cleaned_data.get('proposition_vote1')
-        if proposition_vote == 'yes':
-            vote = True
-        elif proposition_vote == 'no':
-            vote = False
-        else:
-            vote = None
+            PropositionBallot.objects.create(
+                proposition=proposition,
+                election=self.election,
+                organization=self.organization,
+                vote=vote,
+                voter_name=cleaned_data.get('name')
+            )
 
-        PropositionBallot.objects.create(
-            proposition=proposition,
-            election=self.election,
-            organization=self.organization,
-            vote=vote,
-            voter_name=cleaned_data.get('name')
-        )
+            # Proposition 2
+            proposition = propositions[1]
+            proposition_vote = cleaned_data.get('proposition_vote2')
+            if proposition_vote == 'yes':
+                vote = True
+            elif proposition_vote == 'no':
+                vote = False
+            else:
+                vote = None
 
-        # Proposition 2
-        proposition = propositions[1]
-        proposition_vote = cleaned_data.get('proposition_vote2')
-        if proposition_vote == 'yes':
-            vote = True
-        elif proposition_vote == 'no':
-            vote = False
-        else:
-            vote = None
+            PropositionBallot.objects.create(
+                proposition=proposition,
+                election=self.election,
+                organization=self.organization,
+                vote=vote,
+                voter_name=cleaned_data.get('name')
+            )
 
-        PropositionBallot.objects.create(
-            proposition=proposition,
-            election=self.election,
-            organization=self.organization,
-            vote=vote,
-            voter_name=cleaned_data.get('name')
-        )
+            # Proposition 3
+            proposition = propositions[2]
+            proposition_vote = cleaned_data.get('proposition_vote3')
+            if proposition_vote == 'yes':
+                vote = True
+            elif proposition_vote == 'no':
+                vote = False
+            else:
+                vote = None
 
-        # Proposition 3
-        proposition = propositions[2]
-        proposition_vote = cleaned_data.get('proposition_vote3')
-        if proposition_vote == 'yes':
-            vote = True
-        elif proposition_vote == 'no':
-            vote = False
-        else:
-            vote = None
+            PropositionBallot.objects.create(
+                proposition=proposition,
+                election=self.election,
+                organization=self.organization,
+                vote=vote,
+                voter_name=cleaned_data.get('name')
+            )
 
-        PropositionBallot.objects.create(
-            proposition=proposition,
-            election=self.election,
-            organization=self.organization,
-            vote=vote,
-            voter_name=cleaned_data.get('name')
-        )
+            # Proposition 4
+            proposition = propositions[3]
+            proposition_vote = cleaned_data.get('proposition_vote4')
+            if proposition_vote == 'yes':
+                vote = True
+            elif proposition_vote == 'no':
+                vote = False
+            else:
+                vote = None
 
-        # Proposition 4
-        proposition = propositions[3]
-        proposition_vote = cleaned_data.get('proposition_vote4')
-        if proposition_vote == 'yes':
-            vote = True
-        elif proposition_vote == 'no':
-            vote = False
-        else:
-            vote = None
+            PropositionBallot.objects.create(
+                proposition=proposition,
+                election=self.election,
+                organization=self.organization,
+                vote=vote,
+                voter_name=cleaned_data.get('name')
+            )
 
-        PropositionBallot.objects.create(
-            proposition=proposition,
-            election=self.election,
-            organization=self.organization,
-            vote=vote,
-            voter_name=cleaned_data.get('name')
-        )
+            # Proposition 5
+            proposition = propositions[4]
+            proposition_vote = cleaned_data.get('proposition_vote5')
+            if proposition_vote == 'yes':
+                vote = True
+            elif proposition_vote == 'no':
+                vote = False
+            else:
+                vote = None
 
-        # Proposition 5
-        proposition = propositions[4]
-        proposition_vote = cleaned_data.get('proposition_vote5')
-        if proposition_vote == 'yes':
-            vote = True
-        elif proposition_vote == 'no':
-            vote = False
-        else:
-            vote = None
+            PropositionBallot.objects.create(
+                proposition=proposition,
+                election=self.election,
+                organization=self.organization,
+                vote=vote,
+                voter_name=cleaned_data.get('name')
+            )
 
-        PropositionBallot.objects.create(
-            proposition=proposition,
-            election=self.election,
-            organization=self.organization,
-            vote=vote,
-            voter_name=cleaned_data.get('name')
-        )
+            # Proposition 6
+            proposition = propositions[5]
+            proposition_vote = cleaned_data.get('proposition_vote6')
+            if proposition_vote == 'yes':
+                vote = True
+            elif proposition_vote == 'no':
+                vote = False
+            else:
+                vote = None
 
-        # Proposition 6
-        proposition = propositions[5]
-        proposition_vote = cleaned_data.get('proposition_vote6')
-        if proposition_vote == 'yes':
-            vote = True
-        elif proposition_vote == 'no':
-            vote = False
-        else:
-            vote = None
-
-        PropositionBallot.objects.create(
-            proposition=proposition,
-            election=self.election,
-            organization=self.organization,
-            vote=vote,
-            voter_name=cleaned_data.get('name')
-        )
+            PropositionBallot.objects.create(
+                proposition=proposition,
+                election=self.election,
+                organization=self.organization,
+                vote=vote,
+                voter_name=cleaned_data.get('name')
+            )
 
         institutional_ballot = CandidateBallot.objects.create(
             election=self.election,
@@ -228,15 +228,15 @@ class VoteAddFormView(LoginRequiredMixin, FormView):
             candidate = Candidate.objects.get(pk=candidate_id)
             institutional_ballot.votes.add(candidate)
 
-        organizational_ballot = CandidateBallot.objects.create(
-            election=self.election,
-            organization=self.organization,
-            voter_name=cleaned_data.get('name'),
-            seat_type='organizational'
-        )
-
-        for candidate_id in cleaned_data.get('organizational_candidates'):
-            candidate = Candidate.objects.get(pk=candidate_id)
-            organizational_ballot.votes.add(candidate)
+        # organizational_ballot = CandidateBallot.objects.create(
+        #     election=self.election,
+        #     organization=self.organization,
+        #     voter_name=cleaned_data.get('name'),
+        #     seat_type='organizational'
+        # )
+        #
+        # for candidate_id in cleaned_data.get('organizational_candidates'):
+        #     candidate = Candidate.objects.get(pk=candidate_id)
+        #     organizational_ballot.votes.add(candidate)
 
         return redirect(reverse('elections:vote-view', kwargs={'pk': self.election.id}))

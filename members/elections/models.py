@@ -45,6 +45,7 @@ SEAT_TYPE_CHOICES = (
     ('organizational', 'Organizational')
 )
 
+
 class Candidate(models.Model):
     election = models.ForeignKey(Election)
     status = models.CharField(max_length=60, choices=CANDIDATE_STATUS_CHOICES, default='')
