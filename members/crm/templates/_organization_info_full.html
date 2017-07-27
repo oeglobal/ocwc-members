@@ -34,7 +34,7 @@
 		   {% if address.supplemental_address_2 %}{{ address.supplemental_address_2 }}<br />{% endif %}
 
 		   {{ address.city }}, {{ address.postal_code }} {{ address.postal_code_suffix }}<br />
-		   {{ address.country }}
+		   {{ address.state_province }}, {{ address.country }}
 		<p>
 		{% endfor %}
 		{% if request.user.is_staff %}
