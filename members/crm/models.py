@@ -261,6 +261,17 @@ class Organization(models.Model):
 
         return address
 
+    def get_geo(self):
+        try:
+            address = self.address_set.filter(address_type='primary')[0]
+            return {'latitude': address.latitude, 'longitude': address.longitude}
+        except IndexError:
+            try:
+                address = self.address_set.filter(address_type='billing')[0]
+                return {'latitude': address.latitude, 'longitude': address.longitude}
+            except IndexError:
+                pass
+
 # reversion.register(Organization)
 
 # CONTACT_TYPE_CHOICES = (

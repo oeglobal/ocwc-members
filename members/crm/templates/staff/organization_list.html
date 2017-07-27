@@ -11,6 +11,7 @@
 					<th>AC - Member</th>
 					<th>Status</th>
 					<th>Invalid contacts</th>
+                    <th>Geo</th>
 				</tr>
 			</thead>
 			{% for org in object_list %}
@@ -21,7 +22,14 @@
 					<td>{{ org.get_membership_status_display }}</td>
 					{% if org.get_bouncing_contacts %}
 						<td class="warning">{{ org.get_bouncing_contacts.count }}</td>
+                    {% else %}
+                        <td></td>
 					{% endif %}
+                    <td>
+                        {% if not org.get_geo.latitude and not org.get_geo.longitude %}
+                            X
+                        {% endif %}
+                    </td>
 				</tr>
 			{% endfor %}
 		</table>
