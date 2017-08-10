@@ -454,7 +454,8 @@ class MembershipApplication(models.Model):
     ocw_website = models.CharField(max_length=765, blank=True,
                                    verbose_name=u'Open Educational Resources (OER) or OpenCourseWare (OCW) Website')
 
-    logo_large = models.CharField(max_length=765, blank=True)
+    logo_large = models.ImageField(max_length=765, blank=True, upload_to="logos",
+                                   verbose_name=u"Logo of your institution (at least 500x500px PNG or a vector (PDF, EPS) file)")
     logo_small = models.CharField(max_length=765, blank=True)
 
     institution_country = models.ForeignKey(Country, blank=True, null=True)
@@ -477,7 +478,7 @@ class MembershipApplication(models.Model):
     organization_type = models.CharField(max_length=765, blank=True, choices=ORGANIZATION_TYPE_CHOICES, default='')
     institution_type = models.CharField(max_length=25, blank=True, choices=INSTITUTION_TYPE_CHOICES, default='')
 
-    is_accredited = models.NullBooleanField(default=None, choices=IS_ACCREDITED_CHOICES)
+    is_accredited = models.NullBooleanField(default=None, choices=IS_ACCREDITED_CHOICES, blank=True)
     accreditation_body = models.CharField(max_length=765, blank=True, default='')
     ocw_launch_date = models.DateTimeField(null=True, blank=True)
 
@@ -525,7 +526,6 @@ class MembershipApplication(models.Model):
     initiative_description3 = models.TextField(blank=True, default='',
                                                verbose_name='Description (100 – 350 characters)')
     initiative_url3 = models.URLField(max_length=255, blank=True, default='', verbose_name='URL')
-
 
     def save(self, force_insert=False, force_update=False, using=None):
         if not self.legacy_application_id:
@@ -611,7 +611,7 @@ class MembershipApplication(models.Model):
 
     def _send_notification_email(self):
         send_mail('New Membership Application: %s' % self.display_name,
-                  'View application: http://members.oeconsortium.org%s' % self.get_absolute_url(),
+                  'View application: https://members.oeconsortium.org%s' % self.get_absolute_url(),
                   'tech@oeconsortium.org', ['memberapplications@oeconsortium.org'])
 
 

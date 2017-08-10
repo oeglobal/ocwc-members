@@ -45,6 +45,7 @@ class ContactAdmin(admin.ModelAdmin):
         return format_html('<a href="/admin/crm/organization/%s/">%s</a>' % (obj.organization.id, obj.organization))
     organization_link.allow_tags = True
 
+
 class MembershipApplicationForm(forms.ModelForm):
     class Meta:
         model = MembershipApplication
@@ -62,6 +63,7 @@ class MembershipApplicationForm(forms.ModelForm):
 
         return membership_type
 
+
 class MembershipApplicationAdmin(admin.ModelAdmin):
     list_display = ('id', 'display_name', 'organization' , 'membership_type', 'legacy_application_id', 'main_website')
     list_filter = ('app_status',)
@@ -73,8 +75,14 @@ class MembershipApplicationAdmin(admin.ModelAdmin):
             }
         ),
         ('General', {
-            'fields': ('organization_type', 'main_website', 'ocw_website', 'institution_country',
+            'fields': ('organization_type', 'main_website', 'ocw_website', 'institution_country', 'logo_large',
                         'rss_course_feed', 'is_accredited', 'accreditation_body', 'support_commitment')
+        }),
+        ('Initiatives', {
+            'fields': (
+                'initiative_description1', 'initiative_url1', 'initiative_description2', 'initiative_url2',
+                'initiative_description3', 'initiative_url3'
+            )
         }),
         ('Membership', {
             'fields': ('simplified_membership_type', 'corporate_support_levels', 'associate_consortium')

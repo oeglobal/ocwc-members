@@ -25,20 +25,9 @@ ORGANIZATION_ASSOCIATED_CONSORTIUM_CHOICES = ORGANIZATION_ASSOCIATED_CONSORTIUM
 
 
 class MembershipApplicationModelForm(forms.ModelForm):
-    simplified_membership_type = forms.ChoiceField(widget=forms.RadioSelect,
-                                                   choices=SIMPLIFIED_MEMBERSHIP_TYPE_CHOICES,
-                                                   label='')
-    corporate_support_levels = forms.ChoiceField(widget=forms.RadioSelect,
-                                                 choices=CORPORATE_SUPPORT_CHOICES,
-                                                 label='Please select financial support level',
-                                                 required=False)
-    associate_consortium = forms.ChoiceField(widget=forms.RadioSelect,
-                                             choices=ORGANIZATION_ASSOCIATED_CONSORTIUM_CHOICES,
-                                             required=False)
-
-    is_accredited = forms.ChoiceField(widget=forms.RadioSelect,
-                                      choices=IS_ACCREDITED_CHOICES,
-                                      label='Accredited Institution of Higher Education?')
+    # associate_consortium = forms.ChoiceField(widget=forms.RadioSelect,
+    #                                          choices=ORGANIZATION_ASSOCIATED_CONSORTIUM_CHOICES,
+    #                                          required=False)
 
     moa_terms = forms.BooleanField(required=True, label='I agree to these terms')
 
@@ -73,8 +62,7 @@ class MembershipApplicationModelForm(forms.ModelForm):
                 HTML('<div class="large-8 columns"><h3>Member Profile</h3></div>'),
                 Field('display_name', required=True),
                 Field('description', required=True),
-
-                #
+                Field('logo_large', required=False),
 
                 # Field('is_accredited', required=True),
                 # 'accreditation_body',
@@ -145,23 +133,7 @@ class MembershipApplicationModelForm(forms.ModelForm):
     def clean(self):
         cleaned_data = super(MembershipApplicationModelForm, self).clean()
 
-        simplified_membership_type = cleaned_data.get('simplified_membership_type')
-        corporate_support_levels = cleaned_data.get('corporate_support_levels')
-        associate_consortium = cleaned_data.get('associate_consortium')
-
-        # raise validation errors for connected fields
-        if simplified_membership_type == 'corporate' and not corporate_support_levels:
-            self._errors['corporate_support_levels'] = self.error_class(['This field is required.'])
-
-        # if simplified_membership_type == 'institutional' and not associate_consortium:
-        #   self._errors['associate_consortium'] = self.error_class(['This field is required.'])
-
-        # remove connected fields that are not active anymore
-        if simplified_membership_type != 'corporate' and corporate_support_levels:
-            del cleaned_data['corporate_support_levels']
-
-        if simplified_membership_type != 'institutional' and associate_consortium:
-            del cleaned_data['associate_consortium']
+        print(self._errors)
 
         return cleaned_data
 

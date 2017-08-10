@@ -16,7 +16,7 @@
         label[for="id_coppa"] {
             display: inline-block;
         }
-        
+
         .asteriskField {
             display: none;
         }
@@ -91,14 +91,23 @@
 
             <p>We appreciate your interest in becoming a member of the OEC. Please complete the online application form
                 below to start your process of incorporation.</p>
-            <p>Don’t hesitate to contact us at <a href="mailto:memberservices@oeconsortium.org">memberservices@oeconsortium.org</a> if you have any questions or if you
+            <p>Don’t hesitate to contact us at <a href="mailto:memberservices@oeconsortium.org">memberservices@oeconsortium.org</a>
+                if you have any questions or if you
                 experience any problems with the online application form.
 
-            <form method="POST" action="" class="uniForm">
-                {{ form|as_crispy_errors }}
-                {% crispy form %}
-            </form>
-        </div>
+                <form method="POST" action="" class="uniForm">
+                    {% if form.non_field_errors %}
+                        <div class="non-field-errors">
+                            {% for err in form.non_field_errors %}
+                                <p class="form-error">{{ err }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+
+        {{ form|as_crispy_errors }}
+        {% crispy form %}
+        </form>
+    </div>
     </div>
 
 {% endblock %}
