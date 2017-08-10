@@ -153,6 +153,19 @@ class Organization(models.Model):
 
     created = models.DateTimeField(blank=True, null=True, auto_now_add=True)
 
+    institution_type = models.CharField(max_length=25, blank=True, choices=INSTITUTION_TYPE_CHOICES, default='')
+    initiative_description1 = models.TextField(blank=True, default='',
+                                               verbose_name='Description (100 – 350 characters)')
+    initiative_url1 = models.URLField(max_length=255, blank=True, default='', verbose_name='URL')
+
+    initiative_description2 = models.TextField(blank=True, default='',
+                                               verbose_name='Description (100 – 350 characters)')
+    initiative_url2 = models.URLField(max_length=255, blank=True, default='', verbose_name='URL')
+
+    initiative_description3 = models.TextField(blank=True, default='',
+                                               verbose_name='Description (100 – 350 characters)')
+    initiative_url3 = models.URLField(max_length=255, blank=True, default='', verbose_name='URL')
+
     objects = models.Manager()
     active = ActiveOrganizationManager()
 
@@ -568,7 +581,14 @@ class MembershipApplication(models.Model):
                 'main_website': self.main_website,
                 'ocw_website': self.ocw_website,
                 'description': self.description,
-                'support_commitment': self.support_commitment
+                'support_commitment': self.support_commitment,
+                'institution_type': self.institution_type,
+                'initiative_description1': self.initiative_description1,
+                'initiative_url1': self.initiative_url1,
+                'initiative_description2': self.initiative_description2,
+                'initiative_url2': self.initiative_url2,
+                'initiative_description3': self.initiative_description3,
+                'initiative_url3': self.initiative_url3,
             })
 
         contact, is_created = Contact.objects.get_or_create(
