@@ -21,11 +21,13 @@ from geopy import geocoders
 # import reversion
 here = lambda x: os.path.join(os.path.dirname(os.path.abspath(__file__)), x)
 
+
 class Continent(models.Model):
     name = models.CharField(max_length=192, unique=True, blank=True)
 
     def __unicode__(self):
         return self.name
+
 
 class Country(models.Model):
     name = models.CharField(max_length=192, unique=True, blank=True)
@@ -37,27 +39,26 @@ class Country(models.Model):
         ordering = ('name',)
 
     def __unicode__(self):
-        if self.developing:
-            return self.name + " (D)"
         return self.name
 
+
 ORGANIZATION_MEMBERSHIP_TYPE_CHOICES = (
-    (5 , 'Institutional Members'),
+    (5, 'Institutional Members'),
     (10, 'Institutional Members - MRC'),
     (11, 'Institutional Members - DC'),
     (12, 'Institutional Members - DC - MRC'),
 
-    (9 , 'Associate Institutional Members'),
+    (9, 'Associate Institutional Members'),
     (17, 'Associate Institutional Members - DC'),
 
-    (6 , 'Organizational Members'),
+    (6, 'Organizational Members'),
     (13, 'Organizational Members - DC'),
     (18, 'Organizational Members - MRC'),
 
-    (7 , 'Associate Consortium Members'),
+    (7, 'Associate Consortium Members'),
     (14, 'Associate Consortium Members - DC'),
 
-    (8 , 'Corporate Members - Basic'),
+    (8, 'Corporate Members - Basic'),
     (15, 'Corporate Members - Premium'),
     (16, 'Corporate Members - Sustaining'),
 
@@ -70,6 +71,19 @@ ORGANIZATION_TYPE_CHOICES = (
     ('regionalconsortium', 'Regional Consortium'),
     ('software', 'Software Development'),
     ('commercial', 'Commercial Entity')
+)
+
+INSTITUTION_TYPE_CHOICES = (
+    ('higher-ed', 'Higher Education Institution'),
+    ('secondary-ed', 'Secondary Education Institution'),
+    ('primary-ed', 'Primary Education Institution'),
+    ('npo', 'Non-Profit Organization'),
+    ('ngo', 'Non-Governmental Organization'),
+    ('igo', 'Intergovernmental Organization (IGO)'),
+    ('gov', 'Governmental Entity'),
+    ('consortium', 'Regional Consortium'),
+    ('software', 'Software Development'),
+    ('commercial', 'Commercial Entity'),
 )
 
 ORGANIZATION_MEMBERSHIP_STATUS = (
@@ -86,7 +100,7 @@ ORGANIZATION_MEMBERSHIP_STATUS = (
     # (11,'Committee'),
     # (12,'Suspended'),
     # (13,'New'),
-    (99,'Example')
+    (99, 'Example')
 )
 
 ORGANIZATION_ASSOCIATED_CONSORTIUM = (
@@ -101,9 +115,12 @@ ORGANIZATION_ASSOCIATED_CONSORTIUM = (
     ('OTHER', 'OTHER')
 )
 
+
 class ActiveOrganizationManager(models.Manager):
     def get_query_set(self):
-        return super(ActiveOrganizationManager, self).get_query_set().filter(membership_status__in=(2,3,5,7,99)).order_by('display_name')
+        return super(ActiveOrganizationManager, self).get_query_set().filter(
+            membership_status__in=(2, 3, 5, 7, 99)).order_by('display_name')
+
 
 class Organization(models.Model):
     legal_name = models.CharField(max_length=255, blank=True)
@@ -114,7 +131,8 @@ class Organization(models.Model):
     membership_type = models.IntegerField(max_length=10, choices=ORGANIZATION_MEMBERSHIP_TYPE_CHOICES)
     # organization_type = models.CharField(max_length=255, choices=ORGANIZATION_TYPE_CHOICES)
     membership_status = models.IntegerField(max_length=10, choices=ORGANIZATION_MEMBERSHIP_STATUS)
-    associate_consortium = models.CharField(max_length=255, choices=ORGANIZATION_ASSOCIATED_CONSORTIUM, blank=True, default='')
+    associate_consortium = models.CharField(max_length=255, choices=ORGANIZATION_ASSOCIATED_CONSORTIUM, blank=True,
+                                            default='')
 
     crmid = models.CharField(max_length=255, blank=True, help_text='Legacy identifier')
 
@@ -129,7 +147,8 @@ class Organization(models.Model):
     accreditation_body = models.CharField(max_length=255, blank=True, default='')
     support_commitment = models.TextField(blank=True, default='')
 
-    ocw_contact = models.ForeignKey(User, null=True, verbose_name=u'Primary contact inside OCW', related_name='ocw_contact_user',
+    ocw_contact = models.ForeignKey(User, null=True, verbose_name=u'Primary contact inside OCW',
+                                    related_name='ocw_contact_user',
                                     limit_choices_to={'is_staff': True})
 
     created = models.DateTimeField(blank=True, null=True, auto_now_add=True)
@@ -141,10 +160,10 @@ class Organization(models.Model):
         return self.display_name
 
     def get_absolute_staff_url(self):
-        return reverse('staff:organization-view', kwargs={'pk':self.id})
+        return reverse('staff:organization-view', kwargs={'pk': self.id})
 
     def get_absolute_url(self):
-        return reverse('crm:organization-view', kwargs={'pk':self.id})
+        return reverse('crm:organization-view', kwargs={'pk': self.id})
 
     def get_logo_small_url(self):
         return 'http://www.oeconsortium.org/media/%s' % self.logo_small
@@ -161,7 +180,7 @@ class Organization(models.Model):
     def get_membership_due_amount(self):
         # Sustaining members
         if self.membership_status in [7]:
-            return 0    #manually processed
+            return 0  # manually processed
 
         # (8 , 'Corporate Members - Basic'),
         if self.membership_type in [8]:
@@ -172,7 +191,7 @@ class Organization(models.Model):
         # (11, 'Institutional Members - DC'),
         # (7 , 'Associate Consortium Members'),
         # (13, 'Organizational Members - DC'),
-        if self.membership_type in [5,6,11,7,13]:
+        if self.membership_type in [5, 6, 11, 7, 13]:
             if self.address_set.latest('id').country.developing:
                 return 375
             else:
@@ -192,14 +211,18 @@ class Organization(models.Model):
 
     def get_invoice_status(self):
         return {
-            'create_invoice': self.billinglog_set.filter(log_type='create_invoice', invoice_year=settings.DEFAULT_INVOICE_YEAR).exists(),
-            'send_invoice': self.billinglog_set.filter(log_type='send_invoice', invoice_year=settings.DEFAULT_INVOICE_YEAR).exists(),
+            'create_invoice': self.billinglog_set.filter(log_type='create_invoice',
+                                                         invoice_year=settings.DEFAULT_INVOICE_YEAR).exists(),
+            'send_invoice': self.billinglog_set.filter(log_type='send_invoice',
+                                                       invoice_year=settings.DEFAULT_INVOICE_YEAR).exists(),
         }
 
     def get_last_year_invoice_status(self):
         return {
-            'create_invoice': self.billinglog_set.filter(log_type='create_invoice', invoice_year=settings.PREVIOUS_INVOICE_YEAR).exists(),
-            'send_invoice': self.billinglog_set.filter(log_type='send_invoice', invoice_year=settings.PREVIOUS_INVOICE_YEAR).exists(),
+            'create_invoice': self.billinglog_set.filter(log_type='create_invoice',
+                                                         invoice_year=settings.PREVIOUS_INVOICE_YEAR).exists(),
+            'send_invoice': self.billinglog_set.filter(log_type='send_invoice',
+                                                       invoice_year=settings.PREVIOUS_INVOICE_YEAR).exists(),
         }
 
     def get_consortia_members(self):
@@ -272,6 +295,7 @@ class Organization(models.Model):
             except IndexError:
                 pass
 
+
 # reversion.register(Organization)
 
 # CONTACT_TYPE_CHOICES = (
@@ -281,13 +305,14 @@ class Organization(models.Model):
 # )
 
 CONTACT_TYPE_CHOICES = (
-    (4,  'Employee of'),
-    (6,  'Lead Contact for'),
-    (9,  'Certifier for'),
+    (4, 'Employee of'),
+    (6, 'Lead Contact for'),
+    (9, 'Certifier for'),
     (10, 'Voting Representative'),
     (11, 'Affiliated with'),
     (12, 'AC Member of'),
 )
+
 
 class Contact(models.Model):
     organization = models.ForeignKey(Organization)
@@ -300,12 +325,15 @@ class Contact(models.Model):
     job_title = models.CharField(max_length=255, blank=True, default='')
 
     bouncing = models.BooleanField(default=False)
+
+
 # reversion.register(Contact)
 
 ADDRESS_TYPE = (
     ('primary', 'Primary Address'),
     ('billing', 'Billing Address')
 )
+
 
 class Address(models.Model):
     organization = models.ForeignKey(Organization)
@@ -338,9 +366,9 @@ class Address(models.Model):
             g = geocoders.GoogleV3()
 
             address_string = u"%s, %s, %s, %s %s %s, %s, %s" % (
-                             self.street_address, self.supplemental_address_1, self.supplemental_address_2,
-                             self.postal_code, self.postal_code_suffix, self.city,
-                             self.state_province, self.country.name.replace(', Republic of', ''))
+                self.street_address, self.supplemental_address_1, self.supplemental_address_2,
+                self.postal_code, self.postal_code_suffix, self.city,
+                self.state_province, self.country.name.replace(', Republic of', ''))
             address_string = address_string.replace(', ,', ', ')
             print(address_string)
             try:
@@ -404,25 +432,31 @@ IS_ACCREDITED_CHOICES = (
     (0, 'No'),
 )
 
+
 class MembershipApplication(models.Model):
-    organization = models.ForeignKey(Organization, blank=True, null=True, help_text='Should be empty, unless application is approved')
-    membership_type = models.IntegerField(max_length=10, choices=ORGANIZATION_MEMBERSHIP_TYPE_CHOICES, blank=True, null=True, default=None)
+    organization = models.ForeignKey(Organization, blank=True, null=True,
+                                     help_text='Should be empty, unless application is approved')
+    membership_type = models.IntegerField(max_length=10, choices=ORGANIZATION_MEMBERSHIP_TYPE_CHOICES, blank=True,
+                                          null=True, default=None)
 
     display_name = models.CharField(max_length=255, blank=True, verbose_name="Institution Name")
 
     edit_link_key = models.CharField(max_length=255, blank=True)
     view_link_key = models.CharField(max_length=255, blank=True)
 
-    description = models.TextField(blank=True)
+    description = models.TextField(blank=True,
+                                   help_text="Please write between 1000 – 1500 characters. <br />This information will be publicly displayed on your OEC profile site.")
 
     legacy_application_id = models.IntegerField(blank=True, null=True)
     legacy_entity_id = models.IntegerField(blank=True, null=True)
 
     main_website = models.CharField(max_length=765, blank=True, verbose_name=u'Main Website address')
-    ocw_website = models.CharField(max_length=765, blank=True, verbose_name=u'Open Educational Resources (OER) or OpenCourseWare (OCW) Website')
+    ocw_website = models.CharField(max_length=765, blank=True,
+                                   verbose_name=u'Open Educational Resources (OER) or OpenCourseWare (OCW) Website')
 
     logo_large = models.CharField(max_length=765, blank=True)
     logo_small = models.CharField(max_length=765, blank=True)
+
     institution_country = models.ForeignKey(Country, blank=True, null=True)
 
     rss_course_feed = models.CharField(max_length=765, blank=True)
@@ -440,7 +474,8 @@ class MembershipApplication(models.Model):
     ocw_published_languages = models.CharField(max_length=765, blank=True)
     ocw_license = models.CharField(max_length=765, blank=True)
 
-    organization_type = models.CharField(max_length=765, blank=True, choices=ORGANIZATION_TYPE_CHOICES)
+    organization_type = models.CharField(max_length=765, blank=True, choices=ORGANIZATION_TYPE_CHOICES, default='')
+    institution_type = models.CharField(max_length=25, blank=True, choices=INSTITUTION_TYPE_CHOICES, default='')
 
     is_accredited = models.NullBooleanField(default=None, choices=IS_ACCREDITED_CHOICES)
     accreditation_body = models.CharField(max_length=765, blank=True, default='')
@@ -450,9 +485,9 @@ class MembershipApplication(models.Model):
 
     app_status = models.CharField(choices=APPLICATION_STATUS_CHOICES, max_length=255, blank=True)
     created = models.DateTimeField(blank=True, null=True, auto_now_add=True)
-    modified = models.DateTimeField(blank=True) #, null=True, auto_now=True)
+    modified = models.DateTimeField(blank=True)  # , null=True, auto_now=True)
 
-    #address
+    # address
     street_address = models.CharField(max_length=255, blank=True, help_text='Street address with a street number')
     supplemental_address_1 = models.CharField(max_length=255, blank=True, verbose_name=u'Street Address 2')
     supplemental_address_2 = models.CharField(max_length=255, blank=True, verbose_name=u'Street Address 3')
@@ -469,13 +504,28 @@ class MembershipApplication(models.Model):
     last_name = models.CharField(max_length=255, blank=True, default='')
     job_title = models.CharField(max_length=255, blank=True, default='')
 
-    simplified_membership_type = models.CharField(max_length=255, blank=True, choices=SIMPLIFIED_MEMBERSHIP_TYPE_CHOICES)
+    simplified_membership_type = models.CharField(max_length=255, blank=True,
+                                                  choices=SIMPLIFIED_MEMBERSHIP_TYPE_CHOICES)
     corporate_support_levels = models.CharField(max_length=255, blank=True, choices=CORPORATE_SUPPORT_CHOICES)
-    associate_consortium = models.CharField(max_length=255, choices=ORGANIZATION_ASSOCIATED_CONSORTIUM, blank=True, default='')
+    associate_consortium = models.CharField(max_length=255, choices=ORGANIZATION_ASSOCIATED_CONSORTIUM, blank=True,
+                                            default='')
 
     moa_terms = models.NullBooleanField(null=True)
     terms_of_use = models.NullBooleanField(null=True)
     coppa = models.NullBooleanField(null=True)
+
+    initiative_description1 = models.TextField(blank=True, default='',
+                                               verbose_name='Description (100 – 350 characters)')
+    initiative_url1 = models.URLField(max_length=255, blank=True, default='', verbose_name='URL')
+
+    initiative_description2 = models.TextField(blank=True, default='',
+                                               verbose_name='Description (100 – 350 characters)')
+    initiative_url2 = models.URLField(max_length=255, blank=True, default='', verbose_name='URL')
+
+    initiative_description3 = models.TextField(blank=True, default='',
+                                               verbose_name='Description (100 – 350 characters)')
+    initiative_url3 = models.URLField(max_length=255, blank=True, default='', verbose_name='URL')
+
 
     def save(self, force_insert=False, force_update=False, using=None):
         if not self.legacy_application_id:
@@ -510,44 +560,44 @@ class MembershipApplication(models.Model):
 
     def _create_member(self):
         org, is_created = Organization.objects.get_or_create(
-            display_name = self.display_name,
-            membership_type = self.membership_type,
-            defaults = {
-                'membership_status': 5, #pending
+            display_name=self.display_name,
+            membership_type=self.membership_type,
+            defaults={
+                'membership_status': 5,  # pending
                 'associate_consortium': self.associate_consortium,
                 'main_website': self.main_website,
-                'ocw_website':  self.ocw_website,
-                'description':  self.description,
+                'ocw_website': self.ocw_website,
+                'description': self.description,
                 'support_commitment': self.support_commitment
             })
 
         contact, is_created = Contact.objects.get_or_create(
-            organization = org,
-            contact_type = 6, # Lead contact
-            email = self.email,
-            defaults = {
+            organization=org,
+            contact_type=6,  # Lead contact
+            email=self.email,
+            defaults={
                 'first_name': self.first_name,
                 'last_name': self.last_name
             })
 
         try:
             user, is_created = User.objects.get_or_create(
-                username = org.slug,
-                email = contact.email
+                username=org.slug,
+                email=contact.email
             )
         except IntegrityError:
             user, is_created = User.objects.get_or_create(
-                username = "{}-{}".format(org.slug,  int(round(random.random() * 10, 0))),
-                email = contact.email
+                username="{}-{}".format(org.slug, int(round(random.random() * 10, 0))),
+                email=contact.email
             )
 
         org.user = user
         org.save()
 
         address, is_created = Address.objects.get_or_create(
-            organization = org,
-            street_address = self.street_address,
-            defaults = {
+            organization=org,
+            street_address=self.street_address,
+            defaults={
                 'supplemental_address_1': self.supplemental_address_1,
                 'supplemental_address_2': self.supplemental_address_2,
 
@@ -560,14 +610,17 @@ class MembershipApplication(models.Model):
         return org
 
     def _send_notification_email(self):
-        send_mail('New Membership Application: %s' % self.display_name, 'View application: http://members.oeconsortium.org%s' % self.get_absolute_url(),
-                    'tech@oeconsortium.org', ['memberapplications@oeconsortium.org'])
+        send_mail('New Membership Application: %s' % self.display_name,
+                  'View application: http://members.oeconsortium.org%s' % self.get_absolute_url(),
+                  'tech@oeconsortium.org', ['memberapplications@oeconsortium.org'])
+
 
 COMMENTS_APP_STATUS_CHOICES = (
     ('Requested More Info', 'Requested More Info'),
     ('Spam', 'Spam'),
     ('Approved', 'Approved')
 )
+
 
 class MembershipApplicationComment(models.Model):
     application = models.ForeignKey(MembershipApplication)
@@ -577,9 +630,10 @@ class MembershipApplicationComment(models.Model):
 
     comment = models.TextField(blank=True)
     sent_email = models.BooleanField(default=False)
-    app_status = models.CharField(max_length=255, blank=True) #, choices=COMMENTS_APP_STATUS_CHOICES, blank=True)
+    app_status = models.CharField(max_length=255, blank=True)  # , choices=COMMENTS_APP_STATUS_CHOICES, blank=True)
 
-    created = models.DateTimeField() #auto_now_add=True
+    created = models.DateTimeField()  # auto_now_add=True
+
 
 class ReportedStatistic(models.Model):
     organization = models.ForeignKey(Organization)
@@ -600,7 +654,8 @@ class ReportedStatistic(models.Model):
     carry_forward = models.BooleanField(default=False)
 
     def get_absolute_url(self):
-        return reverse('crm:reported-statistics-view', kwargs={'pk':self.organization.id})
+        return reverse('crm:reported-statistics-view', kwargs={'pk': self.organization.id})
+
 
 class LoginKey(models.Model):
     user = models.ForeignKey(User)
@@ -622,10 +677,11 @@ class LoginKey(models.Model):
     def send_email(self):
         body = render_to_string('mail-login/mail_body.txt', {'url': self.get_absolute_url()})
         send_mail('OEC Member portal login information', body,
-                    'memberservices@oeconsortium.org', [self.email])
+                  'memberservices@oeconsortium.org', [self.email])
 
     def get_absolute_url(self):
         return '/login/%s/' % self.key
+
 
 BILLING_LOG_TYPE_CHOICES = (
     ('create_invoice', 'Create new invoice'),
@@ -634,6 +690,7 @@ BILLING_LOG_TYPE_CHOICES = (
     ('send_paid_invoice', 'Send paid invoice via email'),
     ('create_note', 'Add a note'),
 )
+
 
 class BillingLog(models.Model):
     log_type = models.CharField(max_length=30, choices=BILLING_LOG_TYPE_CHOICES)
@@ -664,11 +721,11 @@ class BillingLog(models.Model):
 
     def send_email(self):
         message = EmailMessage(
-            subject = self.email_subject,
-            body = self.email_body,
-            from_email = 'memberservices@oeconsortium.org',
-            to = [s.strip() for s in self.email.split(',')],
-            bcc = [self.user.email]
+            subject=self.email_subject,
+            body=self.email_body,
+            from_email='memberservices@oeconsortium.org',
+            to=[s.strip() for s in self.email.split(',')],
+            bcc=[self.user.email]
         )
         pdf_path = os.path.join(settings.INVOICES_ROOT, self.invoice.pdf_filename)
 
@@ -681,10 +738,12 @@ class BillingLog(models.Model):
                        mimetype='application/pdf')
         message.send()
 
+
 INVOICE_TYPE_CHOICES = (
     ('issued', 'Normal issued invoice'),
     ('paid', 'Invoice with paid watermark')
 )
+
 
 class Invoice(models.Model):
     invoice_type = models.CharField(max_length=30, default='issued', choices=INVOICE_TYPE_CHOICES)
@@ -706,10 +765,10 @@ class Invoice(models.Model):
         return "Invoice %s (%s)" % (self.invoice_number, self.organization.display_name)
 
     def get_absolute_url(self):
-        return reverse('staff:invoice-view', kwargs={'pk':self.id})
+        return reverse('staff:invoice-view', kwargs={'pk': self.id})
 
     def get_access_key_url(self):
-        return reverse('staff:invoice-phantomjs-view', kwargs={'access_key':self.access_key})
+        return reverse('staff:invoice-phantomjs-view', kwargs={'access_key': self.access_key})
 
     def get_pdf_url(self):
         return "%s%s" % (settings.INVOICES_URL, self.pdf_filename)
@@ -739,7 +798,7 @@ class Invoice(models.Model):
                           url,
                           pdf_path,
                           'Letter'
-                        ])
+                          ])
 
         self.pdf_filename = filename
         self.save()

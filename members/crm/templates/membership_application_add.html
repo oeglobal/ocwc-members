@@ -1,88 +1,104 @@
 {% extends "base.html" %}{% load staticfiles %}{% load crispy_forms_tags %}
 
 {% block extra_head %}
-	<link href="{% static 'uni-form/css/uni-form.css' %}" media="screen, projector, print" rel="stylesheet" type="text/css" />
-	<link href="{% static 'uni-form/css/default.uni-form.css' %}" media="screen, projector, print" rel="stylesheet" type="text/css" />
+    <link href="{% static 'uni-form/css/uni-form.css' %}" media="screen, projector, print" rel="stylesheet"
+          type="text/css"/>
+    <link href="{% static 'uni-form/css/default.uni-form.css' %}" media="screen, projector, print" rel="stylesheet"
+          type="text/css"/>
 
-	<style type="text/css">
-	ul {
-		font-size: 1em;
-	}
+    <style type="text/css">
+        ul {
+            font-size: 1em;
+        }
 
-	label[for="id_moa_terms"],
-	label[for="id_terms_of_use"],
-	label[for="id_coppa"]
-	{
-		display: inline-block;
-	}
+        label[for="id_moa_terms"],
+        label[for="id_terms_of_use"],
+        label[for="id_coppa"] {
+            display: inline-block;
+        }
+        
+        .asteriskField {
+            display: none;
+        }
 
-	.corporate_support_levels,
-	.organization_consortia,
-	#div_id_moa_terms {
-		display: none;
-	}
+        .field-collapse {
+            clear: none;
+            float: left;
+        }
 
-	.asteriskField {
-	    display: none;
-	}
+        .text-full-width .textInput {
+            width: 95%;
+        }
 
-	.field-collapse {
-		clear: none;
-		float: left;
-	}
+        .terms-text,
+        .coppa-text,
+        .moa-text {
+            height: 150px;
+            overflow: scroll;
+        }
 
-	.text-full-width .textInput {
-		width: 95%;
-	}
+        .terms-text ol {
+            margin-left: 0;
+            list-style: inside;
+        }
 
-	.terms-text,
-	.coppa-text {
-		height: 150px;
-		overflow: scroll;
-	}
+        .terms-text li {
+            list-style: inherit;
+            list-style-type: decimal;
+        }
 
-	</style>
+    </style>
 {% endblock %}
 
 {% block extra_foot %}
-	<script src="/theme/lib/javascripts/foundation/foundation.tooltips.js"></script>
+    <script src="/theme/lib/javascripts/foundation/foundation.tooltips.js"></script>
 
-	<script src="{% static 'uni-form/js/uni-form.jquery.js' %}" type="text/javascript"></script>
-	<script src="{% static 'js/application-form.js' %}" type="text/javascript"></script>
-	<script type="text/javascript">
-	</script>
+    <script src="{% static 'uni-form/js/uni-form.jquery.js' %}" type="text/javascript"></script>
+    <script src="{% static 'js/application-form.js' %}" type="text/javascript"></script>
+    <script type="text/javascript">
+    </script>
 {% endblock %}
 
 {% block contents %}
-	<div style="display:none;" class="help-text-institutional">
-		<p>Institutional Members are accredited post-secondary institutions that demonstrate significant support for the production, use and/or promotion of Open Education.</p>
-	</div>
-	<div style="display:none;" class="help-text-associate">
-		<p>Associate Consortium members are groups of Institutional or Organizational members who have formed into an Association based on common interests.</p>
-		<p>Associate Consortia must have a minimum of 5 Institutional or Organizational members affiliated with them to remain in good standing.</p>
-	</div>
-	<div style="display:none;" class="help-text-organizational">
-		<p>Organizational members are institutions or organizations that demonstrate significant support for the production, use and/or promotion of Open Education. Accredited post-secondary institutions may join as Institutional members.</p>
-	</div>
-	<div style="display:none;" class="help-text-corporate">
-		<p>Corporate members provide services or materials that further the mission of the Open Education Consortium and direct support of the Consortium in the form of higher annual dues.</p>
-	</div>
+    <div style="display:none;" class="help-text-institutional">
+        <p>Institutional Members are accredited post-secondary institutions that demonstrate significant support for the
+            production, use and/or promotion of Open Education.</p>
+    </div>
+    <div style="display:none;" class="help-text-associate">
+        <p>Associate Consortium members are groups of Institutional or Organizational members who have formed into an
+            Association based on common interests.</p>
+        <p>Associate Consortia must have a minimum of 5 Institutional or Organizational members affiliated with them to
+            remain in good standing.</p>
+    </div>
+    <div style="display:none;" class="help-text-organizational">
+        <p>Organizational members are institutions or organizations that demonstrate significant support for the
+            production, use and/or promotion of Open Education. Accredited post-secondary institutions may join as
+            Institutional members.</p>
+    </div>
+    <div style="display:none;" class="help-text-corporate">
+        <p>Corporate members provide services or materials that further the mission of the Open Education Consortium and
+            direct support of the Consortium in the form of higher annual dues.</p>
+    </div>
 
-	{% include "_application_moa_texts.html" %}
-	{% include "_application_terms_texts.html" %}
+    {% include "_application_moa_texts.html" %}
+    {% include "_application_terms_texts.html" %}
 
-	<div class="row">
-		<div class="large-12 columns">
-			<h1>Membership Application</h1>
+    <div class="row">
+        <div class="large-12 columns">
+            <h1>Membership Application Form</h1>
 
-			<p>Please complete the online application form to apply for membership into the Open Education Consortium. <br />Please contact us at <a href="mailto:memberservices@oeconsortium.org">memberservices@oeconsortium.org</a> if you have any questions or if you experience any problems with the online application form. </p>
+            <h2>Becoming a member of the Open Education Consortium (OEC)</h2>
 
+            <p>We appreciate your interest in becoming a member of the OEC. Please complete the online application form
+                below to start your process of incorporation.</p>
+            <p>Don’t hesitate to contact us at <a href="mailto:memberservices@oeconsortium.org">memberservices@oeconsortium.org</a> if you have any questions or if you
+                experience any problems with the online application form.
 
-			<form method="POST" action="" class="uniForm">
-				{{ form|as_crispy_errors }}
-				{% crispy form %}
-			</form>
-		</div>
-	</div>
+            <form method="POST" action="" class="uniForm">
+                {{ form|as_crispy_errors }}
+                {% crispy form %}
+            </form>
+        </div>
+    </div>
 
 {% endblock %}
