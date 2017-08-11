@@ -25,9 +25,8 @@ ORGANIZATION_ASSOCIATED_CONSORTIUM_CHOICES = ORGANIZATION_ASSOCIATED_CONSORTIUM
 
 
 class MembershipApplicationModelForm(forms.ModelForm):
-    # associate_consortium = forms.ChoiceField(widget=forms.RadioSelect,
-    #                                          choices=ORGANIZATION_ASSOCIATED_CONSORTIUM_CHOICES,
-    #                                          required=False)
+    associate_consortium = forms.ChoiceField(choices=(('', '---------'),) + ORGANIZATION_ASSOCIATED_CONSORTIUM_CHOICES,
+                                             required=False)
 
     moa_terms = forms.BooleanField(required=True, label='I agree to these terms')
 
@@ -62,12 +61,13 @@ class MembershipApplicationModelForm(forms.ModelForm):
                 HTML('<div class="large-8 columns"><h3>Member Profile</h3></div>'),
                 Field('display_name', required=True),
                 Field('description', required=True),
-                Field('logo_large', required=False),
+                Field('logo_large'),
 
                 # Field('is_accredited', required=True),
                 # 'accreditation_body',
                 Field('main_website', required=True, placeholder='http://'),
                 Field('institution_type', required=True),
+                Field('associate_consortium'),
                 # 'country',
                 css_class="row"),
             Div(

@@ -21,6 +21,9 @@
                         <strong>Support level:</strong> {{ app.get_corporate_support_levels_display }}<br/>
                     {% endif %}
                 {% endif %}
+                {% if app.associate_consortium %}
+                    <strong>Consortia:</strong> {{ app.get_associate_consortium_display }}<br/>
+                {% endif %}
             </p>
             <p>
                 <strong>Submitted on:</strong> {{ app.created|date:"M. j, Y" }}<br/>
