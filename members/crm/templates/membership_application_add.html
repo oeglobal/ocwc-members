@@ -95,6 +95,8 @@
                 if you have any questions or if you
                 experience any problems with the online application form.
 
+                {% include 'djangospam/cookieform.html' %}
+
                 <form method="POST" action="" class="uniForm" enctype="multipart/form-data" >
                     {% if form.non_field_errors %}
                         <div class="non-field-errors">

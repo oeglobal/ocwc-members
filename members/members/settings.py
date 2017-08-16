@@ -82,6 +82,7 @@ MIDDLEWARE_CLASSES = (
     # 'reversion.middleware.RevisionMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'djangospam.cookie.middleware.SpamCookieMiddleware'
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
@@ -125,6 +126,7 @@ INSTALLED_APPS = (
     'south',
     'gunicorn',
     'raven.contrib.django.raven_compat',
+    'djangospam',
 
     'rest_framework',
     'floppyforms',
