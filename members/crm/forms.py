@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from pprint import pprint
 import datetime
 from dateutil.relativedelta import relativedelta
 
@@ -9,8 +8,7 @@ from django.utils.safestring import mark_safe
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit, Layout, Field, Div, HTML
 
-from .models import MembershipApplication, ORGANIZATION_ASSOCIATED_CONSORTIUM, CORPORATE_SUPPORT_CHOICES, \
-    IS_ACCREDITED_CHOICES, \
+from .models import MembershipApplication, ORGANIZATION_ASSOCIATED_CONSORTIUM, \
     Organization, Address, BillingLog, BILLING_LOG_TYPE_CHOICES, ReportedStatistic
 
 SIMPLIFIED_MEMBERSHIP_TYPE_CHOICES = (
@@ -21,7 +19,7 @@ SIMPLIFIED_MEMBERSHIP_TYPE_CHOICES = (
     ('corporate', mark_safe('Corporate Member <i class="icon-question-sign"></i>'))
 )
 
-ORGANIZATION_ASSOCIATED_CONSORTIUM_CHOICES = ORGANIZATION_ASSOCIATED_CONSORTIUM
+ORGANIZATION_ASSOCIATED_CONSORTIUM_CHOICES = filter(lambda x: x[0] not in ['CORE', 'KOCWC'], ORGANIZATION_ASSOCIATED_CONSORTIUM)
 
 
 class MembershipApplicationModelForm(forms.ModelForm):

@@ -108,7 +108,7 @@ ORGANIZATION_ASSOCIATED_CONSORTIUM = (
     ('CORE', 'CORE'),
     ('JOCWC', 'Japan OCW Consortium'),
     ('KOCWC', 'Korea OCW Consortium'),
-    ('TOCWC', 'Taiwan OpenCourseWare Consortium'),
+    ('TOCWC', 'Taiwan OCW Consortium'),
     ('Turkish OCWC', 'Turkish OpenCourseWare Consortium'),
     ('UNIVERSIA', 'UNIVERSIA'),
     ('FOCW', 'OCW France'),
