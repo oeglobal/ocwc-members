@@ -130,9 +130,6 @@ class MembershipApplicationModelForm(forms.ModelForm):
 
     def clean(self):
         cleaned_data = super(MembershipApplicationModelForm, self).clean()
-
-        print(self._errors)
-
         return cleaned_data
 
     class Meta:
