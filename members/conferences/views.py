@@ -28,7 +28,7 @@ class ConferenceIndex(StaffuserRequiredMixin, TemplateView):
 
     def get_context_data(self, *args, **kwargs):
         ctx = super(ConferenceIndex, self).get_context_data(*args, **kwargs)
-        ctx['registration_list'] = ConferenceRegistration.objects.all()
+        ctx['registration_list'] = ConferenceRegistration.objects.filter(interface=2)
 
         return ctx
 
@@ -73,10 +73,13 @@ class InvoicePreview(TemplateView):
         ctx['ticket_type'] = registration.ticket_type.split('|')[0]
         ctx['ticket_price'] = registration.ticket_type.split('|')[1]
 
-        dinner_ticket = registration.dinner_guest.split('|')[0]
-        if dinner_ticket == 'Yes':
-            ctx['dinner_ticket'] = True
-            ctx['dinner_price'] = registration.dinner_guest.split('|')[1]
+        extra_items = ['dinner_guest', 'conference_dinner', 'reception_guest']
+        for item_name in extra_items:
+            item_value = getattr(registration, item_name)
+            item, price = item_value.split('|')
+            if item == 'Yes':
+                ctx[item_name] = True
+                ctx["{}_price".format(item_name)] = price
 
         if self.request.GET.get('paid'):
             ctx['paid'] = True

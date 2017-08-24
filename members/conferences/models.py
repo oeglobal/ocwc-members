@@ -39,6 +39,8 @@ class ConferenceRegistration(models.Model):
 
     ticket_type = models.CharField(max_length=255)
     dinner_guest = models.CharField(max_length=255, default='')
+    conference_dinner = models.CharField(max_length=255, default='')
+    reception_guest = models.CharField(max_length=255, default='')
     total_amount = models.CharField(max_length=255)
     payment_type = models.CharField(choices=PAYMENT_TYPE, max_length=255)
 
@@ -68,7 +70,7 @@ Open Education Global Conference 2017 Planning Team.
 """
 
         message = EmailMessage(
-            subject = 'Open Education Global Conference 2017 - Invoice',
+            subject = 'Open Education Global Conference 2018 - Invoice',
             body = body,
             from_email = 'conference@oeconsortium.org',
             to = [self.email],
