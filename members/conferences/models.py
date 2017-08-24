@@ -59,14 +59,14 @@ class ConferenceRegistration(models.Model):
         return reverse('conferences:invoice_preview', kwargs={'pk': self.id, 'access_key':self.access_key})
 
     def email_invoice(self):
-        body = """Thank you for registering for the Open Education Global Conference 2017 (8-10 March in Cape Town, South Africa).
+        body = """Thank you for registering for the Open Education Global Conference 2018 (24-26 April in Delft, the Netherlands).
 
 Attached is your invoice.
 
 Do not hesitate to contact us at conference@oeconsortium.org if you have any questions.
-We look forward to welcoming you in South Africa.
+We look forward to welcoming you in the Netherlands!
 
-Open Education Global Conference 2017 Planning Team.
+Open Education Global Conference 2018 Planning Team.
 """
 
         message = EmailMessage(

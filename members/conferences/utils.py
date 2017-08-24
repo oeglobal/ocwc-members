@@ -35,9 +35,6 @@ def sync_conference(conf_id=1):
         else:
             payment_type = 'paypal'
 
-        from pprint import pprint
-        pprint(entry)
-
         registration, is_created = ConferenceRegistration.objects.get_or_create(
                                         interface=conf,
                                         form_id=1,
