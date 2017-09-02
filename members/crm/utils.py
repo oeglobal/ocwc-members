@@ -12,7 +12,7 @@ def print_pdf(url, filename=None):
     tab.Page.enable()
     tab.Page.navigate(url=url, _timeout=5)
 
-    tab.wait(5)
+    tab.wait(3)
 
     data = tab.Page.printToPDF()
     data = base64.b64decode(data['data'])
@@ -21,8 +21,9 @@ def print_pdf(url, filename=None):
     browser.close_tab(tab)
 
     if filename:
+        print(filename)
         with open(filename, "wb") as fd:
-            fd.write(base64.b64decode(data['data']))
+            fd.write(data)
 
         return fd
 

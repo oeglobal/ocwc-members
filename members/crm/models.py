@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
 import os
-import sys
 import uuid
 import subprocess
-import tempfile
 import datetime
 import time
 import random
@@ -17,6 +15,7 @@ from django.template.loader import render_to_string
 from django.conf import settings
 
 from geopy import geocoders
+from .utils import print_pdf
 
 # import reversion
 here = lambda x: os.path.join(os.path.dirname(os.path.abspath(__file__)), x)
@@ -792,32 +791,22 @@ class Invoice(models.Model):
     def get_pdf_url(self):
         return "%s%s" % (settings.INVOICES_URL, self.pdf_filename)
 
-    def save(self, force_insert=False, force_update=False, using=None):
+    def save(self, *args, **kwargs):
         if not self.access_key:
             self.access_key = uuid.uuid4().get_hex()
         if not self.paypal_link:
             self.paypal_link = self._get_paypal_link()
 
-        super(Invoice, self).save(force_insert=force_insert, force_update=force_update, using=using)
+        super(Invoice, self).save(*args, **kwargs)
 
     def generate_pdf(self):
         url = '%s%s' % (settings.INVOICES_PHANTOM_JS_HOST, self.get_access_key_url())
         filename = "invoice_%s_%s.pdf" % (self.pk, uuid.uuid4().get_hex())
         pdf_path = os.path.join(settings.INVOICES_ROOT, filename)
 
-        # print [here('../../bin/phantomjs'),
-        #                   here('phantomjs-scripts/rasterize.js'),
-        #                   url,
-        #                   pdf_path,
-        #                   'Letter'
-        #                 ]
-
-        subprocess.Popen([here('../../bin/phantomjs'),
-                          here('phantomjs-scripts/rasterize.js'),
-                          url,
-                          pdf_path,
-                          'Letter'
-                          ])
+        print('print pdf start')
+        print_pdf(url, pdf_path)
+        print('print pdf end')
 
         self.pdf_filename = filename
         self.save()

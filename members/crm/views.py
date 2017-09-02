@@ -10,6 +10,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login
 from django.core.urlresolvers import reverse
 from django.template.loader import render_to_string
+from django.db import transaction
 
 from vanilla import ListView, DetailView, TemplateView, UpdateView, CreateView, FormView
 from braces.views import LoginRequiredMixin, StaffuserRequiredMixin
@@ -273,7 +274,7 @@ class BillingLogCreateView(StaffView, CreateView):
         org = get('organization')
 
         if get('log_type') == 'create_invoice':
-            invoice = Invoice(
+            invoice = Invoice.objects.create(
                 invoice_type='issued',
                 organization=org,
                 invoice_number=get('invoice_number'),
@@ -282,9 +283,8 @@ class BillingLogCreateView(StaffView, CreateView):
                 amount=get('amount'),
                 created_date=get('created_date'),
             )
-            invoice.save()
 
-            billing_log = BillingLog(
+            BillingLog.objects.create(
                 log_type='create_invoice',
                 organization=get('organization'),
                 user=get('user'),
@@ -294,8 +294,10 @@ class BillingLogCreateView(StaffView, CreateView):
                 created_date=get('created_date'),
                 invoice=invoice
             )
-            billing_log.save()
+            transaction.commit()
+            # import ipdb; ipdb.set_trace()
             invoice.generate_pdf()
+
         elif get('log_type') == 'create_paid_invoice':
             invoice = Invoice(
                 invoice_type='paid',
@@ -319,6 +321,7 @@ class BillingLogCreateView(StaffView, CreateView):
                 created_date=get('created_date'),
             )
             billing_log.save()
+            transaction.commit()
             invoice.generate_pdf()
         elif get('log_type') == 'send_invoice':
             billing_log = BillingLog(
