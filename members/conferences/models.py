@@ -1,14 +1,13 @@
 # -*- coding: utf-8 -*-
-import os
 import uuid
-import subprocess
 
 from django.db import models
 from django.core.urlresolvers import reverse
 from django.core.mail import EmailMessage
 from django.conf import settings
 
-here = lambda x: os.path.join(os.path.dirname(os.path.abspath(__file__)), x)
+from crm.utils import print_pdf
+
 
 class ConferenceInterface(models.Model):
     name = models.CharField(max_length=255)
@@ -20,6 +19,7 @@ class ConferenceInterface(models.Model):
 
     def __unicode__(self):
         return self.name
+
 
 class ConferenceRegistration(models.Model):
     PAYMENT_TYPE = (
@@ -39,12 +39,19 @@ class ConferenceRegistration(models.Model):
 
     ticket_type = models.CharField(max_length=255)
     dinner_guest = models.CharField(max_length=255, default='')
+    dinner_guest_qty = models.IntegerField(default=0)
+
     conference_dinner = models.CharField(max_length=255, default='')
     reception_guest = models.CharField(max_length=255, default='')
+    reception_guest_qty = models.IntegerField(default=0)
+
     total_amount = models.CharField(max_length=255)
     payment_type = models.CharField(choices=PAYMENT_TYPE, max_length=255)
 
     source_url = models.CharField(max_length=255)
+
+    billing_html = models.TextField(default='')
+    product_html = models.TextField(default='')
 
     last_synced = models.DateTimeField(auto_now=True)
     access_key = models.CharField(max_length=32, blank=True)
@@ -56,7 +63,7 @@ class ConferenceRegistration(models.Model):
         super(ConferenceRegistration, self).save(force_insert=force_insert, force_update=force_update, using=using)
 
     def get_access_key_url(self):
-        return reverse('conferences:invoice_preview', kwargs={'pk': self.id, 'access_key':self.access_key})
+        return reverse('conferences:invoice_preview', kwargs={'pk': self.id, 'access_key': self.access_key})
 
     def email_invoice(self):
         body = """Thank you for registering for the Open Education Global Conference 2018 (24-26 April in Delft, the Netherlands).
@@ -70,28 +77,17 @@ Open Education Global Conference 2018 Planning Team.
 """
 
         message = EmailMessage(
-            subject = 'Open Education Global Conference 2018 - Invoice',
-            body = body,
-            from_email = 'conference@oeconsortium.org',
-            to = [self.email],
+            subject='Open Education Global Conference 2018 - Invoice',
+            body=body,
+            from_email='conference@oeconsortium.org',
+            to=[self.email],
             # bcc = ['conference@oeconsortium.org']
         )
 
-
         url = '%s%s' % (settings.INVOICES_PHANTOM_JS_HOST, self.get_access_key_url())
+        pdf_file = print_pdf(url)
 
-        pdf = '/tmp/oeglobal_invoice_{}.pdf'.format(uuid.uuid4().get_hex())
-        popen_instance = subprocess.Popen([here('../../bin/phantomjs'),
-                          here('../crm/phantomjs-scripts/rasterize.js'),
-                          url,
-                          pdf,
-                          'Letter'
-                        ])
-
-        subprocess.Popen.wait(popen_instance)
-
-        with open(pdf, 'r') as pdf_file:
-            message.attach(filename='OEGlobal-Invoice-%s.pdf' % self.entry_id,
-                           content=pdf_file.read(),
-                           mimetype='application/pdf')
-            message.send()
+        message.attach(filename='OEGlobal-Invoice-%s.pdf' % self.entry_id,
+                       content=pdf_file,
+                       mimetype='application/pdf')
+        message.send()

@@ -4,16 +4,19 @@ import hmac
 import hashlib
 import requests
 import json
+from pyquery import PyQuery as pq
 
-from pprint import pprint
+from django.conf import settings
 
 from .models import ConferenceInterface, ConferenceRegistration
 
-def _calculate_signature( string, private_key):
+
+def _calculate_signature(string, private_key):
     hash_var = hmac.new(str(private_key), string, hashlib.sha1).digest()
     sig = hash_var.encode('base64')
 
     return sig
+
 
 def sync_conference(conf_id=1):
     conf = ConferenceInterface.objects.get(pk=conf_id)
@@ -24,37 +27,58 @@ def sync_conference(conf_id=1):
     string_to_sign = str("{}:{}:{}:{}".format(conf.api_key, 'GET', route, expires))
     sig = _calculate_signature(string_to_sign, conf.private_key)
     req = requests.get(conf.url, params={'api_key': conf.api_key,
-                                       'signature': sig,
-                                       'expires': expires})
+                                         'signature': sig,
+                                         'expires': expires})
 
     data = json.loads(req.content)
 
     for entry in data.get('response', {}).get('entries', []):
+        html = requests.get(
+            "{}/wp-json/conference/v1/entry/{}/{}".format(settings.WP_URL, entry.get('form_id'), entry.get('id')),
+            auth=(settings.WP_BASIC_AUTH_USER, settings.WP_BASIC_AUTH_PASS)
+        )
+
+        html = html.json().get('html')
+        doc = pq(html)
+        product_html = doc('.entry-products').html()
+        product_html = product_html.replace(' (Ends 1 March 2018)', '')
+        product_html = product_html.replace(u'(€75 per person)', '')
+        product_html = product_html.replace(u'(€25 per person)', '')
+        product_html = product_html.replace(u'I will attend Conference Dinner (€75)', 'Conference Dinner')
+
+        billing_html = ''
+
+        for val in doc('.entry-view-field-name'):
+            if val.text == 'Billing address details':
+                doc(val).parents('tr').next_all().find('a').remove()
+                billing_html = doc(val).parents('tr').next_all().find('td').html()
+                if entry.get('34'):
+                    billing_html += '<br />' + entry.get('34')
+
         if 'wire' in entry.get('21'):
             payment_type = 'wire'
         else:
             payment_type = 'paypal'
 
         registration, is_created = ConferenceRegistration.objects.get_or_create(
-                                        interface=conf,
-                                        form_id=1,
-                                        entry_id=entry.get('id'),
-                                        defaults = {
-                                            'ticket_type': entry.get('9'),
-                                            'total_amount': entry.get('12'),
-                                            'payment_type': payment_type,
-                                            'source_url': entry.get('source_url'),
-                                            'entry_created': arrow.get(entry.get('date_created').replace(' ', 'T')).datetime,
+            interface=conf,
+            form_id=entry.get('form_id'),
+            entry_id=entry.get('id'),
+            defaults={
+                'ticket_type': entry.get('9'),
+                'payment_type': payment_type,
+                'source_url': entry.get('source_url'),
+                'entry_created': arrow.get(entry.get('date_created').replace(' ', 'T')).datetime,
 
-                                            'name': u"{} {}".format(entry.get('1.3'), entry.get('1.6')),
-                                            'email': entry.get('2'),
-                                            'organization': entry.get('6'),
-                                            'billing_address': entry.get('34'),
-                                            'conference_dinner': entry.get('38'),
-                                            'reception_guest': entry.get('40'),
-                                            'dinner_guest': entry.get('39'),
-                                        },
-                                    )
+                'name': u"{} {}".format(entry.get('1.3'), entry.get('1.6')),
+                'email': entry.get('2'),
+
+                'organization': entry.get('6'),
+                'product_html': product_html,
+                'billing_html': billing_html,
+                'total_amount': 0
+            },
+        )
 
         if is_created and registration.payment_type == 'wire':
             registration.email_invoice()

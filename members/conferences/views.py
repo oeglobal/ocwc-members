@@ -1,8 +1,4 @@
 # -*- coding: utf-8 -*-
-import os
-import uuid
-import subprocess2
-
 from django.shortcuts import redirect
 from django.contrib import messages
 from django.conf import settings
@@ -14,10 +10,11 @@ from braces.views import StaffuserRequiredMixin
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
+from crm.utils import print_pdf
+
 from .models import ConferenceRegistration
 from .utils import sync_conference
 
-here = lambda x: os.path.join(os.path.dirname(os.path.abspath(__file__)), x)
 
 class ConferenceIndex(StaffuserRequiredMixin, TemplateView):
     template_name = 'conferences/index.html'
@@ -32,6 +29,7 @@ class ConferenceIndex(StaffuserRequiredMixin, TemplateView):
 
         return ctx
 
+
 class InvoicePDF(StaffuserRequiredMixin, TemplateView):
     def get(self, request, pk=None):
         registration = ConferenceRegistration.objects.get(
@@ -43,20 +41,12 @@ class InvoicePDF(StaffuserRequiredMixin, TemplateView):
 
         url = '{}{}{}'.format(settings.INVOICES_PHANTOM_JS_HOST, registration.get_access_key_url(), paid_queryparam)
 
-        pdf = '/tmp/oeglobal_invoice_{}.pdf'.format(uuid.uuid4().get_hex())
-        popen_instance = subprocess2.Popen([here('../../bin/phantomjs'),
-                          here('../crm/phantomjs-scripts/rasterize.js'),
-                          url,
-                          pdf,
-                          'Letter'
-                        ])
+        pdf_file = print_pdf(url)
 
-        subprocess2.Popen.waitOrTerminate(popen_instance, timeoutSeconds=30)
+        response = HttpResponse(pdf_file, content_type='application/pdf')
+        response['Content-Disposition'] = 'inline;filename=OEGlobal-Invoice-{}.pdf'.format(registration.entry_id)
+        return response
 
-        with open(pdf, 'r') as pdf_file:
-            response = HttpResponse(pdf_file.read(), mimetype='application/pdf')
-            response['Content-Disposition'] = 'inline;filename=OEGlobal-Invoice-{}.pdf'.format(registration.entry_id)
-            return response
 
 class InvoicePreview(TemplateView):
     template_name = 'conferences/invoice.html'
@@ -70,21 +60,11 @@ class InvoicePreview(TemplateView):
                         )
         ctx['invoice'] = registration
 
-        ctx['ticket_type'] = registration.ticket_type.split('|')[0]
-        ctx['ticket_price'] = registration.ticket_type.split('|')[1]
-
-        extra_items = ['dinner_guest', 'conference_dinner', 'reception_guest']
-        for item_name in extra_items:
-            item_value = getattr(registration, item_name)
-            item, price = item_value.split('|')
-            if item == 'Yes':
-                ctx[item_name] = True
-                ctx["{}_price".format(item_name)] = price
-
         if self.request.GET.get('paid'):
             ctx['paid'] = True
 
         return ctx
+
 
 class PingInvoices(APIView):
     def get(self, request, format=None):
