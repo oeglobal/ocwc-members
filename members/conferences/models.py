@@ -66,6 +66,9 @@ class ConferenceRegistration(models.Model):
     def get_access_key_url(self):
         return reverse('conferences:invoice_preview', kwargs={'pk': self.id, 'access_key': self.access_key})
 
+    def get_absolute_url(self):
+        return '/conferences/#registration-{}'.format(self.id)
+
     def email_invoice(self):
         body = """Thank you for registering for the Open Education Global Conference 2018 (24-26 April in Delft, the Netherlands).
 

@@ -31,6 +31,7 @@
                     <th>Payment Type</th>
                     <th>Payment Status</th>
                     <th colspan="2">Invoice</th>
+                    <th>Actions</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -48,6 +49,9 @@
                         <td>
                             <a href="{% url 'conferences:invoice_download' registration.id %}?paid=1">Paid invoice</a>
                             {# <a href="{% url 'conferences:invoice_preview' registration.id registration.access_key %}">Preview</a> #}
+                        </td>
+                        <td>
+                            <a href="/admin/conferences/conferenceregistration/{{ registration.id }}/" target="_blank">Edit</a>
                         </td>
                     </tr>
                 {% endfor %}
