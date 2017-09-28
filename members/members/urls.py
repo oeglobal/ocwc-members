@@ -24,6 +24,8 @@ urlpatterns = patterns('',
     url(r'^conferences/', include('conferences.urls', namespace='conferences', app_name='conferences')),
     url(r'^elections/', include('elections.urls', namespace='elections', app_name='elections')),
 
+    url(r'^tinymce/', include('tinymce.urls')),
+
     url(r'^$', IndexView.as_view(), name='crm_index'),
 )
 

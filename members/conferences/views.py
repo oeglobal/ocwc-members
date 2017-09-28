@@ -3,6 +3,7 @@ from django.shortcuts import redirect
 from django.contrib import messages
 from django.conf import settings
 from django.http import HttpResponse
+from django.db.models import Q
 
 from vanilla import TemplateView
 from braces.views import StaffuserRequiredMixin
@@ -25,7 +26,19 @@ class ConferenceIndex(StaffuserRequiredMixin, TemplateView):
 
     def get_context_data(self, *args, **kwargs):
         ctx = super(ConferenceIndex, self).get_context_data(*args, **kwargs)
-        ctx['registration_list'] = ConferenceRegistration.objects.filter(interface=2)
+
+        q = self.request.GET.get('q')
+        queryset = ConferenceRegistration.objects.filter(interface=2)
+        if q:
+            ctx['q'] = q
+            queryset = queryset.filter(Q(name__icontains=q) |
+                                       Q(organization__icontains=q) |
+                                       Q(billing_html__icontains=q)
+                                       )
+        else:
+            queryset = ConferenceRegistration.objects.filter(interface=2)
+
+        ctx['registration_list'] = queryset
 
         return ctx
 
@@ -33,7 +46,7 @@ class ConferenceIndex(StaffuserRequiredMixin, TemplateView):
 class InvoicePDF(StaffuserRequiredMixin, TemplateView):
     def get(self, request, pk=None):
         registration = ConferenceRegistration.objects.get(
-                            pk=self.kwargs.get('pk'))
+            pk=self.kwargs.get('pk'))
 
         paid_queryparam = ''
         if request.GET.get('paid'):
@@ -55,9 +68,9 @@ class InvoicePreview(TemplateView):
         ctx = super(InvoicePreview, self).get_context_data(*args, **kwargs)
 
         registration = ConferenceRegistration.objects.get(
-                            pk=self.kwargs.get('pk'),
-                            access_key=self.kwargs.get('access_key')
-                        )
+            pk=self.kwargs.get('pk'),
+            access_key=self.kwargs.get('access_key')
+        )
         ctx['invoice'] = registration
 
         if self.request.GET.get('paid'):

@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import uuid
+from tinymce import HTMLField
 
 from django.db import models
 from django.core.urlresolvers import reverse
@@ -35,14 +36,14 @@ class ConferenceRegistration(models.Model):
     name = models.CharField(max_length=255, default='')
     email = models.CharField(max_length=255, default='')
     organization = models.CharField(max_length=255, default='')
-    billing_address = models.TextField(default='')
+    billing_address = models.TextField(default='', blank=True)
 
     ticket_type = models.CharField(max_length=255)
-    dinner_guest = models.CharField(max_length=255, default='')
+    dinner_guest = models.CharField(max_length=255, default='', blank=True)
     dinner_guest_qty = models.IntegerField(default=0)
 
-    conference_dinner = models.CharField(max_length=255, default='')
-    reception_guest = models.CharField(max_length=255, default='')
+    conference_dinner = models.CharField(max_length=255, default='', blank=True)
+    reception_guest = models.CharField(max_length=255, default='', blank=True)
     reception_guest_qty = models.IntegerField(default=0)
 
     total_amount = models.CharField(max_length=255)
@@ -50,7 +51,7 @@ class ConferenceRegistration(models.Model):
 
     source_url = models.CharField(max_length=255)
 
-    billing_html = models.TextField(default='')
+    billing_html = HTMLField(default='')
     product_html = models.TextField(default='')
 
     last_synced = models.DateTimeField(auto_now=True)

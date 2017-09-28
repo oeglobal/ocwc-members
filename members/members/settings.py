@@ -114,21 +114,19 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
     'django.contrib.admin',
     'django.contrib.admindocs',
 
-    'crm',
-    # 'joomla',
-
-    # 'reversion',
     'gunicorn',
     'raven.contrib.django.raven_compat',
     'djangospam',
+    'tinymce',
 
     'rest_framework',
     'floppyforms',
     'crispy_forms',
+
+    'crm',
     'elections',
     'conferences',
 )

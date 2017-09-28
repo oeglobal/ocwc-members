@@ -3,44 +3,63 @@
 {% block title %}Conference Registrations{% endblock %}
 
 {% block contents %}
-	<div class="row">
-		<div class="small-12 columns">
-			<h1>Conference Registrations - OE Global 2018</h1>
+    <div class="row">
+        <div class="small-12 columns">
+            <h1>Conference Registrations - OE Global 2018</h1>
+        </div>
 
-			<table class="table">
-				<thead>
-					<tr>
-						<th>Name</th>
-						<th>Organization</th>
-						<th>Payment Type</th>
-						<th>Payment Status</th>
-						<th colspan="2">Invoice</th>
-					</tr>
-				</thead>
-				<tbody>
-					{% for registration in registration_list %}
-						<tr>
-							<td>{{ registration.name }}</td>
-							<td>{{ registration.organization }}</td>
-							<td>{{ registration.payment_type }}</td>
-							<td>{{ registration.payment_status }}</td>
-							<td>
-								<a href="{% url 'conferences:invoice_download' registration.id %}">Download invoice</a>
-								{# <a href="{% url 'conferences:invoice_preview' registration.id registration.access_key %}">Preview</a> #}
-							</td>
-							<td>
-								<a href="{% url 'conferences:invoice_download' registration.id %}?paid=1">Paid invoice</a>
-								{# <a href="{% url 'conferences:invoice_preview' registration.id registration.access_key %}">Preview</a> #}
-							</td>
-						</tr>
-					{% endfor %}
-				</tbody>
-			</table>
+        <form method="GET" target=".">
+            <div class="small-4 columns">
+                <input type="text" name="q" value="" placeholder="Search terms ..">
+            </div>
+            <input type="submit" name="Search" value="Search" class="button primary small"">
+        </form>
 
-			<form method="POST" target=".">
-				{% csrf_token %}
-				<input type="submit" name="Sync" value="Sync">
-			</form>
-		</div>
-	</div>
+        <div class="small-12 columns">
+            {% if q %}
+                <p>Search results for: <b>{{ q }}</b> (<a href="/conferences/">Clear</a>)</p>
+            {% endif %}
+        </div>
+
+        <div class="small-12 columns">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Organization</th>
+                    <th>Payment Type</th>
+                    <th>Payment Status</th>
+                    <th colspan="2">Invoice</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for registration in registration_list %}
+                    <tr id="registration-{{ registration.id }}">
+                        <td>{{ registration.id }}</td>
+                        <td>{{ registration.name }}</td>
+                        <td>{{ registration.organization }}</td>
+                        <td>{{ registration.payment_type }}</td>
+                        <td>{{ registration.payment_status }}</td>
+                        <td>
+                            <a href="{% url 'conferences:invoice_download' registration.id %}">Download invoice</a>
+                            {# <a href="{% url 'conferences:invoice_preview' registration.id registration.access_key %}">Preview</a> #}
+                        </td>
+                        <td>
+                            <a href="{% url 'conferences:invoice_download' registration.id %}?paid=1">Paid invoice</a>
+                            {# <a href="{% url 'conferences:invoice_preview' registration.id registration.access_key %}">Preview</a> #}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+            {% comment %}
+                <form method="POST" target=".">
+                    {% csrf_token %}
+                    <input type="submit" name="Sync" value="Sync">
+                </form>
+            {% endcomment %}
+        </div>
+    </div>
 {% endblock %}
