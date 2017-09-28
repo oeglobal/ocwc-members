@@ -16,11 +16,12 @@ class OrganizationApiSerializer(serializers.ModelSerializer):
                   'logo_large', 'logo_small', 'state', 'main_website')
 
     def get_state(self, obj):
-        state_province = obj.address_set.first().state_province
-        if state_province in US_STATES:
-            return US_STATES[state_province]
+        if obj.address_set.count():
+            state_province = obj.address_set.first().state_province
+            if state_province in US_STATES:
+                return US_STATES[state_province]
 
-        return state_province
+            return state_province
 
 class OrganizationDetailedApiSerializer(OrganizationApiSerializer):
     logo_small_url = serializers.CharField(source='get_logo_small_url')
