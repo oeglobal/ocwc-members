@@ -2,13 +2,12 @@ arrow==0.4.2
 certifi==2017.7.27.1
 chardet==3.0.4
 click==6.7
-Django==1.6.11
+Django==1.8.18
 django-braces==1.2.2
 django-crispy-forms==1.4.0
-django-floppyforms==1.1
-django-reversion==1.8.0
-django-vanilla-views==1.0.2
-djangorestframework==2.3.8
+django-floppyforms==1.7.0
+django-vanilla-views==1.0.4
+djangorestframework==2.4.8
 djangospam==1.1.4
 geopy==0.95.1
 gevent==1.1.1
@@ -25,7 +24,6 @@ python-subprocess2==2.0.2
 raven==4.0.4
 requests==2.18.4
 six==1.4.1
-South==1.0.2
 Unidecode==0.4.21
 urllib3==1.22
 websocket-client==0.44.0

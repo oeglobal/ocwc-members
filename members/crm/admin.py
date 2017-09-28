@@ -34,8 +34,10 @@ class OrganizationAdmin(admin.ModelAdmin):
         })
     )
 
+
 class AddressAdmin(admin.ModelAdmin):
     list_display = ('address_type', 'organization', 'street_address', 'city', 'country', 'latitude', 'longitude')
+
 
 class ContactAdmin(admin.ModelAdmin):
     list_display = ('email', 'first_name', 'last_name', 'organization_link', 'contact_type')
@@ -49,6 +51,7 @@ class ContactAdmin(admin.ModelAdmin):
 class MembershipApplicationForm(forms.ModelForm):
     class Meta:
         model = MembershipApplication
+        exclude = ()
 
     def __init__(self, *args, **kwargs):
         super(MembershipApplicationForm, self).__init__(*args, **kwargs)

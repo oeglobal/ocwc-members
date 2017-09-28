@@ -78,7 +78,6 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.middleware.transaction.TransactionMiddleware',
     # 'reversion.middleware.RevisionMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -123,7 +122,6 @@ INSTALLED_APPS = (
     # 'joomla',
 
     # 'reversion',
-    'south',
     'gunicorn',
     'raven.contrib.django.raven_compat',
     'djangospam',
@@ -176,5 +174,7 @@ CRISPY_TEMPLATE_PACK = 'uni_form'
 
 PREVIOUS_INVOICE_YEAR = '2016'
 DEFAULT_INVOICE_YEAR = '2017'
+
+ALLOWED_HOSTS = ['localhost', 'members.oeconsortium.org']
 
 from localsettings import *

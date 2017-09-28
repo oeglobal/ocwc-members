@@ -127,9 +127,9 @@ class Organization(models.Model):
     slug = models.CharField(max_length=30, unique=True, default='')
     user = models.ForeignKey(User, blank=True, null=True)
 
-    membership_type = models.IntegerField(max_length=10, choices=ORGANIZATION_MEMBERSHIP_TYPE_CHOICES)
+    membership_type = models.IntegerField(choices=ORGANIZATION_MEMBERSHIP_TYPE_CHOICES)
     # organization_type = models.CharField(max_length=255, choices=ORGANIZATION_TYPE_CHOICES)
-    membership_status = models.IntegerField(max_length=10, choices=ORGANIZATION_MEMBERSHIP_STATUS)
+    membership_status = models.IntegerField(choices=ORGANIZATION_MEMBERSHIP_STATUS)
     associate_consortium = models.CharField(max_length=255, choices=ORGANIZATION_ASSOCIATED_CONSORTIUM, blank=True,
                                             default='')
 
@@ -329,7 +329,7 @@ CONTACT_TYPE_CHOICES = (
 class Contact(models.Model):
     organization = models.ForeignKey(Organization)
 
-    contact_type = models.IntegerField(max_length=10, choices=CONTACT_TYPE_CHOICES)
+    contact_type = models.IntegerField(choices=CONTACT_TYPE_CHOICES)
     email = models.EmailField(max_length=255)
 
     first_name = models.CharField(max_length=255, blank=True, default='')
@@ -447,7 +447,7 @@ IS_ACCREDITED_CHOICES = (
 class MembershipApplication(models.Model):
     organization = models.ForeignKey(Organization, blank=True, null=True,
                                      help_text='Should be empty, unless application is approved')
-    membership_type = models.IntegerField(max_length=10, choices=ORGANIZATION_MEMBERSHIP_TYPE_CHOICES, blank=True,
+    membership_type = models.IntegerField(choices=ORGANIZATION_MEMBERSHIP_TYPE_CHOICES, blank=True,
                                           null=True, default=None)
 
     display_name = models.CharField(max_length=255, blank=True, verbose_name="Institution Name")

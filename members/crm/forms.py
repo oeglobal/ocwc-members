@@ -134,6 +134,7 @@ class MembershipApplicationModelForm(forms.ModelForm):
 
     class Meta:
         model = MembershipApplication
+        exclude = ('id',)
 
 
 class MemberLoginForm(forms.Form):
