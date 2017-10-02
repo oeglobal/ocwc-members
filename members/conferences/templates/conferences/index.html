@@ -41,7 +41,7 @@
                         <td>{{ registration.name }}</td>
                         <td>{{ registration.organization }}</td>
                         <td>{{ registration.payment_type }}</td>
-                        <td>{{ registration.payment_status }}</td>
+                        <td>{{ registration.entry_created|date:"F j, Y" }}</td>
                         <td>
                             <a href="{% url 'conferences:invoice_download' registration.id %}">Download invoice</a>
                             {# <a href="{% url 'conferences:invoice_preview' registration.id registration.access_key %}">Preview</a> #}
