@@ -116,8 +116,8 @@ ORGANIZATION_ASSOCIATED_CONSORTIUM = (
 
 
 class ActiveOrganizationManager(models.Manager):
-    def get_query_set(self):
-        return super(ActiveOrganizationManager, self).get_query_set().filter(
+    def get_queryset(self):
+        return super(ActiveOrganizationManager, self).get_queryset().filter(
             membership_status__in=(2, 3, 5, 7, 99)).order_by('display_name')
 
 

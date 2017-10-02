@@ -7,7 +7,7 @@ cssselect==1.0.1
 decorator==4.1.2
 Django==1.8.18
 django-braces==1.2.2
-django-crispy-forms==1.4.0
+django-crispy-forms==1.6.1
 django-floppyforms==1.7.0
 django-reversion==1.8.0
 django-tinymce4-lite==1.5.2
