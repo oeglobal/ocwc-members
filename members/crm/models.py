@@ -605,7 +605,7 @@ class MembershipApplication(models.Model):
             )
         except IntegrityError:
             user, is_created = User.objects.get_or_create(
-                username="{}-{}".format(org.slug, int(round(random.random() * 10, 0))),
+                username="{}-{}".format(org.slug[:25], int(round(random.random() * 10, 0))),
                 email=contact.email
             )
 
