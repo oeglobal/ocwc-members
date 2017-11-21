@@ -124,7 +124,7 @@ class ActiveOrganizationManager(models.Manager):
 class Organization(models.Model):
     legal_name = models.CharField(max_length=255, blank=True)
     display_name = models.CharField(max_length=255, verbose_name="Name of the organization")
-    slug = models.CharField(max_length=30, unique=True, default='')
+    slug = models.CharField(max_length=60, unique=True, default='')
     user = models.ForeignKey(User, blank=True, null=True)
 
     membership_type = models.IntegerField(choices=ORGANIZATION_MEMBERSHIP_TYPE_CHOICES)
