@@ -372,7 +372,7 @@ class OrganizationBillingLogListingView(StaffView, ListView):
 class OrganizationExportExcel(StaffView, TemplateView):
 
     def get(self, request, *args, **kwargs):
-        response = HttpResponse(mimetype='application/ms-excel')
+        response = HttpResponse(content_type='application/ms-excel')
         response['Content-Disposition'] = 'attachment; filename=members.xls'
         wb = xlwt.Workbook(encoding='utf-8')
         ws = wb.add_sheet("Members")
@@ -389,6 +389,7 @@ class OrganizationExportExcel(StaffView, TemplateView):
             (u"Edit link", 150),
             (u"Country", 50),
             (u"City", 50),
+            (u"Signed MOA", 25)
         ]
 
         font_style = xlwt.XFStyle()
@@ -423,6 +424,7 @@ class OrganizationExportExcel(StaffView, TemplateView):
                 'http://members.oeconsortium.org%s' % obj.get_absolute_staff_url(),
                 obj.address_set.first().country.name,
                 obj.address_set.first().city,
+                'yes'
             ]
 
             for col_num in range(len(row)):
