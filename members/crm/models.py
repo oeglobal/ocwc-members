@@ -307,6 +307,12 @@ class Organization(models.Model):
             except IndexError:
                 pass
 
+    def get_last_paid_invoice(self):
+        return self.billinglog_set.filter(log_type='create_paid_invoice').latest('id')
+
+    def get_lead_contact(self):
+        return self.contact_set.filter(contact_type=6).latest('id')
+
 
 # reversion.register(Organization)
 

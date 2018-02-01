@@ -473,6 +473,127 @@ class OrganizationExportExcel(StaffView, TemplateView):
         wb.save(response)
         return response
 
+
+class OrganizationExportCccoerExcel(StaffView, TemplateView):
+    def get(self, request, *args, **kwargs):
+        response = HttpResponse(content_type='application/ms-excel')
+        response['Content-Disposition'] = 'attachment; filename=members.xls'
+        wb = xlwt.Workbook(encoding='utf-8')
+        ws = wb.add_sheet("Members")
+
+        row_num = 0
+        columns = [
+            (u"ID", 25),
+            (u"Name", 150),
+            # (u"Consortium", 150),
+            (u"Lead Contact", 70),
+            (u"Lead Contact Email", 120),
+            (u"Membership status", 70),
+            (u"Country", 50),
+            (u"State", 50),
+            (u"City", 50),
+            # (u"Signed MOA", 25)
+            (u"Joined", 50),
+            (u"Last Paid Invoice", 50),
+            (u"Edit link", 150),
+        ]
+
+        font_style = xlwt.XFStyle()
+        font_style.font.bold = True
+
+        for col_num in range(len(columns)):
+            ws.write(row_num, col_num, columns[col_num][0], font_style)
+            ws.col(col_num).width = columns[col_num][1] * 100
+
+        font_style = xlwt.XFStyle()
+        font_style.alignment.wrap = 1
+
+        for obj in Organization.active.filter(associate_consortium='CCCOER').order_by('display_name'):
+            row_num += 1
+
+            try:
+                contact = obj.contact_set.filter(contact_type=6)[0]
+                contact_name = u"%s %s" % (contact.first_name, contact.last_name) or ''
+                contact_email = contact.email
+            except IndexError:
+                contact_name = ''
+                contact_email = ''
+
+            try:
+                last_invoice = obj.get_last_paid_invoice().pub_date.strftime('%Y-%m-%d')
+            except BillingLog.DoesNotExist:
+                last_invoice = ''
+
+            if obj.created:
+                created = obj.created.strftime('%Y-%m-%d')
+            else:
+                created = ''
+
+            row = [
+                obj.pk,
+                obj.display_name,
+                # obj.associate_consortium or '',
+                contact_name,
+                contact_email,
+                obj.get_membership_status_display(),
+                obj.address_set.first().state_province,
+                obj.address_set.first().country.name,
+                obj.address_set.first().city,
+                # 'yes',
+                created,
+                last_invoice,
+                'https://members.oeconsortium.org%s' % obj.get_absolute_staff_url(),
+            ]
+
+            for col_num in range(len(row)):
+                ws.write(row_num, col_num, row[col_num], font_style)
+
+        ws = wb.add_sheet("Contacts")
+        row_num = 0
+        columns = [
+            (u"Org ID", 25),
+            (u"Contact ID", 25),
+            (u"Organization", 150),
+            (u"Consortium", 70),
+            (u"Contact type", 120),
+            (u"Name", 120),
+            (u"Email", 70),
+            (u"Email bouncing", 50),
+        ]
+
+        font_style = xlwt.XFStyle()
+        font_style.font.bold = True
+
+        for col_num in range(len(columns)):
+            ws.write(row_num, col_num, columns[col_num][0], font_style)
+            ws.col(col_num).width = columns[col_num][1] * 100
+
+        font_style = xlwt.XFStyle()
+        font_style.alignment.wrap = 1
+
+        for obj in Contact.objects.filter(organization__membership_status__in=(2, 3, 5, 7),
+                                          organization__associate_consortium='CCCOER').order_by('organization'):
+            row_num += 1
+
+            row = [
+                obj.organization.id,
+                obj.id,
+                obj.organization.display_name,
+                obj.organization.associate_consortium or '',
+                obj.get_contact_type_display(),
+                u"{0} {1}".format(obj.first_name, obj.last_name),
+                obj.email or '',
+                obj.bouncing or ''
+            ]
+
+            for col_num in range(len(row)):
+                ws.write(row_num, col_num, row[col_num], font_style)
+
+        wb.save(response)
+        return response
+
+
+
 class OrganizationStaffNoContactListView(StaffView, ListView):
     model = Organization
     template_name = 'staff/organization_nocontact.html'
@@ -483,6 +604,14 @@ class OrganizationStaffNoContactListView(StaffView, ListView):
             if not org.contact_set.filter(bouncing=False).exists():
                 orgs.append(org.id)
         return self.model.objects.filter(pk__in=orgs).order_by('display_name')
+
+
+class OrganizationStaffCccOerListView(StaffView, ListView):
+    model = Organization
+    template_name =  'staff/organization_cccoer.html'
+
+    def get_queryset(self):
+        return self.model.active.filter(associate_consortium='CCCOER')
 
 
 ### API views
