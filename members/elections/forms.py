@@ -178,7 +178,7 @@ class VoteForm(forms.Form):
     # proposition_vote5 = forms.ChoiceField(widget=forms.RadioSelect, label="We vote", choices=PROPOSITION_CHOICES)
     # proposition_vote6 = forms.ChoiceField(widget=forms.RadioSelect, label="We vote", choices=PROPOSITION_CHOICES)
 
-    institutional_candidates = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple, label="Select up to 5 Candidates for Board of Directors, Institutional Seats")
+    institutional_candidates = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple, label="Select 5 Candidates for Board of Directors, Institutional Seats")
     # organizational_candidates = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple, label="Select 1 candidate for Board of Directors, Organizational Seat")
     name = forms.CharField(label="Please enter your First and Last name, to sign your vote on behalf of your organization")
 
@@ -263,7 +263,7 @@ class VoteForm(forms.Form):
             #     css_class='row'),
 
             Div(
-                HTML('<p>Please <a href="http://www.oeconsortium.org/about-oec/membership/elections-2018/" target="_blank">see election page for profiles of candidates</a></p>'),
+                HTML('<p>Please <a href="http://www.oeconsortium.org/about-oec/membership/elections/" target="_blank">see election page for profiles of candidates</a></p>'),
                 css_class="row"),
 
             Div(
@@ -281,7 +281,7 @@ class VoteForm(forms.Form):
     def clean(self):
         cleaned_data = self.cleaned_data
 
-        if self.cleaned_data.get('institutional_candidates') and len(self.cleaned_data.get('institutional_candidates')) > 5:
+        if self.cleaned_data.get('institutional_candidates') and len(self.cleaned_data.get('institutional_candidates')) != 5:
             self._errors['institutional_candidates'] = self.error_class(['Too many candidates selected.'])
 
         # if self.cleaned_data.get('organizational_candidates') and len(self.cleaned_data.get('organizational_candidates')) > 1:

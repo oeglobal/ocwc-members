@@ -16,13 +16,16 @@
 
 			{% if candidate_votes %}
 			<ul>
-				{% for vote in candidate_votes %}
+                {% for vote in candidate_votes %}
 				<li>For Board of Directors, {{ vote.seat_type|title }} Seat: <br />
 					{% for candidate in vote.votes.all %}
 						<strong>{{ candidate.candidate_first_name }} {{ candidate.candidate_last_name }}</strong>{% if not forloop.last %}, {% endif %}
 					{% endfor %}
 				</li>
 				{% endfor %}
+                {% with candidate_votes|first as vote %}
+                    <em>Vote was cast by {{ vote.voter_name }}</em>.
+                {% endwith %}
 			</ul>
 			{% endif %}
 			
