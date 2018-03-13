@@ -8,7 +8,7 @@ class Command(BaseCommand):
     help = "displays election results in the console"
 
     def handle(self, *args, **options):
-        election = Election.objects.get(pk=4)
+        election = Election.objects.get(pk=6)
         self.stdout.write(election.title)
 
         for proposition in election.proposition_set.all():
@@ -45,8 +45,8 @@ class Command(BaseCommand):
         for name in names:
             self.stdout.write('\t' + name)
 
-        self.stdout.write('---')
-        self.stdout.write(
-            'Members that voted: ({})'.format(PropositionBallot.objects.filter(proposition=proposition).count()))
-        for ballot in PropositionBallot.objects.filter(proposition=proposition).order_by('organization__display_name'):
-            self.stdout.write('%s, %s' % (ballot.organization.display_name, ballot.voter_name))
+        # self.stdout.write('---')
+        # self.stdout.write(
+        #     'Members that voted: ({})'.format(PropositionBallot.objects.filter(proposition=proposition).count()))
+        # for ballot in PropositionBallot.objects.filter(proposition=proposition).order_by('organization__display_name'):
+        #     self.stdout.write('%s, %s' % (ballot.organization.display_name, ballot.voter_name))

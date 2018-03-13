@@ -263,7 +263,13 @@ class VoteForm(forms.Form):
             #     css_class='row'),
 
             Div(
-                HTML('<p>Please <a href="http://www.oeconsortium.org/about-oec/membership/elections/" target="_blank">see election page for profiles of candidates</a></p>'),
+                HTML(
+                    '<p>Open Education Consortium by-laws require us to have 10 Board of Directors chosen by members. This year we need to '
+                    'elect 5 new Board members. To ensure we get the necessary 5 new Board members we ask OEC members to cast all 5' 
+                    'votes. This will also help ensure we get a diverse and inclusive Board with representation from around the world. To'
+                    'inform your decision making about who to vote for we invite you to review the information about each candidate'
+                    'at <a href="http://www.oeconsortium.org/about-oec/membership/elections/" target="_blank">http://www.oeconsortium.org/about-oec/membership/elections/</a></p>'
+                ),
                 css_class="row"),
 
             Div(
