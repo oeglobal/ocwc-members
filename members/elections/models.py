@@ -107,6 +107,7 @@ class Candidate(models.Model):
     def __unicode__(self):
         return "%s %s (%s)" % (self.candidate_first_name, self.candidate_last_name, self.organization.display_name)
 
+
 class CandidateBallot(models.Model):
     election = models.ForeignKey(Election)
     organization = models.ForeignKey(Organization)
@@ -117,6 +118,7 @@ class CandidateBallot(models.Model):
 
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
+
 
 class Proposition(models.Model):
     election = models.ForeignKey(Election)

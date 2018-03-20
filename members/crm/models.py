@@ -329,6 +329,7 @@ CONTACT_TYPE_CHOICES = (
     (10, 'Voting Representative'),
     (11, 'Affiliated with'),
     (12, 'AC Member of'),
+    (13, 'Accounting Contact')
 )
 
 
