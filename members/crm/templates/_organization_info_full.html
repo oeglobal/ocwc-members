@@ -46,6 +46,7 @@
 			{% for contact in org.contact_set.all %}
 			<p>
 				<strong>{{ contact.get_contact_type_display }}</strong><br />
+            {% if contact.job_title %}<strong>Job Title:</strong> {{ contact.job_title }}{% endif %}<br />
 				<strong>Name:</strong> {{ contact.first_name }} {{ contact.last_name }}<br />
 				<strong>Email:</strong> {{ contact.email }}
 				{% if contact.bouncing %}<span class="warning">(bounces!)</span>{% endif %}

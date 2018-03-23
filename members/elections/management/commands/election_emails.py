@@ -16,5 +16,5 @@ class Command(BaseCommand):
             if CandidateBallot.objects.filter(election=election, organization=org).exists():
                 continue
 
-            for contact in Contact.objects.filter(organization=org, bouncing=False, contact_type__in=[6,9,10]):
-                print(contact.email)
+            for contact in Contact.objects.filter(organization=org, bouncing=False):
+                print(contact.email+',')
