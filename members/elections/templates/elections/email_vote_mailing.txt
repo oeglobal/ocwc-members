@@ -1,43 +1,29 @@
-Dear OEC Member,
+Dear {{contact.first_name}} {{contact.last_name}},
 
-The election period for the Open Education Consortium (OEC) Board of
-Directors ( http://www.oeconsortium.org/about-oec/board-of-directors/ )
-is in progress.
+The election period for the Open Education Consortium (OEC) Board of Directors is in progress.
 
-Open Education Consortium by-laws require us to have 10 Board of
-Directors chosen by members. This year we need to elect 5 new Board
-members. To ensure we get the necessary 5 new Board members we ask OEC
-members to cast all 5 votes. This will also help ensure we get a
-diverse and inclusive Board with representation from around the world.
-To inform your decision making about who to vote for we invite you to
-review the information about each candidate at
+Please click on the following link and you'll be taken directly to the ballot:
+https://members.oeconsortium.org{{url}}?next=/elections/vote/add/6/
+
+Please select your 5 preferred candidates from the list of nominees.
+
+Once the votes have been cast for your organization, this form will disappear and you will see confirmation of your votes.
+
+Open Education Consortium by-laws require us to have 10 Board of Directors chosen by members. This year we need to elect 5 new Board members. To ensure we get the necessary 5 new Board members we ask OEC members to cast all 5 votes. This will also help ensure we get a diverse and inclusive Board with representation from around the world. To inform your decision making about who to vote for we invite you to review the information about each candidate at
 
 http://www.oeconsortium.org/about-oec/membership/elections/
 
 All voting takes place online.
 
-
-Please click on the following link and you'll be taken directly to the
-ballot:
-
-https://members.oeconsortium.org{{url}}?next=/elections/vote/add/6/
-
-Please select your 5 preferred candidates from the list of nominees.
-
-Once the votes have been cast for your organization, this form will disappear
-and you will see confirmation of your votes.
-
 The election period ends April 2. Results will be announced April 11.
 
-If you have any questions about your membership or voting status,
-please contact:
+If you have any questions about your membership or voting status, please contact:
 
 Igor Lesko, igorlesko@oeconsortium.org,
-for members in Africa, Asia, Australia the Middle East and Europe
-(except Spain)
+for members in Africa, Asia, Australia the Middle East and Europe (except Spain)
 
-Marcela Morales, marcela.morales@oeconsortium.org, for members in the
-Americas and Spain
+Marcela Morales, marcela.morales@oeconsortium.org,
+for members in the Americas and Spain
 
 or tech@oeconsortium.org for any technical issues.
 

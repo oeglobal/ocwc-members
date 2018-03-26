@@ -25,11 +25,13 @@ class Command(BaseCommand):
                     emails.append(contact)
                     seen_emails.append(contact.email)
 
-            seen_emails = set(seen_emails)
-
             key = LoginKey(user=org.user, email=contact.email)
             key.save()
 
-            body = render_to_string('elections/email_vote_mailing.txt', {'url': key.get_absolute_url()})
-            send_mail('Last chance to vote in OEC 2018 Elections!', body,
-                      'memberservices@oeconsortium.org', seen_emails)
+            for contact in emails:
+                body = render_to_string('elections/email_vote_mailing.txt', {
+                    'url': key.get_absolute_url(),
+                    'contact': contact
+                })
+                send_mail('Last chance to vote in OEC 2018 Elections!', body,
+                          'memberservices@oeconsortium.org', [contact.email])
