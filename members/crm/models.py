@@ -17,7 +17,6 @@ from django.conf import settings
 from geopy import geocoders
 from .utils import print_pdf
 
-# import reversion
 here = lambda x: os.path.join(os.path.dirname(os.path.abspath(__file__)), x)
 
 
@@ -344,6 +343,9 @@ class Contact(models.Model):
     job_title = models.CharField(max_length=255, blank=True, default='')
 
     bouncing = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return self.email
 
 
 # reversion.register(Contact)

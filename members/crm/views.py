@@ -726,7 +726,8 @@ class LoginKeyCheckView(TemplateView):
 
             login_key.user.backend = 'django.contrib.auth.backends.ModelBackend'
             login(self.request, login_key.user)
-            return redirect('/crm/')
+
+            return redirect(request.GET.get('next', '/crm/'))
 
         return super(LoginKeyCheckView, self).dispatch(request, *args, **kwargs)
 
