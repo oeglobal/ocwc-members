@@ -53,7 +53,10 @@ class Command(BaseCommand):
 
                     self.stdout.write(u"Marking {contact.email} as bouncing - {contact.first_name} {contact.last_name} from {contact.organization.display_name}".format(contact=contact))
 
-    def update_list(self, list_name='members-list', membership_status=(2, 3, 5, 7, 99), contact_type=(6, 9, 10)):
+    def update_list(self,
+                    list_name='members-list',
+                    membership_status=(2, 3, 5, 7, 99),
+                    contact_type=(4, 6, 9, 10, 11, 12)):
         offset = 0
 
         emails = []
