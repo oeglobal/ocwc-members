@@ -43,8 +43,8 @@
             }
 
             body {
-                width: 210mm !important;
-                height: 297mm;
+                {#width: 210mm !important;#}
+                {#height: 295mm !important;#}
             }
 
             .large-4 {
@@ -100,7 +100,8 @@
 
         #paid {
             font-size: 15em;
-            top: 50%;
+            top: 30%;
+            lefT: 20%;
             position: absolute;
             color: rgba(108, 108, 108, 0.1) !important;
         }
@@ -233,9 +234,6 @@
 
         <div class="large-10 columns push-1">
             <p>Thank you for your membership!</p>
-            {% if invoice.invoice_type == 'issued' %}
-{#                <p class="page">Page <span class="counter"></span>/2</p>#}
-            {% endif %}
         </div>
         {% if invoice.invoice_type == 'paid' %}
             <div id="paid">PAID</div>

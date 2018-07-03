@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.core.management.base import BaseCommand
 
-from elections.models import Election, PropositionBallot, Proposition, Candidate
+from elections.models import Election, PropositionBallot, Proposition, Candidate, CandidateBallot
 
 
 class Command(BaseCommand):
@@ -45,8 +45,8 @@ class Command(BaseCommand):
         for name in names:
             self.stdout.write('\t' + name)
 
-        # self.stdout.write('---')
-        # self.stdout.write(
-        #     'Members that voted: ({})'.format(PropositionBallot.objects.filter(proposition=proposition).count()))
-        # for ballot in PropositionBallot.objects.filter(proposition=proposition).order_by('organization__display_name'):
-        #     self.stdout.write('%s, %s' % (ballot.organization.display_name, ballot.voter_name))
+        self.stdout.write('---')
+        self.stdout.write(
+            'Members that voted: ({})'.format(CandidateBallot.objects.filter(election=election).count()))
+        for ballot in CandidateBallot.objects.filter(election=election).order_by('organization__display_name'):
+            self.stdout.write('%s, %s' % (ballot.organization.display_name, ballot.voter_name))
