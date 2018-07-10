@@ -29,6 +29,12 @@ class OrganizationAdmin(admin.ModelAdmin):
         ('Websites', {
             'fields': ('main_website', 'ocw_website'),
         }),
+        ('Initiatives', {
+            'fields': (
+                'initiative_description1', 'initiative_url1', 'initiative_description2', 'initiative_url2',
+                'initiative_description3', 'initiative_url3'
+            )
+        }),
         ('Additional', {
             'fields': ('legal_name', 'user', 'slug', 'crmid', 'description', 'logo_large', 'logo_small', 'accreditation_body', 'support_commitment',)
         })
