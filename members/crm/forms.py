@@ -31,6 +31,16 @@ class MembershipApplicationModelForm(forms.ModelForm):
     terms_of_use = forms.BooleanField(required=True, label='I agree to the terms of use for this website.')
     coppa = forms.BooleanField(required=True, label="I signify that I am 13 years of age or older.")
 
+    main_website = forms.URLField(required=True,
+                                  label='Main Website address (with http:// or https:// in front)')
+
+    initiative_url1 = forms.URLField(required=False,
+                                     label='URL')
+    initiative_url2 = forms.URLField(required=False,
+                                     label='URL')
+    initiative_url3 = forms.URLField(required=False,
+                                     label='URL')
+
     def __init__(self, *args, **kwargs):
         super(MembershipApplicationModelForm, self).__init__(*args, **kwargs)
 
