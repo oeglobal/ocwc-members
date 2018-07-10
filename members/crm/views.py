@@ -8,7 +8,7 @@ from django.http import Http404, HttpResponse
 from django.conf import settings
 from django.shortcuts import render, redirect
 from django.contrib.auth import login
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.template.loader import render_to_string
 from django.db import transaction
 
