@@ -11,9 +11,12 @@ Django==1.11.14
 django-braces==1.13.0
 django-crispy-forms==1.7.2
 django-floppyforms==1.7.0
+django-reversion==1.8.0
 django-tinymce4-lite==1.7.1
 django-vanilla-views==1.0.5
 djangorestframework==3.8.2
+djangorestframework-jsonp==1.0.2
+djangospam==1.1.4a0
 enum34==1.1.6
 geopy==0.95.1
 gevent==1.1.1
@@ -30,6 +33,7 @@ pathlib2==2.3.0
 pexpect==4.2.1
 pickleshare==0.7.4
 Pillow==5.2.0
+Pillow-PIL==0.1.dev0
 prompt-toolkit==1.0.15
 psycopg2==2.7.5
 psycopg2-binary==2.7.5
