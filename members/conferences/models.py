@@ -3,7 +3,7 @@ import uuid
 from tinymce import HTMLField
 
 from django.db import models
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.core.mail import EmailMessage
 from django.conf import settings
 

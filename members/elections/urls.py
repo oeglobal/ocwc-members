@@ -4,6 +4,7 @@ from django.conf.urls import url
 from .views import CandidateAddView, CandidateEditView, CandidateView, ElectionListView, VoteView, VoteAddFormView
 from .api import ElectionCandidatesListAPIView
 
+app_name = 'elections'
 urlpatterns = [
     url(r'^candidate/nominate/$', CandidateAddView.as_view(), name='candidate-add'),
 

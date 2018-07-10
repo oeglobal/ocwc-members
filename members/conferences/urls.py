@@ -2,6 +2,7 @@ from django.conf.urls import url
 
 from .views import ConferenceIndex, InvoicePDF, InvoicePreview, PingInvoices
 
+app_name = 'conferences'
 urlpatterns = [
     url(r'^$', ConferenceIndex.as_view(), name='index'),
 

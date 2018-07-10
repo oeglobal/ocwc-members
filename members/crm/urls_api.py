@@ -4,6 +4,7 @@ from .views import address_geo_list_view, country_list_view, OrganizationByCount
     organization_group_by_membership_view, OrganizationViewApi, OrganizationRssFeedsApi, \
     organization_group_by_consortium_view
 
+app_name = 'crmapi'
 urlpatterns = [
     url(r'^address/list/geo/$', address_geo_list_view, name='address-list-geo'),
     url(r'^country/list/$', country_list_view, name='country-list'),
