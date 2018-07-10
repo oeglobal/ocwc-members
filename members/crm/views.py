@@ -420,7 +420,7 @@ class OrganizationExportExcel(StaffView, TemplateView):
                 contact_name,
                 contact_email,
                 obj.get_membership_status_display(),
-                'http://members.oeconsortium.org%s' % obj.get_absolute_staff_url(),
+                'https://members.oeconsortium.org%s' % obj.get_absolute_staff_url(),
                 obj.address_set.first().country.name,
                 obj.address_set.first().city,
                 'yes'
