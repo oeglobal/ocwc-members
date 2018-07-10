@@ -74,7 +74,7 @@ class Migration(migrations.Migration):
                 ('published', models.BooleanField(default=False)),
                 ('created', models.DateTimeField(auto_now_add=True)),
                 ('modified', models.DateTimeField(auto_now=True)),
-                ('election', models.ForeignKey(to='elections.Election')),
+                ('election', models.ForeignKey(on_delete=models.CASCADE, to='elections.Election')),
             ],
         ),
         migrations.CreateModel(
@@ -85,20 +85,20 @@ class Migration(migrations.Migration):
                 ('vote', models.NullBooleanField(choices=[(True, b'We vote <strong>for</strong> this proposition'), (False, b'We vote <strong>against</strong> this proposition'), (None, b'We abstain')])),
                 ('created', models.DateTimeField(auto_now_add=True)),
                 ('modified', models.DateTimeField(auto_now=True)),
-                ('election', models.ForeignKey(to='elections.Election')),
-                ('organization', models.ForeignKey(to='crm.Organization')),
-                ('proposition', models.ForeignKey(to='elections.Proposition')),
+                ('election', models.ForeignKey(on_delete=models.CASCADE, to='elections.Election')),
+                ('organization', models.ForeignKey(on_delete=models.CASCADE, to='crm.Organization')),
+                ('proposition', models.ForeignKey(on_delete=models.CASCADE, to='elections.Proposition')),
             ],
         ),
         migrations.AddField(
             model_name='candidateballot',
             name='election',
-            field=models.ForeignKey(to='elections.Election'),
+            field=models.ForeignKey(on_delete=models.CASCADE, to='elections.Election'),
         ),
         migrations.AddField(
             model_name='candidateballot',
             name='organization',
-            field=models.ForeignKey(to='crm.Organization'),
+            field=models.ForeignKey(on_delete=models.CASCADE, to='crm.Organization'),
         ),
         migrations.AddField(
             model_name='candidateballot',
@@ -108,11 +108,11 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='candidate',
             name='election',
-            field=models.ForeignKey(to='elections.Election'),
+            field=models.ForeignKey(on_delete=models.CASCADE, to='elections.Election'),
         ),
         migrations.AddField(
             model_name='candidate',
             name='organization',
-            field=models.ForeignKey(to='crm.Organization'),
+            field=models.ForeignKey(on_delete=models.CASCADE, to='crm.Organization'),
         ),
     ]

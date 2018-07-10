@@ -45,7 +45,7 @@ class Migration(migrations.Migration):
                 ('product_html', models.TextField(default=b'')),
                 ('last_synced', models.DateTimeField(auto_now=True)),
                 ('access_key', models.CharField(max_length=32, blank=True)),
-                ('interface', models.ForeignKey(to='conferences.ConferenceInterface')),
+                ('interface', models.ForeignKey(on_delete=models.CASCADE, to='conferences.ConferenceInterface')),
             ],
         ),
     ]

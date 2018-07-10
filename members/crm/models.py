@@ -31,7 +31,7 @@ class Country(models.Model):
     name = models.CharField(max_length=192, unique=True, blank=True)
     iso_code = models.CharField(max_length=6, unique=True, blank=True)
     developing = models.BooleanField()
-    continent = models.ForeignKey(Continent, null=True, blank=True)
+    continent = models.ForeignKey(Continent, models.CASCADE, null=True, blank=True)
 
     class Meta:
         ordering = ('name',)
@@ -124,7 +124,7 @@ class Organization(models.Model):
     legal_name = models.CharField(max_length=255, blank=True)
     display_name = models.CharField(max_length=255, verbose_name="Name of the organization")
     slug = models.CharField(max_length=60, unique=True, default='')
-    user = models.ForeignKey(User, blank=True, null=True)
+    user = models.ForeignKey(User, models.CASCADE, blank=True, null=True)
 
     membership_type = models.IntegerField(choices=ORGANIZATION_MEMBERSHIP_TYPE_CHOICES)
     # organization_type = models.CharField(max_length=255, choices=ORGANIZATION_TYPE_CHOICES)
@@ -145,7 +145,7 @@ class Organization(models.Model):
     accreditation_body = models.CharField(max_length=255, blank=True, default='')
     support_commitment = models.TextField(blank=True, default='')
 
-    ocw_contact = models.ForeignKey(User, null=True, verbose_name=u'Primary contact inside OCW',
+    ocw_contact = models.ForeignKey(User, models.CASCADE, null=True, verbose_name=u'Primary contact inside OCW',
                                     related_name='ocw_contact_user',
                                     limit_choices_to={'is_staff': True})
 
@@ -331,7 +331,7 @@ CONTACT_TYPE_CHOICES = (
 
 
 class Contact(models.Model):
-    organization = models.ForeignKey(Organization)
+    organization = models.ForeignKey(Organization, models.CASCADE)
 
     contact_type = models.IntegerField(choices=CONTACT_TYPE_CHOICES)
     email = models.EmailField(max_length=255)
@@ -353,7 +353,7 @@ ADDRESS_TYPE = (
 
 
 class Address(models.Model):
-    organization = models.ForeignKey(Organization)
+    organization = models.ForeignKey(Organization, models.CASCADE)
     address_type = models.CharField(max_length=25, choices=ADDRESS_TYPE, default='primary')
 
     street_address = models.CharField(max_length=255, blank=True, help_text='Street address with street number')
@@ -367,7 +367,7 @@ class Address(models.Model):
     state_province = models.CharField(max_length=255, blank=True)
     state_province_abbr = models.CharField(max_length=255, blank=True)
 
-    country = models.ForeignKey(Country, blank=True, null=True)
+    country = models.ForeignKey(Country, models.CASCADE, blank=True, null=True)
 
     latitude = models.FloatField(blank=True, null=True)
     longitude = models.FloatField(blank=True, null=True)
