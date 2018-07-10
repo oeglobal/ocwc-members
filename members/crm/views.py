@@ -80,14 +80,17 @@ class OrganizationStaffModelForm(forms.ModelForm):
         model = Organization
         fields = ['membership_type', 'membership_status', 'associate_consortium',
                   'display_name', 'legal_name', 'main_website', 'ocw_website', 'description',
-                  'logo_large', 'logo_small', 'rss_course_feed']
+                  'initiative_description1', 'initiative_url1', 'initiative_description2', 'initiative_url2',
+                  'initiative_description3', 'initiative_url3',
+                  'logo_large', 'logo_small']
 
 
 class OrganizationModelForm(forms.ModelForm):
     class Meta:
         model = Organization
         fields = ['display_name', 'main_website', 'ocw_website', 'description',
-                  'logo_large', 'logo_small', 'rss_course_feed']
+                  'initiative_description1', 'initiative_url1', 'initiative_description2', 'initiative_url2',
+                  'initiative_description3', 'initiative_url3', 'logo_large', 'logo_small']
 
 
 class OrganizationEdit(OrganizationView, UpdateView):

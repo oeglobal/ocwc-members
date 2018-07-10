@@ -135,7 +135,7 @@ class Organization(models.Model):
     crmid = models.CharField(max_length=255, blank=True, help_text='Legacy identifier')
 
     main_website = models.TextField(max_length=255, blank=True)
-    ocw_website = models.TextField(max_length=255, blank=True, verbose_name="OCW Website")
+    ocw_website = models.TextField(max_length=255, blank=True, verbose_name="OER/OCW Website")
 
     description = models.TextField(blank=True)
     logo_large = models.ImageField(max_length=255, upload_to="logos", blank=True)
@@ -153,16 +153,16 @@ class Organization(models.Model):
 
     institution_type = models.CharField(max_length=25, blank=True, choices=INSTITUTION_TYPE_CHOICES, default='')
     initiative_description1 = models.TextField(blank=True, default='',
-                                               verbose_name='Description (100 – 350 characters)')
-    initiative_url1 = models.URLField(max_length=255, blank=True, default='', verbose_name='URL')
+                                               verbose_name='Initiative 1 Description (100 – 350 characters)')
+    initiative_url1 = models.URLField(max_length=255, blank=True, default='', verbose_name='Initiative 1 URL')
 
     initiative_description2 = models.TextField(blank=True, default='',
-                                               verbose_name='Description (100 – 350 characters)')
-    initiative_url2 = models.URLField(max_length=255, blank=True, default='', verbose_name='URL')
+                                               verbose_name='Initiative 2 Description (100 – 350 characters)')
+    initiative_url2 = models.URLField(max_length=255, blank=True, default='', verbose_name='Initiative 2 URL')
 
     initiative_description3 = models.TextField(blank=True, default='',
-                                               verbose_name='Description (100 – 350 characters)')
-    initiative_url3 = models.URLField(max_length=255, blank=True, default='', verbose_name='URL')
+                                               verbose_name='Initiative 3 Description (100 – 350 characters)')
+    initiative_url3 = models.URLField(max_length=255, blank=True, default='', verbose_name='Initiative 3 URL')
 
     objects = models.Manager()
     active = ActiveOrganizationManager()

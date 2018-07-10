@@ -15,8 +15,9 @@
 		<h2 class="address">General information <a class="edit-link" href="{% url 'crm:organization-edit' org.id %}">Edit</a></h2>
 		<p>
 			<strong>Main website:</strong> <a href="{{ org.main_website }}">{{ org.main_website }}</a><br />
-			<strong>OCW website:</strong> <a href="{{ org.ocw_website }}">{{ org.ocw_website }}</a><br />
-			<strong>RSS course feed:</strong> <a href="{{ org.rss_course_feed }}">{{ org.rss_course_feed }}</a>
+             {% if org.ocw_website %}
+			    <strong>OER/OCW website:</strong> <a href="{{ org.ocw_website }}">{{ org.ocw_website }}</a><br />
+             {% endif %}
 		</p>
 		<p class="org-description">
 			{{ org.description }}
@@ -40,7 +41,29 @@
 		{% if request.user.is_staff %}
 			<a href="/admin/crm/address/add/?organization={{ org.id }}" class="button buton-primary" target="_blank">Add Address</a>
 		{% endif %}
+
+        {% if org.initiative_description1 %}
+            <h2>Initiatives</h2>
+            {% if org.initiative_description1 %}
+                <h3>Initiative 1</h3>
+                <p>{{ org.initiative_description1 }}</p>
+                <a href="{{ org.initiative_url1 }}">{{ org.initiative_url1 }}</a><br /><br />
+            {% endif %}
+
+            {% if org.initiative_description2 %}
+                <h3>Initiative 2</h3>
+                <p>{{ org.initiative_description2 }}</p>
+                <a href="{{ org.initiative_url2 }}">{{ org.initiative_url2 }}</a><br /><br />
+            {% endif %}
+
+            {% if org.initiative_description3 %}
+                <h3>Initiative 3</h3>
+                <p>{{ org.initiative_description3 }}</p>
+                <a href="{{ org.initiative_url3 }}">{{ org.initiative_url3 }}</a><br /><br />
+            {% endif %}
+        {% endif %}
 		</div>
+
 		<div class="large-6 columns">
 			<h2 class="contacts">Contacts</h2>
 			{% for contact in org.contact_set.all %}
