@@ -8,14 +8,13 @@ click==6.7
 cssselect==1.0.1
 decorator==4.1.2
 Django==1.11.14
-django-braces==1.2.2
+django-braces==1.13.0
 django-crispy-forms==1.6.1
 django-floppyforms==1.7.0
-django-reversion==1.8.0
-django-tinymce4-lite==1.5.2
+django-tinymce4-lite==1.7.1
 django-vanilla-views==1.0.4
 djangorestframework==3.8.2
-djangospam==1.1.4
+djangospam==1.1.4a
 enum34==1.1.6
 geopy==0.95.1
 gevent==1.1.1

@@ -28,7 +28,7 @@ class ConferenceRegistration(models.Model):
         ('wire', 'Wire Transfer')
     )
 
-    interface = models.ForeignKey(ConferenceInterface)
+    interface = models.ForeignKey(ConferenceInterface, models.CASCADE)
     form_id = models.CharField(max_length=255)
     entry_id = models.CharField(max_length=255)
     entry_created = models.DateTimeField(null=True)

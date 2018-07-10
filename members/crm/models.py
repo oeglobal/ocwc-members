@@ -313,8 +313,6 @@ class Organization(models.Model):
         return self.contact_set.filter(contact_type=6).latest('id')
 
 
-# reversion.register(Organization)
-
 # CONTACT_TYPE_CHOICES = (
 #   ('lead', 'Main contact'),
 #   ('tech', 'Technical contact'),
@@ -347,8 +345,6 @@ class Contact(models.Model):
     def __unicode__(self):
         return self.email
 
-
-# reversion.register(Contact)
 
 ADDRESS_TYPE = (
     ('primary', 'Primary Address'),
@@ -406,8 +402,6 @@ class Address(models.Model):
         return self.organization.get_absolute_url()
 
 
-# reversion.register(Address)
-
 APPLICATION_MEMBERSHIP_TYPE = (
 
 )
@@ -454,7 +448,7 @@ IS_ACCREDITED_CHOICES = (
 
 
 class MembershipApplication(models.Model):
-    organization = models.ForeignKey(Organization, blank=True, null=True,
+    organization = models.ForeignKey(Organization, models.CASCADE, blank=True, null=True,
                                      help_text='Should be empty, unless application is approved')
     membership_type = models.IntegerField(choices=ORGANIZATION_MEMBERSHIP_TYPE_CHOICES, blank=True,
                                           null=True, default=None)
@@ -478,7 +472,7 @@ class MembershipApplication(models.Model):
                                    verbose_name=u"Logo of your institution (at least 500x500px PNG or a vector (PDF, EPS) file)")
     logo_small = models.CharField(max_length=765, blank=True)
 
-    institution_country = models.ForeignKey(Country, blank=True, null=True)
+    institution_country = models.ForeignKey(Country, models.CASCADE, blank=True, null=True)
 
     rss_course_feed = models.CharField(max_length=765, blank=True)
     rss_referral_link = models.CharField(max_length=765, blank=True)
@@ -517,7 +511,7 @@ class MembershipApplication(models.Model):
     postal_code = models.CharField(max_length=50, blank=True)
 
     state_province = models.CharField(max_length=255, blank=True, verbose_name=u'State/Province')
-    country = models.ForeignKey(Country, blank=True, null=True, related_name='app_country')
+    country = models.ForeignKey(Country, models.CASCADE, blank=True, null=True, related_name='app_country')
 
     email = models.EmailField(max_length=255, blank=True)
 
@@ -651,7 +645,7 @@ COMMENTS_APP_STATUS_CHOICES = (
 
 
 class MembershipApplicationComment(models.Model):
-    application = models.ForeignKey(MembershipApplication)
+    application = models.ForeignKey(MembershipApplication, models.CASCADE)
 
     legacy_comment_id = models.IntegerField(blank=True)
     legacy_app_id = models.IntegerField(blank=True)
@@ -664,7 +658,7 @@ class MembershipApplicationComment(models.Model):
 
 
 class ReportedStatistic(models.Model):
-    organization = models.ForeignKey(Organization)
+    organization = models.ForeignKey(Organization, models.CASCADE)
     report_month = models.CharField(max_length=6)
     report_year = models.CharField(max_length=12)
     site_visits = models.IntegerField()
@@ -686,7 +680,7 @@ class ReportedStatistic(models.Model):
 
 
 class LoginKey(models.Model):
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(User, models.CASCADE)
     email = models.EmailField()
     key = models.CharField(max_length=32)
 
@@ -722,14 +716,14 @@ BILLING_LOG_TYPE_CHOICES = (
 
 class BillingLog(models.Model):
     log_type = models.CharField(max_length=30, choices=BILLING_LOG_TYPE_CHOICES)
-    organization = models.ForeignKey(Organization)
+    organization = models.ForeignKey(Organization, models.CASCADE)
     pub_date = models.DateTimeField(auto_now_add=True)
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(User, models.CASCADE)
     created_date = models.DateField(null=True, verbose_name='Created Date (year-month-day)')
 
     amount = models.IntegerField(null=True)
     email = models.CharField(max_length=120, blank=True, verbose_name="Recepient email")
-    invoice = models.ForeignKey('Invoice', null=True, blank=True)
+    invoice = models.ForeignKey('Invoice', models.CASCADE, null=True, blank=True)
     invoice_year = models.CharField(default=settings.DEFAULT_INVOICE_YEAR, max_length=10)
     invoice_number = models.CharField(max_length=60, null=True, blank=True)
     description = models.TextField(blank=True, default='')
@@ -775,7 +769,7 @@ INVOICE_TYPE_CHOICES = (
 
 class Invoice(models.Model):
     invoice_type = models.CharField(max_length=30, default='issued', choices=INVOICE_TYPE_CHOICES)
-    organization = models.ForeignKey(Organization)
+    organization = models.ForeignKey(Organization, models.CASCADE)
     invoice_number = models.CharField(max_length=30, blank=True)
     invoice_year = models.CharField(default=settings.DEFAULT_INVOICE_YEAR, max_length=10)
     amount = models.IntegerField()

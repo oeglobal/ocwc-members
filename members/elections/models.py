@@ -10,6 +10,7 @@ from django.utils.safestring import mark_safe
 
 from crm.models import Organization
 
+
 class Election(models.Model):
     title = models.CharField(max_length=255)
     view_nominations_key = models.CharField(max_length=255, blank=True)
@@ -32,6 +33,7 @@ class Election(models.Model):
     def __unicode__(self):
         return self.title
 
+
 CANDIDATE_STATUS_CHOICES = (
     ('nominated', 'Nominated'),
     ('accepted', 'Accepted'),
@@ -47,7 +49,7 @@ SEAT_TYPE_CHOICES = (
 
 
 class Candidate(models.Model):
-    election = models.ForeignKey(Election)
+    election = models.ForeignKey(Election, models.CASCADE)
     status = models.CharField(max_length=60, choices=CANDIDATE_STATUS_CHOICES, default='')
 
     candidate_first_name = models.CharField(max_length=255)
@@ -58,7 +60,7 @@ class Candidate(models.Model):
 
     reason = models.TextField(blank=True)
     # organization = models.CharField(max_length=255)
-    organization = models.ForeignKey(Organization)
+    organization = models.ForeignKey(Organization, models.CASCADE)
 
     sponsor_first_name = models.CharField(max_length=255)
     sponsor_last_name = models.CharField(max_length=255)
@@ -109,8 +111,8 @@ class Candidate(models.Model):
 
 
 class CandidateBallot(models.Model):
-    election = models.ForeignKey(Election)
-    organization = models.ForeignKey(Organization)
+    election = models.ForeignKey(Election, models.CASCADE)
+    organization = models.ForeignKey(Organization, models.CASCADE)
     voter_name = models.CharField(max_length=255)
 
     seat_type = models.CharField(max_length=60, choices=SEAT_TYPE_CHOICES)
@@ -121,7 +123,7 @@ class CandidateBallot(models.Model):
 
 
 class Proposition(models.Model):
-    election = models.ForeignKey(Election)
+    election = models.ForeignKey(Election, models.CASCADE)
     title = models.CharField(max_length=255)
     description = models.TextField(blank=True)
 
@@ -133,17 +135,19 @@ class Proposition(models.Model):
     def __unicode__(self):
         return self.title
 
+
 PROPOSITION_CHOICES = (
     (True, mark_safe('We vote <strong>for</strong> this proposition')),
     (False, mark_safe('We vote <strong>against</strong> this proposition')),
     (None, mark_safe('We abstain')),
 )
 
-class PropositionBallot(models.Model):
-    election = models.ForeignKey(Election)
-    proposition = models.ForeignKey(Proposition)
 
-    organization = models.ForeignKey(Organization)
+class PropositionBallot(models.Model):
+    election = models.ForeignKey(Election, models.CASCADE)
+    proposition = models.ForeignKey(Proposition, models.CASCADE)
+
+    organization = models.ForeignKey(Organization, models.CASCADE)
     voter_name = models.CharField(max_length=255)
 
     vote = models.NullBooleanField(null=True, choices=PROPOSITION_CHOICES)

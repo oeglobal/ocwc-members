@@ -181,7 +181,6 @@ class MembershipApplicationListView(StaffuserRequiredMixin, ListView):
         return self.model.objects.filter(app_status__in=('Submitted', 'Committee', 'RequestedMoreInfo')).order_by('-id')
 
 
-### Staff specific views
 class StaffView(LoginRequiredMixin, StaffuserRequiredMixin):
     pass
 
@@ -212,7 +211,7 @@ class OrganizationStaffDetailView(OrganizationStaffView, DetailView):
             lead_contact = self.object.contact_set.filter(contact_type=6).latest('id')
             first_name = lead_contact.first_name
             email = lead_contact.email
-        except (Contact.DoesNotExist):
+        except Contact.DoesNotExist:
             first_name = ''
             email = ''
 
