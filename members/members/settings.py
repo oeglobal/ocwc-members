@@ -171,4 +171,13 @@ DEFAULT_INVOICE_YEAR = '2018'
 
 ALLOWED_HOSTS = ['localhost', 'members.oeconsortium.org']
 
+REST_FRAMEWORK = {
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer',
+        'rest_framework_jsonp.renderers.JSONPRenderer',
+    ),
+}
+
+
 from localsettings import *
