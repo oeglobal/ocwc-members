@@ -23,7 +23,7 @@
                         <td>{{ org.created|date:"Y-m" }}</td>
                         <td>{{ org.get_last_paid_invoice.pub_date|date:"Y-m" }}</td>
                         <td>{{ org.get_billing_address.state_province }}</td>
-                        <td><a href="{{ org.get_lead_contact.email }}">{{ org.get_lead_contact.first_name }} {{ org.get_lead_contact.last_name }}</a></td>
+                        <td><a href="mailto:{{ org.get_lead_contact.email }}">{{ org.get_lead_contact.first_name }} {{ org.get_lead_contact.last_name }}</a></td>
                     </tr>
                 {% endfor %}
             </table>

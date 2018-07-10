@@ -5,7 +5,7 @@ from .views import StaffIndex, OrganizationStaffListView, OrganizationStaffDetai
     OrganizationExportExcel, OrganizationStaffNoContactListView, OrganizationStaffCccOerListView, \
     OrganizationExportCccoerExcel
 
-app_name = 'crmstaff'
+app_name = 'staff'
 urlpatterns = [
     url(r'^$', StaffIndex.as_view(), name='index'),
 
