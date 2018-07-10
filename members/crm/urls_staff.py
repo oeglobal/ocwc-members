@@ -1,11 +1,11 @@
-from django.conf.urls import patterns, url
+from django.conf.urls import url
 
 from .views import StaffIndex, OrganizationStaffListView, OrganizationStaffDetailView, \
     InvoiceStaffView, InvoicePhantomJSView, BillingLogCreateView, OrganizationBillingLogListingView, \
     OrganizationExportExcel, OrganizationStaffNoContactListView, OrganizationStaffCccOerListView, \
     OrganizationExportCccoerExcel
 
-urlpatterns = patterns('',
+urlpatterns = [
     url(r'^$', StaffIndex.as_view(), name='index'),
 
     url(r'^invoice/view/(?P<pk>\d+)/$', InvoiceStaffView.as_view(), name='invoice-view'),
@@ -21,4 +21,4 @@ urlpatterns = patterns('',
     url(r'^organization/list/nocontact/$', OrganizationStaffNoContactListView.as_view(), name='organization-list-nocontact'),
     url(r'^organization/list/cccoer/$', OrganizationStaffCccOerListView.as_view(), name='organization-list-cccoer'),
     url(r'^organization/list/$', OrganizationStaffListView.as_view(), name='organization-list'),
-)
+]

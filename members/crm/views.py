@@ -18,7 +18,7 @@ from braces.views import LoginRequiredMixin, StaffuserRequiredMixin
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, renderer_classes
 from rest_framework import generics
-from rest_framework.renderers import JSONRenderer, JSONPRenderer, BrowsableAPIRenderer
+from rest_framework.renderers import JSONRenderer, BrowsableAPIRenderer
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework.permissions import IsAuthenticated
 
@@ -614,9 +614,7 @@ class OrganizationStaffCccOerListView(StaffView, ListView):
         return self.model.active.filter(associate_consortium='CCCOER')
 
 
-### API views
 @api_view(['GET'])
-@renderer_classes([BrowsableAPIRenderer, JSONRenderer, JSONPRenderer])
 def address_geo_list_view(request):
     features_list = []
 
@@ -693,6 +691,7 @@ def organization_group_by_membership_view(request):
 
     return Response(data)
 
+
 @api_view(['GET'])
 def organization_group_by_consortium_view(request, consortium):
     data = OrganizationApiSerializer(Organization.active.filter(associate_consortium=consortium), many=True).data
@@ -700,6 +699,7 @@ def organization_group_by_consortium_view(request, consortium):
     sorted_by_state = sorted(data, key=lambda k: k['state'])
 
     return Response(sorted_by_state)
+
 
 class OrganizationViewApi(generics.RetrieveAPIView):
     queryset = Organization.active.all()
@@ -714,7 +714,6 @@ class OrganizationRssFeedsApi(generics.ListAPIView):
     serializer_class = OrganizationRssFeedsApiSerializer
 
 
-### Login via e-mail key
 class LoginKeyCheckView(TemplateView):
     template_name = 'mail-login/login_failed.html'
 
