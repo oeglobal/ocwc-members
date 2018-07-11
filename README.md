@@ -1,8 +1,6 @@
 ocwc-members
 ============
 
-[![Build Status](https://travis-ci.org/ocwc/ocwc-members.png?branch=master)](https://travis-ci.org/ocwc/ocwc-members)
-
 Custom Django CRM for handling OCWC membership information.
 
 MIT Licensed.
