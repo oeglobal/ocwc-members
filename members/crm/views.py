@@ -237,6 +237,7 @@ class OrganizationStaffDetailView(OrganizationStaffView, DetailView):
             'email_invoice_paid': email,
             'email_invoice_paid_subject': email_invoice_paid_subject,
             'email_invoice_paid_body': email_invoice_paid_body,
+            'invoice_year': settings.DEFAULT_INVOICE_YEAR,
             'description': 'The Open Education Consortium %s Membership' % settings.DEFAULT_INVOICE_YEAR
         }
 
@@ -297,7 +298,6 @@ class BillingLogCreateView(StaffView, CreateView):
                 invoice=invoice
             )
             transaction.commit()
-            # import ipdb; ipdb.set_trace()
             invoice.generate_pdf()
 
         elif get('log_type') == 'create_paid_invoice':

@@ -199,6 +199,7 @@ class BillingLogForm(forms.ModelForm):
         self.fields['organization'].widget = forms.HiddenInput()
         self.fields['user'].widget = forms.HiddenInput()
         self.fields['invoice_year'].widget = forms.HiddenInput()
+
         self.fields['amount'].required = False
 
         self.helper = FormHelper(self)
@@ -230,6 +231,11 @@ class BillingLogForm(forms.ModelForm):
                 HTML("<p>Note will be visible to other staff members</p>"),
                 Field('note'),
                 ng_show="logtype === 'create_note'",
+            ),
+            Div(
+                Field('invoice_year'),
+                Field('organization'),
+                Field('user'),
             )
         )
         self.helper.layout.append(Submit('submit', 'submit'))
