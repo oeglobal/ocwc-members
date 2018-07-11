@@ -86,7 +86,6 @@ WSGI_APPLICATION = 'members.wsgi.application'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -121,6 +120,7 @@ INSTALLED_APPS = (
     'rest_framework',
     'floppyforms',
     'crispy_forms',
+    'captcha',
 
     'crm',
     'elections',
@@ -179,5 +179,6 @@ REST_FRAMEWORK = {
     ),
 }
 
+NOCAPTCHA = True
 
 from localsettings import *

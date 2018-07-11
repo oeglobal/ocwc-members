@@ -5,6 +5,8 @@ from dateutil.relativedelta import relativedelta
 from django import forms
 from django.utils.safestring import mark_safe
 
+from captcha.fields import ReCaptchaField
+
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit, Layout, Field, Div, HTML
 
@@ -40,6 +42,7 @@ class MembershipApplicationModelForm(forms.ModelForm):
                                      label='URL')
     initiative_url3 = forms.URLField(required=False,
                                      label='URL')
+    captcha = ReCaptchaField()
 
     def __init__(self, *args, **kwargs):
         super(MembershipApplicationModelForm, self).__init__(*args, **kwargs)
@@ -134,6 +137,7 @@ class MembershipApplicationModelForm(forms.ModelForm):
                      'Privacy Protection Act Compliance</h3></div>'),
                 HTML('<div class="coppa-text large-8 columns"></div>'),
                 Field('coppa', required=True),
+                Field('captcha'),
                 css_class="row"),
         )
         self.helper.layout.append(Submit('save', 'save'))

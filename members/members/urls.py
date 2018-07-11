@@ -16,7 +16,6 @@ urlpatterns = [
     url(r'^crm/', include('crm.urls')),
     url(r'^staff/', include('crm.urls_staff')),
     url(r'^application/', include('crm.urls_application')),
-    url(r'^comments/', include('djangospam.cookie.urls')),
 
     url(r'^login/(?P<key>[\w|\W]+)/$', LoginKeyCheckView.as_view(), name='login-key-check'),
 
