@@ -23,7 +23,7 @@ class OrganizationApiSerializer(serializers.ModelSerializer):
     class Meta:
         model = Organization
         fields = ('id', 'name', 'membership_type', 'membership_status', 'associate_consortium',
-                  'logo_large', 'logo_small', 'state', 'main_website')
+                  'logo_large', 'logo_small', 'state', 'main_website', 'ocw_website')
 
     def get_state(self, obj):
         if obj.address_set.count():
