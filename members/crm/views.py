@@ -498,6 +498,8 @@ class OrganizationExportCccoerExcel(StaffView, TemplateView):
             (u"Joined", 50),
             (u"Last Paid Invoice", 50),
             (u"Edit link", 150),
+            (u"Instituion URL", 150),
+            (u"OER/OCW URL", 150),
         ]
 
         font_style = xlwt.XFStyle()
@@ -545,6 +547,8 @@ class OrganizationExportCccoerExcel(StaffView, TemplateView):
                 created,
                 last_invoice,
                 'https://members.oeconsortium.org%s' % obj.get_absolute_staff_url(),
+                obj.main_website,
+                obj.ocw_website
             ]
 
             for col_num in range(len(row)):
