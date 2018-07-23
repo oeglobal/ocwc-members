@@ -2,7 +2,6 @@
 import requests
 import json
 import arrow
-from optparse import make_option
 from pprint import pprint
 
 from django.core.management.base import BaseCommand
@@ -14,10 +13,11 @@ from crm.models import Contact
 class Command(BaseCommand):
     help = "tools to manage our mailgun email subscriptions"
 
-    option_list = BaseCommand.option_list + (
-        make_option("--get-bounces", action="store_true", dest="get_bounces", help="Downloads bounces and updates Contact record"),
-        make_option("--update-list", action="store_true", dest="update_list", help="Updates members announce mailing list")
-    )
+    def add_arguments(self, parser):
+        parser.add_argument("--get-bounces", action="store_true", dest="get_bounces",
+                            help="Downloads bounces and updates Contact record")
+        parser.add_argument("--update-list", action="store_true", dest="update_list",
+                            help="Updates members announce mailing list")
 
     def handle(self, *args, **options):
         if options.get('get_bounces'):
@@ -85,8 +85,8 @@ class Command(BaseCommand):
 
         self.stdout.write('New emails:')
         for contact in Contact.objects.filter(
-                            contact_type__in=contact_type, 
-                            organization__membership_status__in=membership_status, 
+                            contact_type__in=contact_type,
+                            organization__membership_status__in=membership_status,
                             bouncing=False):
             email = contact.email.lower()
             if email not in emails:
