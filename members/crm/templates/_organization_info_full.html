@@ -45,19 +45,19 @@
         {% if org.initiative_description1 %}
             <h2>Initiatives</h2>
             {% if org.initiative_description1 %}
-                <h3>Initiative 1</h3>
+                <h3>Initiative 1: {{ org.initiative_title1 }}</h3>
                 <p>{{ org.initiative_description1 }}</p>
                 <a href="{{ org.initiative_url1 }}">{{ org.initiative_url1 }}</a><br /><br />
             {% endif %}
 
             {% if org.initiative_description2 %}
-                <h3>Initiative 2</h3>
+                <h3>Initiative 2: {{ org.initiative_title2 }}</h3>
                 <p>{{ org.initiative_description2 }}</p>
                 <a href="{{ org.initiative_url2 }}">{{ org.initiative_url2 }}</a><br /><br />
             {% endif %}
 
             {% if org.initiative_description3 %}
-                <h3>Initiative 3</h3>
+                <h3>Initiative 3: {{ org.initiative_title3 }}</h3>
                 <p>{{ org.initiative_description3 }}</p>
                 <a href="{{ org.initiative_url3 }}">{{ org.initiative_url3 }}</a><br /><br />
             {% endif %}

@@ -25,7 +25,8 @@ from rest_framework.permissions import IsAuthenticated
 from .models import Organization, Contact, Address, ReportedStatistic, Country, MembershipApplication, \
     LoginKey, Invoice, BillingLog
 from .serializers import OrganizationApiSerializer, OrganizationDetailedApiSerializer, OrganizationRssFeedsApiSerializer
-from .forms import MembershipApplicationModelForm, MemberLoginForm, AddressModelForm, BillingLogForm, ReportedStatisticModelForm
+from .forms import MembershipApplicationModelForm, MemberLoginForm, AddressModelForm, BillingLogForm, \
+    ReportedStatisticModelForm
 
 
 class IndexView(FormView):
@@ -80,8 +81,9 @@ class OrganizationStaffModelForm(forms.ModelForm):
         model = Organization
         fields = ['membership_type', 'membership_status', 'associate_consortium',
                   'display_name', 'legal_name', 'main_website', 'ocw_website', 'description',
-                  'initiative_description1', 'initiative_url1', 'initiative_description2', 'initiative_url2',
-                  'initiative_description3', 'initiative_url3',
+                  'initiative_title1', 'initiative_description1', 'initiative_url1',
+                  'initiative_title2','initiative_description2', 'initiative_url2',
+                  'initiative_title3','initiative_description3', 'initiative_url3',
                   'logo_large', 'logo_small']
 
 
@@ -89,8 +91,10 @@ class OrganizationModelForm(forms.ModelForm):
     class Meta:
         model = Organization
         fields = ['display_name', 'main_website', 'ocw_website', 'description',
-                  'initiative_description1', 'initiative_url1', 'initiative_description2', 'initiative_url2',
-                  'initiative_description3', 'initiative_url3', 'logo_large', 'logo_small']
+                  'initiative_title1', 'initiative_description1', 'initiative_url1',
+                  'initiative_title2', 'initiative_description2', 'initiative_url2',
+                  'initiative_title3', 'initiative_description3', 'initiative_url3',
+                  'logo_large', 'logo_small']
 
 
 class OrganizationEdit(OrganizationView, UpdateView):

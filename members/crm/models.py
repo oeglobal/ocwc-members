@@ -153,17 +153,17 @@ class Organization(models.Model):
 
     institution_type = models.CharField(max_length=25, blank=True, choices=INSTITUTION_TYPE_CHOICES, default='')
 
-    initiative_title1 = models.CharField(max_length=255, blank=True, default='', verbose_name='Title')
+    initiative_title1 = models.CharField(max_length=255, blank=True, default='', verbose_name='Initiative 1 Title')
     initiative_description1 = models.TextField(blank=True, default='',
                                                verbose_name='Initiative 1 Description (100 – 350 characters)')
     initiative_url1 = models.URLField(max_length=255, blank=True, default='', verbose_name='Initiative 1 URL')
 
-    initiative_title2 = models.CharField(max_length=255, blank=True, default='', verbose_name='Title')
+    initiative_title2 = models.CharField(max_length=255, blank=True, default='', verbose_name='Initiative 2 Title')
     initiative_description2 = models.TextField(blank=True, default='',
                                                verbose_name='Initiative 2 Description (100 – 350 characters)')
     initiative_url2 = models.URLField(max_length=255, blank=True, default='', verbose_name='Initiative 2 URL')
 
-    initiative_title3 = models.CharField(max_length=255, blank=True, default='', verbose_name='Title')
+    initiative_title3 = models.CharField(max_length=255, blank=True, default='', verbose_name='Initiative 3 Title')
     initiative_description3 = models.TextField(blank=True, default='',
                                                verbose_name='Initiative 3 Description (100 – 350 characters)')
     initiative_url3 = models.URLField(max_length=255, blank=True, default='', verbose_name='Initiative 3 URL')

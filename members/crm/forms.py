@@ -117,9 +117,11 @@ class MembershipApplicationModelForm(forms.ModelForm):
                 Field('initiative_description1'),
                 Field('initiative_url1'),
                 HTML('<div class="large-8 columns"><h4>Open initiative 2</h4></div>'),
+                Field('initiative_title2'),
                 Field('initiative_description2'),
                 Field('initiative_url2'),
                 HTML('<div class="large-8 columns"><h4>Open initiative 3</h4></div>'),
+                Field('initiative_title3'),
                 Field('initiative_description3'),
                 Field('initiative_url3'),
 
