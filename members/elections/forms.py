@@ -63,7 +63,7 @@ class CandidateAddForm(forms.Form):
                             <li>Likewise, it is anticipated that Board members will serve as liaisons with various standing committees and work groups, and will represent the Consortium from time to time at various meetings and/or events.</li>
                         </ul>
                     <p>I AM AWARE THAT BOARD MEMBERS EXPEND CONSIDERABLE NON-REIMBURSED TIME AND MONEY IN THE FULFILLMENT OF THEIR DUTIES. I ATTEST THAT I HAVE THE CONSENT OF THE NOMINEE IN THIS MATTER. I ALSO ATTEST THAT THE NOMINEE IS QUALIFIED AND ABLE TO SERVE IF ELECTED.</p>
-                    <p><a href="http://www.oeconsortium.org/wp-content/uploads/2013/07/Bylaws_Open-Education_Consortium_Incorporated_-_March-1-2017.pdf" target="_blank">(See Open Education Consortium By-Laws Article III for qualification and responsibilities of Board Members).</a></p>
+                    <p><a href="https://www.oeconsortium.org/wp-content/uploads/2013/07/Bylaws_Open-Education_Consortium_Incorporated_-_March-1-2017.pdf" target="_blank">(See Open Education Consortium By-Laws Article III for qualification and responsibilities of Board Members).</a></p>
                     '''),
                 css_class='row terms'),
             Div(
@@ -140,7 +140,7 @@ class CandidateEditForm(forms.ModelForm):
                             <li>Likewise, it is anticipated that Board members will serve as liaisons with various standing committees and work groups, and will represent the Consortium from time to time at various meetings and/or events.</li>
                         </ul>
                     <p>I AM AWARE THAT BOARD MEMBERS EXPEND CONSIDERABLE NON-REIMBURSED TIME AND MONEY IN THE FULFILLMENT OF THEIR DUTIES.  I ATTEST THAT I AM QUALIFIED AND ABLE TO SERVE IF ELECTED.</p>
-                    <p><a href="http://www.oeconsortium.org/wp-content/uploads/2013/07/Bylaws_Open-Education_Consortium_Incorporated_-_March-1-2017.pdf" target="_blank">(See Open Education Consortium By-Laws Article III for qualification and responsibilities of Board Members).</a></p>
+                    <p><a href="https://www.oeconsortium.org/wp-content/uploads/2013/07/Bylaws_Open-Education_Consortium_Incorporated_-_March-1-2017.pdf" target="_blank">(See Open Education Consortium By-Laws Article III for qualification and responsibilities of Board Members).</a></p>
                     '''),
                 css_class='row terms'),
             Div(
@@ -268,7 +268,7 @@ class VoteForm(forms.Form):
                     'elect 5 new Board members. To ensure we get the necessary 5 new Board members we ask OEC members to cast all 5 ' 
                     'votes. This will also help ensure we get a diverse and inclusive Board with representation from around the world. <br /><br />To '
                     'inform your decision making about who to vote for we invite you to review the information about each candidate '
-                    'at <a href="http://www.oeconsortium.org/about-oec/membership/elections/" target="_blank">http://www.oeconsortium.org/about-oec/membership/elections/</a></p>'
+                    'at <a href="https://www.oeconsortium.org/about-oec/membership/elections/" target="_blank">https://www.oeconsortium.org/about-oec/membership/elections/</a></p>'
                 ),
                 css_class="row"),
 

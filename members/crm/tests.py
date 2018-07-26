@@ -83,7 +83,7 @@ class OrganizationApiViewsTest(TestCase):
         self.client.login(username='feed_api_client', password='example_pass_123')
 
         response = self.client.get(reverse('api:organization-feeds'))
-        self.assertContains(response, 'http://www.oeconsortium.org/feed/')
+        self.assertContains(response, 'https://www.oeconsortium.org/feed/')
 
         # cleanup
         self.client.logout()

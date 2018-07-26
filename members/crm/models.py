@@ -177,7 +177,7 @@ class Organization(models.Model):
         return reverse('crm:organization-view', kwargs={'pk': self.id})
 
     def get_logo_small_url(self):
-        return u'http://www.oeconsortium.org/media/%s' % self.logo_small
+        return u'https://www.oeconsortium.org/media/%s' % self.logo_small
 
     def save(self, force_insert=False, force_update=False, using=None):
         if not self.slug:
