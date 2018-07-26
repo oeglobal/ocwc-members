@@ -152,14 +152,18 @@ class Organization(models.Model):
     created = models.DateTimeField(blank=True, null=True, auto_now_add=True)
 
     institution_type = models.CharField(max_length=25, blank=True, choices=INSTITUTION_TYPE_CHOICES, default='')
+
+    initiative_title1 = models.CharField(max_length=255, blank=True, default='', verbose_name='Title')
     initiative_description1 = models.TextField(blank=True, default='',
                                                verbose_name='Initiative 1 Description (100 – 350 characters)')
     initiative_url1 = models.URLField(max_length=255, blank=True, default='', verbose_name='Initiative 1 URL')
 
+    initiative_title2 = models.CharField(max_length=255, blank=True, default='', verbose_name='Title')
     initiative_description2 = models.TextField(blank=True, default='',
                                                verbose_name='Initiative 2 Description (100 – 350 characters)')
     initiative_url2 = models.URLField(max_length=255, blank=True, default='', verbose_name='Initiative 2 URL')
 
+    initiative_title3 = models.CharField(max_length=255, blank=True, default='', verbose_name='Title')
     initiative_description3 = models.TextField(blank=True, default='',
                                                verbose_name='Initiative 3 Description (100 – 350 characters)')
     initiative_url3 = models.URLField(max_length=255, blank=True, default='', verbose_name='Initiative 3 URL')
@@ -459,17 +463,17 @@ class MembershipApplication(models.Model):
     view_link_key = models.CharField(max_length=255, blank=True)
 
     description = models.TextField(blank=True,
-                                   help_text="Please write between 1000 – 1500 characters. <br />This information will be publicly displayed on your OEC profile site.")
+                                   help_text="This information will be publicly displayed on your OEC profile site.")
 
     legacy_application_id = models.IntegerField(blank=True, null=True)
     legacy_entity_id = models.IntegerField(blank=True, null=True)
 
-    main_website = models.CharField(max_length=765, blank=True, verbose_name=u'Main Website address')
+    main_website = models.CharField(max_length=765, blank=True, verbose_name=u'Institution Website URL')
     ocw_website = models.CharField(max_length=765, blank=True,
                                    verbose_name=u'Open Educational Resources (OER) or OpenCourseWare (OCW) Website')
 
     logo_large = models.ImageField(max_length=765, blank=True, upload_to="logos",
-                                   verbose_name=u"Logo of your institution (at least 500x500px PNG or a vector (PDF, EPS) file)")
+                                   verbose_name=u"Submit an institution logo. Must be at least 500x500 pixels in a PNG, PDF, EPS, or JPG format.")
     logo_small = models.CharField(max_length=765, blank=True)
 
     institution_country = models.ForeignKey(Country, models.CASCADE, blank=True, null=True)
@@ -529,14 +533,20 @@ class MembershipApplication(models.Model):
     terms_of_use = models.NullBooleanField(null=True)
     coppa = models.NullBooleanField(null=True)
 
+    initiative_title1 = models.CharField(max_length=255, blank=True, default='',
+                                         verbose_name='Title')
     initiative_description1 = models.TextField(blank=True, default='',
                                                verbose_name='Description (100 – 350 characters)')
     initiative_url1 = models.URLField(max_length=255, blank=True, default='', verbose_name='URL')
 
+    initiative_title2 = models.CharField(max_length=255, blank=True, default='',
+                                         verbose_name='Title')
     initiative_description2 = models.TextField(blank=True, default='',
                                                verbose_name='Description (100 – 350 characters)')
     initiative_url2 = models.URLField(max_length=255, blank=True, default='', verbose_name='URL')
 
+    initiative_title3 = models.CharField(max_length=255, blank=True, default='',
+                                         verbose_name='Title')
     initiative_description3 = models.TextField(blank=True, default='',
                                                verbose_name='Description (100 – 350 characters)')
     initiative_url3 = models.URLField(max_length=255, blank=True, default='', verbose_name='URL')
@@ -585,9 +595,12 @@ class MembershipApplication(models.Model):
                 'support_commitment': self.support_commitment,
                 'institution_type': self.institution_type,
                 'initiative_description1': self.initiative_description1,
+                'initiative_title1': self.initiative_title1,
                 'initiative_url1': self.initiative_url1,
+                'initiative_title2': self.initiative_title2,
                 'initiative_description2': self.initiative_description2,
                 'initiative_url2': self.initiative_url2,
+                'initiative_title3': self.initiative_title3,
                 'initiative_description3': self.initiative_description3,
                 'initiative_url3': self.initiative_url3,
             })

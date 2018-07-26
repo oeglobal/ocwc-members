@@ -47,7 +47,7 @@ class MembershipApplicationModelForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(MembershipApplicationModelForm, self).__init__(*args, **kwargs)
 
-        self.fields['description'].label = "Describe your institution"
+        self.fields['description'].label = "Institution Description (500 - 1200 characters)"
         self.fields['support_commitment'].label = ''
         self.fields[
             'accreditation_body'].help_text = 'If your organization is accredited, please provide the name of the accreditation body here.'
@@ -113,6 +113,7 @@ class MembershipApplicationModelForm(forms.ModelForm):
                      '<a href="mailto:memberservices@oeconsortium.org">memberservices@oeconsortium.org</a> '
                      'and we\'ll be happy to accommodate your needs.</div>'),
                 HTML('<div class="large-8 columns"><h4>Open initiative 1</h4></div>'),
+                Field('initiative_title1'),
                 Field('initiative_description1'),
                 Field('initiative_url1'),
                 HTML('<div class="large-8 columns"><h4>Open initiative 2</h4></div>'),
