@@ -625,12 +625,20 @@ class OrganizationStaffCccOerListView(StaffView, ListView):
 
 
 @api_view(['GET'])
-def address_geo_list_view(request):
+def address_geo_list_view(request, consortium=None):
     features_list = []
 
+    if consortium:
+        queryset = Address.objects.filter(latitude__isnull=False,
+                                          organization__membership_status__in=(2, 3, 5, 7),
+                                          organization__associate_consortium=consortium).select_related()
+
+    else:
+        queryset = Address.objects.filter(latitude__isnull=False,
+                                          organization__membership_status__in=(2, 3, 5, 7)).select_related()
+
     seen_organizations = []
-    for address in Address.objects.filter(latitude__isnull=False,
-                                          organization__membership_status__in=(2, 3, 5, 7)).select_related():
+    for address in queryset:
 
         org_id = address.organization.id
         if org_id in seen_organizations:
