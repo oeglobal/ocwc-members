@@ -40,7 +40,9 @@ class OrganizationDetailedApiSerializer(OrganizationApiSerializer):
     class Meta:
         model = Organization
         fields = ('id', 'name', 'membership_type', 'membership_status', 'associate_consortium',
-                  'display_name', 'main_website', 'ocw_website', 'description', 'logo_small', 'logo_small_url',
+                  'display_name', 'main_website', 'ocw_website', 'description',
+                  'logo_small', 'logo_small_url',
+                  'logo_large',
                   'initiative_title1', 'initiative_description1', 'initiative_url1',
                   'initiative_title2', 'initiative_description2', 'initiative_url2',
                   'initiative_title3', 'initiative_description3', 'initiative_url3', )
