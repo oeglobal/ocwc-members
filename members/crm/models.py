@@ -106,7 +106,7 @@ ORGANIZATION_ASSOCIATED_CONSORTIUM = (
     ('CORE', 'CORE'),
     ('JOCWC', 'Japan OCW Consortium'),
     ('KOCWC', 'Korea OCW Consortium'),
-    ('TOCWC', 'Taiwan OCW Consortium'),
+    ('TOCEC', 'Taiwan Open Course and Education Consortium'),
     ('Turkish OCWC', 'Turkish OpenCourseWare Consortium'),
     ('UNIVERSIA', 'UNIVERSIA'),
     ('FOCW', 'OCW France'),
@@ -241,8 +241,8 @@ class Organization(models.Model):
         }
 
     def get_consortia_members(self):
-
         consortia = None
+
         if self.slug == 'cccoer':
             consortia = 'CCCOER'
         elif self.slug == 'japan-ocw-consortium':
@@ -250,7 +250,7 @@ class Organization(models.Model):
         elif self.slug == 'korea-ocw-consortium':
             consortia = 'KOCWC'
         elif self.slug == 'taiwan-ocw-consortium':
-            consortia = 'TOCWC'
+            consortia = 'TOCEC'
         elif self.slug == 'turkish-ocw-consortium':
             consortia = 'Turkish OCWC'
         elif self.slug == 'taiwan-ocw-consortium':
