@@ -384,20 +384,21 @@ class Address(models.Model):
 
     def save(self, force_insert=False, force_update=False, using=None):
         if self.country:
-            g = geocoders.GoogleV3()
+            g = geocoders.Nominatim(user_agent="OEC-CRM")
 
-            address_string = u"%s, %s, %s, %s %s %s, %s, %s" % (
-                self.street_address, self.supplemental_address_1, self.supplemental_address_2,
+            address_string = u"{}, {} {} {}, {}, {}".format(
+                self.street_address,
                 self.postal_code, self.postal_code_suffix, self.city,
                 self.state_province, self.country.name.replace(', Republic of', ''))
             address_string = address_string.replace(', ,', ', ')
+
             try:
                 place, (lat, lng) = g.geocode(address_string)
 
                 if lat:
                     self.latitude = lat
                     self.longitude = lng
-            except:
+            except TypeError:
                 pass
 
         super(Address, self).save(force_insert=force_insert, force_update=force_update, using=using)
