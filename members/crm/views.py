@@ -82,8 +82,8 @@ class OrganizationStaffModelForm(forms.ModelForm):
         fields = ['membership_type', 'membership_status', 'associate_consortium',
                   'display_name', 'legal_name', 'main_website', 'ocw_website', 'description',
                   'initiative_title1', 'initiative_description1', 'initiative_url1',
-                  'initiative_title2','initiative_description2', 'initiative_url2',
-                  'initiative_title3','initiative_description3', 'initiative_url3',
+                  'initiative_title2', 'initiative_description2', 'initiative_url2',
+                  'initiative_title3', 'initiative_description3', 'initiative_url3',
                   'logo_large', 'logo_small']
 
 
@@ -223,10 +223,14 @@ class OrganizationStaffDetailView(OrganizationStaffView, DetailView):
             email = ''
 
         email_invoice_subject = '%s OE Consortium Membership invoice' % settings.DEFAULT_INVOICE_YEAR
-        email_invoice_body = render_to_string('staff/invoice_mail.txt', {'first_name': first_name, 'user': self.request.user, 'CURRENT_INVOICE_YEAR': settings.DEFAULT_INVOICE_YEAR})
+        email_invoice_body = render_to_string('staff/invoice_mail.txt',
+                                              {'first_name': first_name, 'user': self.request.user,
+                                               'CURRENT_INVOICE_YEAR': settings.DEFAULT_INVOICE_YEAR})
 
         email_invoice_paid_subject = '%s OE Consortium Membership payment receipt' % settings.DEFAULT_INVOICE_YEAR
-        email_invoice_paid_body = render_to_string('staff/invoice_paid_mail.txt', {'first_name': first_name, 'user': self.request.user, 'CURRENT_INVOICE_YEAR': settings.DEFAULT_INVOICE_YEAR})
+        email_invoice_paid_body = render_to_string('staff/invoice_paid_mail.txt',
+                                                   {'first_name': first_name, 'user': self.request.user,
+                                                    'CURRENT_INVOICE_YEAR': settings.DEFAULT_INVOICE_YEAR})
 
         initial = {
             'organization': self.object.id,
@@ -372,7 +376,8 @@ class OrganizationBillingLogListingView(StaffView, ListView):
 
     def get_queryset(self):
         username = self.kwargs.pop('username')
-        return self.model.objects.filter(membership_status__in=(2, 3, 4, 5, 7, 99), ocw_contact__username=username).order_by('display_name')
+        return self.model.objects.filter(membership_status__in=(2, 3, 4, 5, 7, 99),
+                                         ocw_contact__username=username).order_by('display_name')
 
 
 class OrganizationExportExcel(StaffView, TemplateView):
@@ -603,7 +608,6 @@ class OrganizationExportCccoerExcel(StaffView, TemplateView):
         return response
 
 
-
 class OrganizationStaffNoContactListView(StaffView, ListView):
     model = Organization
     template_name = 'staff/organization_nocontact.html'
@@ -618,7 +622,7 @@ class OrganizationStaffNoContactListView(StaffView, ListView):
 
 class OrganizationStaffCccOerListView(StaffView, ListView):
     model = Organization
-    template_name =  'staff/organization_cccoer.html'
+    template_name = 'staff/organization_cccoer.html'
 
     def get_queryset(self):
         return self.model.active.filter(associate_consortium='CCCOER')
@@ -686,7 +690,8 @@ class OrganizationByCountryListViewApi(generics.ListAPIView):
 
     def get_queryset(self):
         organization_list = Address.objects.filter(country__name=self.kwargs.get('country'),
-                                                   organization__membership_status__in=(2, 3, 5, 7)).values_list('organization', flat=True).distinct()
+                                                   organization__membership_status__in=(2, 3, 5, 7)).values_list(
+            'organization', flat=True).distinct()
 
         return Organization.objects.filter(pk__in=organization_list).order_by('display_name')
 
@@ -747,4 +752,3 @@ class LoginKeyCheckView(TemplateView):
             return redirect(request.GET.get('next', '/crm/'))
 
         return super(LoginKeyCheckView, self).dispatch(request, *args, **kwargs)
-
