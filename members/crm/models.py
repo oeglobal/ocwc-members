@@ -205,7 +205,7 @@ class Organization(models.Model):
         if self.membership_status in [7] or self.billing_type == 'custom':
             return 0  # manually processed
 
-        if self.membership_type.associate_consortium == 'CCCOER':
+        if self.associate_consortium == 'CCCOER':
             return 650
 
         # (8 , 'Corporate Members - Basic'),
