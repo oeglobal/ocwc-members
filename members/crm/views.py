@@ -397,10 +397,13 @@ class OrganizationExportExcel(StaffView, TemplateView):
             (u"Lead Contact", 70),
             (u"Lead Contact Email", 120),
             (u"Membership status", 70),
+            (u"Billing type", 70),
             (u"Edit link", 150),
             (u"Country", 50),
             (u"City", 50),
-            (u"Signed MOA", 25)
+            (u"Is Country USA?", 20),
+            (u"Signed MOA", 25),
+            (u"Last Note", 400),
         ]
 
         font_style = xlwt.XFStyle()
@@ -424,6 +427,17 @@ class OrganizationExportExcel(StaffView, TemplateView):
                 contact_name = ''
                 contact_email = ''
 
+            note = ''
+            logs = obj.billinglog_set.filter(log_type='create_note')
+            if logs:
+                log = logs.latest('id')
+                note = "({}) {}".format(log.pub_date.strftime('%Y-%m-%d'), log.note)
+
+            if obj.address_set.first().country.name == 'United States':
+                is_usa = True
+            else:
+                is_usa = False
+
             row = [
                 obj.pk,
                 obj.crmid or '',
@@ -432,10 +446,13 @@ class OrganizationExportExcel(StaffView, TemplateView):
                 contact_name,
                 contact_email,
                 obj.get_membership_status_display(),
+                obj.get_billing_type_display(),
                 'https://members.oeconsortium.org%s' % obj.get_absolute_staff_url(),
                 obj.address_set.first().country.name,
                 obj.address_set.first().city,
-                'yes'
+                is_usa,
+                'yes',
+                note
             ]
 
             for col_num in range(len(row)):
