@@ -202,12 +202,15 @@ class Organization(models.Model):
 
     def get_membership_due_amount(self):
         # Sustaining members
-        if self.membership_status in [7]:
+        if self.membership_status in [7] or self.billing_type == 'custom':
             return 0  # manually processed
+
+        if self.membership_type.associate_consortium == 'CCCOER':
+            return 650
 
         # (8 , 'Corporate Members - Basic'),
         if self.membership_type in [8]:
-            return 1000
+            return 950
 
         # (5 , 'Institutional Members'),
         # (6 , 'Organizational Members'),
@@ -216,9 +219,9 @@ class Organization(models.Model):
         # (13, 'Organizational Members - DC'),
         if self.membership_type in [5, 6, 11, 7, 13]:
             if self.address_set.latest('id').country.developing:
-                return 375
-            else:
                 return 750
+            else:
+                return 950
 
         # (10, 'Institutional Members - MRC'),
         # (12, 'Institutional Members - DC - MRC'),
@@ -228,9 +231,9 @@ class Organization(models.Model):
         # (18, 'Organizational Members - MRC'),
         if self.membership_type in [10, 12, 9, 17, 14]:
             if self.address_set.latest('id').country.developing:
-                return 225
+                return 500
             else:
-                return 525
+                return 800
 
     def get_invoice_status(self):
         return {

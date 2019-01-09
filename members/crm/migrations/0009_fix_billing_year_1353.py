@@ -25,6 +25,9 @@ def forwards(apps, schema_editor):
             log.invoice_year = year
             log.save()
 
+            log.invoice.invoice_year = year
+            log.invoice.save()
+
 
 class Migration(migrations.Migration):
     dependencies = [

@@ -393,11 +393,13 @@ class OrganizationExportExcel(StaffView, TemplateView):
             (u"ID", 25),
             (u"Old ID", 25),
             (u"Name", 150),
-            (u"Consortium", 150),
+            (u"Consortium", 50),
             (u"Lead Contact", 70),
             (u"Lead Contact Email", 120),
             (u"Membership status", 70),
             (u"Billing type", 70),
+            (u"Invoiced in {}".format(settings.PREVIOUS_INVOICE_YEAR), 50),
+            (u"Invoiced in {}".format(settings.DEFAULT_INVOICE_YEAR), 50),
             (u"Edit link", 150),
             (u"Country", 50),
             (u"City", 50),
@@ -438,6 +440,26 @@ class OrganizationExportExcel(StaffView, TemplateView):
             else:
                 is_usa = False
 
+            logs = obj.billinglog_set.filter(log_type='create_invoice',
+                                             invoice_year=settings.DEFAULT_INVOICE_YEAR)
+            if logs:
+                log = logs.latest('id')
+                current_year_amount = log.invoice.amount
+            else:
+                amount = obj.get_membership_due_amount()
+                if amount:
+                    current_year_amount = "({})".format(amount)
+                else:
+                    current_year_amount = None
+
+            logs = obj.billinglog_set.filter(log_type='create_invoice',
+                                             invoice_year=settings.PREVIOUS_INVOICE_YEAR)
+            if logs:
+                log = logs.latest('id')
+                previous_year_amount = log.invoice.amount
+            else:
+                previous_year_amount = None
+
             row = [
                 obj.pk,
                 obj.crmid or '',
@@ -447,6 +469,8 @@ class OrganizationExportExcel(StaffView, TemplateView):
                 contact_email,
                 obj.get_membership_status_display(),
                 obj.get_billing_type_display(),
+                previous_year_amount,
+                current_year_amount,
                 'https://members.oeconsortium.org%s' % obj.get_absolute_staff_url(),
                 obj.address_set.first().country.name,
                 obj.address_set.first().city,
