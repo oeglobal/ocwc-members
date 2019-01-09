@@ -202,7 +202,7 @@ class Organization(models.Model):
 
     def get_membership_due_amount(self):
         # Sustaining members
-        if self.membership_status in [7] or self.billing_type == 'custom':
+        if self.membership_status in [7] or self.billing_type in ['custom', 'consortia', 'waiver']:
             return 0  # manually processed
 
         if self.associate_consortium == 'CCCOER':
