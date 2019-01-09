@@ -113,6 +113,13 @@ ORGANIZATION_ASSOCIATED_CONSORTIUM = (
     ('OTHER', 'OTHER')
 )
 
+ORGANIZATION_BILLING_TYPE = (
+    ('normal', 'Normal billing'),
+    ('consortia', 'Billed via Associate Consortia'),
+    ('custom', 'Custom Agreement'),
+    ('waiver', 'Fee waiver'),
+)
+
 
 class ActiveOrganizationManager(models.Manager):
     def get_queryset(self):
@@ -129,6 +136,7 @@ class Organization(models.Model):
     membership_type = models.IntegerField(choices=ORGANIZATION_MEMBERSHIP_TYPE_CHOICES)
     # organization_type = models.CharField(max_length=255, choices=ORGANIZATION_TYPE_CHOICES)
     membership_status = models.IntegerField(choices=ORGANIZATION_MEMBERSHIP_STATUS)
+    billing_type = models.CharField(max_length=128, choices=ORGANIZATION_BILLING_TYPE, default='normal')
     associate_consortium = models.CharField(max_length=255, choices=ORGANIZATION_ASSOCIATED_CONSORTIUM, blank=True,
                                             default='')
 

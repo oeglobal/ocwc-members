@@ -37,6 +37,8 @@
 	</tbody>
 	</table>
 
+    <p>Billing type: {{ object.get_billing_type_display }} (<a href="{% url 'admin:crm_organization_change' object.id %}" target="_blank">change</a>)</p>
+
 	<div class="small-6 columns">
 		<form action="{% url 'staff:billinglog-create' %}" method="POST" class="billing-form" ng-controller="BillingController">
 			{% csrf_token %}

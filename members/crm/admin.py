@@ -3,16 +3,19 @@ from django.utils.html import format_html
 from django import forms
 
 from .models import Organization, Contact, Address, MembershipApplication, \
-                    Country, ReportedStatistic, Invoice, \
-                    BillingLog, LoginKey, Continent
+    Country, ReportedStatistic, Invoice, \
+    BillingLog, LoginKey, Continent
+
 
 class ContactInline(admin.TabularInline):
     model = Contact
     extra = 1
 
+
 class AddressInline(admin.StackedInline):
     model = Address
     extra = 1
+
 
 class OrganizationAdmin(admin.ModelAdmin):
     list_filter = ('membership_type', 'membership_status', 'ocw_contact')
@@ -24,7 +27,8 @@ class OrganizationAdmin(admin.ModelAdmin):
     ]
     fieldsets = (
         ('General', {
-            'fields': ('display_name', 'membership_type', 'membership_status', 'associate_consortium','ocw_contact')
+            'fields': ('display_name', 'membership_type', 'membership_status', 'billing_type', 'associate_consortium',
+                       'ocw_contact')
         }),
         ('Websites', {
             'fields': ('main_website', 'ocw_website'),
@@ -36,7 +40,10 @@ class OrganizationAdmin(admin.ModelAdmin):
             )
         }),
         ('Additional', {
-            'fields': ('legal_name', 'user', 'slug', 'crmid', 'description', 'logo_large', 'logo_small', 'accreditation_body', 'support_commitment',)
+            'fields': (
+                'legal_name', 'user', 'slug', 'crmid', 'description', 'logo_large', 'logo_small', 'accreditation_body',
+                'support_commitment',
+            )
         })
     )
 
@@ -51,6 +58,7 @@ class ContactAdmin(admin.ModelAdmin):
 
     def organization_link(self, obj):
         return format_html('<a href="/admin/crm/organization/%s/">%s</a>' % (obj.organization.id, obj.organization))
+
     organization_link.allow_tags = True
 
 
@@ -74,18 +82,18 @@ class MembershipApplicationForm(forms.ModelForm):
 
 
 class MembershipApplicationAdmin(admin.ModelAdmin):
-    list_display = ('id', 'display_name', 'organization' , 'membership_type', 'legacy_application_id', 'main_website')
+    list_display = ('id', 'display_name', 'organization', 'membership_type', 'legacy_application_id', 'main_website')
     list_filter = ('app_status',)
     search_fields = ('display_name', 'description')
     raw_id_fields = ('organization',)
     fieldsets = (
         (None, {
             'fields': ('app_status', 'display_name', 'description', 'membership_type', 'organization')
-            }
-        ),
+        }
+         ),
         ('General', {
             'fields': ('organization_type', 'main_website', 'ocw_website', 'institution_country', 'logo_large',
-                        'rss_course_feed', 'is_accredited', 'accreditation_body', 'support_commitment')
+                       'rss_course_feed', 'is_accredited', 'accreditation_body', 'support_commitment')
         }),
         ('Initiatives', {
             'fields': (
@@ -98,22 +106,25 @@ class MembershipApplicationAdmin(admin.ModelAdmin):
         }),
         ('Address and Contact', {
             'fields': ('first_name', 'last_name', 'email', 'job_title',
-                        'street_address', 'supplemental_address_1', 'supplemental_address_2', 'city', 'postal_code',
-                        'state_province', 'country', )
+                       'street_address', 'supplemental_address_1', 'supplemental_address_2', 'city', 'postal_code',
+                       'state_province', 'country',)
         })
     )
     form = MembershipApplicationForm
 
+
 class MembershipApplicationCommentAdmin(admin.ModelAdmin):
     list_display = ('application', 'legacy_comment_id', 'legacy_app_id', 'comment', 'app_status')
     list_filter = ('app_status',)
+
 
 class CountryAdmin(admin.ModelAdmin):
     list_display = ('name', 'iso_code', 'developing', 'active_count')
     list_filter = ('developing',)
 
     def active_count(self, obj):
-        return obj.address_set.filter(organization__membership_status__in=(2,3,5,7,99)).count()
+        return obj.address_set.filter(organization__membership_status__in=(2, 3, 5, 7, 99)).count()
+
 
 class ReportedStatisticAdmin(admin.ModelAdmin):
     list_display = ('organization', 'last_modified', 'site_visits', 'orig_courses',
@@ -122,11 +133,14 @@ class ReportedStatisticAdmin(admin.ModelAdmin):
     search_fields = ('organization__display_name',)
     # list_filter = ('report_year',)
 
+
 class InvoiceAdmin(admin.ModelAdmin):
     list_display = ('invoice_number', 'organization', 'pub_date')
 
+
 class BillingLogAdmin(admin.ModelAdmin):
     list_display = ('log_type', 'organization', 'pub_date')
+
 
 admin.site.register(Organization, OrganizationAdmin)
 admin.site.register(Contact, ContactAdmin)
