@@ -166,6 +166,7 @@ LOGIN_URL = '/admin/'
 
 CRISPY_TEMPLATE_PACK = 'uni_form'
 
+# Run migrations when you change these two settings!
 PREVIOUS_INVOICE_YEAR = '2018'
 DEFAULT_INVOICE_YEAR = '2019'
 
@@ -180,5 +181,8 @@ REST_FRAMEWORK = {
 }
 
 NOCAPTCHA = True
+
+QB_BASE_SANDBOX = 'https://sandbox-quickbooks.api.intuit.com'
+QB_BASE_PROD = 'https://quickbooks.api.intuit.com'
 
 from localsettings import *
