@@ -5,7 +5,7 @@ from django.utils.safestring import mark_safe
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit, Layout, Field, Div, HTML
 
-from .models import Candidate
+from .models import Candidate, EXPERTISE_CHOICES
 from crm.models import Organization
 
 
@@ -25,6 +25,12 @@ class CandidateAddForm(forms.Form):
     sponsor_email = forms.EmailField(label='E-mail')
 
     terms = forms.BooleanField(label='I have read the terms', required=True)
+    expertise = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple,
+                                          label="Which of the following areas of expertise does nominee bring to the Board",
+                                          choices=EXPERTISE_CHOICES)
+    expertise_other = forms.CharField(label='If you chose "Other" as area of expertise, please indicate it here',
+                                      max_length=255,
+                                      required=False)
 
     def __init__(self, *args, **kwargs):
         super(CandidateAddForm, self).__init__(*args, **kwargs)
@@ -45,6 +51,11 @@ class CandidateAddForm(forms.Form):
                 Field('candidate_email'),
                 Field('candidate_phone_number'),
                 Field('reason'),
+                Div(
+                    Field('expertise'),
+                    Field('expertise_other'),
+                    css_class='expertise'
+                ),
                 Field('organization'),
                 css_class='row'),
             Div(
@@ -72,6 +83,20 @@ class CandidateAddForm(forms.Form):
         )
         self.helper.layout.append(Submit('Submit', 'submit'))
 
+    def clean_expertise_other(self):
+        cleaned_data = self.cleaned_data
+
+        if '5' in cleaned_data.get('expertise') and not cleaned_data.get('expertise_other'):
+            raise forms.ValidationError('This is a required field', code='invalid')
+
+        return cleaned_data.get('expertise_other')
+
+    def clean_expertise(self):
+        cleaned_data = self.cleaned_data
+
+        return ','.join([i for i in cleaned_data.get('expertise', [])])
+
+
 ACCEPTANCE_CHOICES = (
     (1, 'I ACCEPT this nomination'),
     (0, 'I DECLINE this nomination')
@@ -80,12 +105,35 @@ ACCEPTANCE_CHOICES = (
 
 class CandidateEditForm(forms.ModelForm):
     acceptance = forms.BooleanField(widget=forms.RadioSelect(
-                                    choices=ACCEPTANCE_CHOICES), label='Acceptance of nomination')
+        choices=ACCEPTANCE_CHOICES), label='Acceptance of nomination')
+    expertise = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple,
+                                          label='Which of the following areas of expertise do you bring to the Board',
+                                          choices=EXPERTISE_CHOICES)
+    expertise_other = forms.CharField(label='If you chose "Other" as area of expertise, please indicate it here',
+                                      max_length=255,
+                                      required=False)
+
+    agreement_cost = forms.BooleanField(
+        label="I understand that The Board members institution is expected to cover the cost of the Board member's travel to meetings and time that is given to the Open Education Consortium.",
+        required=True)
+    agreement_fund = forms.BooleanField(
+        label="I have verified with my institution that they will fund the costs associated with attending the two annual in person meetings of the OEC Board.",
+        required=True
+    )
 
     def __init__(self, *args, **kwargs):
         instance = kwargs.get('instance')
+        initial = {}
         if instance.status == 'accepted':
-            kwargs['initial'] = {'acceptance': ACCEPTANCE_CHOICES[0][0]}
+            initial['acceptance': ACCEPTANCE_CHOICES[0][0]]
+
+        if instance.expertise:
+            initial['expertise'] = instance.expertise.split(',')
+
+        if initial:
+            kwargs['initial'] = initial
+
+        print(initial)
 
         super(CandidateEditForm, self).__init__(*args, **kwargs)
 
@@ -100,17 +148,27 @@ class CandidateEditForm(forms.ModelForm):
         self.fields['email_alternate'].label = 'Alternative e-mail'
         self.fields['organization'].label = 'Institution you represent'
 
-        self.fields['biography'].label = 'Candidate Biography <br /><br />Please provide a brief summary of your experience and qualifications <br />This will be displayed on the ballot.'
-        self.fields['vision'].label = 'Candidate Vision and Goals <br /><br />Please provide a brief list of what you hope to accomplish for the Open Education Consortium if you are elected to the board of directors.  This will be displayed on the ballot.'
+        self.fields[
+            'biography'].label = 'Candidate Biography <br /><br />Please provide a brief summary of your experience and qualifications <br />This will be displayed on the ballot.'
+        self.fields[
+            'vision'].label = 'Candidate Vision and Goals <br /><br />Please provide a brief list of what you hope to accomplish for the Open Education Consortium if you are elected to the board of directors.  This will be displayed on the ballot.'
 
-        self.fields['ideas'].label = 'Ideas for Open Education Consortium <br /><br />Please provide a brief description of your ideas for Open Education Consortium in general.'
-        self.fields['expertise'].label = 'Your expertise and skills <br /><br />Please provide a brief description of expertise and skills (e.g. technical knowledge, financial knowledge, influence in public policy).'
-        self.fields['external_url'].label = 'External Link <br /><br />You may optionally share a link to an external page such as a CV, blog or social networking profile page.  Please include the "http://" portion.'
+        self.fields[
+            'ideas'].label = 'Ideas for Open Education Consortium <br /><br />Please provide a brief description of your ideas for Open Education Consortium in general.'
+        self.fields[
+            'expertise'].label = 'Your expertise and skills <br /><br />Please provide a brief description of expertise and skills (e.g. technical knowledge, financial knowledge, influence in public policy).'
+        self.fields[
+            'external_url'].label = 'External Link <br /><br />You may optionally share a link to an external page such as a CV, blog or social networking profile page.  Please include the "http://" portion.'
+
+        self.fields[
+            'expertise_expanded'].label = 'Please provide a brief description of your expertise and skills with special reference to the areas of expertise check boxes you selected above'
 
         self.helper.layout = Layout(
             Div(
                 HTML('<h2>Update Your Candidacy for Board of Directors</h2>'),
-                HTML('<p>You have been nominated as a candidate for the Open Education Consortium Consortium Board of Directors by {instance.sponsor_first_name} {instance.sponsor_last_name}. <br /> Please review this page and complete any missing information to accept your nomination.</p>'.format(instance=instance)),
+                HTML(
+                    '<p>You have been nominated as a candidate for the Open Education Consortium Consortium Board of Directors by {instance.sponsor_first_name} {instance.sponsor_last_name}. <br /> Please review this page and complete any missing information to accept your nomination.</p>'.format(
+                        instance=instance)),
                 css_class='row'),
             Div(
                 HTML('<h3>Personal Profile Information</h3>'),
@@ -128,6 +186,8 @@ class CandidateEditForm(forms.ModelForm):
                 Field('vision'),
                 Field('ideas'),
                 Field('expertise'),
+                Field('expertise_other'),
+                Field('expertise_expanded'),
                 Field('external_url'),
                 css_class='row'),
             Div(HTML('''<h3>Terms and Conditions</h3>
@@ -142,6 +202,8 @@ class CandidateEditForm(forms.ModelForm):
                     <p>I AM AWARE THAT BOARD MEMBERS EXPEND CONSIDERABLE NON-REIMBURSED TIME AND MONEY IN THE FULFILLMENT OF THEIR DUTIES.  I ATTEST THAT I AM QUALIFIED AND ABLE TO SERVE IF ELECTED.</p>
                     <p><a href="https://www.oeconsortium.org/wp-content/uploads/2013/07/Bylaws_Open-Education_Consortium_Incorporated_-_March-1-2017.pdf" target="_blank">(See Open Education Consortium By-Laws Article III for qualification and responsibilities of Board Members).</a></p>
                     '''),
+                Field('agreement_cost'),
+                Field('agreement_fund'),
                 css_class='row terms'),
             Div(
                 Field('acceptance'),
@@ -157,11 +219,27 @@ class CandidateEditForm(forms.ModelForm):
             candidate.save()
         return candidate
 
+    def clean_expertise_other(self):
+        cleaned_data = self.cleaned_data
+
+        if '5' in cleaned_data.get('expertise') and not cleaned_data.get('expertise_other'):
+            raise forms.ValidationError('This is a required field', code='invalid')
+
+        return cleaned_data.get('expertise_other')
+
+    def clean_expertise(self):
+        cleaned_data = self.cleaned_data
+
+        return ','.join([i for i in cleaned_data.get('expertise', [])])
+
     class Meta:
         model = Candidate
         fields = ['candidate_first_name', 'candidate_last_name', 'candidate_job_title', 'candidate_email',
                   'candidate_phone_number', 'organization', 'email_alternate',
-                  'biography', 'vision', 'ideas', 'expertise', 'external_url', 'acceptance']
+                  'biography', 'vision', 'ideas',
+                  'expertise', 'expertise_other', 'expertise_expanded',
+                  'external_url', 'acceptance']
+
 
 PROPOSITION_CHOICES = (
     ('yes', mark_safe('We vote <strong>for</strong> this proposition')),
@@ -178,15 +256,20 @@ class VoteForm(forms.Form):
     # proposition_vote5 = forms.ChoiceField(widget=forms.RadioSelect, label="We vote", choices=PROPOSITION_CHOICES)
     # proposition_vote6 = forms.ChoiceField(widget=forms.RadioSelect, label="We vote", choices=PROPOSITION_CHOICES)
 
-    institutional_candidates = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple, label="Select 5 Candidates for Board of Directors, Institutional Seats")
+    institutional_candidates = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple,
+                                                         label="Select 5 Candidates for Board of Directors, Institutional Seats")
     # organizational_candidates = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple, label="Select 1 candidate for Board of Directors, Organizational Seat")
-    name = forms.CharField(label="Please enter your First and Last name, to sign your vote on behalf of your organization")
+    name = forms.CharField(
+        label="Please enter your First and Last name, to sign your vote on behalf of your organization")
 
     def __init__(self, *args, **kwargs):
         self.election = kwargs.pop('election')
         super(VoteForm, self).__init__(*args, **kwargs)
 
-        self.fields['institutional_candidates'].choices = [(i.id, unicode(i)) for i in self.election.candidate_set.filter(vetted=True, seat_type='institutional').order_by('order')]
+        self.fields['institutional_candidates'].choices = [(i.id, unicode(i)) for i in
+                                                           self.election.candidate_set.filter(vetted=True,
+                                                                                              seat_type='institutional').order_by(
+                                                               'order')]
         # self.fields['organizational_candidates'].choices = [(i.id, unicode(i)) for i in self.election.candidate_set.filter(vetted=True, seat_type='organizational').order_by('order')]
 
         self.helper = FormHelper(self)
@@ -265,7 +348,7 @@ class VoteForm(forms.Form):
             Div(
                 HTML(
                     '<p>Open Education Consortium by-laws require us to have 10 Board of Directors chosen by members. This year we need to '
-                    'elect 5 new Board members. To ensure we get the necessary 5 new Board members we ask OEC members to cast all 5 ' 
+                    'elect 5 new Board members. To ensure we get the necessary 5 new Board members we ask OEC members to cast all 5 '
                     'votes. This will also help ensure we get a diverse and inclusive Board with representation from around the world. <br /><br />To '
                     'inform your decision making about who to vote for we invite you to review the information about each candidate '
                     'at <a href="https://www.oeconsortium.org/about-oec/membership/elections/" target="_blank">https://www.oeconsortium.org/about-oec/membership/elections/</a></p>'
@@ -287,7 +370,8 @@ class VoteForm(forms.Form):
     def clean(self):
         cleaned_data = self.cleaned_data
 
-        if self.cleaned_data.get('institutional_candidates') and len(self.cleaned_data.get('institutional_candidates')) != 5:
+        if self.cleaned_data.get('institutional_candidates') and len(
+                self.cleaned_data.get('institutional_candidates')) != 5:
             self._errors['institutional_candidates'] = self.error_class(['Too many candidates selected.'])
 
         # if self.cleaned_data.get('organizational_candidates') and len(self.cleaned_data.get('organizational_candidates')) > 1:
