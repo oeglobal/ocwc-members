@@ -4,7 +4,7 @@ from django import forms
 
 from .models import Organization, Contact, Address, MembershipApplication, \
     Country, ReportedStatistic, Invoice, \
-    BillingLog, LoginKey, Continent
+    BillingLog, LoginKey, Continent, Profile
 
 
 class ContactInline(admin.TabularInline):
@@ -142,6 +142,10 @@ class BillingLogAdmin(admin.ModelAdmin):
     list_display = ('log_type', 'organization', 'pub_date')
 
 
+class ProfileAdmin(admin.ModelAdmin):
+    pass
+
+
 admin.site.register(Organization, OrganizationAdmin)
 admin.site.register(Contact, ContactAdmin)
 admin.site.register(Address, AddressAdmin)
@@ -153,3 +157,4 @@ admin.site.register(ReportedStatistic, ReportedStatisticAdmin)
 admin.site.register(Invoice, InvoiceAdmin)
 admin.site.register(BillingLog, BillingLogAdmin)
 admin.site.register(LoginKey)
+admin.site.register(Profile, ProfileAdmin)

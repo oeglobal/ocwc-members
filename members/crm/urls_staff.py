@@ -3,7 +3,7 @@ from django.conf.urls import url
 from .views import StaffIndex, OrganizationStaffListView, OrganizationStaffDetailView, \
     InvoiceStaffView, InvoicePhantomJSView, BillingLogCreateView, OrganizationBillingLogListingView, \
     OrganizationExportExcel, OrganizationStaffNoContactListView, OrganizationStaffCccOerListView, \
-    OrganizationExportCccoerExcel
+    OrganizationExportCccoerExcel, QuickBooksLogin
 
 app_name = 'staff'
 urlpatterns = [
@@ -26,4 +26,6 @@ urlpatterns = [
         name='organization-list-nocontact'),
     url(r'^organization/list/cccoer/$', OrganizationStaffCccOerListView.as_view(), name='organization-list-cccoer'),
     url(r'^organization/list/$', OrganizationStaffListView.as_view(), name='organization-list'),
+
+    url(r'^quickbooks/$', QuickBooksLogin.as_view(), name='quickbooks')
 ]

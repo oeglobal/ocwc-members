@@ -22,6 +22,8 @@ from rest_framework.renderers import JSONRenderer, BrowsableAPIRenderer
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework.permissions import IsAuthenticated
 
+from quickbooks import Oauth2SessionManager
+
 from .models import Organization, Contact, Address, ReportedStatistic, Country, MembershipApplication, \
     LoginKey, Invoice, BillingLog
 from .serializers import OrganizationApiSerializer, OrganizationDetailedApiSerializer, OrganizationRssFeedsApiSerializer
@@ -793,3 +795,32 @@ class LoginKeyCheckView(TemplateView):
             return redirect(request.GET.get('next', '/crm/'))
 
         return super(LoginKeyCheckView, self).dispatch(request, *args, **kwargs)
+
+
+class QuickBooksLogin(LoginRequiredMixin, TemplateView):
+    template_name = 'quickbooks/login.html'
+
+    def get(self, request, *args, **kwargs):
+        if request.GET.get('code'):
+            request.user.profile.update_qb_session_manager(request.GET['code'])
+        else:
+            if request.profile.qb_valid:
+                session_manager = Oauth2SessionManager(
+                    client_id=settings.QB_CLIENT_ID,
+                    client_secret=settings.QB_CLIENT_SECRET,
+                    base_url=settings.QB_CALLBACK_URL,
+                )
+                session_manager.refresh_access_token()
+
+        return super(QuickBooksLogin, self).get(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        if request.POST.get('qb') == 'qb-connect':
+            session_manager = Oauth2SessionManager(
+                client_id=settings.QB_CLIENT_ID,
+                client_secret=settings.QB_CLIENT_SECRET,
+                base_url=settings.QB_CALLBACK_URL,
+            )
+            authorize_url = session_manager.get_authorize_url(settings.QB_CALLBACK_URL)
+
+            return redirect(authorize_url)

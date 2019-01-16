@@ -5,14 +5,17 @@ import subprocess
 import datetime
 import time
 import random
+import arrow
 
 from django.db import models, IntegrityError
+from django.db.models.signals import post_save
 from django.utils.text import slugify
 from django.urls import reverse
 from django.core.mail import send_mail, EmailMessage
 from django.contrib.auth.models import User
 from django.template.loader import render_to_string
 from django.conf import settings
+from django.dispatch import receiver
 
 from geopy import geocoders
 from .utils import print_pdf
@@ -853,3 +856,41 @@ class Invoice(models.Model):
             return 'https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=Z8THX5FXTWCFS'
 
         return ''
+
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    qb_access_token = models.TextField(blank=True, default='')
+    qb_refresh_token = models.TextField(blank=True, default='')
+    qb_valid = models.BooleanField(default=False)
+    qb_token_expires = models.DateTimeField(null=True, default=None)
+    qb_refresh_expires = models.DateTimeField(null=True, default=None)
+
+    def __unicode__(self):
+        return self.user.username
+
+    def update_qb_session_manager(self, code):
+        session_manager = Oauth2SessionManager(
+            client_id=settings.QB_CLIENT_ID,
+            client_secret=settings.QB_CLIENT_SECRET,
+            base_url=settings.QB_CALLBACK_URL,
+        )
+        session_manager.get_access_tokens()
+
+        self.qb_access_token = session_manager.access_token
+        self.qb_refresh_token = session_manager.refresh_token
+        self.qb_valid = True
+        self.qb_token_expires = arrow.now().shift(seconds=session_manager.expires_in)
+        self.qb_refresh_expires = arrow.now().shift(seconds=session_manager.x_refresh_token_expires_in)
+        self.save()
+
+
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created or not hasattr(instance, 'profile'):
+        Profile.objects.create(user=instance)
+
+
+@receiver(post_save, sender=User)
+def save_user_profile(sender, instance, **kwargs):
+    instance.profile.save()

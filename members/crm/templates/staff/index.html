@@ -1,28 +1,35 @@
 {% extends "base.html" %}
 
 {% block contents %}
-	<div class="row">
-		<div class="large-12 columns">
-			<ul>
-				<li><a href="{% url 'staff:organization-list' %}">Organization list</a>
-					<ul>
-						<li><a href="{% url 'staff:organization-list-nocontact' %}">Organizations without valid email contact</a></li>
-						<li><a href="{% url 'staff:organization-list-excel' %}">Excel export</a></li>
+    <div class="row">
+        <div class="large-6 columns">
+            <ul>
+                <li><a href="{% url 'staff:organization-list' %}">Organization list</a>
+                    <ul>
+                        <li><a href="{% url 'staff:organization-list-nocontact' %}">Organizations without valid email
+                            contact</a></li>
+                        <li><a href="{% url 'staff:organization-list-excel' %}">Excel export</a></li>
                         <li><a href="{% url 'staff:organization-list-cccoer' %}">CCCOER</a></li>
-					</ul>
-				</li>
-				<li><a href="{% url 'application:application-list' %}">Application list</a></li>
-				<li>Invoices: <a href="{% url 'staff:billinglog-username-listing' 'igorlesko' %}">Igor</a>, <a href="{% url 'staff:billinglog-username-listing' 'marcela' %}">Marcela</a></li>
-			</ul>
-		</div>
-	</div>
+                    </ul>
+                </li>
+                <li><a href="{% url 'application:application-list' %}">Application list</a></li>
+                <li>Invoices: <a href="{% url 'staff:billinglog-username-listing' 'igorlesko' %}">Igor</a>, <a
+                        href="{% url 'staff:billinglog-username-listing' 'marcela' %}">Marcela</a></li>
+            </ul>
+        </div>
+        <div class="large-6 columns">
+            <ul>
+                <li><a href="{% url 'staff:quickbooks' %}">Quickbooks</a></li>
+            </ul>
+        </div>
+    </div>
 
-	<div class="row">
-		<div class="large-12 columns">
-			<h3>Conference</h3>
-			<ul>
-				<li><a href="{% url 'conferences:index' %}">View registrations</a></li>
-			</ul>
-		</div>
-	</div>
+    <div class="row">
+        <div class="large-12 columns">
+            <h3>Conference</h3>
+            <ul>
+                <li><a href="{% url 'conferences:index' %}">View registrations</a></li>
+            </ul>
+        </div>
+    </div>
 {% endblock %}

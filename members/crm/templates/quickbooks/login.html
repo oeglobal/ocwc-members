@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block contents %}
+    <div class="row">
+        <div class="large-6 columns">
+            <h1>QuickBooks connection</h1>
+
+            <p>Please login to QuickBooks with the button below, to activate the connection.</p>
+
+            <p>
+            <form action="." method="POST">
+                {% csrf_token %}
+                <input type="hidden" value="qb-connect" name="qb">
+                <input class="button" type="submit" value="Login to QuickBooks">
+            </form>
+        </div>
+    </div>
+{% endblock %}
