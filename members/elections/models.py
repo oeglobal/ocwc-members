@@ -7,6 +7,7 @@ from django.conf import settings
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils.safestring import mark_safe
+from django.core.validators import validate_comma_separated_integer_list
 
 from crm.models import Organization
 
@@ -47,6 +48,14 @@ SEAT_TYPE_CHOICES = (
     ('organizational', 'Organizational')
 )
 
+EXPERTISE_CHOICES = (
+    (1, 'Fundraising & Sustainability'),
+    (2, 'Membership Growth and Engagement'),
+    (3, 'Events and Services'),
+    (4, 'Operations including Legal & Finance'),
+    (5, 'Other'),
+)
+
 
 class Candidate(models.Model):
     election = models.ForeignKey(Election, models.CASCADE)
@@ -73,7 +82,7 @@ class Candidate(models.Model):
     biography = models.TextField(blank=True)
     vision = models.TextField(blank=True)
     ideas = models.TextField(blank=True)
-    expertise = models.TextField(blank=True)
+
     external_url = models.CharField(max_length=255, blank=True, default='')
 
     vetted = models.BooleanField(default=False)
@@ -84,8 +93,14 @@ class Candidate(models.Model):
 
     order = models.IntegerField(default=0)
 
+    expertise = models.TextField(default='',
+                                 validators=[validate_comma_separated_integer_list],
+                                 blank=True)
+    expertise_other = models.CharField(default='', max_length=255, blank=True)
+    expertise_expanded = models.TextField(default='', blank=True)
+
     def get_absolute_edit_url(self):
-        return reverse('elections:candidate-edit', kwargs={'key':self.edit_link_key})
+        return reverse('elections:candidate-edit', kwargs={'key': self.edit_link_key})
 
     def save(self, force_insert=False, force_update=False, using=None):
         if not self.edit_link_key:
@@ -95,16 +110,18 @@ class Candidate(models.Model):
         super(Candidate, self).save(force_insert=force_insert, force_update=force_update, using=using)
 
     def email_board(self):
-        send_mail(u"{candidate.candidate_first_name} {candidate.candidate_last_name} was nominated for OEC board".format(candidate=self),
-                  render_to_string('elections/email_candidate_board_body.txt', {'candidate': self}),
-                  'tech@oeconsortium.org', [settings.NOMINATION_COMMITTEE_EMAIL]
+        send_mail(
+            u"{candidate.candidate_first_name} {candidate.candidate_last_name} was nominated for OEC board".format(
+                candidate=self),
+            render_to_string('elections/email_candidate_board_body.txt', {'candidate': self}),
+            'tech@oeconsortium.org', [settings.NOMINATION_COMMITTEE_EMAIL]
         )
 
     def email_candidate(self):
         send_mail(u"You have been nominated to serve on the OEC Board of Directors",
                   render_to_string('elections/email_candidate_nominee_body.txt', {'candidate': self}),
                   'tech@oeconsortium.org', [self.candidate_email]
-        )
+                  )
 
     def __unicode__(self):
         return "%s %s (%s)" % (self.candidate_first_name, self.candidate_last_name, self.organization.display_name)

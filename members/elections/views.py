@@ -26,8 +26,8 @@ class CandidateAddView(FormView):
 
     def form_valid(self, form):
         org = Organization.objects.get(pk=form.cleaned_data.get('organization'))
-        del(form.cleaned_data['organization'])
-        del(form.cleaned_data['terms'])
+        del (form.cleaned_data['organization'])
+        del (form.cleaned_data['terms'])
 
         candidate = Candidate(**form.cleaned_data)
         candidate.election = Election.objects.latest('id')
@@ -71,7 +71,9 @@ class VoteView(LoginRequiredMixin, DetailView):
 
         org = Organization.objects.get(user=self.request.user)
 
-        context['proposition_votes'] = PropositionBallot.objects.filter(organization=org, election=context['election']).order_by('proposition__title')
+        context['proposition_votes'] = PropositionBallot.objects.filter(organization=org,
+                                                                        election=context['election']).order_by(
+            'proposition__title')
         context['candidate_votes'] = CandidateBallot.objects.filter(organization=org, election=context['election'])
 
         if self.object.propositionballot_set.filter(organization=org).count() < org.get_number_of_votes():
