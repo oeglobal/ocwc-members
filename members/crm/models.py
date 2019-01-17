@@ -208,32 +208,18 @@ class Organization(models.Model):
         if self.associate_consortium == 'CCCOER':
             return 650
 
+        try:
+            previous_invoice = self.billinglog_set.filter(log_type='create_invoice',
+                                                          invoice_year=settings.PREVIOUS_INVOICE_YEAR).latest('id')
+            return previous_invoice.amount
+        except BillingLog.DoesNotExist:
+            pass
+
         # (8 , 'Corporate Members - Basic'),
         if self.membership_type in [8]:
-            return 950
+            return 1250
 
-        # (5 , 'Institutional Members'),
-        # (6 , 'Organizational Members'),
-        # (11, 'Institutional Members - DC'),
-        # (7 , 'Associate Consortium Members'),
-        # (13, 'Organizational Members - DC'),
-        if self.membership_type in [5, 6, 11, 7, 13]:
-            if self.address_set.latest('id').country.developing:
-                return 750
-            else:
-                return 950
-
-        # (10, 'Institutional Members - MRC'),
-        # (12, 'Institutional Members - DC - MRC'),
-        # (9 , 'Associate Institutional Members'),
-        # (17, 'Associate Institutional Members - DC')
-        # (14, 'Associate Consortium Members - DC'),
-        # (18, 'Organizational Members - MRC'),
-        if self.membership_type in [10, 12, 9, 17, 14]:
-            if self.address_set.latest('id').country.developing:
-                return 500
-            else:
-                return 800
+        return 900
 
     def get_invoice_status(self):
         return {
