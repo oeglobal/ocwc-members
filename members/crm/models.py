@@ -379,6 +379,22 @@ class Address(models.Model):
         else:
             return u"%s %s" % (self.city, self.street_address)
 
+    def full_postal_address(self):
+        if self.country:
+            address = [self.street_address]
+            if self.supplemental_address_1:
+                address.append(self.supplemental_address_1)
+            if self.supplemental_address_2:
+                address.append(self.supplemental_address_2)
+
+            address.append(u"{} {} {}".format(self.postal_code, self.postal_code_suffix, self.city))
+            address.append(u"{} {}".format(self.state_province, self.country.name))
+
+            address = u"\n".join(address).replace(', ,', ', ')
+            return address
+
+        return ''
+
     def save(self, force_insert=False, force_update=False, using=None):
         if self.country:
             g = geocoders.Nominatim(user_agent="OEC-CRM")
