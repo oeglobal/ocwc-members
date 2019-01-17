@@ -126,6 +126,15 @@ class Candidate(models.Model):
                   'tech@oeconsortium.org', [self.candidate_email]
                   )
 
+    def get_expertise_items(self):
+        expertise_list = self.expertise.split(',')
+        choices = dict(EXPERTISE_CHOICES)
+        items = []
+        for expertise in expertise_list:
+            items.append(choices[int(expertise)])
+
+        return items
+
     def __unicode__(self):
         return "%s %s (%s)" % (self.candidate_first_name, self.candidate_last_name, self.organization.display_name)
 
