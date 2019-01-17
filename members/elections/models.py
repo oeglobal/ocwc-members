@@ -99,6 +99,9 @@ class Candidate(models.Model):
     expertise_other = models.CharField(default='', max_length=255, blank=True)
     expertise_expanded = models.TextField(default='', blank=True)
 
+    agreement_cost = models.BooleanField(default=False)
+    agreement_fund = models.BooleanField(default=False)
+
     def get_absolute_edit_url(self):
         return reverse('elections:candidate-edit', kwargs={'key': self.edit_link_key})
 
