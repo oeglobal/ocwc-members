@@ -4,6 +4,7 @@ import os, sys
 def next_to_root(*additional_paths):
     return os.path.realpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', *additional_paths))
 
+
 ADMINS = (
     # ('Jure Cuhalev', 'jure@oeconsortium.org'),
 )
@@ -82,7 +83,6 @@ ROOT_URLCONF = 'members.urls'
 # Python dotted path to the WSGI application used by Django's runserver.
 WSGI_APPLICATION = 'members.wsgi.application'
 
-
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -110,6 +110,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.flatpages',
     'django.contrib.admin',
     'django.contrib.admindocs',
 
