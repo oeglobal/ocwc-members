@@ -125,15 +125,13 @@ class CandidateEditForm(forms.ModelForm):
         instance = kwargs.get('instance')
         initial = {}
         if instance.status == 'accepted':
-            initial['acceptance': ACCEPTANCE_CHOICES[0][0]]
+            initial['acceptance'] = ACCEPTANCE_CHOICES[0][0]
 
         if instance.expertise:
             initial['expertise'] = instance.expertise.split(',')
 
         if initial:
             kwargs['initial'] = initial
-
-        print(initial)
 
         super(CandidateEditForm, self).__init__(*args, **kwargs)
 
@@ -147,6 +145,9 @@ class CandidateEditForm(forms.ModelForm):
         self.fields['candidate_email'].label = 'Email'
         self.fields['email_alternate'].label = 'Alternative e-mail'
         self.fields['organization'].label = 'Institution you represent'
+
+        for field in ['biography', 'vision', 'ideas', 'expertise', 'expertise_expanded']:
+            self.fields[field].required = True
 
         self.fields[
             'biography'].label = 'Candidate Biography <br /><br />Please provide a brief summary of your experience and qualifications <br />This will be displayed on the ballot.'
@@ -238,7 +239,8 @@ class CandidateEditForm(forms.ModelForm):
                   'candidate_phone_number', 'organization', 'email_alternate',
                   'biography', 'vision', 'ideas',
                   'expertise', 'expertise_other', 'expertise_expanded',
-                  'external_url', 'acceptance']
+                  'external_url',
+                  'agreement_cost', 'agreement_fund', 'acceptance']
 
 
 PROPOSITION_CHOICES = (

@@ -35,6 +35,23 @@
 	</style>
 {% endblock %}
 
+{% block extra_foot %}
+    <script>
+    jQuery(document).ready(function() {
+        var checkOther = function() {
+            if ($('#id_expertise_4').is(':checked')) {
+                $('#id_expertise_other').attr('required', true);
+            } else {
+                $('#id_expertise_other').attr('required', false);
+            }
+        }
+
+        $('#id_expertise_4').on('change', checkOther);
+        checkOther();
+    });
+    </script>
+{% endblock %}
+
 {% block contents %}
 	<div class="row">
 		<div class="large-8 columns">

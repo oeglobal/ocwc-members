@@ -99,6 +99,9 @@ class Candidate(models.Model):
     expertise_other = models.CharField(default='', max_length=255, blank=True)
     expertise_expanded = models.TextField(default='', blank=True)
 
+    agreement_cost = models.BooleanField(default=False)
+    agreement_fund = models.BooleanField(default=False)
+
     def get_absolute_edit_url(self):
         return reverse('elections:candidate-edit', kwargs={'key': self.edit_link_key})
 
@@ -122,6 +125,15 @@ class Candidate(models.Model):
                   render_to_string('elections/email_candidate_nominee_body.txt', {'candidate': self}),
                   'tech@oeconsortium.org', [self.candidate_email]
                   )
+
+    def get_expertise_items(self):
+        expertise_list = self.expertise.split(',')
+        choices = dict(EXPERTISE_CHOICES)
+        items = []
+        for expertise in expertise_list:
+            items.append(choices[int(expertise)])
+
+        return items
 
     def __unicode__(self):
         return "%s %s (%s)" % (self.candidate_first_name, self.candidate_last_name, self.organization.display_name)

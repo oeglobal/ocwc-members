@@ -393,7 +393,6 @@ class OrganizationExportExcel(StaffView, TemplateView):
         row_num = 0
         columns = [
             (u"ID", 25),
-            (u"Old ID", 25),
             (u"Name", 150),
             (u"Consortium", 50),
             (u"Lead Contact", 70),
@@ -403,11 +402,14 @@ class OrganizationExportExcel(StaffView, TemplateView):
             (u"Invoiced in {}".format(settings.PREVIOUS_INVOICE_YEAR), 50),
             (u"Invoiced in {}".format(settings.DEFAULT_INVOICE_YEAR), 50),
             (u"Edit link", 150),
+            (u"Join Date", 50),
             (u"Country", 50),
             (u"City", 50),
             (u"Is Country USA?", 20),
             (u"Signed MOA", 25),
-            (u"Last Note", 400),
+            (u"Billing Address", 100),
+            (u"Accounting Emails", 100),
+            (u"Last 3 Notes", 400),
         ]
 
         font_style = xlwt.XFStyle()
@@ -419,6 +421,9 @@ class OrganizationExportExcel(StaffView, TemplateView):
 
         font_style = xlwt.XFStyle()
         font_style.alignment.wrap = 1
+
+        date_format = xlwt.XFStyle()
+        date_format.num_format_str = 'dd/mm/yyyy'
 
         for obj in Organization.objects.filter(membership_status__in=(2, 3, 5, 7)).order_by('display_name'):
             row_num += 1
@@ -434,8 +439,9 @@ class OrganizationExportExcel(StaffView, TemplateView):
             note = ''
             logs = obj.billinglog_set.filter(log_type='create_note')
             if logs:
-                log = logs.latest('id')
-                note = "({}) {}".format(log.pub_date.strftime('%Y-%m-%d'), log.note)
+                logs = logs.order_by('id')[:3]
+                notes = ["({}) {}".format(log.pub_date.strftime('%Y-%m-%d'), log.note) for log in logs]
+                note = "\n".join(notes)
 
             if obj.address_set.first().country.name == 'United States':
                 is_usa = True
@@ -462,9 +468,14 @@ class OrganizationExportExcel(StaffView, TemplateView):
             else:
                 previous_year_amount = None
 
+            accounting_contacts = obj.contact_set.filter(contact_type=13)
+            if accounting_contacts:
+                accounting_emails = [accounting_contact.email for accounting_contact in accounting_contacts]
+            else:
+                accounting_emails = [contact_email]
+
             row = [
                 obj.pk,
-                obj.crmid or '',
                 obj.display_name,
                 obj.associate_consortium or '',
                 contact_name,
@@ -474,15 +485,21 @@ class OrganizationExportExcel(StaffView, TemplateView):
                 previous_year_amount,
                 current_year_amount,
                 'https://members.oeconsortium.org%s' % obj.get_absolute_staff_url(),
+                [obj.created, date_format],
                 obj.address_set.first().country.name,
                 obj.address_set.first().city,
                 is_usa,
                 'yes',
+                obj.get_billing_address().full_postal_address(),
+                u', '.join(accounting_emails),
                 note
             ]
 
             for col_num in range(len(row)):
-                ws.write(row_num, col_num, row[col_num], font_style)
+                if isinstance(row[col_num], list):
+                    ws.write(row_num, col_num, row[col_num][0], row[col_num][1])
+                else:
+                    ws.write(row_num, col_num, row[col_num], font_style)
 
         ws = wb.add_sheet("Contacts")
         row_num = 0
