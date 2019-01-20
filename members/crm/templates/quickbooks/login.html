@@ -5,6 +5,14 @@
         <div class="large-6 columns">
             <h1>QuickBooks connection</h1>
 
+            {% if request.user.profile.qb_valid %}
+                Status: <b>Valid connection</b>
+            {% else %}
+                Status: <b>Invalid connection</b>
+            {% endif %}
+
+            <br/><br/>
+
             <p>Please login to QuickBooks with the button below, to activate the connection.</p>
 
             <p>

@@ -41,7 +41,7 @@ class OrganizationAdmin(admin.ModelAdmin):
         }),
         ('Additional', {
             'fields': (
-                'legal_name', 'user', 'slug', 'crmid', 'description', 'logo_large', 'logo_small', 'accreditation_body',
+                'legal_name', 'user', 'slug', 'qbo_id', 'description', 'logo_large', 'logo_small', 'accreditation_body',
                 'support_commitment',
             )
         })

@@ -17,6 +17,17 @@ from django.template.loader import render_to_string
 from django.conf import settings
 from django.dispatch import receiver
 
+from quickbooks import Oauth2SessionManager
+from quickbooks.objects.base import PhoneNumber, EmailAddress
+from quickbooks.objects.base import Address as QuickBooksAddress
+from quickbooks.objects.customer import Customer
+from quickbooks import QuickBooks
+from quickbooks.objects.detailline import SalesItemLine, SalesItemLineDetail
+from quickbooks.objects.invoice import Invoice as QuickBooksInvoice
+from quickbooks.objects.item import Item
+from quickbooks.objects.term import Term
+from quickbooks.helpers import qb_date_format
+
 from geopy import geocoders
 from .utils import print_pdf
 
@@ -143,7 +154,7 @@ class Organization(models.Model):
     associate_consortium = models.CharField(max_length=255, choices=ORGANIZATION_ASSOCIATED_CONSORTIUM, blank=True,
                                             default='')
 
-    crmid = models.CharField(max_length=255, blank=True, help_text='Legacy identifier')
+    qbo_id = models.IntegerField(null=True, blank=True, default=None)
 
     main_website = models.TextField(max_length=255, blank=True)
     ocw_website = models.TextField(max_length=255, blank=True, verbose_name="OER/OCW Website")
@@ -315,6 +326,48 @@ class Organization(models.Model):
 
     def get_lead_contact(self):
         return self.contact_set.filter(contact_type=6).latest('id')
+
+    def sync_quickbooks_customer(self, qb_client):
+        if not self.qbo_id:
+            customer = Customer()
+        else:
+            customer = Customer.get(self.qbo_id, qb=qb_client)
+
+        customer.CompanyName = self.display_name
+        customer.DisplayName = self.display_name
+        customer.PrintOnCheckName = self.display_name
+
+        billing_address = self.get_billing_address()
+        if billing_address:
+            customer.BillAddr = QuickBooksAddress()
+            customer.BillAddr.Line1 = billing_address.street_address
+            customer.BillAddr.Line2 = billing_address.supplemental_address_1
+            customer.BillAddr.Line3 = billing_address.supplemental_address_2
+
+            customer.BillAddr.City = billing_address.city
+            customer.BillAddr.Country = billing_address.country.name
+            customer.BillAddr.CountrySubDivisionCode = billing_address.state_province_abbr
+            customer.BillAddr.PostalCode = "{} {}".format(billing_address.postal_code,
+                                                          billing_address.postal_code_suffix).strip()
+
+        primary_contact = self.contact_set.filter(contact_type=6)[0]
+        accounting_contacts = self.contact_set.filter(contact_type=13)
+        if accounting_contacts:
+            accounting_emails = [accounting_contact.email for accounting_contact in accounting_contacts]
+        else:
+            accounting_emails = [primary_contact.email]
+
+        customer.PrimaryEmailAddr = EmailAddress()
+        customer.PrimaryEmailAddr.Address = ', '.join(accounting_emails)
+
+        customer.GivenName = primary_contact.first_name
+        customer.FamilyName = primary_contact.last_name
+
+        customer.save(qb=qb_client)
+
+        self.qbo_id = customer.Id
+        self.save()
+
 
 
 # CONTACT_TYPE_CHOICES = (
@@ -859,6 +912,32 @@ class Invoice(models.Model):
 
         return ''
 
+    def create_qb_invoice(self, qb_client):
+        invoice = QuickBooksInvoice()
+        line = SalesItemLine()
+        line.LineNum = 1
+        line.Description = self.description
+        line.Amount = self.amount
+        # line.ServiceDate = qb_date_format(datetime.date(2019, 1, 1))
+        line.SalesItemLineDetail = SalesItemLineDetail()
+        line.SalesItemLineDetail.Qty = 1
+        line.SalesItemLineDetail.UnitPrice = self.amount
+        item = Item.choose(['MF'], field='SKU', qb=qb_client)[0]
+
+        line.SalesItemLineDetail.ItemRef = item.to_ref()
+        invoice.Line.append(line)
+
+        customer = Customer.get(self.organization.qbo_id, qb=qb_client)
+        invoice.CustomerRef = customer.to_ref()
+
+        # term = Term.choose(['Net 30'], field='Name', qb=qb_client)[0]
+        # invoice.SalesTermRef = term
+
+        # invoice.TotalAmt = self.amount
+        invoice.save(qb=qb_client)
+
+        print(invoice.Id)
+
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -867,24 +946,66 @@ class Profile(models.Model):
     qb_valid = models.BooleanField(default=False)
     qb_token_expires = models.DateTimeField(null=True, default=None)
     qb_refresh_expires = models.DateTimeField(null=True, default=None)
+    qb_realm_id = models.TextField(blank=True, default='')
 
     def __unicode__(self):
         return self.user.username
 
-    def update_qb_session_manager(self, code):
+    def update_qb_session_manager(self, code, realm_id):
         session_manager = Oauth2SessionManager(
             client_id=settings.QB_CLIENT_ID,
             client_secret=settings.QB_CLIENT_SECRET,
             base_url=settings.QB_CALLBACK_URL,
         )
-        session_manager.get_access_tokens()
+        session_manager.get_access_tokens(code)
 
         self.qb_access_token = session_manager.access_token
         self.qb_refresh_token = session_manager.refresh_token
         self.qb_valid = True
-        self.qb_token_expires = arrow.now().shift(seconds=session_manager.expires_in)
-        self.qb_refresh_expires = arrow.now().shift(seconds=session_manager.x_refresh_token_expires_in)
+        self.qb_token_expires = arrow.now().shift(seconds=3600).datetime
+        self.qb_refresh_expires = arrow.now().shift(seconds=8726400).datetime
+        self.qb_realm_id = realm_id
         self.save()
+
+    def refresh_qb_session_manager(self):
+        session_manager = Oauth2SessionManager(
+            client_id=settings.QB_CLIENT_ID,
+            client_secret=settings.QB_CLIENT_SECRET,
+            base_url=settings.QB_CALLBACK_URL,
+            refresh_token=self.qb_refresh_token,
+        )
+        session_manager.refresh_access_tokens(return_result=True)
+
+        self.qb_access_token = session_manager.access_token
+        self.qb_refresh_token = session_manager.refresh_token
+        self.qb_valid = True
+        self.qb_token_expires = arrow.now().shift(seconds=3600).datetime
+        self.save()
+
+        return session_manager
+
+    def get_qb_client(self):
+        session_manager = Oauth2SessionManager(
+            client_id=settings.QB_CLIENT_ID,
+            client_secret=settings.QB_CLIENT_SECRET,
+            access_token=self.qb_access_token,
+        )
+
+        if self.qb_token_expires < datetime.datetime.now():
+            session_manager = self.refresh_qb_session_manager()
+
+        if settings.QB_ENVIRONMENT == 'production':
+            sandbox = False
+        else:
+            sandbox = True
+
+        client = QuickBooks(
+            sandbox=sandbox,
+            session_manager=session_manager,
+            company_id=self.qb_realm_id
+        )
+
+        return client
 
 
 @receiver(post_save, sender=User)

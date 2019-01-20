@@ -216,6 +216,8 @@ class OrganizationStaffDetailView(OrganizationStaffView, DetailView):
     def get_context_data(self, **kwargs):
         context = super(OrganizationStaffDetailView, self).get_context_data(**kwargs)
 
+        self.object.sync_quickbooks_customer(self.request.user.profile.get_qb_client())
+
         try:
             lead_contact = self.object.contact_set.filter(contact_type=6).latest('id')
             first_name = lead_contact.first_name
@@ -287,6 +289,8 @@ class BillingLogCreateView(StaffView, CreateView):
         org = get('organization')
 
         if get('log_type') == 'create_invoice':
+            qb_client = self.request.user.profile.get_qb_client()
+
             invoice = Invoice.objects.create(
                 invoice_type='issued',
                 organization=org,
@@ -308,7 +312,7 @@ class BillingLogCreateView(StaffView, CreateView):
                 invoice=invoice
             )
             transaction.commit()
-            invoice.generate_pdf()
+            invoice.create_qb_invoice(qb_client)
 
         elif get('log_type') == 'create_paid_invoice':
             invoice = Invoice(
@@ -408,7 +412,7 @@ class OrganizationExportExcel(StaffView, TemplateView):
             (u"Is Country USA?", 20),
             (u"Signed MOA", 25),
             (u"Billing Address", 100),
-            (u"Accounting Emails", 100),
+            (u"Billing Emails", 100),
             (u"Last 3 Notes", 400),
         ]
 
@@ -818,16 +822,14 @@ class QuickBooksLogin(LoginRequiredMixin, TemplateView):
     template_name = 'quickbooks/login.html'
 
     def get(self, request, *args, **kwargs):
+        profile = request.user.profile
         if request.GET.get('code'):
-            request.user.profile.update_qb_session_manager(request.GET['code'])
+            profile.update_qb_session_manager(request.GET['code'], request.GET['realmId'])
+            return redirect(reverse('staff:quickbooks'))
         else:
-            if request.profile.qb_valid:
-                session_manager = Oauth2SessionManager(
-                    client_id=settings.QB_CLIENT_ID,
-                    client_secret=settings.QB_CLIENT_SECRET,
-                    base_url=settings.QB_CALLBACK_URL,
-                )
-                session_manager.refresh_access_token()
+            if profile.qb_valid and profile.qb_token_expires < datetime.datetime.now():
+                profile.refresh_qb_session_manager()
+                print('updated refresh token')
 
         return super(QuickBooksLogin, self).get(request, *args, **kwargs)
 
