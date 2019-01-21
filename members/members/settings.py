@@ -186,4 +186,6 @@ NOCAPTCHA = True
 QB_BASE_SANDBOX = 'https://sandbox-quickbooks.api.intuit.com'
 QB_BASE_PROD = 'https://quickbooks.api.intuit.com'
 
+QB_ACTIVE = False
+
 from localsettings import *

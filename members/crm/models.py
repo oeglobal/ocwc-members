@@ -328,45 +328,46 @@ class Organization(models.Model):
         return self.contact_set.filter(contact_type=6).latest('id')
 
     def sync_quickbooks_customer(self, qb_client):
-        if not self.qbo_id:
-            customer = Customer()
-        else:
-            customer = Customer.get(self.qbo_id, qb=qb_client)
+        if settings.QB_ACTIVE:
+            if not self.qbo_id:
+                customer = Customer()
+            else:
+                customer = Customer.get(self.qbo_id, qb=qb_client)
 
-        customer.CompanyName = self.display_name
-        customer.DisplayName = self.display_name
-        customer.PrintOnCheckName = self.display_name
+            customer.CompanyName = self.display_name
+            customer.DisplayName = self.display_name
+            customer.PrintOnCheckName = self.display_name
 
-        billing_address = self.get_billing_address()
-        if billing_address:
-            customer.BillAddr = QuickBooksAddress()
-            customer.BillAddr.Line1 = billing_address.street_address
-            customer.BillAddr.Line2 = billing_address.supplemental_address_1
-            customer.BillAddr.Line3 = billing_address.supplemental_address_2
+            billing_address = self.get_billing_address()
+            if billing_address:
+                customer.BillAddr = QuickBooksAddress()
+                customer.BillAddr.Line1 = billing_address.street_address
+                customer.BillAddr.Line2 = billing_address.supplemental_address_1
+                customer.BillAddr.Line3 = billing_address.supplemental_address_2
 
-            customer.BillAddr.City = billing_address.city
-            customer.BillAddr.Country = billing_address.country.name
-            customer.BillAddr.CountrySubDivisionCode = billing_address.state_province_abbr
-            customer.BillAddr.PostalCode = "{} {}".format(billing_address.postal_code,
-                                                          billing_address.postal_code_suffix).strip()
+                customer.BillAddr.City = billing_address.city
+                customer.BillAddr.Country = billing_address.country.name
+                customer.BillAddr.CountrySubDivisionCode = billing_address.state_province_abbr
+                customer.BillAddr.PostalCode = "{} {}".format(billing_address.postal_code,
+                                                              billing_address.postal_code_suffix).strip()
 
-        primary_contact = self.contact_set.filter(contact_type=6)[0]
-        accounting_contacts = self.contact_set.filter(contact_type=13)
-        if accounting_contacts:
-            accounting_emails = [accounting_contact.email for accounting_contact in accounting_contacts]
-        else:
-            accounting_emails = [primary_contact.email]
+            primary_contact = self.contact_set.filter(contact_type=6)[0]
+            accounting_contacts = self.contact_set.filter(contact_type=13)
+            if accounting_contacts:
+                accounting_emails = [accounting_contact.email for accounting_contact in accounting_contacts]
+            else:
+                accounting_emails = [primary_contact.email]
 
-        customer.PrimaryEmailAddr = EmailAddress()
-        customer.PrimaryEmailAddr.Address = ', '.join(accounting_emails)
+            customer.PrimaryEmailAddr = EmailAddress()
+            customer.PrimaryEmailAddr.Address = ', '.join(accounting_emails)
 
-        customer.GivenName = primary_contact.first_name
-        customer.FamilyName = primary_contact.last_name
+            customer.GivenName = primary_contact.first_name
+            customer.FamilyName = primary_contact.last_name
 
-        customer.save(qb=qb_client)
+            customer.save(qb=qb_client)
 
-        self.qbo_id = customer.Id
-        self.save()
+            self.qbo_id = customer.Id
+            self.save()
 
 
 

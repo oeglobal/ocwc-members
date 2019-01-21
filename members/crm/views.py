@@ -289,8 +289,6 @@ class BillingLogCreateView(StaffView, CreateView):
         org = get('organization')
 
         if get('log_type') == 'create_invoice':
-            qb_client = self.request.user.profile.get_qb_client()
-
             invoice = Invoice.objects.create(
                 invoice_type='issued',
                 organization=org,
@@ -312,7 +310,12 @@ class BillingLogCreateView(StaffView, CreateView):
                 invoice=invoice
             )
             transaction.commit()
-            invoice.create_qb_invoice(qb_client)
+
+            if settings.QB_ACTIVE:
+                qb_client = self.request.user.profile.get_qb_client()
+                invoice.create_qb_invoice(self.request.user.profile)
+            else:
+                invoice.generate_pdf()
 
         elif get('log_type') == 'create_paid_invoice':
             invoice = Invoice(
