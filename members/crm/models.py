@@ -328,7 +328,7 @@ class Organization(models.Model):
         return self.contact_set.filter(contact_type=6).latest('id')
 
     def sync_quickbooks_customer(self, qb_client):
-        if settings.QB_ACTIVE:
+        if settings.QB_ACTIVE and qb_client:
             if not self.qbo_id:
                 customer = Customer()
             else:
@@ -986,27 +986,28 @@ class Profile(models.Model):
         return session_manager
 
     def get_qb_client(self):
-        session_manager = Oauth2SessionManager(
-            client_id=settings.QB_CLIENT_ID,
-            client_secret=settings.QB_CLIENT_SECRET,
-            access_token=self.qb_access_token,
-        )
+        if self.qb_valid:
+            session_manager = Oauth2SessionManager(
+                client_id=settings.QB_CLIENT_ID,
+                client_secret=settings.QB_CLIENT_SECRET,
+                access_token=self.qb_access_token,
+            )
 
-        if self.qb_token_expires < datetime.datetime.now():
-            session_manager = self.refresh_qb_session_manager()
+            if self.qb_token_expires < datetime.datetime.now():
+                session_manager = self.refresh_qb_session_manager()
 
-        if settings.QB_ENVIRONMENT == 'production':
-            sandbox = False
-        else:
-            sandbox = True
+            if settings.QB_ENVIRONMENT == 'production':
+                sandbox = False
+            else:
+                sandbox = True
 
-        client = QuickBooks(
-            sandbox=sandbox,
-            session_manager=session_manager,
-            company_id=self.qb_realm_id
-        )
+            client = QuickBooks(
+                sandbox=sandbox,
+                session_manager=session_manager,
+                company_id=self.qb_realm_id
+            )
 
-        return client
+            return client
 
 
 @receiver(post_save, sender=User)
