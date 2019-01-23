@@ -400,6 +400,7 @@ class OrganizationExportExcel(StaffView, TemplateView):
         row_num = 0
         columns = [
             (u"ID", 25),
+            (u"QBO ID", 25),
             (u"Name", 150),
             (u"Consortium", 50),
             (u"Lead Contact", 70),
@@ -483,6 +484,7 @@ class OrganizationExportExcel(StaffView, TemplateView):
 
             row = [
                 obj.pk,
+                obj.qbo_id,
                 obj.display_name,
                 obj.associate_consortium or '',
                 contact_name,
