@@ -25,7 +25,7 @@ from rest_framework.permissions import IsAuthenticated
 from quickbooks import Oauth2SessionManager
 
 from .models import Organization, Contact, Address, ReportedStatistic, Country, MembershipApplication, \
-    LoginKey, Invoice, BillingLog
+    LoginKey, Invoice, BillingLog, Profile
 from .serializers import OrganizationApiSerializer, OrganizationDetailedApiSerializer, OrganizationRssFeedsApiSerializer
 from .forms import MembershipApplicationModelForm, MemberLoginForm, AddressModelForm, BillingLogForm, \
     ReportedStatisticModelForm
@@ -216,7 +216,7 @@ class OrganizationStaffDetailView(OrganizationStaffView, DetailView):
     def get_context_data(self, **kwargs):
         context = super(OrganizationStaffDetailView, self).get_context_data(**kwargs)
 
-        self.object.sync_quickbooks_customer(self.request.user.profile.get_qb_client())
+        self.object.sync_quickbooks_customer(Profile.get_qb_client())
 
         try:
             lead_contact = self.object.contact_set.filter(contact_type=6).latest('id')
@@ -256,10 +256,12 @@ class OrganizationStaffDetailView(OrganizationStaffView, DetailView):
         try:
             log = self.object.billinglog_set.filter(invoice_year=settings.DEFAULT_INVOICE_YEAR,
                                                     log_type='create_invoice').latest('id')
-            initial.update({
-                'amount': log.invoice.amount,
-                'description': log.invoice.description
-            })
+
+            if log.invoice:
+                initial.update({
+                    'amount': log.invoice.amount,
+                    'description': log.invoice.description
+                })
         except BillingLog.DoesNotExist:
             pass
 
@@ -448,7 +450,7 @@ class OrganizationExportExcel(StaffView, TemplateView):
             logs = obj.billinglog_set.filter(log_type='create_note')
             if logs:
                 logs = logs.order_by('id')[:3]
-                notes = ["({}) {}".format(log.pub_date.strftime('%Y-%m-%d'), log.note) for log in logs]
+                notes = [u"({}) {}".format(log.pub_date.strftime('%Y-%m-%d'), log.note) for log in logs]
                 note = "\n".join(notes)
 
             if obj.address_set.first().country.name == 'United States':
@@ -460,7 +462,7 @@ class OrganizationExportExcel(StaffView, TemplateView):
                                              invoice_year=settings.DEFAULT_INVOICE_YEAR)
             if logs:
                 log = logs.latest('id')
-                current_year_amount = log.invoice.amount
+                current_year_amount = log.amount
             else:
                 amount = obj.get_membership_due_amount()
                 if amount:
@@ -472,7 +474,7 @@ class OrganizationExportExcel(StaffView, TemplateView):
                                              invoice_year=settings.PREVIOUS_INVOICE_YEAR)
             if logs:
                 log = logs.latest('id')
-                previous_year_amount = log.invoice.amount
+                previous_year_amount = log.amount
             else:
                 previous_year_amount = None
 

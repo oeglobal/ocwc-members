@@ -322,7 +322,7 @@ class Organization(models.Model):
                 pass
 
     def get_last_paid_invoice(self):
-        return self.billinglog_set.filter(log_type='create_paid_invoice').latest('id')
+        return self.billinglog_set.filter(log_type__in=['create_paid_invoice', 'create_payment']).latest('id')
 
     def get_lead_contact(self):
         return self.contact_set.filter(contact_type=6).latest('id')
@@ -790,11 +790,12 @@ class LoginKey(models.Model):
 
 
 BILLING_LOG_TYPE_CHOICES = (
-    ('create_invoice', 'Create new invoice'),
+    ('create_invoice', 'Invoice'),
     ('send_invoice', 'Send invoice via email'),
     ('create_paid_invoice', 'Create paid invoice'),
     ('send_paid_invoice', 'Send paid invoice via email'),
     ('create_note', 'Add a note'),
+    ('create_payment', 'Payment'),
 )
 
 
@@ -815,6 +816,11 @@ class BillingLog(models.Model):
 
     email_subject = models.CharField(max_length=140, blank=True, verbose_name="Subject")
     email_body = models.TextField(blank=True, verbose_name="Message")
+
+    qbo_id = models.IntegerField(null=True, blank=True, default=None)
+
+    class Meta:
+        ordering = ['-pub_date']
 
     @staticmethod
     def _open_file(path_to_file, attempts=0, timeout=5, sleep_int=5):
@@ -843,6 +849,16 @@ class BillingLog(models.Model):
                        content=content,
                        mimetype='application/pdf')
         message.send()
+
+    def get_qbo_url(self):
+        if not self.qbo_id:
+            return None
+
+        if self.log_type == 'create_invoice':
+            return 'https://c1.qbo.intuit.com/app/invoice?txnId={}'.format(self.qbo_id)
+
+        if self.log_type == 'create_payment':
+            return 'https://c1.qbo.intuit.com/app/recvpayment?txnId={}'.format(self.qbo_id)
 
 
 INVOICE_TYPE_CHOICES = (
@@ -985,16 +1001,22 @@ class Profile(models.Model):
 
         return session_manager
 
-    def get_qb_client(self):
-        if self.qb_valid:
+    @staticmethod
+    def get_qb_client():
+        try:
+            profile = Profile.objects.filter(qb_valid=True)[0]
+        except IndexError:
+            return None
+
+        if profile.qb_valid:
             session_manager = Oauth2SessionManager(
                 client_id=settings.QB_CLIENT_ID,
                 client_secret=settings.QB_CLIENT_SECRET,
-                access_token=self.qb_access_token,
+                access_token=profile.qb_access_token,
             )
 
-            if self.qb_token_expires < datetime.datetime.now():
-                session_manager = self.refresh_qb_session_manager()
+            if profile.qb_token_expires < datetime.datetime.now():
+                session_manager = profile.refresh_qb_session_manager()
 
             if settings.QB_ENVIRONMENT == 'production':
                 sandbox = False
@@ -1004,7 +1026,7 @@ class Profile(models.Model):
             client = QuickBooks(
                 sandbox=sandbox,
                 session_manager=session_manager,
-                company_id=self.qb_realm_id
+                company_id=profile.qb_realm_id
             )
 
             return client
