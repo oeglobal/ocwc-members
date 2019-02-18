@@ -1029,7 +1029,7 @@ class Profile(models.Model):
                 company_id=profile.qb_realm_id
             )
 
-            return client
+            return client, profile
 
 
 @receiver(post_save, sender=User)

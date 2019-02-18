@@ -2,7 +2,7 @@
 from django.core.management.base import BaseCommand
 from quickbooks.objects.invoice import Invoice as QuickBooksInvoice
 from quickbooks.objects.payment import Payment as QuickBooksPayment
-
+from quickbooks.exceptions import AuthorizationException
 import arrow
 
 from crm.models import Profile, Organization, Invoice, BillingLog
@@ -16,12 +16,19 @@ class Command(BaseCommand):
         self.get_qbo_events()
 
     def get_qbo_events(self):
-        qb_client = Profile.get_qb_client()
+        qb_client, profile = Profile.get_qb_client()
 
         user = User.objects.get(username='karen')
 
         for offset in [1,100,200,300]:
-            invoices = QuickBooksInvoice.all(qb=qb_client, start_position=offset)
+            try:
+                invoices = QuickBooksInvoice.all(qb=qb_client, start_position=offset)
+            except AuthorizationException:
+                profile.is_active = False
+                profile.save()
+                
+                return
+
             for qb_invoice in invoices:
                 try:
                     org = Organization.objects.get(qbo_id=qb_invoice.CustomerRef.value)

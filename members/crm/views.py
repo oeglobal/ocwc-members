@@ -216,7 +216,8 @@ class OrganizationStaffDetailView(OrganizationStaffView, DetailView):
     def get_context_data(self, **kwargs):
         context = super(OrganizationStaffDetailView, self).get_context_data(**kwargs)
 
-        self.object.sync_quickbooks_customer(Profile.get_qb_client())
+        qb_client, profile = Profile.get_qb_client()
+        self.object.sync_quickbooks_customer(qb_client)
 
         try:
             lead_contact = self.object.contact_set.filter(contact_type=6).latest('id')
@@ -314,7 +315,7 @@ class BillingLogCreateView(StaffView, CreateView):
             transaction.commit()
 
             if settings.QB_ACTIVE:
-                qb_client = self.request.user.profile.get_qb_client()
+                qb_client, profile = self.request.user.profile.get_qb_client()
                 invoice.create_qb_invoice(self.request.user.profile)
             else:
                 invoice.generate_pdf()
