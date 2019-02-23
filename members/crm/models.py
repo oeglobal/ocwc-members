@@ -718,7 +718,7 @@ class MembershipApplication(models.Model):
     def _send_notification_email(self):
         send_mail('New Membership Application: %s' % self.display_name,
                   'View application: https://members.oeconsortium.org%s' % self.get_absolute_url(),
-                  'tech@oeconsortium.org', ['memberapplications@oeconsortium.org'])
+                  'tech@oeconsortium.org', ['memberapplications@ocwconsortium.org'])
 
 
 COMMENTS_APP_STATUS_CHOICES = (
