@@ -287,7 +287,7 @@ class VoteForm(forms.Form):
 
         self.helper.layout = Layout(
             Div(
-                HTML('<h2>2018 Open Education Consortium Elections</h2>'),
+                HTML('<h2>2019 Open Education Consortium Elections</h2>'),
                 css_class='row'),
             # Div(
             #     HTML('<div class="large-8 columns">Please see the background information on the Proposed bylaws changes for an explanation of these proposed changes, and then vote on each issue below. <br /></br ><a target="_blank" style="font-weight: bold;" href="https://docs.google.com/document/d/1Hszn22Iu5GTtEalvRDpVNDOTYOfoO6DA8vFhYP-kWyo/edit">Click here for background information</a>.<br /><br /></div>'),

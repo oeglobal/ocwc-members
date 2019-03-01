@@ -5,7 +5,7 @@
 		<div class="large-12 columns">
 			<h2>Thank you for voting in {{ election.title }}.</h2>
 
-			<p>You voted:</p>
+			<p>Your vote:</p>
 			{% if proposition_votes %}
 				<ul>
 				{% for vote in proposition_votes %}
@@ -17,7 +17,7 @@
 			{% if candidate_votes %}
 			<ul>
                 {% for vote in candidate_votes %}
-				<li>For Board of Directors, {{ vote.seat_type|title }} Seat: <br />
+				<li>For Board of Directors: <br />
 					{% for candidate in vote.votes.all %}
 						<strong>{{ candidate.candidate_first_name }} {{ candidate.candidate_last_name }}</strong>{% if not forloop.last %}, {% endif %}
 					{% endfor %}
