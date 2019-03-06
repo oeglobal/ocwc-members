@@ -984,6 +984,8 @@ class Profile(models.Model):
         self.qb_realm_id = realm_id
         self.save()
 
+        Profile.objects.all().exclude(pk=self.id).update(qb_valid=False)
+
     def refresh_qb_session_manager(self):
         session_manager = Oauth2SessionManager(
             client_id=settings.QB_CLIENT_ID,
@@ -998,6 +1000,8 @@ class Profile(models.Model):
         self.qb_valid = True
         self.qb_token_expires = arrow.now().shift(seconds=3600).datetime
         self.save()
+
+        Profile.objects.all().exclude(pk=self.id).update(qb_valid=False)
 
         return session_manager
 
