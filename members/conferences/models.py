@@ -6,6 +6,7 @@ from django.db import models
 from django.urls import reverse
 from django.core.mail import EmailMessage
 from django.conf import settings
+from django.contrib.postgres.fields import JSONField
 
 from crm.utils import print_pdf
 
@@ -48,6 +49,9 @@ class ConferenceRegistration(models.Model):
 
     total_amount = models.CharField(max_length=255)
     payment_type = models.CharField(choices=PAYMENT_TYPE, max_length=255)
+
+    products = JSONField(blank=True, null=True)
+    qbo_id = models.IntegerField(blank=True, null=True)
 
     source_url = models.CharField(max_length=255)
 

@@ -5,6 +5,8 @@ import hashlib
 import requests
 import json
 from pyquery import PyQuery as pq
+from bs4 import BeautifulSoup
+from html_table_extractor.extractor import Extractor
 
 from django.conf import settings
 
@@ -18,7 +20,7 @@ def _calculate_signature(string, private_key):
     return sig
 
 
-def sync_conference(conf_id=1):
+def sync_conference(conf_id=3):
     conf = ConferenceInterface.objects.get(pk=conf_id)
 
     route = "forms/1/entries"
@@ -39,26 +41,46 @@ def sync_conference(conf_id=1):
         )
 
         html = html.json().get('html')
+
+        table = BeautifulSoup(html, 'html.parser').find_all('table', class_='entry-products')
+        extractor = Extractor(table[0], transformer=unicode)
+        extractor.parse()
+        table_data = extractor.return_list()
+
+        products = []
+        total_amount = ''
+        for item in table_data:
+            product_name, amount, price, total = item
+
+            if price == 'Total':
+                total_amount = total
+                continue
+
+            product_name = product_name.strip()
+            amount = int(amount)
+            price = float(price.replace(u'\u20ac', '').strip().replace(',', '.'))
+
+            products.append({
+                'name': product_name,
+                'amount': amount,
+                'price': price
+            })
+
         doc = pq(html)
-        product_html = doc('.entry-products').html()
-        product_html = product_html.replace(' (Ends 1 March 2018)', '')
-        product_html = product_html.replace(u'(€75 per person)', '')
-        product_html = product_html.replace(u'(€25 per person)', '')
-        product_html = product_html.replace(u'I will attend Conference Dinner (€75)', 'Conference Dinner')
-
         billing_html = ''
-
         for val in doc('.entry-view-field-name'):
             if val.text == 'Billing address details':
                 doc(val).parents('tr').next_all().find('a').remove()
                 billing_html = doc(val).parents('tr').next_all().find('td').html()
                 if entry.get('34'):
-                    billing_html += '<br />' + entry.get('34')
+                    billing_html += '<br/>' + entry.get('34')
+
+        billing_html = billing_html.replace('<br/>', '\n')
 
         if 'wire' in entry.get('21'):
             payment_type = 'wire'
         else:
-            payment_type = 'paypal'
+            payment_type = 'group'
 
         registration, is_created = ConferenceRegistration.objects.get_or_create(
             interface=conf,
@@ -74,12 +96,12 @@ def sync_conference(conf_id=1):
                 'email': entry.get('2'),
 
                 'organization': entry.get('6'),
-                'product_html': product_html,
                 'billing_html': billing_html,
-                'total_amount': 0
+                'total_amount': total_amount,
+                'products': products
             },
         )
 
-        if is_created and registration.payment_type == 'wire':
-            registration.email_invoice()
+        # if is_created and registration.payment_type == 'wire':
+        #     registration.email_invoice()
 
