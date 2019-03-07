@@ -8,7 +8,7 @@ class Command(BaseCommand):
     help = "displays election results in the console"
 
     def handle(self, *args, **options):
-        election = Election.objects.get(pk=6)
+        election = Election.objects.get(pk=7)
         self.stdout.write(election.title)
 
         for proposition in election.proposition_set.all():
