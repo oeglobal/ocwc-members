@@ -1030,7 +1030,8 @@ class Profile(models.Model):
             client = QuickBooks(
                 sandbox=sandbox,
                 session_manager=session_manager,
-                company_id=profile.qb_realm_id
+                company_id=profile.qb_realm_id,
+                minorversion=36
             )
 
             return client, profile

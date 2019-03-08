@@ -75,7 +75,7 @@ def sync_conference(conf_id=3):
                 if entry.get('34'):
                     billing_html += '<br/>' + entry.get('34')
 
-        billing_html = billing_html.replace('<br/>', '\n')
+        billing_html = billing_html.replace('<br/>', '\n').replace('<p>', '').replace('</p>', '')
 
         if 'wire' in entry.get('21'):
             payment_type = 'wire'
