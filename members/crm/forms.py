@@ -22,7 +22,8 @@ SIMPLIFIED_MEMBERSHIP_TYPE_CHOICES = (
     ('corporate', mark_safe('Corporate Member <i class="icon-question-sign"></i>'))
 )
 
-ORGANIZATION_ASSOCIATED_CONSORTIUM_CHOICES = filter(lambda x: x[0] not in ['CORE', 'KOCWC'], ORGANIZATION_ASSOCIATED_CONSORTIUM)
+ORGANIZATION_ASSOCIATED_CONSORTIUM_CHOICES = filter(lambda x: x[0] not in ['CORE', 'KOCWC'],
+                                                    ORGANIZATION_ASSOCIATED_CONSORTIUM)
 
 
 class MembershipApplicationModelForm(forms.ModelForm):
@@ -43,7 +44,7 @@ class MembershipApplicationModelForm(forms.ModelForm):
                                      label='URL')
     initiative_url3 = forms.URLField(required=False,
                                      label='URL')
-    captcha = ReCaptchaField(widget=ReCaptchaV3)
+    captcha = ReCaptchaField()
 
     def __init__(self, *args, **kwargs):
         super(MembershipApplicationModelForm, self).__init__(*args, **kwargs)
@@ -141,7 +142,7 @@ class MembershipApplicationModelForm(forms.ModelForm):
                      'Privacy Protection Act Compliance</h3></div>'),
                 HTML('<div class="coppa-text large-8 columns"></div>'),
                 Field('coppa', required=True),
-                Field('captcha'),
+                Field('captcha', required=True),
                 css_class="row"),
         )
         self.helper.layout.append(Submit('save', 'save'))

@@ -171,7 +171,7 @@ CRISPY_TEMPLATE_PACK = 'uni_form'
 PREVIOUS_INVOICE_YEAR = '2018'
 DEFAULT_INVOICE_YEAR = '2019'
 
-ALLOWED_HOSTS = ['localhost', 'members.oeconsortium.org']
+ALLOWED_HOSTS = ['localhost', 'members.oeconsortium.org', 'members.test']
 
 REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': (
@@ -180,8 +180,6 @@ REST_FRAMEWORK = {
         'rest_framework_jsonp.renderers.JSONPRenderer',
     ),
 }
-
-RECAPTCHA_DOMAIN = 'www.recaptcha.net'
 
 QB_BASE_SANDBOX = 'https://sandbox-quickbooks.api.intuit.com'
 QB_BASE_PROD = 'https://quickbooks.api.intuit.com'
