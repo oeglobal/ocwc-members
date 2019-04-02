@@ -181,7 +181,7 @@ REST_FRAMEWORK = {
     ),
 }
 
-NOCAPTCHA = True
+RECAPTCHA_DOMAIN = 'www.recaptcha.net'
 
 QB_BASE_SANDBOX = 'https://sandbox-quickbooks.api.intuit.com'
 QB_BASE_PROD = 'https://quickbooks.api.intuit.com'

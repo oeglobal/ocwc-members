@@ -6,6 +6,7 @@ from django import forms
 from django.utils.safestring import mark_safe
 
 from captcha.fields import ReCaptchaField
+from captcha.widgets import ReCaptchaV3
 
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit, Layout, Field, Div, HTML
@@ -42,7 +43,7 @@ class MembershipApplicationModelForm(forms.ModelForm):
                                      label='URL')
     initiative_url3 = forms.URLField(required=False,
                                      label='URL')
-    captcha = ReCaptchaField()
+    captcha = ReCaptchaField(widget=ReCaptchaV3)
 
     def __init__(self, *args, **kwargs):
         super(MembershipApplicationModelForm, self).__init__(*args, **kwargs)
