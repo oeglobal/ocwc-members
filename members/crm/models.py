@@ -635,13 +635,16 @@ class MembershipApplication(models.Model):
         if not self.created:
             self.created = datetime.datetime.now()
 
+        if self.first_name == self.last_name:
+            self.app_status = 'Spam'
+
         if not self.app_status:
             self.app_status = 'Submitted'
 
         if self.app_status == 'Approved' and not self.organization:
             self.organization = self._create_member()
 
-        if not self.pk:
+        if not self.pk and not self.app_status == 'Spam':
             self._send_notification_email()
 
         super(MembershipApplication, self).save(force_insert=force_insert, force_update=force_update, using=using)
