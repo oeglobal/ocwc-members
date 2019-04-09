@@ -718,7 +718,7 @@ class MembershipApplication(models.Model):
 
         send_mail('New OEC Member: {}'.format(self.display_name),
                   'View member profile: https://www.oeconsortium.org/members/view/{}/'.format(org.id),
-                  'tech@oeconsortium.org', ['staff@ocwconsortium.org'])
+                  'tech@oeconsortium.org', ['staff@oeconsortium.org'])
 
         return org
 
