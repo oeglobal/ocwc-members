@@ -15,29 +15,33 @@ from quickbooks.exceptions import ValidationException
 from quickbooks.objects.customer import Customer
 
 from conferences.utils import sync_conference
-from conferences.models import ConferenceRegistration
+from conferences.models import ConferenceRegistration, ConferenceInterface
 
-from crm.models import Profile
+from crm.models import Profile, Organization
 
 
 class Command(BaseCommand):
     help = "synces conference information"
 
     def add_arguments(self, parser):
-        parser.add_argument('action', type=str, help="Actions: sync, send_invoice")
-        parser.add_argument('--id', type=int, help="Conference Interface ID")
+        parser.add_argument(
+            "action", type=str, help="Actions: sync, send_invoice, gform-export"
+        )
+        parser.add_argument("--id", type=int, help="Conference Interface ID")
 
     def handle(self, *args, **options):
-        if options.get('action') == 'send_invoice':
-            self._send_invoice(options.get('id'))
+        if options.get("action") == "send_invoice":
+            self._send_invoice(options.get("id"))
 
-        if options.get('action') == 'sync':
-            print(options)
-            sync_conference(options.get('id'))
+        if options.get("action") == "sync":
+            conf_id = ConferenceInterface.objects.latest("id")
+            sync_conference(conf_id.id)
+
+        if options.get("action") == "gform-export":
+            self._gform_export()
 
     def _send_invoice(self, _id):
         reg = ConferenceRegistration.objects.get(pk=_id)
-
         qb_client, profile = Profile.get_qb_client()
 
         invoice = QuickBooksInvoice()
@@ -46,22 +50,22 @@ class Command(BaseCommand):
         for product in reg.products:
             line = SalesItemLine()
             line.LineNum = count
-            line.Amount = product['amount'] * product['price']
-            line.Description = product['name']
+            line.Amount = product["amount"] * product["price"]
+            line.Description = product["name"]
 
             line.SalesItemLineDetail = SalesItemLineDetail()
 
             item = Item.get(settings.QB_CONFERENCE_ITEM_ID, qb=qb_client)
             line.SalesItemLineDetail.ItemRef = item.to_ref()
-            line.SalesItemLineDetail.Qty = product['amount']
-            line.SalesItemLineDetail.UnitPrice = product['price']
-            line.SalesItemLineDetail.ServiceDate = arrow.now().format('YYYY-MM-DD')
+            line.SalesItemLineDetail.Qty = product["amount"]
+            line.SalesItemLineDetail.UnitPrice = product["price"]
+            line.SalesItemLineDetail.ServiceDate = arrow.now().format("YYYY-MM-DD")
 
             invoice.Line.append(line)
 
             count += 1
 
-        customer = Customer.get(61, qb=qb_client)
+        customer = Customer.get(settings.QB_CONFERENCE_USER_ID, qb=qb_client)
         invoice.CustomerRef = customer.to_ref()
 
         term = Ref()
@@ -79,18 +83,13 @@ class Command(BaseCommand):
 
         invoice.Deposit = None
 
-        try:
-            invoice.save(qb=qb_client)
-        # except ValidationException as e:
-        #     import ipdb; ipdb.set_trace()
-        except Exception as e:
-            import ipdb; ipdb.set_trace()
-
-
-        import ipdb; ipdb.set_trace()
-
+        invoice.save(qb=qb_client)
         invoice_id = invoice.Id
 
-        # invoice = QuickBooksInvoice.get(invoice_id, )
+        reg.qbo_id = invoice_id
+        reg.save()
 
-        # invoice.send(qb=qb_client)
+    def _gform_export(self):
+        for org in Organization.active.all().exclude(membership_status=99):
+            prefix = u"(s)" if org.membership_status == 7 else "(m)"
+            print(u"{} | {} {}".format(org.display_name, prefix, org.display_name))
