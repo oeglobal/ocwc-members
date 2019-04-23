@@ -34,8 +34,13 @@ class Command(BaseCommand):
             self._send_invoice(options.get("id"))
 
         if options.get("action") == "sync":
-            conf_id = ConferenceInterface.objects.latest("id")
-            sync_conference(conf_id.id)
+            interface = ConferenceInterface.objects.latest("id")
+            sync_conference(interface.id)
+
+            for registration in ConferenceRegistration.objects.filter(
+                interface=interface
+            ).exclude(qbo_id__isNull=True):
+                self._send_invoice(registration.id)
 
         if options.get("action") == "gform-export":
             self._gform_export()
@@ -48,6 +53,9 @@ class Command(BaseCommand):
 
         count = 1
         for product in reg.products:
+            if product["price"] == 0:
+                continue
+
             line = SalesItemLine()
             line.LineNum = count
             line.Amount = product["amount"] * product["price"]
