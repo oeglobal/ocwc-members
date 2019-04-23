@@ -383,12 +383,6 @@ class BillingLogCreateView(StaffView, CreateView):
             )
             transaction.commit()
 
-            if settings.QB_ACTIVE:
-                qb_client, profile = self.request.user.profile.get_qb_client()
-                invoice.create_qb_invoice(self.request.user.profile)
-            else:
-                invoice.generate_pdf()
-
         elif get("log_type") == "create_paid_invoice":
             invoice = Invoice(
                 invoice_type="paid",
@@ -443,9 +437,11 @@ class BillingLogCreateView(StaffView, CreateView):
             )
             billing_log.save()
             billing_log.send_email()
-        elif get("log_type") == "create_note":
+        elif (
+            get("log_type") == "create_note" or get("log_type") == "create_general_note"
+        ):
             billing_log = BillingLog(
-                log_type="create_note",
+                log_type=get("log_type"),
                 organization=get("organization"),
                 user=get("user"),
                 note=get("note"),

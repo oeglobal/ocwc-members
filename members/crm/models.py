@@ -952,7 +952,8 @@ BILLING_LOG_TYPE_CHOICES = (
     ("send_invoice", "Send invoice via email"),
     ("create_paid_invoice", "Create paid invoice"),
     ("send_paid_invoice", "Send paid invoice via email"),
-    ("create_note", "Add a note"),
+    ("create_note", "Accounting note"),
+    ("create_general_note", "General note"),
     ("create_payment", "Payment"),
 )
 
@@ -1185,10 +1186,13 @@ class Profile(models.Model):
 
     @staticmethod
     def get_qb_client():
+        if not settings.QB_ACTIVE:
+            return None, None
+
         try:
             profile = Profile.objects.filter(qb_valid=True)[0]
         except IndexError:
-            return None
+            return None, None
 
         if profile.qb_valid:
             session_manager = Oauth2SessionManager(

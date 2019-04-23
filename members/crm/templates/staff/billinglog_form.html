@@ -39,7 +39,7 @@
 			{% else %}
 				<td><a href="{% url 'admin:crm_billinglog_delete' log.id %}" target="_blank">Delete</a></td>
 			{% endif %}
-			{% if log.log_type == 'create_note' %}
+			{% if log.log_type == 'create_note' or log.log_type == 'create_general_note' %}
 				<td class="note-col">{{ log.note }}</td>
 			{% endif %}
 		</tr>
@@ -49,14 +49,12 @@
 
     <p>Billing type: {{ object.get_billing_type_display }} (<a href="{% url 'admin:crm_organization_change' object.id %}" target="_blank">change</a>)</p>
 
-    {% comment %}
 	<div class="small-6 columns">
 		<form action="{% url 'staff:billinglog-create' %}" method="POST" class="billing-form" ng-controller="BillingController">
 			{% csrf_token %}
 			{% crispy form %}
 		</form>
 	</div>
-    {% endcomment %}
 
     <a class="button primary"
             href="https://c1.qbo.intuit.com/app/invoice?nameId={{ object.qbo_id }}" target="_blank">Create new invoice in QBO</a>
