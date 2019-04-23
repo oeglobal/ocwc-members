@@ -11,20 +11,34 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('crm', '0015_join_dates'),
+        ("crm", "0015_join_dates"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Profile',
+            name="Profile",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('qb_access_token', models.TextField(blank=True, default=b'')),
-                ('qb_refresh_token', models.TextField(blank=True, default=b'')),
-                ('qb_valid', models.BooleanField(default=False)),
-                ('qb_token_expires', models.DateTimeField(default=None, null=True)),
-                ('qb_refresh_expires', models.DateTimeField(default=None, null=True)),
-                ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("qb_access_token", models.TextField(blank=True, default=b"")),
+                ("qb_refresh_token", models.TextField(blank=True, default=b"")),
+                ("qb_valid", models.BooleanField(default=False)),
+                ("qb_token_expires", models.DateTimeField(default=None, null=True)),
+                ("qb_refresh_expires", models.DateTimeField(default=None, null=True)),
+                (
+                    "user",
+                    models.OneToOneField(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
-        ),
+        )
     ]

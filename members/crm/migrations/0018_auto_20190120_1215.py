@@ -7,18 +7,13 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('crm', '0017_profile_qb_realm_id'),
-    ]
+    dependencies = [("crm", "0017_profile_qb_realm_id")]
 
     operations = [
-        migrations.RemoveField(
-            model_name='organization',
-            name='crmid',
-        ),
+        migrations.RemoveField(model_name="organization", name="crmid"),
         migrations.AddField(
-            model_name='organization',
-            name='qbo_id',
+            model_name="organization",
+            name="qbo_id",
             field=models.IntegerField(default=None, null=True),
         ),
     ]

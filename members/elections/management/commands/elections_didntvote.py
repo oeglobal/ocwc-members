@@ -14,21 +14,19 @@ class Command(BaseCommand):
     def _members_list(self):
         orgs = []
         for org in Organization.objects.filter(membership_status__in=[2, 5, 7]):
-            election = Election.objects.latest('id')
+            election = Election.objects.latest("id")
 
-            if CandidateBallot.objects.filter(election=election, organization=org).exists():
+            if CandidateBallot.objects.filter(
+                election=election, organization=org
+            ).exists():
                 continue
 
             orgs.append(org)
 
-        wb = xlwt.Workbook(encoding='utf-8')
+        wb = xlwt.Workbook(encoding="utf-8")
         ws = wb.add_sheet("Organizations")
         row_num = 0
-        columns = [
-            (u"ID", 25),
-            (u"Name", 150),
-            (u"Consortium", 150),
-        ]
+        columns = [(u"ID", 25), (u"Name", 150), (u"Consortium", 150)]
 
         font_style = xlwt.XFStyle()
         font_style.font.bold = True
@@ -42,13 +40,9 @@ class Command(BaseCommand):
 
         for obj in orgs:
             row_num += 1
-            row = [
-                obj.pk,
-                obj.display_name,
-                obj.associate_consortium or ''
-            ]
+            row = [obj.pk, obj.display_name, obj.associate_consortium or ""]
 
             for col_num in range(len(row)):
                 ws.write(row_num, col_num, row[col_num], font_style)
 
-        wb.save('elections_didnt_vote.xls')
+        wb.save("elections_didnt_vote.xls")

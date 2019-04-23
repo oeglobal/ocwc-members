@@ -18,15 +18,15 @@ class Command(BaseCommand):
     def get_qbo_events(self):
         qb_client, profile = Profile.get_qb_client()
 
-        user = User.objects.get(username='karen')
+        user = User.objects.get(username="karen")
 
-        for offset in [1,100,200,300]:
+        for offset in [1, 100, 200, 300]:
             try:
                 invoices = QuickBooksInvoice.all(qb=qb_client, start_position=offset)
             except AuthorizationException:
                 profile.is_active = False
                 profile.save()
-                
+
                 return
 
             for qb_invoice in invoices:
@@ -37,16 +37,18 @@ class Command(BaseCommand):
 
                 log, is_created = BillingLog.objects.get_or_create(
                     qbo_id=qb_invoice.Id,
-                    log_type='create_invoice',
+                    log_type="create_invoice",
                     defaults={
-                        'organization': org,
-                        'user': user,
-                        'amount': qb_invoice.TotalAmt
-                    }
+                        "organization": org,
+                        "user": user,
+                        "amount": qb_invoice.TotalAmt,
+                    },
                 )
 
                 if is_created:
-                    log.pub_date = arrow.get(qb_invoice.MetaData['LastUpdatedTime']).datetime
+                    log.pub_date = arrow.get(
+                        qb_invoice.MetaData["LastUpdatedTime"]
+                    ).datetime
                     log.save()
 
         payments = QuickBooksPayment.all(qb=qb_client)
@@ -58,14 +60,16 @@ class Command(BaseCommand):
 
             log, is_created = BillingLog.objects.get_or_create(
                 qbo_id=qb_payment.Id,
-                log_type='create_payment',
+                log_type="create_payment",
                 defaults={
-                    'organization': org,
-                    'user': user,
-                    'amount': qb_payment.TotalAmt
-                }
+                    "organization": org,
+                    "user": user,
+                    "amount": qb_payment.TotalAmt,
+                },
             )
 
             if is_created:
-                log.pub_date = arrow.get(qb_payment.MetaData['LastUpdatedTime']).datetime
+                log.pub_date = arrow.get(
+                    qb_payment.MetaData["LastUpdatedTime"]
+                ).datetime
                 log.save()

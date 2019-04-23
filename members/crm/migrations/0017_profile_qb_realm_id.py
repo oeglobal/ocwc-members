@@ -7,14 +7,12 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('crm', '0016_profile'),
-    ]
+    dependencies = [("crm", "0016_profile")]
 
     operations = [
         migrations.AddField(
-            model_name='profile',
-            name='qb_realm_id',
-            field=models.TextField(blank=True, default=b''),
-        ),
+            model_name="profile",
+            name="qb_realm_id",
+            field=models.TextField(blank=True, default=b""),
+        )
     ]

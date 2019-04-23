@@ -24,37 +24,54 @@ from rest_framework.permissions import IsAuthenticated
 
 from quickbooks import Oauth2SessionManager
 
-from .models import Organization, Contact, Address, ReportedStatistic, Country, MembershipApplication, \
-    LoginKey, Invoice, BillingLog, Profile
-from .serializers import OrganizationApiSerializer, OrganizationDetailedApiSerializer, OrganizationRssFeedsApiSerializer
-from .forms import MembershipApplicationModelForm, MemberLoginForm, AddressModelForm, BillingLogForm, \
-    ReportedStatisticModelForm
+from .models import (
+    Organization,
+    Contact,
+    Address,
+    ReportedStatistic,
+    Country,
+    MembershipApplication,
+    LoginKey,
+    Invoice,
+    BillingLog,
+    Profile,
+)
+from .serializers import (
+    OrganizationApiSerializer,
+    OrganizationDetailedApiSerializer,
+    OrganizationRssFeedsApiSerializer,
+)
+from .forms import (
+    MembershipApplicationModelForm,
+    MemberLoginForm,
+    AddressModelForm,
+    BillingLogForm,
+    ReportedStatisticModelForm,
+)
 
 
 class IndexView(FormView):
-    template_name = 'index.html'
+    template_name = "index.html"
     form_class = MemberLoginForm
 
     def form_valid(self, form):
         get = form.cleaned_data.get
-        org = Organization.objects.get(pk=get('organization'))
-        email = get('email')
+        org = Organization.objects.get(pk=get("organization"))
+        email = get("email")
 
-        ctx = {
-            'email': email
-        }
+        ctx = {"email": email}
 
         key = LoginKey(user=org.user, email=email)
         key.save()
         key.send_email()
 
-        return render(self.request, 'mail-login/mail_sent.html', ctx)
+        return render(self.request, "mail-login/mail_sent.html", ctx)
 
     def dispatch(self, request, *args, **kwargs):
         if request.user.is_staff:
-            return redirect('/staff/')
+            return redirect("/staff/")
         elif request.user.is_authenticated():
-            return redirect('/crm/')
+            return redirect("/crm/")
 
         return super(IndexView, self).dispatch(request, *args, **kwargs)
 
@@ -65,11 +82,11 @@ class OrganizationView(LoginRequiredMixin):
 
 class OrganizationIndex(OrganizationView, DetailView):
     model = Organization
-    template_name = 'overview_index.html'
-    context_object_name = 'org'
+    template_name = "overview_index.html"
+    context_object_name = "org"
 
     def get_object(self):
-        return self.request.user.organization_set.latest('id')
+        return self.request.user.organization_set.latest("id")
 
 
 class OrganizationDetailView(OrganizationView, DetailView):
@@ -81,27 +98,54 @@ class OrganizationDetailView(OrganizationView, DetailView):
 class OrganizationStaffModelForm(forms.ModelForm):
     class Meta:
         model = Organization
-        fields = ['membership_type', 'membership_status', 'associate_consortium',
-                  'display_name', 'legal_name', 'main_website', 'ocw_website', 'description',
-                  'initiative_title1', 'initiative_description1', 'initiative_url1',
-                  'initiative_title2', 'initiative_description2', 'initiative_url2',
-                  'initiative_title3', 'initiative_description3', 'initiative_url3',
-                  'logo_large', 'logo_small']
+        fields = [
+            "membership_type",
+            "membership_status",
+            "associate_consortium",
+            "display_name",
+            "legal_name",
+            "main_website",
+            "ocw_website",
+            "description",
+            "initiative_title1",
+            "initiative_description1",
+            "initiative_url1",
+            "initiative_title2",
+            "initiative_description2",
+            "initiative_url2",
+            "initiative_title3",
+            "initiative_description3",
+            "initiative_url3",
+            "logo_large",
+            "logo_small",
+        ]
 
 
 class OrganizationModelForm(forms.ModelForm):
     class Meta:
         model = Organization
-        fields = ['display_name', 'main_website', 'ocw_website', 'description',
-                  'initiative_title1', 'initiative_description1', 'initiative_url1',
-                  'initiative_title2', 'initiative_description2', 'initiative_url2',
-                  'initiative_title3', 'initiative_description3', 'initiative_url3',
-                  'logo_large', 'logo_small']
+        fields = [
+            "display_name",
+            "main_website",
+            "ocw_website",
+            "description",
+            "initiative_title1",
+            "initiative_description1",
+            "initiative_url1",
+            "initiative_title2",
+            "initiative_description2",
+            "initiative_url2",
+            "initiative_title3",
+            "initiative_description3",
+            "initiative_url3",
+            "logo_large",
+            "logo_small",
+        ]
 
 
 class OrganizationEdit(OrganizationView, UpdateView):
     model = Organization
-    template_name = 'organization_edit.html'
+    template_name = "organization_edit.html"
 
     def get_form_class(self):
         if self.request.user.is_staff:
@@ -111,11 +155,11 @@ class OrganizationEdit(OrganizationView, UpdateView):
 
 class AddressEditView(OrganizationView, UpdateView):
     model = Address
-    template_name = 'address_edit.html'
+    template_name = "address_edit.html"
     form_class = AddressModelForm
 
     def get_queryset(self):
-        queryset = Address.objects.filter(pk=self.kwargs.get('pk'))
+        queryset = Address.objects.filter(pk=self.kwargs.get("pk"))
         if self.request.user.is_staff:
             return queryset
 
@@ -124,14 +168,16 @@ class AddressEditView(OrganizationView, UpdateView):
 
 class ReportedStatisticDetailView(OrganizationView, DetailView):
     model = ReportedStatistic
-    template_name = 'reported_statistic_view.html'
-    context_object_name = 'statistic_list'
+    template_name = "reported_statistic_view.html"
+    context_object_name = "statistic_list"
 
     def get_object(self, *args, **kwargs):
-        self.org = Organization.objects.get(pk=self.kwargs['pk'])
+        self.org = Organization.objects.get(pk=self.kwargs["pk"])
 
         if (self.request.user == self.org.user) or self.request.user.is_staff:
-            queryset = ReportedStatistic.objects.filter(organization=self.org).order_by('report_date')
+            queryset = ReportedStatistic.objects.filter(organization=self.org).order_by(
+                "report_date"
+            )
 
             return queryset
 
@@ -139,44 +185,44 @@ class ReportedStatisticDetailView(OrganizationView, DetailView):
 
     def get_context_data(self, *args, **kwargs):
         context = super(ReportedStatisticDetailView, self).get_context_data(**kwargs)
-        context['org'] = self.org
+        context["org"] = self.org
 
         return context
 
 
 class ReportedStatisticEditView(OrganizationView, UpdateView):
     model = ReportedStatistic
-    template_name = 'reported_statistic_edit.html'
-    context_object_name = 'stat'
+    template_name = "reported_statistic_edit.html"
+    context_object_name = "stat"
     form_class = ReportedStatisticModelForm
 
 
 class ReportedStatisticAddView(CreateView):
     model = ReportedStatistic
-    template_name = 'reported_statistic_add.html'
-    context_object_name = 'stat'
+    template_name = "reported_statistic_add.html"
+    context_object_name = "stat"
     form_class = ReportedStatisticModelForm
 
     def get_form(self, data=None, files=None, **kwargs):
-        org = Organization.objects.get(pk=self.kwargs['pk'])
+        org = Organization.objects.get(pk=self.kwargs["pk"])
         if not (self.request.user.is_staff or self.request.user == org.user):
             raise Http404
 
-        kwargs['organization'] = org
+        kwargs["organization"] = org
         return self.get_form_class()(data, files, **kwargs)
 
 
 class MembershipApplicationAddView(CreateView):
     model = MembershipApplication
-    template_name = 'membership_application_add.html'
-    context_object_name = 'application'
+    template_name = "membership_application_add.html"
+    context_object_name = "application"
     form_class = MembershipApplicationModelForm
 
 
 class MembershipApplicationDetailView(DetailView):
     model = MembershipApplication
-    template_name = 'membership_application_view.html'
-    context_object_name = 'app'
+    template_name = "membership_application_view.html"
+    context_object_name = "app"
 
     # def get_object(self):
     #   return MembershipApplication.objects.get(view_link_key=self.kwargs['view_link_key'])
@@ -184,10 +230,12 @@ class MembershipApplicationDetailView(DetailView):
 
 class MembershipApplicationListView(StaffuserRequiredMixin, ListView):
     model = MembershipApplication
-    template_name = 'membership_application_list.html'
+    template_name = "membership_application_list.html"
 
     def get_queryset(self):
-        return self.model.objects.filter(app_status__in=('Submitted', 'Committee', 'RequestedMoreInfo')).order_by('-id')
+        return self.model.objects.filter(
+            app_status__in=("Submitted", "Committee", "RequestedMoreInfo")
+        ).order_by("-id")
 
 
 class StaffView(LoginRequiredMixin, StaffuserRequiredMixin):
@@ -195,7 +243,7 @@ class StaffView(LoginRequiredMixin, StaffuserRequiredMixin):
 
 
 class StaffIndex(StaffView, TemplateView):
-    template_name = 'staff/index.html'
+    template_name = "staff/index.html"
 
 
 class OrganizationStaffView(StaffView):
@@ -203,15 +251,17 @@ class OrganizationStaffView(StaffView):
 
 
 class OrganizationStaffListView(OrganizationStaffView, ListView):
-    template_name = 'staff/organization_list.html'
+    template_name = "staff/organization_list.html"
 
     def get_queryset(self):
-        return self.model.objects.filter(membership_status__in=(2, 3, 4, 5, 7, 99)).order_by('display_name')
+        return self.model.objects.filter(
+            membership_status__in=(2, 3, 4, 5, 7, 99)
+        ).order_by("display_name")
 
 
 class OrganizationStaffDetailView(OrganizationStaffView, DetailView):
-    template_name = 'staff/organization_detail.html'
-    context_object_name = 'org'
+    template_name = "staff/organization_detail.html"
+    context_object_name = "org"
 
     def get_context_data(self, **kwargs):
         context = super(OrganizationStaffDetailView, self).get_context_data(**kwargs)
@@ -220,97 +270,116 @@ class OrganizationStaffDetailView(OrganizationStaffView, DetailView):
         self.object.sync_quickbooks_customer(qb_client)
 
         try:
-            lead_contact = self.object.contact_set.filter(contact_type=6).latest('id')
+            lead_contact = self.object.contact_set.filter(contact_type=6).latest("id")
             first_name = lead_contact.first_name
             email = lead_contact.email
         except Contact.DoesNotExist:
-            first_name = ''
-            email = ''
+            first_name = ""
+            email = ""
 
-        email_invoice_subject = '%s OE Consortium Membership invoice' % settings.DEFAULT_INVOICE_YEAR
-        email_invoice_body = render_to_string('staff/invoice_mail.txt',
-                                              {'first_name': first_name, 'user': self.request.user,
-                                               'CURRENT_INVOICE_YEAR': settings.DEFAULT_INVOICE_YEAR})
+        email_invoice_subject = (
+            "%s OE Consortium Membership invoice" % settings.DEFAULT_INVOICE_YEAR
+        )
+        email_invoice_body = render_to_string(
+            "staff/invoice_mail.txt",
+            {
+                "first_name": first_name,
+                "user": self.request.user,
+                "CURRENT_INVOICE_YEAR": settings.DEFAULT_INVOICE_YEAR,
+            },
+        )
 
-        email_invoice_paid_subject = '%s OE Consortium Membership payment receipt' % settings.DEFAULT_INVOICE_YEAR
-        email_invoice_paid_body = render_to_string('staff/invoice_paid_mail.txt',
-                                                   {'first_name': first_name, 'user': self.request.user,
-                                                    'CURRENT_INVOICE_YEAR': settings.DEFAULT_INVOICE_YEAR})
+        email_invoice_paid_subject = (
+            "%s OE Consortium Membership payment receipt"
+            % settings.DEFAULT_INVOICE_YEAR
+        )
+        email_invoice_paid_body = render_to_string(
+            "staff/invoice_paid_mail.txt",
+            {
+                "first_name": first_name,
+                "user": self.request.user,
+                "CURRENT_INVOICE_YEAR": settings.DEFAULT_INVOICE_YEAR,
+            },
+        )
 
         initial = {
-            'organization': self.object.id,
-            'user': self.request.user.id,
-            'amount': self.object.get_membership_due_amount(),
-            'invoice_number': "%s-%s" % (self.object.id, settings.DEFAULT_INVOICE_YEAR),
-            'first_name': first_name,
-            'created_date': datetime.datetime.now(),
-            'email_invoice': email,
-            'email_invoice_subject': email_invoice_subject,
-            'email_invoice_body': email_invoice_body,
-            'email_invoice_paid': email,
-            'email_invoice_paid_subject': email_invoice_paid_subject,
-            'email_invoice_paid_body': email_invoice_paid_body,
-            'invoice_year': settings.DEFAULT_INVOICE_YEAR,
-            'description': 'The Open Education Consortium %s Membership' % settings.DEFAULT_INVOICE_YEAR
+            "organization": self.object.id,
+            "user": self.request.user.id,
+            "amount": self.object.get_membership_due_amount(),
+            "invoice_number": "%s-%s" % (self.object.id, settings.DEFAULT_INVOICE_YEAR),
+            "first_name": first_name,
+            "created_date": datetime.datetime.now(),
+            "email_invoice": email,
+            "email_invoice_subject": email_invoice_subject,
+            "email_invoice_body": email_invoice_body,
+            "email_invoice_paid": email,
+            "email_invoice_paid_subject": email_invoice_paid_subject,
+            "email_invoice_paid_body": email_invoice_paid_body,
+            "invoice_year": settings.DEFAULT_INVOICE_YEAR,
+            "description": "The Open Education Consortium %s Membership"
+            % settings.DEFAULT_INVOICE_YEAR,
         }
 
         try:
-            log = self.object.billinglog_set.filter(invoice_year=settings.DEFAULT_INVOICE_YEAR,
-                                                    log_type='create_invoice').latest('id')
+            log = self.object.billinglog_set.filter(
+                invoice_year=settings.DEFAULT_INVOICE_YEAR, log_type="create_invoice"
+            ).latest("id")
 
             if log.invoice:
-                initial.update({
-                    'amount': log.invoice.amount,
-                    'description': log.invoice.description
-                })
+                initial.update(
+                    {
+                        "amount": log.invoice.amount,
+                        "description": log.invoice.description,
+                    }
+                )
         except BillingLog.DoesNotExist:
             pass
 
-        context['form'] = BillingLogForm(initial=initial)
+        context["form"] = BillingLogForm(initial=initial)
         return context
 
 
 class InvoiceStaffView(StaffView, DetailView):
     model = Invoice
-    template_name = 'staff/invoice_detail.html'
-    context_object_name = 'invoice'
+    template_name = "staff/invoice_detail.html"
+    context_object_name = "invoice"
 
 
 class InvoicePhantomJSView(DetailView):
     model = Invoice
-    template_name = 'staff/invoice_detail.html'
-    context_object_name = 'invoice'
+    template_name = "staff/invoice_detail.html"
+    context_object_name = "invoice"
 
 
 class BillingLogCreateView(StaffView, CreateView):
     model = BillingLog
     form_class = BillingLogForm
-    template_name = 'staff/billinglog_form.html'
+    template_name = "staff/billinglog_form.html"
 
     def form_valid(self, form):
         get = form.cleaned_data.get
-        org = get('organization')
+        org = get("organization")
 
-        if get('log_type') == 'create_invoice':
+        if get("log_type") == "create_invoice":
             invoice = Invoice.objects.create(
-                invoice_type='issued',
+                invoice_type="issued",
                 organization=org,
-                invoice_number=get('invoice_number'),
-                invoice_year=get('invoice_year'),
-                description=get('description'),
-                amount=get('amount'),
-                created_date=get('created_date'),
+                invoice_number=get("invoice_number"),
+                invoice_year=get("invoice_year"),
+                description=get("description"),
+                amount=get("amount"),
+                created_date=get("created_date"),
             )
 
             BillingLog.objects.create(
-                log_type='create_invoice',
-                organization=get('organization'),
-                user=get('user'),
-                amount=get('amount'),
-                description=get('description'),
-                invoice_year=get('invoice_year'),
-                created_date=get('created_date'),
-                invoice=invoice
+                log_type="create_invoice",
+                organization=get("organization"),
+                user=get("user"),
+                amount=get("amount"),
+                description=get("description"),
+                invoice_year=get("invoice_year"),
+                created_date=get("created_date"),
+                invoice=invoice,
             )
             transaction.commit()
 
@@ -320,84 +389,88 @@ class BillingLogCreateView(StaffView, CreateView):
             else:
                 invoice.generate_pdf()
 
-        elif get('log_type') == 'create_paid_invoice':
+        elif get("log_type") == "create_paid_invoice":
             invoice = Invoice(
-                invoice_type='paid',
+                invoice_type="paid",
                 organization=org,
-                invoice_number=get('invoice_number'),
-                invoice_year=get('invoice_year'),
-                amount=get('amount'),
-                description=get('description'),
-                created_date=get('created_date'),
+                invoice_number=get("invoice_number"),
+                invoice_year=get("invoice_year"),
+                amount=get("amount"),
+                description=get("description"),
+                created_date=get("created_date"),
             )
             invoice.save()
 
             billing_log = BillingLog(
-                log_type='create_paid_invoice',
-                organization=get('organization'),
-                user=get('user'),
-                amount=get('amount'),
-                description=get('description'),
+                log_type="create_paid_invoice",
+                organization=get("organization"),
+                user=get("user"),
+                amount=get("amount"),
+                description=get("description"),
                 invoice=invoice,
-                invoice_year=get('invoice_year'),
-                created_date=get('created_date'),
+                invoice_year=get("invoice_year"),
+                created_date=get("created_date"),
             )
             billing_log.save()
             transaction.commit()
             invoice.generate_pdf()
-        elif get('log_type') == 'send_invoice':
+        elif get("log_type") == "send_invoice":
             billing_log = BillingLog(
-                log_type='send_invoice',
-                organization=get('organization'),
-                user=get('user'),
-                email=get('email_invoice', ''),
-                email_subject=get('email_invoice_subject', ''),
-                email_body=get('email_invoice_body', ''),
-                invoice=Invoice.objects.filter(organization=org, invoice_type='issued').latest('id')
+                log_type="send_invoice",
+                organization=get("organization"),
+                user=get("user"),
+                email=get("email_invoice", ""),
+                email_subject=get("email_invoice_subject", ""),
+                email_body=get("email_invoice_body", ""),
+                invoice=Invoice.objects.filter(
+                    organization=org, invoice_type="issued"
+                ).latest("id"),
             )
             billing_log.save()
             billing_log.send_email()
 
-        elif get('log_type') == 'send_paid_invoice':
+        elif get("log_type") == "send_paid_invoice":
             billing_log = BillingLog(
-                log_type='send_paid_invoice',
-                organization=get('organization'),
-                user=get('user'),
-                email=get('email_invoice_paid', ''),
-                email_subject=get('email_invoice_paid_subject', ''),
-                email_body=get('email_invoice_paid_body', ''),
-                invoice=Invoice.objects.filter(organization=org, invoice_type='paid').latest('id')
+                log_type="send_paid_invoice",
+                organization=get("organization"),
+                user=get("user"),
+                email=get("email_invoice_paid", ""),
+                email_subject=get("email_invoice_paid_subject", ""),
+                email_body=get("email_invoice_paid_body", ""),
+                invoice=Invoice.objects.filter(
+                    organization=org, invoice_type="paid"
+                ).latest("id"),
             )
             billing_log.save()
             billing_log.send_email()
-        elif get('log_type') == 'create_note':
+        elif get("log_type") == "create_note":
             billing_log = BillingLog(
-                log_type='create_note',
-                organization=get('organization'),
-                user=get('user'),
-                note=get('note')
+                log_type="create_note",
+                organization=get("organization"),
+                user=get("user"),
+                note=get("note"),
             )
             billing_log.save()
 
-        return redirect(reverse('staff:organization-view', kwargs={'pk': org.id}))
+        return redirect(reverse("staff:organization-view", kwargs={"pk": org.id}))
 
 
 class OrganizationBillingLogListingView(StaffView, ListView):
     model = Organization
-    template_name = 'staff/billinglog_listing.html'
+    template_name = "staff/billinglog_listing.html"
 
     def get_queryset(self):
-        username = self.kwargs.pop('username')
-        return self.model.objects.filter(membership_status__in=(2, 3, 4, 5, 7, 99),
-                                         ocw_contact__username=username).order_by('display_name')
+        username = self.kwargs.pop("username")
+        return self.model.objects.filter(
+            membership_status__in=(2, 3, 4, 5, 7, 99), ocw_contact__username=username
+        ).order_by("display_name")
 
 
 class OrganizationExportExcel(StaffView, TemplateView):
-
     def get(self, request, *args, **kwargs):
-        response = HttpResponse(content_type='application/ms-excel')
-        response['Content-Disposition'] = 'attachment; filename=members.xls'
-        wb = xlwt.Workbook(encoding='utf-8')
+        response = HttpResponse(content_type="application/ms-excel")
+        response["Content-Disposition"] = "attachment; filename=members.xls"
+        wb = xlwt.Workbook(encoding="utf-8")
         ws = wb.add_sheet("Members")
 
         row_num = 0
@@ -434,35 +507,41 @@ class OrganizationExportExcel(StaffView, TemplateView):
         font_style.alignment.wrap = 1
 
         date_format = xlwt.XFStyle()
-        date_format.num_format_str = 'dd/mm/yyyy'
+        date_format.num_format_str = "dd/mm/yyyy"
 
-        for obj in Organization.objects.filter(membership_status__in=(2, 3, 5, 7)).order_by('display_name'):
+        for obj in Organization.objects.filter(
+            membership_status__in=(2, 3, 5, 7)
+        ).order_by("display_name"):
             row_num += 1
 
             try:
                 contact = obj.contact_set.filter(contact_type=6)[0]
-                contact_name = u"%s %s" % (contact.first_name, contact.last_name) or ''
+                contact_name = u"%s %s" % (contact.first_name, contact.last_name) or ""
                 contact_email = contact.email
             except IndexError:
-                contact_name = ''
-                contact_email = ''
+                contact_name = ""
+                contact_email = ""
 
-            note = ''
-            logs = obj.billinglog_set.filter(log_type='create_note')
+            note = ""
+            logs = obj.billinglog_set.filter(log_type="create_note")
             if logs:
-                logs = logs.order_by('id')[:3]
-                notes = [u"({}) {}".format(log.pub_date.strftime('%Y-%m-%d'), log.note) for log in logs]
+                logs = logs.order_by("id")[:3]
+                notes = [
+                    u"({}) {}".format(log.pub_date.strftime("%Y-%m-%d"), log.note)
+                    for log in logs
+                ]
                 note = "\n".join(notes)
 
-            if obj.address_set.first().country.name == 'United States':
+            if obj.address_set.first().country.name == "United States":
                 is_usa = True
             else:
                 is_usa = False
 
-            logs = obj.billinglog_set.filter(log_type='create_invoice',
-                                             invoice_year=settings.DEFAULT_INVOICE_YEAR)
+            logs = obj.billinglog_set.filter(
+                log_type="create_invoice", invoice_year=settings.DEFAULT_INVOICE_YEAR
+            )
             if logs:
-                log = logs.latest('id')
+                log = logs.latest("id")
                 current_year_amount = log.amount
             else:
                 amount = obj.get_membership_due_amount()
@@ -471,17 +550,21 @@ class OrganizationExportExcel(StaffView, TemplateView):
                 else:
                     current_year_amount = None
 
-            logs = obj.billinglog_set.filter(log_type='create_invoice',
-                                             invoice_year=settings.PREVIOUS_INVOICE_YEAR)
+            logs = obj.billinglog_set.filter(
+                log_type="create_invoice", invoice_year=settings.PREVIOUS_INVOICE_YEAR
+            )
             if logs:
-                log = logs.latest('id')
+                log = logs.latest("id")
                 previous_year_amount = log.amount
             else:
                 previous_year_amount = None
 
             accounting_contacts = obj.contact_set.filter(contact_type=13)
             if accounting_contacts:
-                accounting_emails = [accounting_contact.email for accounting_contact in accounting_contacts]
+                accounting_emails = [
+                    accounting_contact.email
+                    for accounting_contact in accounting_contacts
+                ]
             else:
                 accounting_emails = [contact_email]
 
@@ -489,22 +572,22 @@ class OrganizationExportExcel(StaffView, TemplateView):
                 obj.pk,
                 obj.qbo_id,
                 obj.display_name,
-                obj.associate_consortium or '',
+                obj.associate_consortium or "",
                 contact_name,
                 contact_email,
                 obj.get_membership_status_display(),
                 obj.get_billing_type_display(),
                 previous_year_amount,
                 current_year_amount,
-                'https://members.oeconsortium.org%s' % obj.get_absolute_staff_url(),
+                "https://members.oeconsortium.org%s" % obj.get_absolute_staff_url(),
                 [obj.created, date_format],
                 obj.address_set.first().country.name,
                 obj.address_set.first().city,
                 is_usa,
-                'yes',
+                "yes",
                 obj.get_billing_address().full_postal_address(),
-                u', '.join(accounting_emails),
-                note
+                u", ".join(accounting_emails),
+                note,
             ]
 
             for col_num in range(len(row)):
@@ -536,18 +619,20 @@ class OrganizationExportExcel(StaffView, TemplateView):
         font_style = xlwt.XFStyle()
         font_style.alignment.wrap = 1
 
-        for obj in Contact.objects.filter(organization__membership_status__in=(2, 3, 5, 7)).order_by('organization'):
+        for obj in Contact.objects.filter(
+            organization__membership_status__in=(2, 3, 5, 7)
+        ).order_by("organization"):
             row_num += 1
 
             row = [
                 obj.organization.id,
                 obj.id,
                 obj.organization.display_name,
-                obj.organization.associate_consortium or '',
+                obj.organization.associate_consortium or "",
                 obj.get_contact_type_display(),
                 u"{0} {1}".format(obj.first_name, obj.last_name),
-                obj.email or '',
-                obj.bouncing or ''
+                obj.email or "",
+                obj.bouncing or "",
             ]
 
             for col_num in range(len(row)):
@@ -559,9 +644,9 @@ class OrganizationExportExcel(StaffView, TemplateView):
 
 class OrganizationExportCccoerExcel(StaffView, TemplateView):
     def get(self, request, *args, **kwargs):
-        response = HttpResponse(content_type='application/ms-excel')
-        response['Content-Disposition'] = 'attachment; filename=members.xls'
-        wb = xlwt.Workbook(encoding='utf-8')
+        response = HttpResponse(content_type="application/ms-excel")
+        response["Content-Disposition"] = "attachment; filename=members.xls"
+        wb = xlwt.Workbook(encoding="utf-8")
         ws = wb.add_sheet("Members")
 
         row_num = 0
@@ -593,26 +678,28 @@ class OrganizationExportCccoerExcel(StaffView, TemplateView):
         font_style = xlwt.XFStyle()
         font_style.alignment.wrap = 1
 
-        for obj in Organization.active.filter(associate_consortium='CCCOER').order_by('display_name'):
+        for obj in Organization.active.filter(associate_consortium="CCCOER").order_by(
+            "display_name"
+        ):
             row_num += 1
 
             try:
                 contact = obj.contact_set.filter(contact_type=6)[0]
-                contact_name = u"%s %s" % (contact.first_name, contact.last_name) or ''
+                contact_name = u"%s %s" % (contact.first_name, contact.last_name) or ""
                 contact_email = contact.email
             except IndexError:
-                contact_name = ''
-                contact_email = ''
+                contact_name = ""
+                contact_email = ""
 
             try:
-                last_invoice = obj.get_last_paid_invoice().pub_date.strftime('%Y-%m-%d')
+                last_invoice = obj.get_last_paid_invoice().pub_date.strftime("%Y-%m-%d")
             except BillingLog.DoesNotExist:
-                last_invoice = ''
+                last_invoice = ""
 
             if obj.created:
-                created = obj.created.strftime('%Y-%m-%d')
+                created = obj.created.strftime("%Y-%m-%d")
             else:
-                created = ''
+                created = ""
 
             row = [
                 obj.pk,
@@ -627,9 +714,9 @@ class OrganizationExportCccoerExcel(StaffView, TemplateView):
                 # 'yes',
                 created,
                 last_invoice,
-                'https://members.oeconsortium.org%s' % obj.get_absolute_staff_url(),
+                "https://members.oeconsortium.org%s" % obj.get_absolute_staff_url(),
                 obj.main_website,
-                obj.ocw_website
+                obj.ocw_website,
             ]
 
             for col_num in range(len(row)):
@@ -658,19 +745,21 @@ class OrganizationExportCccoerExcel(StaffView, TemplateView):
         font_style = xlwt.XFStyle()
         font_style.alignment.wrap = 1
 
-        for obj in Contact.objects.filter(organization__membership_status__in=(2, 3, 5, 7),
-                                          organization__associate_consortium='CCCOER').order_by('organization'):
+        for obj in Contact.objects.filter(
+            organization__membership_status__in=(2, 3, 5, 7),
+            organization__associate_consortium="CCCOER",
+        ).order_by("organization"):
             row_num += 1
 
             row = [
                 obj.organization.id,
                 obj.id,
                 obj.organization.display_name,
-                obj.organization.associate_consortium or '',
+                obj.organization.associate_consortium or "",
                 obj.get_contact_type_display(),
                 u"{0} {1}".format(obj.first_name, obj.last_name),
-                obj.email or '',
-                obj.bouncing or ''
+                obj.email or "",
+                obj.bouncing or "",
             ]
 
             for col_num in range(len(row)):
@@ -682,36 +771,39 @@ class OrganizationExportCccoerExcel(StaffView, TemplateView):
 
 class OrganizationStaffNoContactListView(StaffView, ListView):
     model = Organization
-    template_name = 'staff/organization_nocontact.html'
+    template_name = "staff/organization_nocontact.html"
 
     def get_queryset(self):
         orgs = []
         for org in self.model.objects.filter(membership_status__in=(2, 3, 4, 5, 7, 99)):
             if not org.contact_set.filter(bouncing=False).exists():
                 orgs.append(org.id)
-        return self.model.objects.filter(pk__in=orgs).order_by('display_name')
+        return self.model.objects.filter(pk__in=orgs).order_by("display_name")
 
 
 class OrganizationStaffCccOerListView(StaffView, ListView):
     model = Organization
-    template_name = 'staff/organization_cccoer.html'
+    template_name = "staff/organization_cccoer.html"
 
     def get_queryset(self):
-        return self.model.active.filter(associate_consortium='CCCOER')
+        return self.model.active.filter(associate_consortium="CCCOER")
 
 
-@api_view(['GET'])
+@api_view(["GET"])
 def address_geo_list_view(request, consortium=None):
     features_list = []
 
     if consortium:
-        queryset = Address.objects.filter(latitude__isnull=False,
-                                          organization__membership_status__in=(2, 3, 5, 7),
-                                          organization__associate_consortium=consortium).select_related()
+        queryset = Address.objects.filter(
+            latitude__isnull=False,
+            organization__membership_status__in=(2, 3, 5, 7),
+            organization__associate_consortium=consortium,
+        ).select_related()
 
     else:
-        queryset = Address.objects.filter(latitude__isnull=False,
-                                          organization__membership_status__in=(2, 3, 5, 7)).select_related()
+        queryset = Address.objects.filter(
+            latitude__isnull=False, organization__membership_status__in=(2, 3, 5, 7)
+        ).select_related()
 
     seen_organizations = []
     for address in queryset:
@@ -725,34 +817,37 @@ def address_geo_list_view(request, consortium=None):
         point = {
             "type": "Feature",
             "id": address.organization.id,
-            "properties": {
-                "name": address.organization.display_name
-            },
+            "properties": {"name": address.organization.display_name},
             "geometry": {
                 "type": "Point",
                 "coordinates": [address.longitude, address.latitude],
-            }
+            },
         }
         features_list.append(point)
 
-    data = {
-        "type": "FeatureCollection",
-        "features": features_list
-    }
+    data = {"type": "FeatureCollection", "features": features_list}
 
     return Response(data)
 
 
-@api_view(['GET'])
+@api_view(["GET"])
 def country_list_view(request):
     """
     List available countries for filtering
     """
-    data_list = Address.objects.filter(country__isnull=False, organization__membership_status__in=(2, 3, 5, 7)) \
-        .order_by('country') \
-        .values_list('country', flat=True) \
+    data_list = (
+        Address.objects.filter(
+            country__isnull=False, organization__membership_status__in=(2, 3, 5, 7)
+        )
+        .order_by("country")
+        .values_list("country", flat=True)
         .distinct()
-    data = Country.objects.filter(pk__in=data_list).order_by('name').values_list('name', flat=True)
+    )
+    data = (
+        Country.objects.filter(pk__in=data_list)
+        .order_by("name")
+        .values_list("name", flat=True)
+    )
 
     return Response(data)
 
@@ -761,37 +856,71 @@ class OrganizationByCountryListViewApi(generics.ListAPIView):
     serializer_class = OrganizationApiSerializer
 
     def get_queryset(self):
-        organization_list = Address.objects.filter(country__name=self.kwargs.get('country'),
-                                                   organization__membership_status__in=(2, 3, 5, 7)).values_list(
-            'organization', flat=True).distinct()
+        organization_list = (
+            Address.objects.filter(
+                country__name=self.kwargs.get("country"),
+                organization__membership_status__in=(2, 3, 5, 7),
+            )
+            .values_list("organization", flat=True)
+            .distinct()
+        )
 
-        return Organization.objects.filter(pk__in=organization_list).order_by('display_name')
+        return Organization.objects.filter(pk__in=organization_list).order_by(
+            "display_name"
+        )
 
 
-@api_view(['GET'])
+@api_view(["GET"])
 def organization_group_by_membership_view(request):
-    data = collections.OrderedDict([
-        ('Institutions of Higher Education',
-         OrganizationApiSerializer(Organization.active.filter(membership_type__in=(5, 10, 11, 12, 9, 17)),
-                                   many=True).data),
-        ('Associate Consortia',
-         OrganizationApiSerializer(Organization.active.filter(membership_type__in=(7, 14)), many=True).data),
-        ('Organizational Members',
-         OrganizationApiSerializer(Organization.active.filter(membership_type__in=(6, 13)), many=True).data),
-        ('Corporate Members',
-         OrganizationApiSerializer(Organization.active.filter(membership_type__in=(8, 15, 16)), many=True).data),
-        ('Sustaining Members',
-         OrganizationApiSerializer(Organization.active.filter(membership_status__in=(7,)), many=True).data),
-    ])
+    data = collections.OrderedDict(
+        [
+            (
+                "Institutions of Higher Education",
+                OrganizationApiSerializer(
+                    Organization.active.filter(
+                        membership_type__in=(5, 10, 11, 12, 9, 17)
+                    ),
+                    many=True,
+                ).data,
+            ),
+            (
+                "Associate Consortia",
+                OrganizationApiSerializer(
+                    Organization.active.filter(membership_type__in=(7, 14)), many=True
+                ).data,
+            ),
+            (
+                "Organizational Members",
+                OrganizationApiSerializer(
+                    Organization.active.filter(membership_type__in=(6, 13)), many=True
+                ).data,
+            ),
+            (
+                "Corporate Members",
+                OrganizationApiSerializer(
+                    Organization.active.filter(membership_type__in=(8, 15, 16)),
+                    many=True,
+                ).data,
+            ),
+            (
+                "Sustaining Members",
+                OrganizationApiSerializer(
+                    Organization.active.filter(membership_status__in=(7,)), many=True
+                ).data,
+            ),
+        ]
+    )
 
     return Response(data)
 
 
-@api_view(['GET'])
+@api_view(["GET"])
 def organization_group_by_consortium_view(request, consortium):
-    data = OrganizationApiSerializer(Organization.active.filter(associate_consortium=consortium), many=True).data
+    data = OrganizationApiSerializer(
+        Organization.active.filter(associate_consortium=consortium), many=True
+    ).data
 
-    sorted_by_state = sorted(data, key=lambda k: k['state'])
+    sorted_by_state = sorted(data, key=lambda k: k["state"])
 
     return Response(sorted_by_state)
 
@@ -805,44 +934,50 @@ class OrganizationRssFeedsApi(generics.ListAPIView):
     authentication_classes = (SessionAuthentication, BasicAuthentication)
     permission_classes = (IsAuthenticated,)
 
-    queryset = Organization.active.all().exclude(rss_course_feed='')
+    queryset = Organization.active.all().exclude(rss_course_feed="")
     serializer_class = OrganizationRssFeedsApiSerializer
 
 
 class LoginKeyCheckView(TemplateView):
-    template_name = 'mail-login/login_failed.html'
+    template_name = "mail-login/login_failed.html"
 
     def dispatch(self, request, *args, **kwargs):
-        key = kwargs.pop('key')
+        key = kwargs.pop("key")
         today = datetime.datetime.today()
-        if LoginKey.objects.filter(key=key, pub_date__gte=(today - datetime.timedelta(days=7))).exists():
-            login_key = LoginKey.objects.get(key=key, pub_date__gte=(today - datetime.timedelta(days=7)))
+        if LoginKey.objects.filter(
+            key=key, pub_date__gte=(today - datetime.timedelta(days=7))
+        ).exists():
+            login_key = LoginKey.objects.get(
+                key=key, pub_date__gte=(today - datetime.timedelta(days=7))
+            )
 
-            login_key.user.backend = 'django.contrib.auth.backends.ModelBackend'
+            login_key.user.backend = "django.contrib.auth.backends.ModelBackend"
             login(self.request, login_key.user)
 
-            return redirect(request.GET.get('next', '/crm/'))
+            return redirect(request.GET.get("next", "/crm/"))
 
         return super(LoginKeyCheckView, self).dispatch(request, *args, **kwargs)
 
 
 class QuickBooksLogin(LoginRequiredMixin, TemplateView):
-    template_name = 'quickbooks/login.html'
+    template_name = "quickbooks/login.html"
 
     def get(self, request, *args, **kwargs):
         profile = request.user.profile
-        if request.GET.get('code'):
-            profile.update_qb_session_manager(request.GET['code'], request.GET['realmId'])
-            return redirect(reverse('staff:quickbooks'))
+        if request.GET.get("code"):
+            profile.update_qb_session_manager(
+                request.GET["code"], request.GET["realmId"]
+            )
+            return redirect(reverse("staff:quickbooks"))
         else:
             if profile.qb_valid and profile.qb_token_expires < datetime.datetime.now():
                 profile.refresh_qb_session_manager()
-                print('updated refresh token')
+                print("updated refresh token")
 
         return super(QuickBooksLogin, self).get(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
-        if request.POST.get('qb') == 'qb-connect':
+        if request.POST.get("qb") == "qb-connect":
             session_manager = Oauth2SessionManager(
                 client_id=settings.QB_CLIENT_ID,
                 client_secret=settings.QB_CLIENT_SECRET,

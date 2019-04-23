@@ -7,19 +7,17 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('crm', '0019_profile_qb_id'),
-    ]
+    dependencies = [("crm", "0019_profile_qb_id")]
 
     operations = [
         migrations.AddField(
-            model_name='billinglog',
-            name='qbo_id',
+            model_name="billinglog",
+            name="qbo_id",
             field=models.IntegerField(blank=True, default=None, null=True),
         ),
         migrations.AlterField(
-            model_name='organization',
-            name='qbo_id',
+            model_name="organization",
+            name="qbo_id",
             field=models.IntegerField(blank=True, default=None, null=True),
         ),
     ]

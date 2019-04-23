@@ -8,19 +8,17 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('conferences', '0002_auto_20171121_0725'),
-    ]
+    dependencies = [("conferences", "0002_auto_20171121_0725")]
 
     operations = [
         migrations.AddField(
-            model_name='conferenceregistration',
-            name='products',
+            model_name="conferenceregistration",
+            name="products",
             field=django.contrib.postgres.fields.jsonb.JSONField(blank=True, null=True),
         ),
         migrations.AddField(
-            model_name='conferenceregistration',
-            name='qbo_id',
+            model_name="conferenceregistration",
+            name="qbo_id",
             field=models.IntegerField(blank=True, null=True),
         ),
     ]
