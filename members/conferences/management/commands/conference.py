@@ -39,7 +39,7 @@ class Command(BaseCommand):
 
             for registration in ConferenceRegistration.objects.filter(
                 interface=interface
-            ).exclude(qbo_id__isNull=True):
+            ).exclude(qbo_id__isnull=False):
                 self._send_invoice(registration.id)
 
         if options.get("action") == "gform-export":
