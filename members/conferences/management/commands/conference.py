@@ -83,7 +83,10 @@ class Command(BaseCommand):
         email = EmailAddress()
         email.Address = reg.email
         invoice.BillEmail = email
-        invoice.BillEmailCc = "billing@oeconsortium.org"
+
+        billing_email = EmailAddress()
+        billing_email.Address = "billing@oeconsortium.org"
+        invoice.BillEmailCc = billing_email
 
         address = Address()
         address.Line1 = reg.name
