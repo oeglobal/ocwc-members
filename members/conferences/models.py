@@ -58,6 +58,8 @@ class ConferenceRegistration(models.Model):
     last_synced = models.DateTimeField(auto_now=True)
     access_key = models.CharField(max_length=32, blank=True)
 
+    is_group = models.BooleanField(default=False)
+
     def save(self, force_insert=False, force_update=False, using=None):
         if not self.access_key:
             self.access_key = uuid.uuid4().get_hex()

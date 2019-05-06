@@ -7,14 +7,23 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('crm', '0024_auto_20190423_1113'),
-    ]
+    dependencies = [("crm", "0024_auto_20190423_1113")]
 
     operations = [
         migrations.AlterField(
-            model_name='billinglog',
-            name='log_type',
-            field=models.CharField(choices=[(b'create_invoice', b'Invoice'), (b'send_invoice', b'Send invoice via email'), (b'create_paid_invoice', b'Create paid invoice'), (b'send_paid_invoice', b'Send paid invoice via email'), (b'create_note', b'Accounting note'), (b'create_general_note', b'General note'), (b'create_payment', b'Payment')], max_length=30),
-        ),
+            model_name="billinglog",
+            name="log_type",
+            field=models.CharField(
+                choices=[
+                    (b"create_invoice", b"Invoice"),
+                    (b"send_invoice", b"Send invoice via email"),
+                    (b"create_paid_invoice", b"Create paid invoice"),
+                    (b"send_paid_invoice", b"Send paid invoice via email"),
+                    (b"create_note", b"Accounting note"),
+                    (b"create_general_note", b"General note"),
+                    (b"create_payment", b"Payment"),
+                ],
+                max_length=30,
+            ),
+        )
     ]

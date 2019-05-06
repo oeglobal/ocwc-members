@@ -37,9 +37,11 @@ class Command(BaseCommand):
             interface = ConferenceInterface.objects.latest("id")
             sync_conference(interface.id)
 
-            for registration in ConferenceRegistration.objects.filter(
-                interface=interface
-            ).exclude(qbo_id__isnull=False):
+            for registration in (
+                ConferenceRegistration.objects.filter(interface=interface)
+                .exclude(qbo_id__isnull=False)
+                .exclude(is_group=True)
+            ):
                 self._send_invoice(registration.id)
 
         if options.get("action") == "gform-export":
@@ -63,7 +65,11 @@ class Command(BaseCommand):
 
             line.SalesItemLineDetail = SalesItemLineDetail()
 
-            item = Item.get(settings.QB_CONFERENCE_ITEM_ID, qb=qb_client)
+            if product["name"].startswith("Donation"):
+                item = Item.get(settings.QB_CONFERENCE_DONATION_ID, qb=qb_client)
+            else:
+                item = Item.get(settings.QB_CONFERENCE_ITEM_ID, qb=qb_client)
+
             line.SalesItemLineDetail.ItemRef = item.to_ref()
             line.SalesItemLineDetail.Qty = product["amount"]
             line.SalesItemLineDetail.UnitPrice = product["price"]
@@ -104,4 +110,4 @@ class Command(BaseCommand):
     def _gform_export(self):
         for org in Organization.active.all().exclude(membership_status=99):
             prefix = u"(s)" if org.membership_status == 7 else "(m)"
-            print(u"{} | {} {}".format(org.display_name, prefix, org.display_name))
+            # print(u"{} | {} {}".format(org.display_name, prefix, org.display_name))

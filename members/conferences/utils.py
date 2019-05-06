@@ -84,6 +84,11 @@ def sync_conference(conf_id=3):
         else:
             payment_type = "group"
 
+        if entry.get("53"):
+            is_group = True
+        else:
+            is_group = False
+
         registration, is_created = ConferenceRegistration.objects.get_or_create(
             interface=conf,
             form_id=entry.get("form_id"),
@@ -101,6 +106,7 @@ def sync_conference(conf_id=3):
                 "billing_html": billing_html,
                 "total_amount": total_amount,
                 "products": products,
+                "is_group": is_group,
             },
         )
 

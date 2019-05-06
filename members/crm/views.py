@@ -489,7 +489,8 @@ class OrganizationExportExcel(StaffView, TemplateView):
             (u"Signed MOA", 25),
             (u"Billing Address", 100),
             (u"Billing Emails", 100),
-            (u"Last 3 Notes", 400),
+            (u"Last 3 Accounting Notes", 400),
+            (u"Last 3 General Notes", 400),
         ]
 
         font_style = xlwt.XFStyle()
@@ -527,6 +528,21 @@ class OrganizationExportExcel(StaffView, TemplateView):
                     for log in logs
                 ]
                 note = "\n".join(notes)
+
+            if obj.address_set.first().country.name == "United States":
+                is_usa = True
+            else:
+                is_usa = False
+
+            note_general = ""
+            logs = obj.billinglog_set.filter(log_type="create_general_note")
+            if logs:
+                logs = logs.order_by("id")[:3]
+                notes = [
+                    u"({}) {}".format(log.pub_date.strftime("%Y-%m-%d"), log.note)
+                    for log in logs
+                ]
+                note_general = "\n".join(notes)
 
             if obj.address_set.first().country.name == "United States":
                 is_usa = True
@@ -584,6 +600,7 @@ class OrganizationExportExcel(StaffView, TemplateView):
                 obj.get_billing_address().full_postal_address(),
                 u", ".join(accounting_emails),
                 note,
+                note_general,
             ]
 
             for col_num in range(len(row)):
