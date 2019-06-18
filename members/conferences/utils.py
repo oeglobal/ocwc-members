@@ -35,6 +35,9 @@ def sync_conference(conf_id=3):
     data = json.loads(req.content)
 
     for entry in data.get("response", {}).get("entries", []):
+        if entry["status"] == "trash":
+            continue
+
         html = requests.get(
             "{}/wp-json/conference/v1/entry/{}/{}".format(
                 settings.WP_URL, entry.get("form_id"), entry.get("id")
