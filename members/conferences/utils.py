@@ -29,7 +29,13 @@ def sync_conference(conf_id=3):
     string_to_sign = str("{}:{}:{}:{}".format(conf.api_key, "GET", route, expires))
     sig = _calculate_signature(string_to_sign, conf.private_key)
     req = requests.get(
-        conf.url, params={"api_key": conf.api_key, "signature": sig, "expires": expires}
+        conf.url,
+        params={
+            "api_key": conf.api_key,
+            "signature": sig,
+            "expires": expires,
+            "paging[page_size]": 20,
+        },
     )
 
     data = json.loads(req.content)
