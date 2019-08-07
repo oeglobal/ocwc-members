@@ -1,68 +1,68 @@
 {% load staticfiles %}<!DOCTYPE html>
-<!--[if IE 8]> 				 <html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="no-js" lang="en">
 <head>
-	<meta charset="utf-8" />
-	<title>{% block title %}The Open Education Consortium Members portal{% endblock %}</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8"/>
+    <title>{% block title %}The Open Education Consortium Members portal{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-	<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
-	<link href='https://fonts.googleapis.com/css?family=Oxygen&Metrophobic' rel='stylesheet' type='text/css'>
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=Oxygen&Metrophobic' rel='stylesheet' type='text/css'>
 
-	{% block css_head %}
-  	<link href="/theme/lib/stylesheets/app.css" media="screen, projector, print" rel="stylesheet" type="text/css" />
-	<link href="/theme/lib/stylesheets/ocwc.css" media="screen, projector, print" rel="stylesheet" type="text/css" />
-  	<link href="/theme/lib/stylesheets/style.css" media="screen, projector, print" rel="stylesheet" type="text/css" />
-  	<link href="{% static 'css/hestija.css' %}" media="print" rel="stylesheet" type="text/css" />
-  	<link href="{% static 'css/style.css' %}" media="screen, projector" rel="stylesheet" type="text/css" />
-  	{% endblock %}
+    {% block css_head %}
+        <link href="/theme/lib/stylesheets/app.css" media="screen, projector, print" rel="stylesheet" type="text/css"/>
+        <link href="/theme/lib/stylesheets/ocwc.css" media="screen, projector, print" rel="stylesheet" type="text/css"/>
+        <link href="/theme/lib/stylesheets/style.css" media="screen, projector, print" rel="stylesheet"
+              type="text/css"/>
+        <link href="{% static 'css/hestija.css' %}" media="print" rel="stylesheet" type="text/css"/>
+        <link href="{% static 'css/style.css' %}" media="screen, projector" rel="stylesheet" type="text/css"/>
+    {% endblock %}
 
-  	{% block extra_head %}{% endblock %}
+    {% block extra_head %}{% endblock %}
 </head>
 <body>
-	{% if messages %}
-	<ul class="messages">
-	    {% for message in messages %}
-	    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-	    {% endfor %}
-	</ul>
-	{% endif %}
+{% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
 
-	{% block headrow %}
-	<div class="row" id="top-nav">
-		<div class="large-4 push-9 columns">
-			{% if user.is_anonymous %}
-				{# <a href="/">Login</a> #}
-			{% else %}
-				Logged in as <b>{{ user.username }}</b> | <a href="{% url 'logout' %}">Logout</a>
-			{% endif %}
-		</div>
-	</div>
+{% block headrow %}
+    <div class="row" id="top-nav">
+        <div class="large-4 push-9 columns">
+            {% if user.is_anonymous %}
+                {# <a href="/">Login</a> #}
+            {% else %}
+                Logged in as <b>{{ user.username }}</b> | <a href="{% url 'logout' %}">Logout</a>
+            {% endif %}
+        </div>
+    </div>
 
-	<div class="row">
-		<div class="large-4 columns">
-			{% block logo %}
-			<a href="/"><img src="/theme/images/logo.png" alt="OE Consortium logo" /></a>
-			{% endblock %}
-		</div>
-	</div>
-	{% endblock %}
+    <div class="row">
+        <div class="large-4 columns">
+            {% block logo %}
+                <a href="/"><img src="/theme/images/logo.png" alt="OE Consortium logo"/></a>
+            {% endblock %}
+        </div>
+    </div>
+{% endblock %}
 
 <div class="main">
-	{% block breadcrumbs_wrapper %}
-	<div class="row">
-		<div class="large-12 columns">
-			<ul class="breadcrumb">
-			{% block breadcrumbs %}{% endblock %}
-			</ul>
-		</div>
-	</div>
-	{% endblock %}
-	{% block contents %}{% endblock %}
+    {% block breadcrumbs_wrapper %}
+        <div class="row">
+            <div class="large-12 columns">
+                <ul class="breadcrumb">
+                    {% block breadcrumbs %}{% endblock %}
+                </ul>
+            </div>
+        </div>
+    {% endblock %}
+    {% block contents %}{% endblock %}
 </div>
-	<script type="text/javascript" src="/theme/lib/javascripts/vendor/jquery.js"></script>
-    <script src="/theme/lib/javascripts/foundation/foundation.js"></script>
+<script type="text/javascript" src="/theme/lib/javascripts/vendor/jquery.js"></script>
+<script src="/theme/lib/javascripts/foundation/foundation.js"></script>
 
-	{% block extra_foot %}{% endblock %}
+{% block extra_foot %}{% endblock %}
 </body>
 </html>
