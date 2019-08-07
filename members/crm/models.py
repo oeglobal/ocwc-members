@@ -745,10 +745,10 @@ class MembershipApplication(models.Model):
     def save(self, force_insert=False, force_update=False, using=None):
         if not self.legacy_application_id:
             if not self.edit_link_key:
-                self.edit_link_key = uuid.uuid4().get_hex()
+                self.edit_link_key = uuid.uuid4().hex
 
         if not self.view_link_key:
-            self.view_link_key = uuid.uuid4().get_hex()
+            self.view_link_key = uuid.uuid4().hex
 
         if not self.modified:
             self.modified = datetime.datetime.now()
@@ -926,7 +926,7 @@ class LoginKey(models.Model):
 
     def save(self, force_insert=False, force_update=False, using=None):
         if not self.key:
-            self.key = uuid.uuid4().get_hex()
+            self.key = uuid.uuid4().hex
 
         super(LoginKey, self).save(
             force_insert=force_insert, force_update=force_update, using=using
@@ -1076,7 +1076,7 @@ class Invoice(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.access_key:
-            self.access_key = uuid.uuid4().get_hex()
+            self.access_key = uuid.uuid4().hex
         if not self.paypal_link:
             self.paypal_link = self._get_paypal_link()
 
@@ -1084,7 +1084,7 @@ class Invoice(models.Model):
 
     def generate_pdf(self):
         url = "%s%s" % (settings.INVOICES_PHANTOM_JS_HOST, self.get_access_key_url())
-        filename = "invoice_%s_%s.pdf" % (self.pk, uuid.uuid4().get_hex())
+        filename = "invoice_%s_%s.pdf" % (self.pk, uuid.uuid4().hex)
         pdf_path = os.path.join(settings.INVOICES_ROOT, filename)
 
         print("print pdf start")

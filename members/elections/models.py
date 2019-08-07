@@ -22,50 +22,54 @@ class Election(models.Model):
     vote_until = models.DateTimeField(null=True)
 
     class Meta:
-        get_latest_by = 'pk'
+        get_latest_by = "pk"
 
     def save(self, force_insert=False, force_update=False, using=None):
         if not self.view_nominations_key:
-            self.view_nominations_key = uuid.uuid4().get_hex()
+            self.view_nominations_key = uuid.uuid4().hex
         if not self.edit_nominations_key:
-            self.edit_nominations_key = uuid.uuid4().get_hex()
-        super(Election, self).save(force_insert=force_insert, force_update=force_update, using=using)
+            self.edit_nominations_key = uuid.uuid4().hex
+        super(Election, self).save(
+            force_insert=force_insert, force_update=force_update, using=using
+        )
 
     def __unicode__(self):
         return self.title
 
 
 CANDIDATE_STATUS_CHOICES = (
-    ('nominated', 'Nominated'),
-    ('accepted', 'Accepted'),
-    ('declined', 'Declined'),
-    ('rejected', 'Rejected'),
-    ('spam', 'Spam')
+    ("nominated", "Nominated"),
+    ("accepted", "Accepted"),
+    ("declined", "Declined"),
+    ("rejected", "Rejected"),
+    ("spam", "Spam"),
 )
 
 SEAT_TYPE_CHOICES = (
-    ('institutional', 'Institutional'),
-    ('organizational', 'Organizational')
+    ("institutional", "Institutional"),
+    ("organizational", "Organizational"),
 )
 
 EXPERTISE_CHOICES = (
-    (1, 'Fundraising & Sustainability'),
-    (2, 'Membership Growth and Engagement'),
-    (3, 'Events and Services'),
-    (4, 'Operations including Legal & Finance'),
-    (5, 'Other'),
+    (1, "Fundraising & Sustainability"),
+    (2, "Membership Growth and Engagement"),
+    (3, "Events and Services"),
+    (4, "Operations including Legal & Finance"),
+    (5, "Other"),
 )
 
 
 class Candidate(models.Model):
     election = models.ForeignKey(Election, models.CASCADE)
-    status = models.CharField(max_length=60, choices=CANDIDATE_STATUS_CHOICES, default='')
+    status = models.CharField(
+        max_length=60, choices=CANDIDATE_STATUS_CHOICES, default=""
+    )
 
     candidate_first_name = models.CharField(max_length=255)
     candidate_last_name = models.CharField(max_length=255)
-    candidate_job_title = models.CharField(max_length=255, blank=True, default='')
+    candidate_job_title = models.CharField(max_length=255, blank=True, default="")
     candidate_email = models.EmailField(max_length=255)
-    candidate_phone_number = models.CharField(max_length=255, blank=True, default='')
+    candidate_phone_number = models.CharField(max_length=255, blank=True, default="")
 
     reason = models.TextField(blank=True)
     # organization = models.CharField(max_length=255)
@@ -78,12 +82,12 @@ class Candidate(models.Model):
     edit_link_key = models.CharField(max_length=255, blank=True)
     view_link_key = models.CharField(max_length=255, blank=True)
 
-    email_alternate = models.CharField(max_length=255, blank=True, default='')
+    email_alternate = models.CharField(max_length=255, blank=True, default="")
     biography = models.TextField(blank=True)
     vision = models.TextField(blank=True)
     ideas = models.TextField(blank=True)
 
-    external_url = models.CharField(max_length=255, blank=True, default='')
+    external_url = models.CharField(max_length=255, blank=True, default="")
 
     vetted = models.BooleanField(default=False)
     seat_type = models.CharField(max_length=60, choices=SEAT_TYPE_CHOICES, blank=True)
@@ -93,41 +97,51 @@ class Candidate(models.Model):
 
     order = models.IntegerField(default=0)
 
-    expertise = models.TextField(default='',
-                                 validators=[validate_comma_separated_integer_list],
-                                 blank=True)
-    expertise_other = models.CharField(default='', max_length=255, blank=True)
-    expertise_expanded = models.TextField(default='', blank=True)
+    expertise = models.TextField(
+        default="", validators=[validate_comma_separated_integer_list], blank=True
+    )
+    expertise_other = models.CharField(default="", max_length=255, blank=True)
+    expertise_expanded = models.TextField(default="", blank=True)
 
     agreement_cost = models.BooleanField(default=False)
     agreement_fund = models.BooleanField(default=False)
 
     def get_absolute_edit_url(self):
-        return reverse('elections:candidate-edit', kwargs={'key': self.edit_link_key})
+        return reverse("elections:candidate-edit", kwargs={"key": self.edit_link_key})
 
     def save(self, force_insert=False, force_update=False, using=None):
         if not self.edit_link_key:
-            self.edit_link_key = uuid.uuid4().get_hex()
+            self.edit_link_key = uuid.uuid4().hex
         if not self.view_link_key:
-            self.view_link_key = uuid.uuid4().get_hex()
-        super(Candidate, self).save(force_insert=force_insert, force_update=force_update, using=using)
+            self.view_link_key = uuid.uuid4().hex
+        super(Candidate, self).save(
+            force_insert=force_insert, force_update=force_update, using=using
+        )
 
     def email_board(self):
         send_mail(
             u"{candidate.candidate_first_name} {candidate.candidate_last_name} was nominated for OEC board".format(
-                candidate=self),
-            render_to_string('elections/email_candidate_board_body.txt', {'candidate': self}),
-            'tech@oeconsortium.org', [settings.NOMINATION_COMMITTEE_EMAIL]
+                candidate=self
+            ),
+            render_to_string(
+                "elections/email_candidate_board_body.txt", {"candidate": self}
+            ),
+            "tech@oeconsortium.org",
+            [settings.NOMINATION_COMMITTEE_EMAIL],
         )
 
     def email_candidate(self):
-        send_mail(u"You have been nominated to serve on the OEC Board of Directors",
-                  render_to_string('elections/email_candidate_nominee_body.txt', {'candidate': self}),
-                  'tech@oeconsortium.org', [self.candidate_email]
-                  )
+        send_mail(
+            u"You have been nominated to serve on the OEC Board of Directors",
+            render_to_string(
+                "elections/email_candidate_nominee_body.txt", {"candidate": self}
+            ),
+            "tech@oeconsortium.org",
+            [self.candidate_email],
+        )
 
     def get_expertise_items(self):
-        expertise_list = self.expertise.split(',')
+        expertise_list = self.expertise.split(",")
         choices = dict(EXPERTISE_CHOICES)
         items = []
         for expertise in expertise_list:
@@ -136,7 +150,11 @@ class Candidate(models.Model):
         return items
 
     def __unicode__(self):
-        return "%s %s (%s)" % (self.candidate_first_name, self.candidate_last_name, self.organization.display_name)
+        return "%s %s (%s)" % (
+            self.candidate_first_name,
+            self.candidate_last_name,
+            self.organization.display_name,
+        )
 
 
 class CandidateBallot(models.Model):
@@ -166,9 +184,9 @@ class Proposition(models.Model):
 
 
 PROPOSITION_CHOICES = (
-    (True, mark_safe('We vote <strong>for</strong> this proposition')),
-    (False, mark_safe('We vote <strong>against</strong> this proposition')),
-    (None, mark_safe('We abstain')),
+    (True, mark_safe("We vote <strong>for</strong> this proposition")),
+    (False, mark_safe("We vote <strong>against</strong> this proposition")),
+    (None, mark_safe("We abstain")),
 )
 
 

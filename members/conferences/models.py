@@ -62,7 +62,7 @@ class ConferenceRegistration(models.Model):
 
     def save(self, force_insert=False, force_update=False, using=None):
         if not self.access_key:
-            self.access_key = uuid.uuid4().get_hex()
+            self.access_key = uuid.uuid4().hex
 
         super(ConferenceRegistration, self).save(
             force_insert=force_insert, force_update=force_update, using=using

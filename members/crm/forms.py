@@ -46,7 +46,8 @@ ORGANIZATION_ASSOCIATED_CONSORTIUM_CHOICES = filter(
 
 class MembershipApplicationModelForm(forms.ModelForm):
     associate_consortium = forms.ChoiceField(
-        choices=(("", "---------"),) + ORGANIZATION_ASSOCIATED_CONSORTIUM_CHOICES,
+        choices=(("", "---------"),)
+        + tuple(ORGANIZATION_ASSOCIATED_CONSORTIUM_CHOICES),
         required=False,
     )
 

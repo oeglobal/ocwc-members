@@ -181,4 +181,4 @@ QB_BASE_PROD = "https://quickbooks.api.intuit.com"
 
 QB_ACTIVE = False
 
-from localsettings import *
+from .localsettings import *
