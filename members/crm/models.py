@@ -481,7 +481,9 @@ class Address(models.Model):
     state_province = models.CharField(max_length=255, blank=True)
     state_province_abbr = models.CharField(max_length=255, blank=True)
 
-    country = models.ForeignKey(Country, models.CASCADE, blank=True, null=True)
+    country = models.ForeignKey(
+        Country, models.CASCADE, blank=True, null=True, verbose_name="Country/region"
+    )
 
     latitude = models.FloatField(blank=True, null=True)
     longitude = models.FloatField(blank=True, null=True)

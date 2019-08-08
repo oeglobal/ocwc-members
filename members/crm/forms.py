@@ -80,8 +80,9 @@ class MembershipApplicationModelForm(forms.ModelForm):
             "accreditation_body"
         ].help_text = "If your organization is accredited, please provide the name of the accreditation body here."
         self.fields["country"].help_text = mark_safe(
-            "Select the country in which the institution is located. This will be used for grouping in the members display area on the website."
+            "Select the country/region in which the institution is located. This will be used for grouping in the members display area on the website."
         )
+        self.fields["country"].label = "Country/region"
 
         self.helper = FormHelper(self)
         self.helper.form_show_errors = True
