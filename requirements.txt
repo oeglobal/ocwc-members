@@ -14,7 +14,7 @@ django-recaptcha==2.0.4
 django-reversion==3.0.4
 django-tinymce4-lite==1.7.1
 django-vanilla-views==1.0.5
-djangorestframework==3.8.2
+djangorestframework==3.9.1
 djangorestframework-jsonp==1.0.2
 enum34==1.1.6
 geopy==1.18.1
@@ -43,14 +43,14 @@ python-dateutil==2.2
 python-subprocess2==2.0.2
 pytz==2018.5
 raven==4.0.4
-requests==2.18.4
+requests==2.22.0
 scandir==1.5
 simplegeneric==0.8.1
 six==1.11.0
 South==1.0.2
 traitlets==4.3.2
 Unidecode==1.1.1
-urllib3==1.22
+urllib3==1.25.3
 wcwidth==0.1.7
 websocket-client==0.44.0
 xlrd==1.2.0
