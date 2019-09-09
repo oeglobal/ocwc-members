@@ -52,9 +52,9 @@
                 <strong>Description:</strong> {{ app.description }}<br/>
 
                 {% if app.institution_type %}
-                    <strong>Institution type:</strong> {{ app.get_institution_type_display }}<br/>
+                    <strong>Institution Category:</strong> {{ app.get_institution_type_display }}<br/>
                 {% else %}
-                    <strong>Institution type:</strong> {{ app.get_organization_type_display }}<br/>
+                    <strong>Institution Category:</strong> {{ app.get_organization_type_display }}<br/>
                     <strong>Is accredited:</strong> {{ app.get_is_accredited_display }}<br/>
                     <strong>Accreditation body:</strong> {{ app.accreditation_body }}<br/>
                 {% endif %}

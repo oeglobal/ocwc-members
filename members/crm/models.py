@@ -118,7 +118,7 @@ ORGANIZATION_ASSOCIATED_CONSORTIUM = (
     ("TOCEC", "Taiwan Open Course and Education Consortium"),
     ("Turkish OCWC", "Turkish OpenCourseWare Consortium"),
     ("UNIVERSIA", "UNIVERSIA"),
-    ("FOCW", "OCW France"),
+    ("FOCW", "Open Education France"),
     ("OTHER", "OTHER"),
 )
 
@@ -653,7 +653,11 @@ class MembershipApplication(models.Model):
         max_length=765, blank=True, choices=ORGANIZATION_TYPE_CHOICES, default=""
     )
     institution_type = models.CharField(
-        max_length=25, blank=True, choices=INSTITUTION_TYPE_CHOICES, default=""
+        max_length=25,
+        blank=True,
+        choices=INSTITUTION_TYPE_CHOICES,
+        default="",
+        verbose_name="Institution Category",
     )
 
     is_accredited = models.NullBooleanField(

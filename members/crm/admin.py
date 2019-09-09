@@ -28,7 +28,12 @@ class AddressInline(admin.StackedInline):
 
 
 class OrganizationAdmin(admin.ModelAdmin):
-    list_filter = ("membership_type", "membership_status", "ocw_contact")
+    list_filter = (
+        "membership_type",
+        "membership_status",
+        "ocw_contact",
+        "institution_type",
+    )
     list_display = ("display_name", "associate_consortium", "membership_status")
     search_fields = ("display_name",)
     inlines = [ContactInline, AddressInline]
