@@ -764,6 +764,9 @@ class MembershipApplication(models.Model):
         if self.first_name == self.last_name:
             self.app_status = "Spam"
 
+        if "<a href" in self.description:
+            self.app_status = "Spam"
+
         if not self.app_status:
             self.app_status = "Submitted"
 
