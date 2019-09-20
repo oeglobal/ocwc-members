@@ -81,16 +81,17 @@ ORGANIZATION_TYPE_CHOICES = (
 )
 
 INSTITUTION_TYPE_CHOICES = (
-    ("higher-ed", "Higher Education Institution"),
-    ("secondary-ed", "Secondary Education Institution"),
-    ("primary-ed", "Primary Education Institution"),
-    ("npo", "Non-Profit Organization"),
-    ("ngo", "Non-Governmental Organization"),
-    ("igo", "Intergovernmental Organization (IGO)"),
-    ("gov", "Governmental Entity"),
-    ("consortium", "Regional Consortium"),
-    ("software", "Software Development"),
-    ("commercial", "Commercial Entity"),
+    ("secondary-ed", "Primary and secondary (K-12)"),
+    ("college", "Community, technical, or vocational college"),
+    ("higher-ed", "University"),
+    ("non-accredited", "Informal non-accredited education"),
+    ("lifelong", "Lifelong learning"),
+    ("consortium", "Consortia"),
+    ("initiative", "Open initiatives or special project"),
+    ("commercial", "Corporate enterprise"),
+    ("npo", "Non-profits, NGO’s, IGO"),
+    ("cultural", "Cultural organization"),
+    ("gov", "Government"),
 )
 
 ORGANIZATION_MEMBERSHIP_STATUS = (
@@ -555,7 +556,7 @@ APPLICATION_STATUS_CHOICES = (
 )
 
 ORGANIZATION_TYPE_CHOICES = (
-    ("university", "Higher Education Institution"),
+    ("university", "University"),
     ("npo", "Non-Profit Organization"),
     ("ngo", "Non-Governmental Organization"),
     ("regionalconsortium", "Regional Consortium"),

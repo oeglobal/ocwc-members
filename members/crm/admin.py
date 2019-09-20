@@ -48,6 +48,7 @@ class OrganizationAdmin(admin.ModelAdmin):
                     "billing_type",
                     "associate_consortium",
                     "ocw_contact",
+                    "institution_type",
                 )
             },
         ),
