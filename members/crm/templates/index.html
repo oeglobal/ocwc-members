@@ -1,7 +1,7 @@
-{% extends "base.html" %}
+{% extends "base.html" %}{% load staticfiles %}
 
 {% block logo %}
-	<a href="https://www.oeconsortium.org/"><img src="/theme/images/logo.png" alt="OE Consortium logo" /></a>
+	<a href="https://www.oeconsortium.org/"><img src="{% static "images/logo.svg" %}" alt="OE Global logo" /></a>
 {% endblock %}
 
 {% block contents %}

@@ -278,7 +278,7 @@ class OrganizationStaffDetailView(OrganizationStaffView, DetailView):
             email = ""
 
         email_invoice_subject = (
-            "%s OE Consortium Membership invoice" % settings.DEFAULT_INVOICE_YEAR
+            "%s OE Global Membership invoice" % settings.DEFAULT_INVOICE_YEAR
         )
         email_invoice_body = render_to_string(
             "staff/invoice_mail.txt",
@@ -290,8 +290,7 @@ class OrganizationStaffDetailView(OrganizationStaffView, DetailView):
         )
 
         email_invoice_paid_subject = (
-            "%s OE Consortium Membership payment receipt"
-            % settings.DEFAULT_INVOICE_YEAR
+            "%s OE Global Membership payment receipt" % settings.DEFAULT_INVOICE_YEAR
         )
         email_invoice_paid_body = render_to_string(
             "staff/invoice_paid_mail.txt",
