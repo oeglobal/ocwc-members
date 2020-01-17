@@ -1,4 +1,4 @@
-{{ candidate.sponsor_first_name }} {{ candidate.sponsor_last_name }} has nominated {{ candidate.candidate_first_name }} {{ candidate.candidate_last_name }} as a candidate for the board of directors for the OEC. 
+{{ candidate.sponsor_first_name }} {{ candidate.sponsor_last_name }} has nominated {{ candidate.candidate_first_name }} {{ candidate.candidate_last_name }} as a candidate for the board of directors for the OEG.
 
 You can view this nomination at 
 https://members.oeconsortium.org{% url 'elections:candidate-view' key=candidate.view_link_key %}
@@ -6,4 +6,4 @@ https://members.oeconsortium.org{% url 'elections:candidate-view' key=candidate.
 All nominations: 
 https://members.oeconsortium.org{% url 'elections:candidate-list' key=candidate.election.view_nominations_key %}
 
-In case of problems, please email: tech@oeconsortium.org
+In case of problems, please email: tech@oeglobal.org

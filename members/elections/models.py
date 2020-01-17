@@ -120,23 +120,23 @@ class Candidate(models.Model):
 
     def email_board(self):
         send_mail(
-            u"{candidate.candidate_first_name} {candidate.candidate_last_name} was nominated for OEC board".format(
+            u"{candidate.candidate_first_name} {candidate.candidate_last_name} was nominated for OEG board".format(
                 candidate=self
             ),
             render_to_string(
                 "elections/email_candidate_board_body.txt", {"candidate": self}
             ),
-            "tech@oeconsortium.org",
+            "tech@oeglobal.org",
             [settings.NOMINATION_COMMITTEE_EMAIL],
         )
 
     def email_candidate(self):
         send_mail(
-            u"You have been nominated to serve on the OEC Board of Directors",
+            u"You have been nominated to serve on the OEG Board of Directors",
             render_to_string(
                 "elections/email_candidate_nominee_body.txt", {"candidate": self}
             ),
-            "tech@oeconsortium.org",
+            "tech@oeglobal.org",
             [self.candidate_email],
         )
 

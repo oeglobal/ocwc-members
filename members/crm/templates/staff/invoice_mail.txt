@@ -1,10 +1,10 @@
 Dear {{ first_name }},
 
-Your support as Member is invaluable to the Open Education Consortium, ensuring that the innovative programs that make Open Education so special continue to enrich our growing audiences. Thousands of users enjoy OEC's resources thanks to your commitment. 
+Your support as Member is invaluable to the Open Education Global, ensuring that the innovative programs that make Open Education so special continue to enrich our growing audiences. Thousands of users enjoy OEG's resources thanks to your commitment.
 
-Your generous investment and partnership will help the Open Education Consortium to continue building a lasting legacy of quality open educational resources that enlighten, inspire and enrich the hearts and minds of thousands of learners around the world. 
+Your generous investment and partnership will help the Open Education Global to continue building a lasting legacy of quality open educational resources that enlighten, inspire and enrich the hearts and minds of thousands of learners around the world.
 
-Please find attached your {{ CURRENT_INVOICE_YEAR }} OEC Membership invoice.
+Please find attached your {{ CURRENT_INVOICE_YEAR }} OEG Membership invoice.
 
 We appreciate your continuous support. 
 

@@ -82,7 +82,7 @@ class ConferenceRegistration(models.Model):
 
 Attached is your invoice.
 
-Do not hesitate to contact us at conference@oeconsortium.org if you have any questions.
+Do not hesitate to contact us at conference@oeglobal.org if you have any questions.
 We look forward to welcoming you in the Netherlands!
 
 Open Education Global Conference 2018 Planning Team.
@@ -91,9 +91,9 @@ Open Education Global Conference 2018 Planning Team.
         message = EmailMessage(
             subject="Open Education Global Conference 2018 - Invoice",
             body=body,
-            from_email="conference@oeconsortium.org",
+            from_email="conference@oeglobal.org",
             to=[self.email],
-            # bcc = ['conference@oeconsortium.org']
+            # bcc = ['conference@oeglobal.org']
         )
 
         url = "%s%s" % (settings.INVOICES_PHANTOM_JS_HOST, self.get_access_key_url())

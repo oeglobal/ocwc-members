@@ -316,7 +316,7 @@ class OrganizationStaffDetailView(OrganizationStaffView, DetailView):
             "email_invoice_paid_subject": email_invoice_paid_subject,
             "email_invoice_paid_body": email_invoice_paid_body,
             "invoice_year": settings.DEFAULT_INVOICE_YEAR,
-            "description": "The Open Education Consortium %s Membership"
+            "description": "The Open Education Global %s Membership"
             % settings.DEFAULT_INVOICE_YEAR,
         }
 

@@ -10,7 +10,7 @@ def next_to_root(*additional_paths):
 
 
 ADMINS = (
-    # ('Jure Cuhalev', 'jure@oeconsortium.org'),
+    # ('Jure Cuhalev', 'jure@oeglobal.org'),
 )
 
 MANAGERS = ADMINS

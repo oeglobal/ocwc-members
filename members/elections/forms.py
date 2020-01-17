@@ -81,14 +81,14 @@ class CandidateAddForm(forms.Form):
                     """<h3>Terms and Conditions</h3>
                         <h4>General responsibilities of Board Members</h4>
                         <ul>
-                            <li>The Board of Directors is charged with setting the strategic direction of the Open Education Consortium.  Board members make high level decisions concerning the mission, outputs, finances and services of the Consortium.  Board members are expected to act in the best interest of the organization and its members in all deliberations. </li>
+                            <li>The Board of Directors is charged with setting the strategic direction of the Open Education Global.  Board members make high level decisions concerning the mission, outputs, finances and services of the Consortium.  Board members are expected to act in the best interest of the organization and its members in all deliberations. </li>
                             <li>To fulfill its charge, the Board will hold four in meetings a year, two of which will be in person and two online. It is important that board members make every attempt to fully participate in all meetings.  While substitutions are permitted if necessary, the substitute will not be allowed to vote on the Board member's behalf.</li>
-                            <li>The Board member's institution is expected to cover the cost of the Board member's travel to meetings and time that is given to the Open Education Consortium.</li>
+                            <li>The Board member's institution is expected to cover the cost of the Board member's travel to meetings and time that is given to the Open Education Global.</li>
                             <li>The Board, or its sub-committees, may decide to conduct some business by conference call between in-person meetings. While the frequency and amount of time required for these calls will depend on the nature of the business being conducted, one might anticipate that the Board itself would not normally meet by phone more than once a month.</li>
                             <li>Likewise, it is anticipated that Board members will serve as liaisons with various standing committees and work groups, and will represent the Consortium from time to time at various meetings and/or events.</li>
                         </ul>
                     <p>I AM AWARE THAT BOARD MEMBERS EXPEND CONSIDERABLE NON-REIMBURSED TIME AND MONEY IN THE FULFILLMENT OF THEIR DUTIES. I ATTEST THAT I HAVE THE CONSENT OF THE NOMINEE IN THIS MATTER. I ALSO ATTEST THAT THE NOMINEE IS QUALIFIED AND ABLE TO SERVE IF ELECTED.</p>
-                    <p><a href="https://www.oeconsortium.org/wp-content/uploads/2013/07/Bylaws_Open-Education_Consortium_Incorporated_-_March-1-2017.pdf" target="_blank">(See Open Education Consortium By-Laws Article III for qualification and responsibilities of Board Members).</a></p>
+                    <p><a href="https://www.oeconsortium.org/wp-content/uploads/2013/07/Bylaws_Open-Education_Consortium_Incorporated_-_March-1-2017.pdf" target="_blank">(See Open Education Global By-Laws Article III for qualification and responsibilities of Board Members).</a></p>
                     """
                 ),
                 css_class="row terms",
@@ -133,11 +133,11 @@ class CandidateEditForm(forms.ModelForm):
     )
 
     agreement_cost = forms.BooleanField(
-        label="I understand that The Board members institution is expected to cover the cost of the Board member's travel to meetings and time that is given to the Open Education Consortium.",
+        label="I understand that The Board members institution is expected to cover the cost of the Board member's travel to meetings and time that is given to the Open Education Global.",
         required=True,
     )
     agreement_fund = forms.BooleanField(
-        label="I have verified with my institution that they will fund the costs associated with attending the two annual in person meetings of the OEC Board.",
+        label="I have verified with my institution that they will fund the costs associated with attending the two annual in person meetings of the OEG Board.",
         required=True,
     )
 
@@ -180,11 +180,11 @@ class CandidateEditForm(forms.ModelForm):
         ].label = "Candidate Biography <br /><br />Please provide a brief summary of your experience and qualifications <br />This will be displayed on the ballot."
         self.fields[
             "vision"
-        ].label = "Candidate Vision and Goals <br /><br />Please provide a brief list of what you hope to accomplish for the Open Education Consortium if you are elected to the board of directors.  This will be displayed on the ballot."
+        ].label = "Candidate Vision and Goals <br /><br />Please provide a brief list of what you hope to accomplish for the Open Education Global if you are elected to the board of directors.  This will be displayed on the ballot."
 
         self.fields[
             "ideas"
-        ].label = "Ideas for Open Education Consortium <br /><br />Please provide a brief description of your ideas for Open Education Consortium in general."
+        ].label = "Ideas for Open Education Global <br /><br />Please provide a brief description of your ideas for Open Education Global in general."
         self.fields[
             "expertise"
         ].label = "Your expertise and skills <br /><br />Please provide a brief description of expertise and skills (e.g. technical knowledge, financial knowledge, influence in public policy)."
@@ -200,7 +200,7 @@ class CandidateEditForm(forms.ModelForm):
             Div(
                 HTML("<h2>Update Your Candidacy for Board of Directors</h2>"),
                 HTML(
-                    "<p>You have been nominated as a candidate for the Open Education Consortium Consortium Board of Directors by {instance.sponsor_first_name} {instance.sponsor_last_name}. <br /> Please review this page and complete any missing information to accept your nomination.</p>".format(
+                    "<p>You have been nominated as a candidate for the Open Education Global Consortium Board of Directors by {instance.sponsor_first_name} {instance.sponsor_last_name}. <br /> Please review this page and complete any missing information to accept your nomination.</p>".format(
                         instance=instance
                     )
                 ),
@@ -233,14 +233,14 @@ class CandidateEditForm(forms.ModelForm):
                     """<h3>Terms and Conditions</h3>
                         <h4>General responsibilities of Board Members</h4>
                         <ul>
-                            <li>The Board of Directors is charged with setting the strategic direction of the Open Education Consortium.  Board members make high level decisions concerning the mission, outputs, finances and services of the Consortium.  Board members are expected to act in the best interest of the organization and its members in all deliberations. </li>
+                            <li>The Board of Directors is charged with setting the strategic direction of the Open Education Global.  Board members make high level decisions concerning the mission, outputs, finances and services of the Consortium.  Board members are expected to act in the best interest of the organization and its members in all deliberations. </li>
                             <li>To fulfill its charge, the Board will hold four in meetings a year, two of which will be in person and two online. It is important that board members make every attempt to fully participate in all meetings.  While substitutions are permitted if necessary, the substitute will not be allowed to vote on the Board member's behalf.</li>
-                            <li>The Board member's institution is expected to cover the cost of the Board member's travel to meetings and time that is given to the Open Education Consortium.</li>
+                            <li>The Board member's institution is expected to cover the cost of the Board member's travel to meetings and time that is given to the Open Education Global.</li>
                             <li>The Board, or its sub-committees, may decide to conduct some business by conference call between in-person meetings. While the frequency and amount of time required for these calls will depend on the nature of the business being conducted, one might anticipate that the Board itself would not normally meet by phone more than once a month.</li>
                             <li>Likewise, it is anticipated that Board members will serve as liaisons with various standing committees and work groups, and will represent the Consortium from time to time at various meetings and/or events.</li>
                         </ul>
                     <p>I AM AWARE THAT BOARD MEMBERS EXPEND CONSIDERABLE NON-REIMBURSED TIME AND MONEY IN THE FULFILLMENT OF THEIR DUTIES.  I ATTEST THAT I AM QUALIFIED AND ABLE TO SERVE IF ELECTED.</p>
-                    <p><a href="https://www.oeconsortium.org/wp-content/uploads/2013/07/Bylaws_Open-Education_Consortium_Incorporated_-_March-1-2017.pdf" target="_blank">(See Open Education Consortium By-Laws Article III for qualification and responsibilities of Board Members).</a></p>
+                    <p><a href="https://www.oeconsortium.org/wp-content/uploads/2013/07/Bylaws_Open-Education_Consortium_Incorporated_-_March-1-2017.pdf" target="_blank">(See Open Education Global By-Laws Article III for qualification and responsibilities of Board Members).</a></p>
                     """
                 ),
                 Field("agreement_cost"),
@@ -349,10 +349,7 @@ class VoteForm(forms.Form):
         # proposition6 = propositions[5]
 
         self.helper.layout = Layout(
-            Div(
-                HTML("<h2>2019 Open Education Consortium Elections</h2>"),
-                css_class="row",
-            ),
+            Div(HTML("<h2>2019 Open Education Global Elections</h2>"), css_class="row"),
             # Div(
             #     HTML('<div class="large-8 columns">Please see the background information on the Proposed bylaws changes for an explanation of these proposed changes, and then vote on each issue below. <br /></br ><a target="_blank" style="font-weight: bold;" href="https://docs.google.com/document/d/1Hszn22Iu5GTtEalvRDpVNDOTYOfoO6DA8vFhYP-kWyo/edit">Click here for background information</a>.<br /><br /></div>'),
             #     css_class='row'
@@ -407,8 +404,8 @@ class VoteForm(forms.Form):
             #     css_class='row'),
             Div(
                 HTML(
-                    "<p>Open Education Consortium by-laws require us to have 10 Board of Directors chosen by members. This year we need to "
-                    "elect 5 new Board members. To ensure we get the necessary 5 new Board members we ask OEC members to cast all 5 "
+                    "<p>Open Education Global by-laws require us to have 10 Board of Directors chosen by members. This year we need to "
+                    "elect 5 new Board members. To ensure we get the necessary 5 new Board members we ask OEG members to cast all 5 "
                     "votes. This will also help ensure we get a diverse and inclusive Board with representation from around the world. <br /><br />To "
                     "inform your decision making about who to vote for we invite you to review the information about each candidate "
                     'at <a href="https://www.oeconsortium.org/about-oec/membership/elections/" target="_blank">https://www.oeconsortium.org/about-oec/membership/elections/</a></p>'

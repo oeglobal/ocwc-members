@@ -516,7 +516,7 @@ class Address(models.Model):
 
     def save(self, force_insert=False, force_update=False, using=None):
         if self.country:
-            g = geocoders.Nominatim(user_agent="OEC-CRM")
+            g = geocoders.Nominatim(user_agent="OEG-CRM")
 
             address_string = u"{}, {} {} {}, {}, {}".format(
                 self.street_address,
@@ -609,7 +609,7 @@ class MembershipApplication(models.Model):
 
     description = models.TextField(
         blank=True,
-        help_text="This information will be publicly displayed on your OEC profile site.",
+        help_text="This information will be publicly displayed on your OEG profile site.",
     )
 
     legacy_application_id = models.IntegerField(blank=True, null=True)
@@ -850,12 +850,12 @@ class MembershipApplication(models.Model):
         )
 
         send_mail(
-            "New OEC Member: {}".format(self.display_name),
+            "New OEG Member: {}".format(self.display_name),
             "View member profile: https://www.oeconsortium.org/members/view/{}/".format(
                 org.id
             ),
-            "tech@oeconsortium.org",
-            ["staff@oeconsortium.org"],
+            "tech@oeglobal.org",
+            ["staff@oeglobal.org"],
         )
 
         return org
@@ -865,7 +865,7 @@ class MembershipApplication(models.Model):
             "New Membership Application: %s" % self.display_name,
             "View application: https://members.oeconsortium.org%s"
             % self.get_absolute_url(),
-            "tech@oeconsortium.org",
+            "tech@oeglobal.org",
             ["memberapplications@ocwconsortium.org"],
         )
 
@@ -948,9 +948,9 @@ class LoginKey(models.Model):
             "mail-login/mail_body.txt", {"url": self.get_absolute_url()}
         )
         send_mail(
-            "OEC Member portal login information",
+            "OEG Member portal login information",
             body,
-            "memberservices@oeconsortium.org",
+            "memberservices@oeglobal.org",
             [self.email],
         )
 
@@ -1013,7 +1013,7 @@ class BillingLog(models.Model):
         message = EmailMessage(
             subject=self.email_subject,
             body=self.email_body,
-            from_email="memberservices@oeconsortium.org",
+            from_email="memberservices@oeglobal.org",
             to=[s.strip() for s in self.email.split(",")],
             bcc=[self.user.email],
         )

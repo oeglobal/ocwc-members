@@ -92,7 +92,7 @@ class Command(BaseCommand):
         emails = []
         while True:
             r = requests.get(
-                "https://api.mailgun.net/v2/lists/{0}@oeconsortium.org/members".format(
+                "https://api.mailgun.net/v2/lists/{0}@oeglobal.org/members".format(
                     list_name
                 ),
                 auth=("api", settings.MAILGUN_APIKEY),
@@ -110,7 +110,7 @@ class Command(BaseCommand):
                     emails.append(email)
                 if Contact.objects.filter(email__iexact=email, bouncing=True).exists():
                     r = requests.delete(
-                        "https://api.mailgun.net/v2/lists/{0}@oeconsortium.org/members/".format(
+                        "https://api.mailgun.net/v2/lists/{0}@oeglobal.org/members/".format(
                             list_name
                         )
                         + mailing_member.get("address"),
@@ -130,7 +130,7 @@ class Command(BaseCommand):
             email = contact.email.lower()
             if email not in emails:
                 r = requests.post(
-                    "https://api.mailgun.net/v2/lists/{0}@oeconsortium.org/members".format(
+                    "https://api.mailgun.net/v2/lists/{0}@oeglobal.org/members".format(
                         list_name
                     ),
                     params={"address": email},
@@ -152,7 +152,7 @@ class Command(BaseCommand):
                 ).count()
             ):
                 r = requests.delete(
-                    "https://api.mailgun.net/v2/lists/{0}@oeconsortium.org/members/".format(
+                    "https://api.mailgun.net/v2/lists/{0}@oeglobal.org/members/".format(
                         list_name
                     )
                     + email,
@@ -167,11 +167,11 @@ class Command(BaseCommand):
 
         for email in emails:
             if not Contact.objects.filter(email__iexact=email).exists():
-                if email.endswith("@oeconsortium.org"):
+                if email.endswith("@oeglobal.org"):
                     continue
 
                 r = requests.delete(
-                    "https://api.mailgun.net/v2/lists/{0}@oeconsortium.org/members/".format(
+                    "https://api.mailgun.net/v2/lists/{0}@oeglobal.org/members/".format(
                         list_name
                     )
                     + email,

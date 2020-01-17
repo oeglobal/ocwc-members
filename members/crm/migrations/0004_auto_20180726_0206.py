@@ -7,74 +7,117 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('crm', '0003_auto_20180710_0331'),
-    ]
+    dependencies = [("crm", "0003_auto_20180710_0331")]
 
     operations = [
         migrations.AddField(
-            model_name='membershipapplication',
-            name='initiative_title1',
-            field=models.CharField(blank=True, default=b'', max_length=255, verbose_name=b'Title'),
+            model_name="membershipapplication",
+            name="initiative_title1",
+            field=models.CharField(
+                blank=True, default=b"", max_length=255, verbose_name=b"Title"
+            ),
         ),
         migrations.AddField(
-            model_name='membershipapplication',
-            name='initiative_title2',
-            field=models.CharField(blank=True, default=b'', max_length=255, verbose_name=b'Title'),
+            model_name="membershipapplication",
+            name="initiative_title2",
+            field=models.CharField(
+                blank=True, default=b"", max_length=255, verbose_name=b"Title"
+            ),
         ),
         migrations.AddField(
-            model_name='membershipapplication',
-            name='initiative_title3',
-            field=models.CharField(blank=True, default=b'', max_length=255, verbose_name=b'Title'),
+            model_name="membershipapplication",
+            name="initiative_title3",
+            field=models.CharField(
+                blank=True, default=b"", max_length=255, verbose_name=b"Title"
+            ),
         ),
         migrations.AlterField(
-            model_name='membershipapplication',
-            name='description',
-            field=models.TextField(blank=True, help_text=b'This information will be publicly displayed on your OEC profile site.'),
+            model_name="membershipapplication",
+            name="description",
+            field=models.TextField(
+                blank=True,
+                help_text=b"This information will be publicly displayed on your OEG profile site.",
+            ),
         ),
         migrations.AlterField(
-            model_name='membershipapplication',
-            name='logo_large',
-            field=models.ImageField(blank=True, max_length=765, upload_to=b'logos', verbose_name='Submit an institution logo. Must be at least 500x500 pixels in a PNG, PDF, EPS, or JPG format.'),
+            model_name="membershipapplication",
+            name="logo_large",
+            field=models.ImageField(
+                blank=True,
+                max_length=765,
+                upload_to=b"logos",
+                verbose_name="Submit an institution logo. Must be at least 500x500 pixels in a PNG, PDF, EPS, or JPG format.",
+            ),
         ),
         migrations.AlterField(
-            model_name='membershipapplication',
-            name='main_website',
-            field=models.CharField(blank=True, max_length=765, verbose_name='Institution Website URL'),
+            model_name="membershipapplication",
+            name="main_website",
+            field=models.CharField(
+                blank=True, max_length=765, verbose_name="Institution Website URL"
+            ),
         ),
         migrations.AlterField(
-            model_name='organization',
-            name='initiative_description1',
-            field=models.TextField(blank=True, default=b'', verbose_name=b'Initiative 1 Description (100 \xe2\x80\x93 350 characters)'),
+            model_name="organization",
+            name="initiative_description1",
+            field=models.TextField(
+                blank=True,
+                default=b"",
+                verbose_name=b"Initiative 1 Description (100 \xe2\x80\x93 350 characters)",
+            ),
         ),
         migrations.AlterField(
-            model_name='organization',
-            name='initiative_description2',
-            field=models.TextField(blank=True, default=b'', verbose_name=b'Initiative 2 Description (100 \xe2\x80\x93 350 characters)'),
+            model_name="organization",
+            name="initiative_description2",
+            field=models.TextField(
+                blank=True,
+                default=b"",
+                verbose_name=b"Initiative 2 Description (100 \xe2\x80\x93 350 characters)",
+            ),
         ),
         migrations.AlterField(
-            model_name='organization',
-            name='initiative_description3',
-            field=models.TextField(blank=True, default=b'', verbose_name=b'Initiative 3 Description (100 \xe2\x80\x93 350 characters)'),
+            model_name="organization",
+            name="initiative_description3",
+            field=models.TextField(
+                blank=True,
+                default=b"",
+                verbose_name=b"Initiative 3 Description (100 \xe2\x80\x93 350 characters)",
+            ),
         ),
         migrations.AlterField(
-            model_name='organization',
-            name='initiative_url1',
-            field=models.URLField(blank=True, default=b'', max_length=255, verbose_name=b'Initiative 1 URL'),
+            model_name="organization",
+            name="initiative_url1",
+            field=models.URLField(
+                blank=True,
+                default=b"",
+                max_length=255,
+                verbose_name=b"Initiative 1 URL",
+            ),
         ),
         migrations.AlterField(
-            model_name='organization',
-            name='initiative_url2',
-            field=models.URLField(blank=True, default=b'', max_length=255, verbose_name=b'Initiative 2 URL'),
+            model_name="organization",
+            name="initiative_url2",
+            field=models.URLField(
+                blank=True,
+                default=b"",
+                max_length=255,
+                verbose_name=b"Initiative 2 URL",
+            ),
         ),
         migrations.AlterField(
-            model_name='organization',
-            name='initiative_url3',
-            field=models.URLField(blank=True, default=b'', max_length=255, verbose_name=b'Initiative 3 URL'),
+            model_name="organization",
+            name="initiative_url3",
+            field=models.URLField(
+                blank=True,
+                default=b"",
+                max_length=255,
+                verbose_name=b"Initiative 3 URL",
+            ),
         ),
         migrations.AlterField(
-            model_name='organization',
-            name='ocw_website',
-            field=models.TextField(blank=True, max_length=255, verbose_name=b'OER/OCW Website'),
+            model_name="organization",
+            name="ocw_website",
+            field=models.TextField(
+                blank=True, max_length=255, verbose_name=b"OER/OCW Website"
+            ),
         ),
     ]

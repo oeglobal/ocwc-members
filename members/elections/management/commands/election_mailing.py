@@ -13,14 +13,18 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         for org in Organization.objects.filter(membership_status__in=[2, 5, 7]):
-            election = Election.objects.latest('id')
+            election = Election.objects.latest("id")
 
-            if CandidateBallot.objects.filter(election=election, organization=org).exists():
+            if CandidateBallot.objects.filter(
+                election=election, organization=org
+            ).exists():
                 continue
 
             emails = []
             seen_emails = []
-            for contact in Contact.objects.filter(organization=org, bouncing=False).exclude(contact_type=13):
+            for contact in Contact.objects.filter(
+                organization=org, bouncing=False
+            ).exclude(contact_type=13):
                 if contact.email not in seen_emails:
                     emails.append(contact)
                     seen_emails.append(contact.email)
@@ -29,9 +33,13 @@ class Command(BaseCommand):
             key.save()
 
             for contact in emails:
-                body = render_to_string('elections/email_vote_mailing.txt', {
-                    'url': key.get_absolute_url(),
-                    'contact': contact
-                })
-                send_mail('Last chance to vote in OEC 2018 Elections!', body,
-                          'memberservices@oeconsortium.org', [contact.email])
+                body = render_to_string(
+                    "elections/email_vote_mailing.txt",
+                    {"url": key.get_absolute_url(), "contact": contact},
+                )
+                send_mail(
+                    "Last chance to vote in OEG 2018 Elections!",
+                    body,
+                    "memberservices@oeglobal.org",
+                    [contact.email],
+                )

@@ -91,7 +91,7 @@ class Command(BaseCommand):
         invoice.BillEmail = email
 
         billing_email = EmailAddress()
-        billing_email.Address = "billing@oeconsortium.org"
+        billing_email.Address = "billing@oeglobal.org"
         invoice.BillEmailCc = billing_email
 
         address = Address()

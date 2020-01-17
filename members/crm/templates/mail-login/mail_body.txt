@@ -1,7 +1,7 @@
-To login to your OEC Member account, please click on the following link:
+To login to your OEG Member account, please click on the following link:
 
 https://members.oeconsortium.org{{ url }}
 
 It will stay active for 7 days, afterwards you'll have to request a new one. Feel free to forward it to your colleague if you want them to change membership information on your behalf.
 
-If you have any questions or problems, please contact us at memberservices@oeconsortium.org .
+If you have any questions or problems, please contact us at memberservices@oeglobal.org .

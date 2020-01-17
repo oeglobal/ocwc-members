@@ -90,7 +90,7 @@ class MembershipApplicationModelForm(forms.ModelForm):
         self.helper.layout = Layout(
             Div(
                 HTML(
-                    '<div class="large-8 columns"><h3>Lead Contact Information</h3><p>(Person filling out the application who will also act as the lead contact for communications with the OEC)</p></div>'
+                    '<div class="large-8 columns"><h3>Lead Contact Information</h3><p>(Person filling out the application who will also act as the lead contact for communications with the OEG)</p></div>'
                 ),
                 Div(
                     Div(
@@ -143,7 +143,7 @@ class MembershipApplicationModelForm(forms.ModelForm):
             Div(
                 HTML('<div class="large-8 columns"><h3>Support Commitment</h3></div>'),
                 HTML(
-                    '<div class="large-8 columns"><p>Describe your motivation for joining OEC. Please include the '
+                    '<div class="large-8 columns"><p>Describe your motivation for joining OEG. Please include the '
                     "ways your organization supports or is planning to support the Open Education movement. "
                     "(1000 - 1500 characters)</p></div>"
                 ),
@@ -160,7 +160,7 @@ class MembershipApplicationModelForm(forms.ModelForm):
                 HTML(
                     '<div class="large-8 columns"><p>If you would like to share more than three open websites please '
                     "contact us at "
-                    '<a href="mailto:memberservices@oeconsortium.org">memberservices@oeconsortium.org</a> '
+                    '<a href="mailto:memberservices@oeglobal.org">memberservices@oeglobal.org</a> '
                     "and we'll be happy to accommodate your needs.</div>"
                 ),
                 HTML('<div class="large-8 columns"><h4>Open initiative 1</h4></div>'),

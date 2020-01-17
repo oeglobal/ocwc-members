@@ -13,7 +13,7 @@
         "groups": [],
         "user_permissions": [],
         "password": "",
-        "email": "tech@oeconsortium.org",
+        "email": "tech@oeglobal.org",
         "date_joined": "2013-11-07T07:58:27.984"
     }
 },
@@ -31,7 +31,7 @@
         "groups": [],
         "user_permissions": [],
         "password": "",
-        "email": "tech@oeconsortium.org",
+        "email": "tech@oeglobal.org",
         "date_joined": "2013-11-07T07:58:27.984"
     }
 },
@@ -49,7 +49,7 @@
         "groups": [],
         "user_permissions": [],
         "password": "",
-        "email": "tech@oeconsortium.org",
+        "email": "tech@oeglobal.org",
         "date_joined": "2013-11-07T07:58:27.984"
     }
 },
@@ -130,7 +130,7 @@
         "last_name": "Smith", 
         "contact_type": 6, 
         "organization": 1, 
-        "email": "tech@oeconsortium.org", 
+        "email": "tech@oeglobal.org",
         "job_title": ""
     }
 },
