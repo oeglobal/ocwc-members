@@ -864,6 +864,15 @@ def country_list_view(request):
     return Response(data)
 
 
+class OrganizationListViewApi(generics.ListAPIView):
+    serializer_class = OrganizationApiSerializer
+
+    def get_queryset(self):
+        return Organization.objects.filter(membership_status__in=(2, 3, 5, 7)).order_by(
+            "display_name"
+        )
+
+
 class OrganizationByCountryListViewApi(generics.ListAPIView):
     serializer_class = OrganizationApiSerializer
 
