@@ -51,25 +51,26 @@ class Command(BaseCommand):
                     ).datetime
                     log.save()
 
-        payments = QuickBooksPayment.all(qb=qb_client)
-        for qb_payment in payments:
-            try:
-                org = Organization.objects.get(qbo_id=qb_payment.CustomerRef.value)
-            except Organization.DoesNotExist:
-                continue
+        for offset in [1, 100, 200, 300, 400, 500]:
+            payments = QuickBooksPayment.all(qb=qb_client, start_position=offset)
+            for qb_payment in payments:
+                try:
+                    org = Organization.objects.get(qbo_id=qb_payment.CustomerRef.value)
+                except Organization.DoesNotExist:
+                    continue
 
-            log, is_created = BillingLog.objects.get_or_create(
-                qbo_id=qb_payment.Id,
-                log_type="create_payment",
-                defaults={
-                    "organization": org,
-                    "user": user,
-                    "amount": qb_payment.TotalAmt,
-                },
-            )
+                log, is_created = BillingLog.objects.get_or_create(
+                    qbo_id=qb_payment.Id,
+                    log_type="create_payment",
+                    defaults={
+                        "organization": org,
+                        "user": user,
+                        "amount": qb_payment.TotalAmt,
+                    },
+                )
 
-            if is_created:
-                log.pub_date = arrow.get(
-                    qb_payment.MetaData["LastUpdatedTime"]
-                ).datetime
-                log.save()
+                if is_created:
+                    log.pub_date = arrow.get(
+                        qb_payment.MetaData["LastUpdatedTime"]
+                    ).datetime
+                    log.save()
