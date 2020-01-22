@@ -20,7 +20,7 @@ class Command(BaseCommand):
 
         user = User.objects.get(username="karen")
 
-        for offset in [1, 100, 200, 300]:
+        for offset in [1, 100, 200, 300, 400, 500]:
             try:
                 invoices = QuickBooksInvoice.all(qb=qb_client, start_position=offset)
             except AuthorizationException:
