@@ -78,7 +78,7 @@ class ConferenceRegistration(models.Model):
         return "/conferences/#registration-{}".format(self.id)
 
     def email_invoice(self):
-        body = """Thank you for registering for the Open Education Global Conference 2018 (24-26 April in Delft, the Netherlands).
+        body = """Thank you for registering for Open Education Global Conference 2018 (24-26 April in Delft, the Netherlands).
 
 Attached is your invoice.
 

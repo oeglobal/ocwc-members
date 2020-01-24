@@ -1,9 +1,9 @@
 Dear {{contact.first_name}} {{contact.last_name}},
 
-The election period for the Open Education Global (OEG) Board of Directors is in progress.
+The election period for Open Education Global (OEG) Board of Directors is in progress.
 
 Please click on the following link and you'll be taken directly to the ballot:
-https://members.oeconsortium.org{{url}}?next=/elections/vote/add/6/
+https://members.oeglobal.org{{url}}?next=/elections/vote/add/6/
 
 Please select your 5 preferred candidates from the list of nominees.
 

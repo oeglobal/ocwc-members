@@ -18,7 +18,7 @@ TESTING = sys.argv[1:2] == ["test"]
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
-ALLOWED_HOSTS = ["members.ocwonsortium.org", "members.oeconsortium.org"]
+ALLOWED_HOSTS = ["members.ocwonsortium.org", "members.oeglobal.org"]
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -166,7 +166,7 @@ CRISPY_TEMPLATE_PACK = "uni_form"
 PREVIOUS_INVOICE_YEAR = "2018"
 DEFAULT_INVOICE_YEAR = "2019"
 
-ALLOWED_HOSTS = ["localhost", "members.oeconsortium.org", "members.test"]
+ALLOWED_HOSTS = ["localhost", "members.oeglobal.org", "members.test"]
 
 REST_FRAMEWORK = {
     "DEFAULT_RENDERER_CLASSES": (

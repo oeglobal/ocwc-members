@@ -1,13 +1,14 @@
 Dear {{ candidate.candidate_first_name }},
 
-{{ candidate.sponsor_first_name }} {{ candidate.sponsor_last_name }} has nominated you as a candidate for the Board of Directors of The Open Education Global.
+{{ candidate.sponsor_first_name }} {{ candidate.sponsor_last_name }} has nominated you as a candidate for the Board of Directors of Open Education Global.
 
-Please confirm that you accept this nomination by visiting https://members.oeconsortium.org{% url 'elections:candidate-edit' candidate.edit_link_key %}
+Please confirm that you accept this nomination by visiting https://members.oeglobal.org{% url 'elections:candidate-edit' candidate.edit_link_key %}
 
 Please provide the missing data or make corrections to existing data on that form.  You will also need to read and agree to the responsibilities of board members.
 
-Candidate profiles will be publicly available on the Open Education Global's website by 22 February.  Providing information for your profile will allow other members to get to know you and your vision for the Consortium.  Please make sure to enter a short bio and your vision statement.  You can do this via the link above.
+Candidate profiles will be publicly available on Open Education Global's website by 13 March.  Providing information for your profile will allow other members to get to know you and your vision for the Organization.  Please make sure to enter a short bio and your vision statement.  You can do this via the link above.
 
 On behalf of the Open Education Global Nominating Committee
-Amanda Coolidge
+Paul Stacey and Igor Lesko
+
 

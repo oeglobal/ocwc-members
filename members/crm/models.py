@@ -863,7 +863,7 @@ class MembershipApplication(models.Model):
     def _send_notification_email(self):
         send_mail(
             "New Membership Application: %s" % self.display_name,
-            "View application: https://members.oeconsortium.org%s"
+            "View application: https://members.oeglobal.org%s"
             % self.get_absolute_url(),
             "tech@oeglobal.org",
             ["memberapplications@ocwconsortium.org"],

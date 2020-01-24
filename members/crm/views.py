@@ -590,7 +590,7 @@ class OrganizationExportExcel(StaffView, TemplateView):
                 obj.get_billing_type_display(),
                 previous_year_amount,
                 current_year_amount,
-                "https://members.oeconsortium.org%s" % obj.get_absolute_staff_url(),
+                "https://members.oeglobal.org%s" % obj.get_absolute_staff_url(),
                 [obj.created, date_format],
                 obj.address_set.first().country.name,
                 obj.address_set.first().city,
@@ -726,7 +726,7 @@ class OrganizationExportCccoerExcel(StaffView, TemplateView):
                 # 'yes',
                 created,
                 last_invoice,
-                "https://members.oeconsortium.org%s" % obj.get_absolute_staff_url(),
+                "https://members.oeglobal.org%s" % obj.get_absolute_staff_url(),
                 obj.main_website,
                 obj.ocw_website,
             ]

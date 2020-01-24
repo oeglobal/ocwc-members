@@ -81,11 +81,11 @@ class CandidateAddForm(forms.Form):
                     """<h3>Terms and Conditions</h3>
                         <h4>General responsibilities of Board Members</h4>
                         <ul>
-                            <li>The Board of Directors is charged with setting the strategic direction of the Open Education Global.  Board members make high level decisions concerning the mission, outputs, finances and services of the Consortium.  Board members are expected to act in the best interest of the organization and its members in all deliberations. </li>
+                            <li>The Board of Directors is charged with setting the strategic direction of Open Education Global.  Board members make high level decisions concerning the mission, outputs, finances and services of the Organization.  Board members are expected to act in the best interest of the organization and its members in all deliberations. </li>
                             <li>To fulfill its charge, the Board will hold four in meetings a year, two of which will be in person and two online. It is important that board members make every attempt to fully participate in all meetings.  While substitutions are permitted if necessary, the substitute will not be allowed to vote on the Board member's behalf.</li>
-                            <li>The Board member's institution is expected to cover the cost of the Board member's travel to meetings and time that is given to the Open Education Global.</li>
+                            <li>The Board member's institution is expected to cover the cost of the Board member's travel to meetings and time that is given to Open Education Global.</li>
                             <li>The Board, or its sub-committees, may decide to conduct some business by conference call between in-person meetings. While the frequency and amount of time required for these calls will depend on the nature of the business being conducted, one might anticipate that the Board itself would not normally meet by phone more than once a month.</li>
-                            <li>Likewise, it is anticipated that Board members will serve as liaisons with various standing committees and work groups, and will represent the Consortium from time to time at various meetings and/or events.</li>
+                            <li>Likewise, it is anticipated that Board members will serve as liaisons with various standing committees and work groups, and will represent the Organization from time to time at various meetings and/or events.</li>
                         </ul>
                     <p>I AM AWARE THAT BOARD MEMBERS EXPEND CONSIDERABLE NON-REIMBURSED TIME AND MONEY IN THE FULFILLMENT OF THEIR DUTIES. I ATTEST THAT I HAVE THE CONSENT OF THE NOMINEE IN THIS MATTER. I ALSO ATTEST THAT THE NOMINEE IS QUALIFIED AND ABLE TO SERVE IF ELECTED.</p>
                     <p><a href="https://www.oeconsortium.org/wp-content/uploads/2013/07/Bylaws_Open-Education_Consortium_Incorporated_-_March-1-2017.pdf" target="_blank">(See Open Education Global By-Laws Article III for qualification and responsibilities of Board Members).</a></p>
@@ -133,7 +133,7 @@ class CandidateEditForm(forms.ModelForm):
     )
 
     agreement_cost = forms.BooleanField(
-        label="I understand that The Board members institution is expected to cover the cost of the Board member's travel to meetings and time that is given to the Open Education Global.",
+        label="I understand that The Board members institution is expected to cover the cost of the Board member's travel to meetings and time that is given to Open Education Global.",
         required=True,
     )
     agreement_fund = forms.BooleanField(
@@ -180,7 +180,7 @@ class CandidateEditForm(forms.ModelForm):
         ].label = "Candidate Biography <br /><br />Please provide a brief summary of your experience and qualifications <br />This will be displayed on the ballot."
         self.fields[
             "vision"
-        ].label = "Candidate Vision and Goals <br /><br />Please provide a brief list of what you hope to accomplish for the Open Education Global if you are elected to the board of directors.  This will be displayed on the ballot."
+        ].label = "Candidate Vision and Goals <br /><br />Please provide a brief list of what you hope to accomplish for Open Education Global if you are elected to the board of directors.  This will be displayed on the ballot."
 
         self.fields[
             "ideas"
@@ -200,7 +200,7 @@ class CandidateEditForm(forms.ModelForm):
             Div(
                 HTML("<h2>Update Your Candidacy for Board of Directors</h2>"),
                 HTML(
-                    "<p>You have been nominated as a candidate for the Open Education Global Consortium Board of Directors by {instance.sponsor_first_name} {instance.sponsor_last_name}. <br /> Please review this page and complete any missing information to accept your nomination.</p>".format(
+                    "<p>You have been nominated as a candidate for Open Education Global Board of Directors by {instance.sponsor_first_name} {instance.sponsor_last_name}. <br /> Please review this page and complete any missing information to accept your nomination.</p>".format(
                         instance=instance
                     )
                 ),
@@ -233,11 +233,11 @@ class CandidateEditForm(forms.ModelForm):
                     """<h3>Terms and Conditions</h3>
                         <h4>General responsibilities of Board Members</h4>
                         <ul>
-                            <li>The Board of Directors is charged with setting the strategic direction of the Open Education Global.  Board members make high level decisions concerning the mission, outputs, finances and services of the Consortium.  Board members are expected to act in the best interest of the organization and its members in all deliberations. </li>
+                            <li>The Board of Directors is charged with setting the strategic direction of Open Education Global.  Board members make high level decisions concerning the mission, outputs, finances and services of the Organization.  Board members are expected to act in the best interest of the organization and its members in all deliberations. </li>
                             <li>To fulfill its charge, the Board will hold four in meetings a year, two of which will be in person and two online. It is important that board members make every attempt to fully participate in all meetings.  While substitutions are permitted if necessary, the substitute will not be allowed to vote on the Board member's behalf.</li>
-                            <li>The Board member's institution is expected to cover the cost of the Board member's travel to meetings and time that is given to the Open Education Global.</li>
+                            <li>The Board member's institution is expected to cover the cost of the Board member's travel to meetings and time that is given to Open Education Global.</li>
                             <li>The Board, or its sub-committees, may decide to conduct some business by conference call between in-person meetings. While the frequency and amount of time required for these calls will depend on the nature of the business being conducted, one might anticipate that the Board itself would not normally meet by phone more than once a month.</li>
-                            <li>Likewise, it is anticipated that Board members will serve as liaisons with various standing committees and work groups, and will represent the Consortium from time to time at various meetings and/or events.</li>
+                            <li>Likewise, it is anticipated that Board members will serve as liaisons with various standing committees and work groups, and will represent the Organization from time to time at various meetings and/or events.</li>
                         </ul>
                     <p>I AM AWARE THAT BOARD MEMBERS EXPEND CONSIDERABLE NON-REIMBURSED TIME AND MONEY IN THE FULFILLMENT OF THEIR DUTIES.  I ATTEST THAT I AM QUALIFIED AND ABLE TO SERVE IF ELECTED.</p>
                     <p><a href="https://www.oeconsortium.org/wp-content/uploads/2013/07/Bylaws_Open-Education_Consortium_Incorporated_-_March-1-2017.pdf" target="_blank">(See Open Education Global By-Laws Article III for qualification and responsibilities of Board Members).</a></p>
