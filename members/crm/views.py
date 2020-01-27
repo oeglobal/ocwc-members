@@ -588,7 +588,7 @@ class OrganizationExportExcel(StaffView, TemplateView):
                 contact_name,
                 contact_email,
                 obj.get_membership_status_display(),
-                org.get_institution_type_display(),
+                obj.get_institution_type_display(),
                 obj.get_billing_type_display(),
                 previous_year_amount,
                 current_year_amount,
