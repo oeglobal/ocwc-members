@@ -19,8 +19,7 @@ class CandidateAddView(FormView):
 
     def dispatch(self, request, *args, **kwargs):
         election = Election.objects.latest("id")
-        print(election.id)
-        if election.nominate_until > datetime.datetime.now():
+        if election.nominate_until < datetime.datetime.now():
             return render(self.request, "elections/election_closed_nominations.html")
 
         return super(CandidateAddView, self).dispatch(request, *args, **kwargs)
