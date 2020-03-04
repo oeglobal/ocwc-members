@@ -200,7 +200,7 @@ class CandidateEditForm(forms.ModelForm):
             Div(
                 HTML("<h2>Update Your Candidacy for Board of Directors</h2>"),
                 HTML(
-                    "<p>You have been nominated as a candidate for Open Education Global Board of Directors by {instance.sponsor_first_name} {instance.sponsor_last_name}. <br /> Please review this page and complete any missing information to accept your nomination.</p>".format(
+                    u"<p>You have been nominated as a candidate for Open Education Global Board of Directors by {instance.sponsor_first_name} {instance.sponsor_last_name}. <br /> Please review this page and complete any missing information to accept your nomination.</p>".format(
                         instance=instance
                     )
                 ),
