@@ -481,6 +481,7 @@ class OrganizationExportExcel(StaffView, TemplateView):
             (u"Billing type", 70),
             (u"Invoiced in {}".format(settings.PREVIOUS_INVOICE_YEAR), 50),
             (u"Invoiced in {}".format(settings.DEFAULT_INVOICE_YEAR), 50),
+            (u"Invoiced in {}".format(settings.NEXT_INVOICE_YEAR), 50),
             (u"Edit link", 150),
             (u"Join Date", 50),
             (u"Country", 50),
@@ -571,6 +572,15 @@ class OrganizationExportExcel(StaffView, TemplateView):
             else:
                 previous_year_amount = None
 
+            logs = obj.billinglog_set.filter(
+                log_type="create_invoice", invoice_year=settings.NEXT_INVOICE_YEAR
+            )
+            if logs:
+                log = logs.latest("id")
+                next_year_amount = log.amount
+            else:
+                next_year_amount = None
+
             accounting_contacts = obj.contact_set.filter(contact_type=13)
             if accounting_contacts:
                 accounting_emails = [
@@ -592,6 +602,7 @@ class OrganizationExportExcel(StaffView, TemplateView):
                 obj.get_billing_type_display(),
                 previous_year_amount,
                 current_year_amount,
+                next_year_amount,
                 "https://members.oeglobal.org%s" % obj.get_absolute_staff_url(),
                 [obj.created, date_format],
                 obj.address_set.first().country.name,

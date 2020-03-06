@@ -165,6 +165,7 @@ CRISPY_TEMPLATE_PACK = "uni_form"
 # Run migrations when you change these two settings!
 PREVIOUS_INVOICE_YEAR = "2018"
 DEFAULT_INVOICE_YEAR = "2019"
+NEXT_INVOICE_YEAR = "2020"
 
 ALLOWED_HOSTS = ["localhost", "members.oeglobal.org", "members.test"]
 
