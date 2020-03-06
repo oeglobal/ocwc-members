@@ -855,7 +855,7 @@ class MembershipApplication(models.Model):
                 org.id
             ),
             "tech@oeglobal.org",
-            ["staff@oeglobal.org"],
+            ["staff@oeconsortium.org"],
         )
 
         return org
