@@ -20,7 +20,7 @@ class Command(BaseCommand):
 
         user = User.objects.get(username="karen")
 
-        for offset in [1, 100, 200, 300, 400, 500]:
+        for offset in [1, 100, 200, 300, 400, 500, 600, 700]:
             try:
                 invoices = QuickBooksInvoice.all(qb=qb_client, start_position=offset)
             except AuthorizationException:
@@ -49,9 +49,18 @@ class Command(BaseCommand):
                     log.pub_date = arrow.get(
                         qb_invoice.MetaData["LastUpdatedTime"]
                     ).datetime
+                    log.created_date = arrow.get(
+                        qb_invoice.MetaData["CreateTime"]
+                    ).date()
+                    log.save()
+                else:
+                    log.invoice_year = log.pub_date.year
+                    log.created_date = arrow.get(
+                        qb_invoice.MetaData["CreateTime"]
+                    ).date()
                     log.save()
 
-        for offset in [1, 100, 200, 300, 400, 500]:
+        for offset in [1, 100, 200, 300, 400, 500, 600, 700]:
             payments = QuickBooksPayment.all(qb=qb_client, start_position=offset)
             for qb_payment in payments:
                 try:

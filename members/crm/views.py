@@ -551,20 +551,18 @@ class OrganizationExportExcel(StaffView, TemplateView):
                 is_usa = False
 
             logs = obj.billinglog_set.filter(
-                log_type="create_invoice", invoice_year=settings.DEFAULT_INVOICE_YEAR
+                log_type="create_invoice",
+                created_date__year=settings.DEFAULT_INVOICE_YEAR,
             )
             if logs:
                 log = logs.latest("id")
                 current_year_amount = log.amount
             else:
-                amount = obj.get_membership_due_amount()
-                if amount:
-                    current_year_amount = "({})".format(amount)
-                else:
-                    current_year_amount = None
+                current_year_amount = None
 
             logs = obj.billinglog_set.filter(
-                log_type="create_invoice", invoice_year=settings.PREVIOUS_INVOICE_YEAR
+                log_type="create_invoice",
+                created_date__year=settings.PREVIOUS_INVOICE_YEAR,
             )
             if logs:
                 log = logs.latest("id")
@@ -573,7 +571,7 @@ class OrganizationExportExcel(StaffView, TemplateView):
                 previous_year_amount = None
 
             logs = obj.billinglog_set.filter(
-                log_type="create_invoice", invoice_year=settings.NEXT_INVOICE_YEAR
+                log_type="create_invoice", created_date__year=settings.NEXT_INVOICE_YEAR
             )
             if logs:
                 log = logs.latest("id")
