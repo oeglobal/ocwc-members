@@ -318,7 +318,7 @@ class VoteForm(forms.Form):
         widget=forms.CheckboxSelectMultiple,
         label="Select 5 Candidates for Board of Directors, Institutional Seats",
     )
-    # organizational_candidates = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple, label="Select 1 candidate for Board of Directors, Organizational Seat")
+
     name = forms.CharField(
         label="Please enter your First and Last name, to sign your vote on behalf of your organization"
     )
@@ -333,7 +333,6 @@ class VoteForm(forms.Form):
                 vetted=True, seat_type="institutional"
             ).order_by("order")
         ]
-        # self.fields['organizational_candidates'].choices = [(i.id, unicode(i)) for i in self.election.candidate_set.filter(vetted=True, seat_type='organizational').order_by('order')]
 
         self.helper = FormHelper(self)
         self.helper.form_show_errors = True
@@ -349,7 +348,7 @@ class VoteForm(forms.Form):
         # proposition6 = propositions[5]
 
         self.helper.layout = Layout(
-            Div(HTML("<h2>2019 Open Education Global Elections</h2>"), css_class="row"),
+            Div(HTML("<h2>2020 Open Education Global Elections</h2>"), css_class="row"),
             # Div(
             #     HTML('<div class="large-8 columns">Please see the background information on the Proposed bylaws changes for an explanation of these proposed changes, and then vote on each issue below. <br /></br ><a target="_blank" style="font-weight: bold;" href="https://docs.google.com/document/d/1Hszn22Iu5GTtEalvRDpVNDOTYOfoO6DA8vFhYP-kWyo/edit">Click here for background information</a>.<br /><br /></div>'),
             #     css_class='row'
@@ -408,7 +407,7 @@ class VoteForm(forms.Form):
                     "elect 5 new Board members. To ensure we get the necessary 5 new Board members we ask OEG members to cast all 5 "
                     "votes. This will also help ensure we get a diverse and inclusive Board with representation from around the world. <br /><br />To "
                     "inform your decision making about who to vote for we invite you to review the information about each candidate "
-                    'at <a href="https://www.oeconsortium.org/about-oec/membership/elections/" target="_blank">https://www.oeconsortium.org/about-oec/membership/elections/</a></p>'
+                    'at <a href="https://www.oeglobal.org/about-us/elections/" target="_blank">https://www.oeglobal.org/about-us/elections/</a></p>'
                 ),
                 css_class="row",
             ),
@@ -428,10 +427,7 @@ class VoteForm(forms.Form):
             and len(self.cleaned_data.get("institutional_candidates")) != 5
         ):
             self._errors["institutional_candidates"] = self.error_class(
-                ["Too many candidates selected."]
+                ["Please select 5 candidates."]
             )
-
-        # if self.cleaned_data.get('organizational_candidates') and len(self.cleaned_data.get('organizational_candidates')) > 1:
-        #     self._errors['organizational_candidates'] = self.error_class(['Too many candidates selected.'])
 
         return cleaned_data

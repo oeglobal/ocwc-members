@@ -12,10 +12,12 @@
 		</div>
 
 
+        {% comment %}
 		<div class="small-12 columns">
 			<h2>Membership</h2>
 			<p><a href="https://www.oeconsortium.org/members/member-mark/" target="_blank" class="button">Implement new Member Mark</a></p>
 		</div>
+        {% endcomment %}
 
 		{# {% comment %} #}
 		<div class="large-12 columns">
@@ -24,9 +26,9 @@
 
 
 			{% if org.can_vote %}
-			<p>We invite you to <a href="https://www.oeconsortium.org/about-oec/membership/elections/" target="_blank">review the biography of candidates</a>.</p>
+			<p>We invite you to <a href="https://www.oeglobal.org/about-us//elections/" target="_blank">review the biography of candidates</a>.</p>
 			<p>
-				<a href="{% url 'elections:vote-add' 7 %}" class="button medium">Vote in 2019 Elections</a>
+				<a href="{% url 'elections:vote-add' 8 %}" class="button medium">Vote in 2020 Elections</a>
 			</p>
 			{% else %}
 			<p>Your organization is currently not eligible to vote. Please contact <a href="mailto:memberservices@oeglobal.org">memberservices@oeglobal.org</a> for details.</p>
