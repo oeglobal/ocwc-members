@@ -2,28 +2,83 @@ from rest_framework import serializers
 
 from .models import Organization
 
-US_STATES = {'AL': 'Alabama', 'AK': 'Alaska', 'AZ': 'Arizona', 'AR': 'Arkansas', 'CA': 'California', 'CO': 'Colorado',
-             'CT': 'Connecticut', 'DE': 'Delaware', 'FL': 'Florida', 'GA': 'Georgia', 'HI': 'Hawaii', 'ID': 'Idaho',
-             'IL': 'Illinois', 'IN': 'Indiana', 'IA': 'Iowa', 'KS': 'Kansas', 'KY': 'Kentucky', 'LA': 'Louisiana',
-             'ME': 'Maine', 'MD': 'Maryland', 'MA': 'Massachusetts', 'MI': 'Michigan', 'MN': 'Minnesota',
-             'MS': 'Mississippi', 'MO': 'Missouri', 'MT': 'Montana', 'NE': 'Nebraska', 'NV': 'Nevada',
-             'NH': 'New Hampshire', 'NJ': 'New Jersey', 'NM': 'New Mexico', 'NY': 'New York', 'NC': 'North Carolina',
-             'ND': 'North Dakota', 'OH': 'Ohio', 'OK': 'Oklahoma', 'OR': 'Oregon', 'PA': 'Pennsylvania',
-             'RI': 'Rhode Island', 'SC': 'South Carolina', 'SD': 'South Dakota', 'TN': 'Tennessee', 'TX': 'Texas',
-             'UT': 'Utah', 'VT': 'Vermont', 'VA': 'Virginia', 'WA': 'Washington', 'WV': 'West Virginia',
-             'WI': 'Wisconsin', 'WY': 'Wyoming'}
+US_STATES = {
+    "AL": "Alabama",
+    "AK": "Alaska",
+    "AZ": "Arizona",
+    "AR": "Arkansas",
+    "CA": "California",
+    "CO": "Colorado",
+    "CT": "Connecticut",
+    "DE": "Delaware",
+    "FL": "Florida",
+    "GA": "Georgia",
+    "HI": "Hawaii",
+    "ID": "Idaho",
+    "IL": "Illinois",
+    "IN": "Indiana",
+    "IA": "Iowa",
+    "KS": "Kansas",
+    "KY": "Kentucky",
+    "LA": "Louisiana",
+    "ME": "Maine",
+    "MD": "Maryland",
+    "MA": "Massachusetts",
+    "MI": "Michigan",
+    "MN": "Minnesota",
+    "MS": "Mississippi",
+    "MO": "Missouri",
+    "MT": "Montana",
+    "NE": "Nebraska",
+    "NV": "Nevada",
+    "NH": "New Hampshire",
+    "NJ": "New Jersey",
+    "NM": "New Mexico",
+    "NY": "New York",
+    "NC": "North Carolina",
+    "ND": "North Dakota",
+    "OH": "Ohio",
+    "OK": "Oklahoma",
+    "OR": "Oregon",
+    "PA": "Pennsylvania",
+    "RI": "Rhode Island",
+    "SC": "South Carolina",
+    "SD": "South Dakota",
+    "TN": "Tennessee",
+    "TX": "Texas",
+    "UT": "Utah",
+    "VT": "Vermont",
+    "VA": "Virginia",
+    "WA": "Washington",
+    "WV": "West Virginia",
+    "WI": "Wisconsin",
+    "WY": "Wyoming",
+}
 
 
 class OrganizationApiSerializer(serializers.ModelSerializer):
-    name = serializers.CharField(source='display_name')
-    membership_type = serializers.CharField(source='get_simplified_membership')
-    membership_status = serializers.CharField(source='get_membership_status_display')
+    name = serializers.CharField(source="display_name")
+    membership_type = serializers.CharField(source="get_simplified_membership")
+    membership_status = serializers.CharField(source="get_membership_status_display")
+    associate_consortium = serializers.CharField(
+        source="get_associate_consortium_display"
+    )
     state = serializers.SerializerMethodField()
 
     class Meta:
         model = Organization
-        fields = ('id', 'name', 'membership_type', 'membership_status', 'associate_consortium',
-                  'logo_large', 'logo_small', 'state', 'main_website', 'ocw_website')
+        fields = (
+            "id",
+            "name",
+            "membership_type",
+            "membership_status",
+            "associate_consortium",
+            "logo_large",
+            "logo_small",
+            "state",
+            "main_website",
+            "ocw_website",
+        )
 
     def get_state(self, obj):
         if obj.address_set.count():
@@ -35,22 +90,41 @@ class OrganizationApiSerializer(serializers.ModelSerializer):
 
 
 class OrganizationDetailedApiSerializer(OrganizationApiSerializer):
-    logo_small_url = serializers.CharField(source='get_logo_small_url')
+    logo_small_url = serializers.CharField(source="get_logo_small_url")
+    associate_consortium = serializers.CharField(
+        source="get_associate_consortium_display"
+    )
 
     class Meta:
         model = Organization
-        fields = ('id', 'name', 'membership_type', 'membership_status', 'associate_consortium',
-                  'display_name', 'main_website', 'ocw_website', 'description',
-                  'logo_small', 'logo_small_url',
-                  'logo_large',
-                  'initiative_title1', 'initiative_description1', 'initiative_url1',
-                  'initiative_title2', 'initiative_description2', 'initiative_url2',
-                  'initiative_title3', 'initiative_description3', 'initiative_url3', )
+        fields = (
+            "id",
+            "name",
+            "membership_type",
+            "membership_status",
+            "associate_consortium",
+            "display_name",
+            "main_website",
+            "ocw_website",
+            "description",
+            "logo_small",
+            "logo_small_url",
+            "logo_large",
+            "initiative_title1",
+            "initiative_description1",
+            "initiative_url1",
+            "initiative_title2",
+            "initiative_description2",
+            "initiative_url2",
+            "initiative_title3",
+            "initiative_description3",
+            "initiative_url3",
+        )
 
 
 class OrganizationRssFeedsApiSerializer(serializers.ModelSerializer):
-    name = serializers.CharField(source='display_name')
+    name = serializers.CharField(source="display_name")
 
     class Meta:
         model = Organization
-        fields = ('id', 'name', 'crmid', 'rss_course_feed')
+        fields = ("id", "name", "crmid", "rss_course_feed")

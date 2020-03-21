@@ -115,7 +115,7 @@ ORGANIZATION_MEMBERSHIP_STATUS = (
 ORGANIZATION_ASSOCIATED_CONSORTIUM = (
     ("CCCOER", "Community College Consortium for Open Educational Resources (CCCOER)"),
     ("CORE", "CORE"),
-    ("JOCWC", "Japan OCW Consortium"),
+    ("JOCWC", "OE Japan"),
     ("KOCWC", "Korea OCW Consortium"),
     ("TOCEC", "Taiwan Open Course and Education Consortium"),
     ("Turkish OCWC", "Turkish OpenCourseWare Consortium"),
