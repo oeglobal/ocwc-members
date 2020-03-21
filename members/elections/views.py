@@ -4,13 +4,17 @@ from django.shortcuts import render, redirect
 from django.core.urlresolvers import reverse
 from django.http import Http404
 
-from vanilla import UpdateView, DetailView, ListView, FormView
-from braces.views import LoginRequiredMixin
+from vanilla import UpdateView, DetailView, ListView, FormView, TemplateView
+from braces.views import LoginRequiredMixin, StaffuserRequiredMixin
 
 from .forms import CandidateAddForm, CandidateEditForm, VoteForm
 from .models import Candidate, Election, PropositionBallot, CandidateBallot
 
 from crm.models import Organization
+
+
+class StaffView(LoginRequiredMixin, StaffuserRequiredMixin):
+    pass
 
 
 class CandidateAddView(FormView):
@@ -253,3 +257,15 @@ class VoteAddFormView(LoginRequiredMixin, FormView):
         #     organizational_ballot.votes.add(candidate)
 
         return redirect(reverse("elections:vote-view", kwargs={"pk": self.election.id}))
+
+
+class VoteResults(StaffView, TemplateView):
+    def get(self, request, *args, **kwargs):
+        election = Election.objects.latest("pk")
+        ballots = CandidateBallot.objects.filter(election=election).order_by(
+            "organization__display_name"
+        )
+
+        ctx = {"election": election, "ballots": ballots}
+
+        return render(self.request, "elections/vote_results.html", ctx)

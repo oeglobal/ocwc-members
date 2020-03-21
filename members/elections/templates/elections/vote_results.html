@@ -1,0 +1,17 @@
+{% extends "elections/base.html" %}
+
+{% block contents %}
+	<div class="row">
+		<div class="large-12 columns">
+            <h2>{{ election.title }}</h2>
+            <ul>
+            {% for ballot in ballots %}
+                <li><strong>{{ ballot.organization.display_name }}</strong> by <i>{{ ballot.voter_name }}</i></li>
+            {% endfor %}
+
+            <br />
+            <p>Total ballots cast: {{ ballots.count }}</p>
+            </ul>
+		</div>
+	</div>
+{% endblock %}
