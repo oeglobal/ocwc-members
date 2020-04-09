@@ -7,29 +7,100 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('crm', '0028_auto_20200114_0921'),
-    ]
+    dependencies = [("crm", "0028_auto_20200114_0921")]
 
     operations = [
         migrations.AlterField(
-            model_name='membershipapplication',
-            name='associate_consortium',
-            field=models.CharField(blank=True, choices=[(b'CCCOER', b'Community College Consortium for Open Educational Resources (CCCOER)'), (b'CORE', b'CORE'), (b'JOCWC', b'OE Japan'), (b'KOCWC', b'Korea OCW Consortium'), (b'TOCEC', b'Taiwan Open Course and Education Consortium'), (b'Turkish OCWC', b'Turkish OpenCourseWare Consortium'), (b'UNIVERSIA', b'UNIVERSIA'), (b'FOCW', b'Open Education France'), (b'OTHER', b'OTHER')], default=b'', max_length=255),
+            model_name="membershipapplication",
+            name="associate_consortium",
+            field=models.CharField(
+                blank=True,
+                choices=[
+                    (
+                        b"CCCOER",
+                        b"Community College Consortium for Open Educational Resources (CCCOER)",
+                    ),
+                    (b"CORE", b"CORE"),
+                    (b"JOCWC", b"OE Japan"),
+                    (b"KOCWC", b"Korea OCW Consortium"),
+                    (b"TOCEC", b"Taiwan Open Course and Education Consortium"),
+                    (b"Turkish OCWC", b"Turkish OpenCourseWare Consortium"),
+                    (b"UNIVERSIA", b"UNIVERSIA"),
+                    (b"FOCW", b"Open Education France"),
+                    (b"OTHER", b"OTHER"),
+                ],
+                default=b"",
+                max_length=255,
+            ),
         ),
         migrations.AlterField(
-            model_name='membershipapplication',
-            name='institution_type',
-            field=models.CharField(blank=True, choices=[(b'secondary-ed', b'Primary and secondary (K-12)'), (b'college', b'Community, technical, or vocational college'), (b'higher-ed', b'University'), (b'non-accredited', b'Informal non-accredited education'), (b'lifelong', b'Lifelong learning'), (b'consortium', b'Consortia Member'), (b'consortium-org', b'Consortia Organization'), (b'initiative', b'Open initiatives or special project'), (b'commercial', b'Corporate enterprise'), (b'npo', b'Non-profits, NGO\xe2\x80\x99s, IGO'), (b'cultural', b'Cultural organization'), (b'gov', b'Government')], default=b'', max_length=25, verbose_name=b'Institution Category'),
+            model_name="membershipapplication",
+            name="institution_type",
+            field=models.CharField(
+                blank=True,
+                choices=[
+                    (b"secondary-ed", b"Primary and secondary (K-12)"),
+                    (b"college", b"Community, technical, or vocational college"),
+                    (b"higher-ed", b"University"),
+                    (b"non-accredited", b"Informal non-accredited education"),
+                    (b"lifelong", b"Lifelong learning"),
+                    (b"consortium", b"Consortia Member"),
+                    (b"consortium-org", b"Consortia Organization"),
+                    (b"initiative", b"Open initiatives or special project"),
+                    (b"commercial", b"Corporate enterprise"),
+                    (b"npo", b"Non-profits, NGO\xe2\x80\x99s, IGO"),
+                    (b"cultural", b"Cultural organization"),
+                    (b"gov", b"Government"),
+                ],
+                default=b"",
+                max_length=25,
+                verbose_name=b"Institution Category",
+            ),
         ),
         migrations.AlterField(
-            model_name='organization',
-            name='associate_consortium',
-            field=models.CharField(blank=True, choices=[(b'CCCOER', b'Community College Consortium for Open Educational Resources (CCCOER)'), (b'CORE', b'CORE'), (b'JOCWC', b'OE Japan'), (b'KOCWC', b'Korea OCW Consortium'), (b'TOCEC', b'Taiwan Open Course and Education Consortium'), (b'Turkish OCWC', b'Turkish OpenCourseWare Consortium'), (b'UNIVERSIA', b'UNIVERSIA'), (b'FOCW', b'Open Education France'), (b'OTHER', b'OTHER')], default=b'', max_length=255),
+            model_name="organization",
+            name="associate_consortium",
+            field=models.CharField(
+                blank=True,
+                choices=[
+                    (
+                        b"CCCOER",
+                        b"Community College Consortium for Open Educational Resources (CCCOER)",
+                    ),
+                    (b"CORE", b"CORE"),
+                    (b"JOCWC", b"OE Japan"),
+                    (b"KOCWC", b"Korea OCW Consortium"),
+                    (b"TOCEC", b"Taiwan Open Course and Education Consortium"),
+                    (b"Turkish OCWC", b"Turkish OpenCourseWare Consortium"),
+                    (b"UNIVERSIA", b"UNIVERSIA"),
+                    (b"FOCW", b"Open Education France"),
+                    (b"OTHER", b"OTHER"),
+                ],
+                default=b"",
+                max_length=255,
+            ),
         ),
         migrations.AlterField(
-            model_name='organization',
-            name='institution_type',
-            field=models.CharField(blank=True, choices=[(b'secondary-ed', b'Primary and secondary (K-12)'), (b'college', b'Community, technical, or vocational college'), (b'higher-ed', b'University'), (b'non-accredited', b'Informal non-accredited education'), (b'lifelong', b'Lifelong learning'), (b'consortium', b'Consortia Member'), (b'consortium-org', b'Consortia Organization'), (b'initiative', b'Open initiatives or special project'), (b'commercial', b'Corporate enterprise'), (b'npo', b'Non-profits, NGO\xe2\x80\x99s, IGO'), (b'cultural', b'Cultural organization'), (b'gov', b'Government')], default=b'', max_length=25),
+            model_name="organization",
+            name="institution_type",
+            field=models.CharField(
+                blank=True,
+                choices=[
+                    (b"secondary-ed", b"Primary and secondary (K-12)"),
+                    (b"college", b"Community, technical, or vocational college"),
+                    (b"higher-ed", b"University"),
+                    (b"non-accredited", b"Informal non-accredited education"),
+                    (b"lifelong", b"Lifelong learning"),
+                    (b"consortium", b"Consortia Member"),
+                    (b"consortium-org", b"Consortia Organization"),
+                    (b"initiative", b"Open initiatives or special project"),
+                    (b"commercial", b"Corporate enterprise"),
+                    (b"npo", b"Non-profits, NGO\xe2\x80\x99s, IGO"),
+                    (b"cultural", b"Cultural organization"),
+                    (b"gov", b"Government"),
+                ],
+                default=b"",
+                max_length=25,
+            ),
         ),
     ]
