@@ -14,6 +14,9 @@ from .models import ConferenceInterface, ConferenceRegistration
 
 
 def _calculate_signature(string, private_key):
+    # TODO - "Reimplement in Python 3"
+    raise NotImplementedError
+
     hash_var = hmac.new(str(private_key), string, hashlib.sha1).digest()
     sig = hash_var.encode("base64")
 
@@ -24,7 +27,7 @@ def sync_conference(conf_id=3):
     conf = ConferenceInterface.objects.get(pk=conf_id)
 
     route = "forms/1/entries"
-    expires = arrow.utcnow().replace(minutes=+10).timestamp
+    expires = arrow.utcnow().replace(minute=+10).timestamp
 
     string_to_sign = str("{}:{}:{}:{}".format(conf.api_key, "GET", route, expires))
     sig = _calculate_signature(string_to_sign, conf.private_key)
