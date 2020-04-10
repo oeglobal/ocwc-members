@@ -37,7 +37,7 @@ here = lambda x: os.path.join(os.path.dirname(os.path.abspath(__file__)), x)
 class Continent(models.Model):
     name = models.CharField(max_length=192, unique=True, blank=True)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
 
@@ -50,7 +50,7 @@ class Country(models.Model):
     class Meta:
         ordering = ("name",)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
 
@@ -232,7 +232,7 @@ class Organization(models.Model):
     objects = models.Manager()
     active = ActiveOrganizationManager()
 
-    def __unicode__(self):
+    def __str__(self):
         return self.display_name
 
     def get_absolute_staff_url(self):
@@ -457,7 +457,7 @@ class Contact(models.Model):
 
     bouncing = models.BooleanField(default=False)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.email
 
 
@@ -490,7 +490,7 @@ class Address(models.Model):
     latitude = models.FloatField(blank=True, null=True)
     longitude = models.FloatField(blank=True, null=True)
 
-    def __unicode__(self):
+    def __str__(self):
         if self.country:
             return u"%s %s %s" % (self.country.name, self.city, self.street_address)
         else:
@@ -786,7 +786,7 @@ class MembershipApplication(models.Model):
         # return reverse('crm:application-view', kwargs={'view_link_key':self.view_link_key})
         return "/application/view/%s/" % self.view_link_key
 
-    def __unicode__(self):
+    def __str__(self):
         return "Application #%s" % self.id
 
     def _create_member(self):
@@ -932,7 +932,7 @@ class LoginKey(models.Model):
     used = models.BooleanField(default=False)
     pub_date = models.DateTimeField(auto_now_add=True)
 
-    def __unicode__(self):
+    def __str__(self):
         return "%s - %s" % (self.user, self.email)
 
     def save(self, force_insert=False, force_update=False, using=None):
@@ -1071,7 +1071,7 @@ class Invoice(models.Model):
     paypal_link = models.TextField(blank=True)
     pub_date = models.DateTimeField(auto_now_add=True)
 
-    def __unicode__(self):
+    def __str__(self):
         return "Invoice %s (%s)" % (self.invoice_number, self.organization.display_name)
 
     def get_absolute_url(self):
@@ -1155,7 +1155,7 @@ class Profile(models.Model):
     qb_refresh_expires = models.DateTimeField(null=True, default=None)
     qb_realm_id = models.TextField(blank=True, default="")
 
-    def __unicode__(self):
+    def __str__(self):
         return self.user.username
 
     def update_qb_session_manager(self, code, realm_id):
