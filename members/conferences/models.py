@@ -109,7 +109,7 @@ Open Education Global Conference 2018 Planning Team.
 
 CONFERENCE_REGISTRATION_TYPE = (
     ("normal", "Normal registration"),
-    ("speaker", "Speaker registration"),
+    ("presenter", "Presenter registration"),
 )
 
 
