@@ -9,3 +9,6 @@ parts/
 media/
 members/TODO
 flush.sh
+credentials.json
+service_account.json
+

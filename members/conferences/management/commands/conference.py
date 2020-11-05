@@ -109,5 +109,6 @@ class Command(BaseCommand):
 
     def _gform_export(self):
         for org in Organization.active.all().exclude(membership_status=99):
-            prefix = u"(s)" if org.membership_status == 7 else "(m)"
-            # print(u"{} | {} {}".format(org.display_name, prefix, org.display_name))
+            # prefix = u"(s)" if org.membership_status == 7 else "(m)"
+            prefix = u"(m)"
+            print(u"{} | {} {}".format(org.display_name, prefix, org.display_name))

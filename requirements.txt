@@ -58,3 +58,6 @@ python-quickbooks==0.7.5
 beautifulsoup4==4.9.0
 html-table-extractor==1.4.0
 sentry-sdk==0.14.3
+google-api-python-client==1.12.5
+google-auth==1.23.0
+google-auth-httplib2==0.0.4

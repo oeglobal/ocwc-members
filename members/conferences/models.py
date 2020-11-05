@@ -105,3 +105,39 @@ Open Education Global Conference 2018 Planning Team.
             mimetype="application/pdf",
         )
         message.send()
+
+
+CONFERENCE_REGISTRATION_TYPE = (
+    ("normal", "Normal registration"),
+    ("speaker", "Speaker registration"),
+)
+
+
+class ConferenceEmailTemplate(models.Model):
+    subject = models.CharField(max_length=255)
+    body_text = models.TextField()
+    body_html = models.TextField()
+    email_type = models.CharField(
+        choices=CONFERENCE_REGISTRATION_TYPE, default="normal", max_length=20
+    )
+
+    def __str__(self) -> str:
+        return "{}".format(self.subject)
+
+
+class ConferenceEmailRegistration(models.Model):
+    email = models.CharField(max_length=255)
+    email_type = models.CharField(
+        choices=CONFERENCE_REGISTRATION_TYPE, default="normal", max_length=20
+    )
+
+    def __str__(self) -> str:
+        return "{} - {}".format(self.email, self.email_type)
+
+
+class ConferenceEmailLogs(models.Model):
+    action = models.CharField(max_length=255)
+    pub_date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self) -> str:
+        return "{}".format(self.action)

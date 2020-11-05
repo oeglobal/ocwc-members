@@ -16,6 +16,8 @@ ADMINS = (
 MANAGERS = ADMINS
 TESTING = sys.argv[1:2] == ["test"]
 
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
 ALLOWED_HOSTS = ["members.ocwonsortium.org", "members.oeglobal.org"]
