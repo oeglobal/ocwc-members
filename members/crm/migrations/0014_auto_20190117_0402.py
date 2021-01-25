@@ -8,15 +8,15 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('crm', '0013_profile_squashed'),
+        ("crm", "0012_profile"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='profile',
-            name='user',
+            model_name="profile",
+            name="user",
         ),
         migrations.DeleteModel(
-            name='Profile',
+            name="Profile",
         ),
     ]
