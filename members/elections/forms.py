@@ -82,7 +82,7 @@ class CandidateAddForm(forms.Form):
                         <h4>General responsibilities of Board Members</h4>
                         <ul>
                             <li>The Board of Directors is charged with setting the strategic direction of Open Education Global.  Board members make high level decisions concerning the mission, outputs, finances and services of the Organization.  Board members are expected to act in the best interest of the organization and its members in all deliberations. </li>
-                            <li>To fulfil its charge, the Board will hold four in meetings a year, two of which will be in person (situation permitting) and two online.</li>
+                            <li>To fulfil its charge, the Board will hold four meetings a year, two of which will be in person (situation permitting) and two online.</li>
                             <li>The Board member's institution is expected to cover the cost of the Board member's travel to meetings and time that is given to Open Education Global.</li>
                             <li>The Board, or its sub-committees, may decide to conduct some business by conference call between in-person meetings. While the frequency and amount of time required for these calls will depend on the nature of the business being conducted, one might anticipate that the Board itself would not normally meet by phone more than once a month.</li>
                             <li>Likewise, it is anticipated that Board members will serve as liaisons with various standing committees and work groups, and will represent the Organization from time to time at various meetings and/or events.</li>
