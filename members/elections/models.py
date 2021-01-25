@@ -33,7 +33,7 @@ class Election(models.Model):
             force_insert=force_insert, force_update=force_update, using=using
         )
 
-    def __unicode__(self):
+    def __str__(self):
         return self.title
 
 

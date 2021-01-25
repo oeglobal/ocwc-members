@@ -8,18 +8,18 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('crm', '0030_auto_20210125_0442'),
+        ("crm", "0030_auto_20210125_0442"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='billinglog',
-            name='invoice_year',
-            field=models.CharField(default='2021', max_length=10),
+            model_name="billinglog",
+            name="invoice_year",
+            field=models.CharField(default="2021", max_length=10),
         ),
         migrations.AlterField(
-            model_name='invoice',
-            name='invoice_year',
-            field=models.CharField(default='2021', max_length=10),
+            model_name="invoice",
+            name="invoice_year",
+            field=models.CharField(default="2021", max_length=10),
         ),
     ]
