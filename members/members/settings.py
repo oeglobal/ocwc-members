@@ -164,9 +164,9 @@ LOGIN_URL = "/admin/"
 CRISPY_TEMPLATE_PACK = "uni_form"
 
 # Run migrations when you change these two settings!
-PREVIOUS_INVOICE_YEAR = "2018"
-DEFAULT_INVOICE_YEAR = "2019"
-NEXT_INVOICE_YEAR = "2020"
+PREVIOUS_INVOICE_YEAR = "2020"
+DEFAULT_INVOICE_YEAR = "2021"
+NEXT_INVOICE_YEAR = "2022"
 
 ALLOWED_HOSTS = ["localhost", "members.oeglobal.org", "members.test"]
 
