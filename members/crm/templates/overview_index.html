@@ -19,23 +19,23 @@
 		</div>
         {% endcomment %}
 
-		{# {% comment %} #}
+		 {% comment %}
 		<div class="large-12 columns">
 			<h1>Elections</h1>
 			{# <p>Voting period in 2015 elections has ended.</p> #}
 
 
 			{% if org.can_vote %}
-			<p>We invite you to <a href="https://www.oeglobal.org/about-us//elections/" target="_blank">review the biography of candidates</a>.</p>
+			<p>We invite you to <a href="https://www.oeglobal.org/about-us/elections/" target="_blank">review the biography of candidates</a>.</p>
 			<p>
-				<a href="{% url 'elections:vote-add' 8 %}" class="button medium">Vote in 2020 Elections</a>
+				<a href="{% url 'elections:vote-add' 8 %}" class="button medium">Vote in 2010 Elections</a>
 			</p>
 			{% else %}
 			<p>Your organization is currently not eligible to vote. Please contact <a href="mailto:memberservices@oeglobal.org">memberservices@oeglobal.org</a> for details.</p>
 			{% endif %}
 
 		</div>
-		{# {% endcomment %} #}
+		 {% endcomment %}
 
 	</div>
 {% endblock %}
