@@ -328,7 +328,7 @@ class VoteForm(forms.Form):
         super(VoteForm, self).__init__(*args, **kwargs)
 
         self.fields["institutional_candidates"].choices = [
-            (i.id, unicode(i))
+            (i.id, i)
             for i in self.election.candidate_set.filter(
                 vetted=True, seat_type="institutional"
             ).order_by("order")

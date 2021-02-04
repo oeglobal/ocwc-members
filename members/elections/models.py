@@ -149,7 +149,7 @@ class Candidate(models.Model):
 
         return items
 
-    def __unicode__(self):
+    def __str__(self):
         return "%s %s (%s)" % (
             self.candidate_first_name,
             self.candidate_last_name,
