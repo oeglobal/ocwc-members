@@ -38,7 +38,7 @@ class Command(BaseCommand):
 
     def get_bounces(self):
         r = requests.get(
-            "https://api.mailgun.net/v2/oeconsortium.org/bounces",
+            "https://api.mailgun.net/v2/mg.oeglobal.org/bounces",
             auth=("api", settings.MAILGUN_APIKEY),
         )
         data = json.loads(r.content)
@@ -67,7 +67,6 @@ class Command(BaseCommand):
             },
         )
         data = r.json()
-        pprint(data)
         for bounce in data["items"]:
             if bounce.get("severity") == "permanent":
                 for contact in Contact.objects.filter(
