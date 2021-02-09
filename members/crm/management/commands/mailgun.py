@@ -56,17 +56,18 @@ class Command(BaseCommand):
                 )
 
         r = requests.get(
-            "https://api.mailgun.net/v2/oeconsortium.org/events",
+            "https://api.mailgun.net/v2/mg.oeglobal.org/events",
             auth=("api", settings.MAILGUN_APIKEY),
             params={
                 "begin": arrow.now()
-                .replace(weeks=-1)
+                .shift(weeks=-1)
                 .strftime("%a, %d %b %Y %H:%M:%S +0000"),
                 "end": arrow.now().strftime("%a, %d %b %Y %H:%M:%S +0000"),
                 "event": "failed",
             },
         )
-        data = json.loads(r.content)
+        data = r.json()
+        pprint(data)
         for bounce in data["items"]:
             if bounce.get("severity") == "permanent":
                 for contact in Contact.objects.filter(
@@ -99,7 +100,7 @@ class Command(BaseCommand):
                 data={"skip": offset},
             )
 
-            print(r.content)
+            # print(r.content)
             data = json.loads(r.content)
             if not data["items"]:
                 break

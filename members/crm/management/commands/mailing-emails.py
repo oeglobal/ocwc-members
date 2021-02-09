@@ -14,7 +14,9 @@ class Command(BaseCommand):
         ).exclude(contact_type=13):
 
             if contact.email and contact.email not in address_list:
-                address_list.append(contact.email)
+                address_list.append(
+                    [contact.email, contact.organization.associate_consortium or ""]
+                )
 
         for email in address_list:
-            print("{}".format(email))
+            print("{},{}".format(*email))
