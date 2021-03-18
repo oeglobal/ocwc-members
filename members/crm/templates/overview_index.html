@@ -1,41 +1,42 @@
 {% extends "base.html" %}
 
 {% block contents %}
-	<div class="row">
-		<div class="small-12 columns">
-			<h1>{{ org.display_name }}</h1>
+    <div class="row">
+        <div class="small-12 columns">
+            <h1>{{ org.display_name }}</h1>
 
-			<ul>
-				<li><a href="{% url 'crm:organization-view' org.id %}">View organization information</a></li>
-				<li><a href="{% url 'crm:reported-statistics-view' org.id %}">Report course statistics</a></li>
-			</ul>
-		</div>
+            <ul>
+                <li><a href="{% url 'crm:organization-view' org.id %}">View organization information</a></li>
+                <li><a href="{% url 'crm:reported-statistics-view' org.id %}">Report course statistics</a></li>
+            </ul>
+        </div>
 
 
         {% comment %}
-		<div class="small-12 columns">
-			<h2>Membership</h2>
-			<p><a href="https://www.oeconsortium.org/members/member-mark/" target="_blank" class="button">Implement new Member Mark</a></p>
-		</div>
+            <div class="small-12 columns">
+                <h2>Membership</h2>
+                <p><a href="https://www.oeconsortium.org/members/member-mark/" target="_blank" class="button">Implement
+                    new Member Mark</a></p>
+            </div>
         {% endcomment %}
 
-		 {% comment %}
-		<div class="large-12 columns">
-			<h1>Elections</h1>
-			{# <p>Voting period in 2015 elections has ended.</p> #}
+        <div class="large-12 columns">
+            <h1>Elections</h1>
+            {# <p>Voting period in 2015 elections has ended.</p> #}
 
 
-			{% if org.can_vote %}
-			<p>We invite you to <a href="https://www.oeglobal.org/about-us/elections/" target="_blank">review the biography of candidates</a>.</p>
-			<p>
-				<a href="{% url 'elections:vote-add' 8 %}" class="button medium">Vote in 2010 Elections</a>
-			</p>
-			{% else %}
-			<p>Your organization is currently not eligible to vote. Please contact <a href="mailto:memberservices@oeglobal.org">memberservices@oeglobal.org</a> for details.</p>
-			{% endif %}
+            {% if org.can_vote %}
+                <p>We invite you to <a href="https://www.oeglobal.org/about-us/elections/" target="_blank">review the
+                    biography of candidates</a>.</p>
+                <p>
+                    <a href="{% url 'elections:vote-add' 9 %}" class="button medium">Vote in 2021 Elections</a>
+                </p>
+            {% else %}
+                <p>Your organization is currently not eligible to vote. Please contact <a
+                        href="mailto:memberservices@oeglobal.org">memberservices@oeglobal.org</a> for details.</p>
+            {% endif %}
 
-		</div>
-		 {% endcomment %}
+        </div>
 
-	</div>
+    </div>
 {% endblock %}
