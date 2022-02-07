@@ -4,11 +4,12 @@ Dear {{ candidate.candidate_first_name }},
 
 Please confirm that you accept this nomination by visiting https://members.oeglobal.org{% url 'elections:candidate-edit' candidate.edit_link_key %}
 
-Please provide the missing data or make corrections to existing data on that form.  You will also need to read and agree to the responsibilities of board members.
+Revise or correct the nomination data if required and complete the Nominee Information section including Candidate Biography, Candidate Vision and Goals, and Ideas for Open Education Global.
 
-Candidate profiles will be publicly available on Open Education Global's website by 13 March.  Providing information for your profile will allow other members to get to know you and your vision for the Organization.  Please make sure to enter a short bio and your vision statement.  You can do this via the link above.
+Candidate profiles will be publicly available on Open Education Global's website by March 14, 2022.  Providing information for your profile will allow other members to get to know you and your vision for the Organization.
+
+Thanks for your interest in serving on Open Education Global's Board and through that service advancing open education globally.
 
 On behalf of the Open Education Global Nominating Committee
 Paul Stacey and Igor Lesko
-
 
