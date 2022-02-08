@@ -22,7 +22,7 @@ class CandidateAddForm(forms.Form):
         help_text="This may be used in consideration by the Nominating Committee but will not be displayed on the ballot. Candidates will be contacted to provide their own profile information for the ballot.",
     )
     organization = forms.ChoiceField(
-        label="Member Institution this candidate represents"
+        label="OE Global Member this candidate represents"
     )
 
     sponsor_first_name = forms.CharField(label="First name")
