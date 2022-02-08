@@ -104,7 +104,9 @@ class ContactAdmin(admin.ModelAdmin):
         "last_name",
         "organization_link",
         "contact_type",
+        "bouncing",
     )
+    list_filter = ("bouncing",)
     search_fields = ("email", "first_name", "last_name")
 
     def organization_link(self, obj):
