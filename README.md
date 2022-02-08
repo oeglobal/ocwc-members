@@ -1,19 +1,16 @@
-ocwc-members
-============
+# Open Education Global CRM
 
-Custom Django CRM for handling OCWC membership information.
+Custom Django CRM for handling OE Global membership information.
 
 MIT Licensed.
 
-Features
-========
+## Features
 
 * Membership Application Form
 * Organization information, addresses, contacts
-* GeoJSON Api for map of OCW Members: <http://]www.ocwconsortium.org/members/>
+* GeoJSON Api for map of OCW Members: https://www.oeglobal.org/members/
 
-Dev
-===
+## Dev
 
 Manually run:
 
@@ -21,11 +18,6 @@ Manually run:
 
 on macOS to get headless Chrome.
 
-Contact
-=======
-General contact: <mailto:tech@ocwconsortium.org>
+## Contact
 
-Developer: <mailto:jure@ocwconsortium.org>
-
-
-
+General contact: [tech@oeglobal.org](mailto:tech@oeglobal.org)
