@@ -512,6 +512,14 @@ class OrganizationExportExcel(StaffView, TemplateView):
         ).order_by("display_name"):
             row_num += 1
 
+            # if there's no country (which is required), skip this record
+            # otherwise this will crash: https://members.oeglobal.org/staff/organization/list/excel/
+            try:
+                c = obj.address_set.first().country
+            except:
+                print("DEBUG: skipping record (missing country): " + str(obj))
+                continue
+
             try:
                 contact = obj.contact_set.filter(contact_type=6)[0]
                 contact_name = u"%s %s" % (contact.first_name, contact.last_name) or ""
