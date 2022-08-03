@@ -14,7 +14,7 @@ django-crispy-forms==1.7.2
 django-recaptcha==2.0.4
 django-tinymce4-lite==1.7.1
 django-vanilla-views==1.0.5
-Django==1.11.29
+Django==2.2.28
 djangorestframework-jsonp==1.0.2
 djangorestframework==3.9.1
 geopy==1.21.0
