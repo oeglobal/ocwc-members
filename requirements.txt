@@ -16,7 +16,7 @@ django-tinymce4-lite==1.7.1
 django-vanilla-views==1.0.5
 Django==1.11.29
 djangorestframework-jsonp==1.0.2
-djangorestframework==3.9.1
+djangorestframework==3.11.2
 geopy==1.21.0
 gspread==3.6.0
 gunicorn==20.0.4
