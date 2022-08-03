@@ -122,7 +122,7 @@ INSTALLED_APPS = (
     "gunicorn",
     "tinymce",
     "rest_framework",
-    "floppyforms",
+    # "floppyforms",
     "crispy_forms",
     "captcha",
     "crm",

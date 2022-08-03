@@ -2,7 +2,8 @@ import requests
 import json
 import arrow
 from pprint import pprint
-from scalpl import Cut
+
+# from scalpl import Cut
 
 from django.core.management.base import BaseCommand
 from django.conf import settings
