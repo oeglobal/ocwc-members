@@ -22,7 +22,8 @@ class Migration(migrations.Migration):
 
     operations = [
         # Fixes our broken state of ContentType table
-        migrations.RunSQL('ALTER TABLE django_content_type DROP COLUMN name;'),
+        # howtfix/workaround: next one fails on new/empty detup => disabled
+        #migrations.RunSQL('ALTER TABLE django_content_type DROP COLUMN name;'),
         migrations.CreateModel(
             name='Profile',
             fields=[

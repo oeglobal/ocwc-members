@@ -3,6 +3,7 @@
 from __future__ import unicode_literals
 
 from django.db import migrations
+from django.core.exceptions import ObjectDoesNotExist
 
 data = (
     (770, 544, "Achieving the Dream"),
@@ -172,9 +173,12 @@ def forwards(apps, schema_editor):
     for line in data:
         org_id, qbo_id, name = line
 
-        org = Organization.objects.get(pk=org_id)
-        org.qbo_id = qbo_id
-        org.save()
+        try:
+            org = Organization.objects.get(pk=org_id)
+            org.qbo_id = qbo_id
+            org.save()
+        except ObjectDoesNotExist:
+            print('Org. with ID {} does not exist, skipping.'.format(org_id))
 
 
 class Migration(migrations.Migration):
