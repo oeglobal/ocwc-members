@@ -5,11 +5,10 @@ from dateutil.relativedelta import relativedelta
 from django import forms
 from django.utils.safestring import mark_safe
 
-from captcha.fields import ReCaptchaField
-from captcha.widgets import ReCaptchaV3
-
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit, Layout, Field, Div, HTML
+
+from friendly_captcha.fields import FrcCaptchaField
 
 from .models import (
     MembershipApplication,
@@ -67,7 +66,7 @@ class MembershipApplicationModelForm(forms.ModelForm):
     initiative_url1 = forms.URLField(required=False, label="URL")
     initiative_url2 = forms.URLField(required=False, label="URL")
     initiative_url3 = forms.URLField(required=False, label="URL")
-    captcha = ReCaptchaField()
+    captcha = FrcCaptchaField()
 
     def __init__(self, *args, **kwargs):
         super(MembershipApplicationModelForm, self).__init__(*args, **kwargs)

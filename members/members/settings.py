@@ -119,12 +119,12 @@ INSTALLED_APPS = (
     "django.contrib.flatpages",
     "django.contrib.admin",
     "django.contrib.admindocs",
+    "friendly_captcha",
     "gunicorn",
     "tinymce",
     "rest_framework",
     # "floppyforms",
     "crispy_forms",
-    "captcha",
     "crm",
     "elections",
     "conferences",
@@ -154,6 +154,10 @@ LOGGING = {
             "level": "ERROR",
             "propagate": True,
         }
+    },
+    'django.friendly_captcha': {
+        'handlers': ['default'],
+        'level': 'INFO',
     },
 }
 

@@ -1,6 +1,8 @@
 {% extends "base.html" %}{% load staticfiles %}{% load crispy_forms_tags %}
 
 {% block extra_head %}
+    <script type="module" src="https://unpkg.com/friendly-challenge@0.9.4/widget.module.min.js" async defer></script>
+    <script nomodule src="https://unpkg.com/friendly-challenge@0.9.4/widget.min.js" async defer></script>
     <link href="{% static 'uni-form/css/uni-form.css' %}" media="screen, projector, print" rel="stylesheet"
           type="text/css"/>
     <link href="{% static 'uni-form/css/default.uni-form.css' %}" media="screen, projector, print" rel="stylesheet"
